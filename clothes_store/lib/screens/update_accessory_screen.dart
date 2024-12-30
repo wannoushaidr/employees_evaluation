@@ -1,0 +1,245 @@
+import 'dart:typed_data';
+
+import 'package:clothes_store/models/accessory_model.dart';
+import 'package:clothes_store/models/branch_model.dart';
+import 'package:clothes_store/models/company_model.dart';
+import 'package:clothes_store/screens/show_all_companies_screen.dart';
+import 'package:clothes_store/services/accessory_services.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+
+import '../services/branch_services.dart';
+import '../services/company_services.dart';
+
+class UpdateAccessoryScreen extends StatefulWidget {
+  UpdateAccessoryScreen({super.key, required this.accessory});
+  AccessoryModel? accessory;
+
+  @override
+  State<UpdateAccessoryScreen> createState() => _UpdateAccessoryScreenState();
+}
+
+class _UpdateAccessoryScreenState extends State<UpdateAccessoryScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  Future<void> _pickImage() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+      );
+
+      if (result != null && result.files.isNotEmpty) {
+        setState(() {
+          image = result.files.single.bytes;
+          selectedFile = result.files.single.name;
+        });
+      }
+    } catch (e) {
+      print('Error picking file: $e');
+      // Handle error, e.g., show a dialog or message
+    }
+  }
+
+  String? selectedFile = null;
+  Uint8List? image = null;
+  String type = '';
+  String branch_id = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Update Accessory'),
+      ),
+      drawer: Drawer(
+          child: ListView(children: [
+            Row(children: [
+              Container(
+              height: 60,
+              width: 60,
+              child:ClipRRect(
+                borderRadius: BorderRadius.circular(60),
+                child: Image.asset("images/screen.png",
+                fit:BoxFit.cover,
+              )),
+              ),
+              Expanded(
+                child: ListTile(
+                title: Text("user name"),
+                subtitle: Text("email"),
+              )
+              )
+            ],
+            ),
+            ListTile(
+            leading:Icon(Icons.home),
+              title:Container(  
+            margin: EdgeInsets.symmetric(horizontal: 20),  
+            child: MaterialButton(  
+              // color: Colors.red,  
+              textColor: Colors.black,  
+              onPressed: () {  
+                // Navigating to About Us page  
+                Navigator.of(context).pushNamed('home');
+              },  
+              // leading:Icon(Icons.home),
+              child: const Text("add new",textAlign: TextAlign.left,),  
+
+            ),  
+              )
+            ),
+            ListTile(
+              leading:Icon(Icons.home),
+              title:Container(  
+            margin: EdgeInsets.symmetric(horizontal: 20),  
+            child: MaterialButton(  
+              // color: Colors.red,  
+              textColor: Colors.black,  
+              onPressed: () {  
+                // Navigating to About Us page  
+                Navigator.of(context).pushNamed('home');
+              },  
+              // leading:Icon(Icons.home),
+              child: const Text("statistics",textAlign: TextAlign.left,),  
+
+            ),  
+              )
+            ),
+            ListTile(
+             leading:Icon(Icons.home),
+              title:Container(  
+            margin: EdgeInsets.symmetric(horizontal: 20),  
+            child: MaterialButton(  
+              // color: Colors.red,  
+              textColor: Colors.black,  
+              onPressed: () {  
+                // Navigating to About Us page  
+                Navigator.of(context).pushNamed('showEmployees');
+              },  
+              // leading:Icon(Icons.home),
+              child: const Text("employees",textAlign: TextAlign.left,),  
+
+            ),  
+              )
+            ),
+            ListTile(
+              leading:Icon(Icons.home),
+              title:Container(  
+            margin: EdgeInsets.symmetric(horizontal: 20),  
+            child: MaterialButton(  
+              // color: Colors.red,  
+              textColor: Colors.black,  
+              onPressed: () {  
+                // Navigating to About Us page  
+                Navigator.of(context).pushNamed('showBranches');
+              },  
+              // leading:Icon(Icons.home),
+              child: const Text("branches",textAlign: TextAlign.left,),  
+
+            ),  
+              )
+            ),
+            ListTile(
+              leading:Icon(Icons.home),
+              title:Container(  
+            margin: EdgeInsets.symmetric(horizontal: 20),  
+            child: MaterialButton(  
+              // color: Colors.red,  
+              textColor: Colors.black,  
+              onPressed: () {  
+                // Navigating to About Us page  
+                Navigator.of(context).pushNamed('home');
+              },  
+              // leading:Icon(Icons.home),
+              child: const Text("go to home",textAlign: TextAlign.left,),  
+
+            ),  
+              )
+            )
+          ],),
+         ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(labelText: 'Accessory type'),
+                value: widget.accessory!.type,
+                items:
+                    <String>['dressing_room', 'exit_door'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  // Update the selected category
+                  setState(() {
+                    type =
+                        newValue!; // Make sure to define selectedCategory variable
+                  });
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select a type';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Accessory image'),
+                readOnly: true, // Make it read-only
+                onTap: _pickImage,
+                controller: TextEditingController(
+                    text: selectedFile != null
+                        ? selectedFile!.split('/').last
+                        : null),
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Accessory branch_id'),
+                initialValue: widget.accessory!.branch_id.toString(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter branch id';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  widget.accessory!.branch_id = int.parse(value);
+                },
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    // Process the data (e.g., send it to a server or save it locally)
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Processing Data')),
+                    );
+                    AppAccessoriesService aas = AppAccessoriesService();
+                    bool? result = await aas.UpdateAccessory(
+                        id: widget.accessory!.id.toString(),
+                        type: type,
+                        image: image,
+                        SelectedFile: selectedFile,
+                        branch_id: branch_id);
+                    if (result == true) {
+                      print('success');
+                    } else {
+                      print('error');
+                    }
+                  }
+                },
+                child: Text('Submit'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
