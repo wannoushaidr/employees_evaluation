@@ -26,6 +26,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// get('/user', function (Request $request) {
+//     return $request->user();});
+
+Route::post('/login', [App\Http\Controllers\Api\Auth\LoginController::class, '__invoke'])->name('login');
+
+
 // Route::middleware(['cors'])->group(function(){
 // for branch API 
 Route::get('admin/branches/get_all_branches', [BranchesController::class ,'get_all_branches']);

@@ -19,10 +19,10 @@ class PasswordResetController extends Controller
     
     public function sendResetLinkEmail(LinkEmailRequest $request)  
     {  
-        Mail::to($request->email)->send(new ResetPasswordLink());  
+        // Mail::to($request->email)->send(new ResetPasswordLink());  
 
-        return response()->json([  
-            'message' => 'Reset password link sent to your email.'  
-        ]);  
+        // return response()->json([  
+        //     'message' => 'Reset password link sent to your email.'  
+        // ]);  
     }  
 }
