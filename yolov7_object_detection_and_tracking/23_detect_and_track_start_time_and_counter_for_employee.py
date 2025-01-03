@@ -143,8 +143,8 @@ def draw_boxes(img, bbox, identities=None, categories=None, confidences=None, co
             tf = max(tl - 1, 1)  # font thickness  
             t_size = cv2.getTextSize(label, 0, fontScale=tl / 3, thickness=tf)[0]  
             c2 = x1 + t_size[0], y1 - t_size[1] - 3  
-            cv2.rectangle(img, (x1, y1), c2, color, -1, cv2.LINE_AA)  # filled  
-            cv2.putText(img, label, (x1, y1 - 2), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
+            #cv2.rectangle(img, (x1, y1), c2, color, -1, cv2.LINE_AA)  # filled  
+            #cv2.putText(img, label, (x1, y1 - 2), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
         
         # Draw confidence above the bounding box  
         if confidences is not None and len(confidences) > i:  
@@ -1053,7 +1053,7 @@ def detect(save_img=False):
                                 cv2.putText(im0, f'face_id: {face_id}', (x+60, y - 75), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)   
                                 #cv2.putText(im0, f'customer_id: {customer_id}', (x, y - 50), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)  
                                 face_id_current=face_time_spent[face_id]['customer_id']
-                                # cv2.putText(im0, f'{face_id_current}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
+                                cv2.putText(im0, f'{face_id_current}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
 
 
                                 #print('len of not_avalable_ident_for_face_id ',len(not_avalable_ident_for_face_id))
@@ -1083,7 +1083,7 @@ def detect(save_img=False):
                                                 object_name[s]=object_id_and_his_face[face_id][2]
                                                 #object_name[s]=object_id_and_his_face[face_id][2]
 
-                                                cv2.putText(im0, f'{customer_id}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
+                                                cv2.putText(im0, f'customer_id: {customer_id}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
 
 
                             ######         

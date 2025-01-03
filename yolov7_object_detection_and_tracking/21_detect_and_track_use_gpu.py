@@ -108,24 +108,24 @@ def draw_boxes(img, bbox, identities=None, categories=None, confidences=None, co
 
         # Draw space above the bounding box for area display  
         label_height = 30  # Height of the space above the bounding box  
-        #cv2.rectangle(img, (x1, y1 - label_height), (x2, y1), color, -1)  # Filled rectangle above the box  
+        cv2.rectangle(img, (x1, y1 - label_height), (x2, y1), color, -1)  # Filled rectangle above the box  
         
         # Display area above the bounding box  
         area_text = f'Area: {area_meters:.2f} m²'  
         tf = max(tl - 1, 1)  # font thickness  
-        #cv2.putText(img, area_text, (x1, y1 - 2 - label_height), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
+        cv2.putText(img, area_text, (x1, y1 - 2 - label_height), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
         #print("id : ",id)
         # Draw the time spent above the bounding box  
         if time_spent is not None and id in time_spent and id in not_avalable_ident_for_face_id:  
             time_text = f'Time: {time_spent[id]["duration"]:.2f} s'  
-            #cv2.putText(img, time_text, (x1, y1 - 22), 0, tl / 3, [0, 0, 255], thickness=1    , lineType=cv2.LINE_AA)  
+            cv2.putText(img, time_text, (x1, y1 - 22), 0, tl / 3, [0, 0, 255], thickness=1    , lineType=cv2.LINE_AA)  
         if(object_name is not None and len(object_name)>0):
             object_name_keys=[list(object_name.keys())]
             ##for  object_name
             #if identities is not None and  len(identities) >0:
                 #if object_name is not None and len(object_name)>0 and id in object_name_keys  :  
                     #object_name = f'object_name: {object_name[id]}'  
-                    # cv2.putText(img, object_name, (x1+20, y1 - 52), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
+                    #cv2.putText(img, object_name, (x1+20, y1 - 52), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
                     
         if identities is not None and  len(identities) >0 and  id in not_avalable_ident_for_face_id and object_name is not None:
             #if object_name is not None and len(object_name)>0 and id in object_name_keys  :  
@@ -326,7 +326,6 @@ def detect(save_img=False):
     face_descriptors = {}  
     unique_faces = {}  
     last_seen_times = {}  
-    face_id_for_employee=0
     
     
     current_time = time.time()  # Capture current time   
@@ -364,23 +363,6 @@ def detect(save_img=False):
 #***********************************************************************************************************
 
 #***********************************************************************************************************
-#to save employee id 
-    employees_id=set()
-
-#to save customer id 
-    customers_id=set()
-
-# connect between employee and his customer
-    employee_with_his_customer={}
-    number_of_cople=0
-
-    not_available_employee_and_cusomer=set()
-    
-
-    
-#*****************************************************
-
-#***********************************************************************************************************
 #to save object name
     object_name={}
 
@@ -395,15 +377,13 @@ def detect(save_img=False):
 
 #for template macthing 
 
-    #to sav etemplate matching 
-    # for dressing room 
-    centers_Template1=[]
-    # for exit door
+    #to sav etemplate matching
+    centers_Template=[]
     centers_Template2=[]
 
 
     # Load template image for matching  
-    template_path1 = '../../videos_for_test/accessories_store_2/room_1.JPG'
+    template_path1 = 'new_videos_for_test/exit_door.jpg'  
 
     if not os.path.exists(template_path1):  
         print(f"File not found: {template_path1}")  
@@ -416,7 +396,7 @@ def detect(save_img=False):
         #print("template_width = ",template_width)
         
     
-    template_path2 = '../../videos_for_test/accessories_store_2/cacher_3.JPG'      
+    template_path2 = 'new_videos_for_test/roomDresse.jpg'      
     if not os.path.exists(template_path2):  
         print(f"File not found: {template_path2}")  
     else:  
@@ -426,7 +406,6 @@ def detect(save_img=False):
         template_height2, template_width2 = template_gray2.shape  
         #print("template_height = ",template_height)
         #print("template_width = ",template_width)
-
         
         
         
@@ -491,23 +470,14 @@ def detect(save_img=False):
                 frame_counter += 1  
             
             # Only process very 30th frame for video  
-            if dataset.mode == 'video' and frame_counter % 40 != 0:  
+            if dataset.mode == 'video' and frame_counter % 1 != 0:  
                 continue  # Skip to the next iteration for video  
-
-
                 
             img = torch.from_numpy(img).to(device)
             img = img.half() if half else img.float()  # uint8 to fp16/32
             img /= 255.0  # 0 - 255 to 0.0 - 1.0
             if img.ndimension() == 3:
                 img = img.unsqueeze(0)
-
-            #im0s = cv2.medianBlur(im0s, 5)  # Apply Gaussian filter (5x5 kernel)  
-            #im0s = cv2.boxFilter(im0s, -1, (5, 5))  
-            #im0s = cv2.fastNlMeansDenoisingColored(im0s, None, 10, 10, 7, 21)  
-
-
-
     
             # Warmup
             if device.type != 'cpu' and (old_img_b != img.shape[0] or old_img_h != img.shape[2] or old_img_w != img.shape[3]):
@@ -540,7 +510,7 @@ def detect(save_img=False):
             
             
             #to redetect tempalte from each tempalte 
-            centers_Template1=[]
+            centers_Template=[]
             centers_Template2=[]
 
             
@@ -600,99 +570,6 @@ def detect(save_img=False):
                   
                     # Now you can safely access indices  
                     categories = det_np[:, 4].astype(int)  # Assuming the 5th column is for categories  
-
-# #***********************************************************************************************************
-# #surf algorithm 
-                
-# #************************************************************************************************************************************
-#                     #######
-#                     # Process each detected object (face)  
-#                     for obj in det_np:  # Loop through detected objects  
-#                         x1, y1, x2, y2, conf, detclass = obj  
-                        
-#                         # Extract the region of interest (ROI) for SURF  
-#                         object_image = im0[int(y1):int(y2), int(x1):int(x2)]  
-
-#                         # Calculate SURF descriptors  
-#                         if object_image is None:
-#                             print("Error: Image not loaded!")
-#                             # Handle the error case
-#                         else:
-#                             object_gray = cv2.cvtColor(object_image, cv2.COLOR_BGR2GRAY)  
-                         
-#                         #object_gray = cv2.cvtColor(object_image, cv2.COLOR_BGR2GRAY)  
-#                         keypoints, descriptors = surf.detectAndCompute(object_gray, None)  
-
-#                         # Handle SURF descriptors  
-#                         if descriptors is not None:  
-#                             found = False  
-#                             best_match_key = None  
-#                             best_match_distance = float('inf')  
-#                             normalized_distance=None
-
-#                             # Compare to existing SURF descriptors  
-#                             for obj_id, stored_descriptors in object_surf_descriptors.items():  
-#                                 #print("Descriptors shape:", descriptors.shape)  
-#                                 #print("Stored Descriptors shape:", stored_descriptors.shape)
-# #*****************************************************
-#                                 # Use BFMatcher (Brute Force Matcher)  
-#                                 bf = cv2.BFMatcher(cv2.NORM_L2, crossCheck=True)  
-#                                 matches = bf.match(descriptors, stored_descriptors)  
-#                                 # Sort matches based on distance (optional)  
-#                                 #matches = sorted(matches, key=lambda x: x.distance)  
-                                
-#                                 # Now you can compute distances for the matched pairs  
-#                                 matched_distances = [match.distance for match in matches]  
-                                
-                                
-#                                 # Calculate average or another metric as needed  
-#                                 average_distance = np.mean(matched_distances)  
-#                                 distance=average_distance
-#                                 #print("Average Distance:", average_distance)  
-# #*******************************************************
-
-# #*************************************************************************************************
-# #normalize distance
-#                                 # Determine min and max distances  
-#                                 min_distance = min(matched_distances)  
-#                                 max_distance = max(matched_distances)  
-
-#                                 # Normalize the average distance  
-#                                 if max_distance > min_distance:  # Avoid division by zero  
-#                                     normalized_distance = (average_distance - min_distance) / (max_distance - min_distance)  
-#                                 else:  
-#                                     normalized_distance = 0  # Handle appropriately if all distances are the same  
-
-
-# #**************************************************************************************************
-#                                 #distance = cv2.norm(descriptors, stored_descriptors, cv2.NORM_L2)  
-#                                 print(" normalized_distance:", normalized_distance)  
-#                                 if normalized_distance < best_match_distance:  
-#                                     best_match_distance = normalized_distance  
-#                                     best_match_key = obj_id  
-
-#                             threshold = 0.6  # Set suitable threshold for matching  
-#                             if best_match_distance < threshold:  
-#                                 found = True  
-#                                 template_detected_check = best_match_key  # Existing object found  
-#                                 print(f"template with ID {best_match_key} matched.")  
-
-#                             if not found:  
-#                                 # If it’s a new object, assign a new ID and save descriptors  
-#                                 object_surf_descriptors[surf_next_id] = descriptors  
-#                                 print(f"New template detected and assigned ID {surf_next_id}.")  
-#                                 template_detected_check = surf_next_id  
-#                                 surf_next_id += 1  
-#                         len_of_template=len(object_surf_descriptors)
-#                         # You may want to draw bounding boxes and IDs  
-#                         cv2.rectangle(im0, (int(x1), int(y1)), (int(x2), int(y2)), (255, 255, 0), 2)  
-#                         cv2.putText(im0, f"ID_template: {template_detected_check}", (int(x1)+40, int(y1) + 40),  
-#                                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)  
-#                         cv2.putText(im0, f"number_template: {len_of_template}", (int(x1)+25, int(y1) + 25),  
-#                                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)  
-
-# #*********************************************************************
-
                     
 #************************************************************************************************************************************
 #                   if opt.track:  
@@ -720,79 +597,71 @@ def detect(save_img=False):
                              
                                
 
-# #***************************************************************************************
-# # Extract object bounding box and calc histogram 
-# #next_object_id = 0  # Counter for generating unique object IDs
+#***************************************************************************************
+# Extract object bounding box and calc histogram 
+#next_object_id = 0  # Counter for generating unique object IDs
 
-#                     ####
-#                     ## Loop through detected objects (excluding faces)  
-#                     for i, (x1, y1, x2, y2, conf, detclass) in enumerate(det_np):  
-#                         ## Extract the object region from the image  
-#                         object_image = im0[int(y1):int(y2), int(x1):int(x2)]
+                    ####
+                    ## Loop through detected objects (excluding faces)  
+                    for i, (x1, y1, x2, y2, conf, detclass) in enumerate(det_np):  
+                        ## Extract the object region from the image  
+                        object_image = im0[int(y1):int(y2), int(x1):int(x2)]
                         
-#                         #object_image = cv2.cvtColor(object_image, cv2.COLOR_BGR2GRAY)  
-#                         ## Calculate the histogram for the detected object  
-#                         object_hist = calculate_histogram(object_image)  
+                        #object_image = cv2.cvtColor(object_image, cv2.COLOR_BGR2GRAY)  
+                        ## Calculate the histogram for the detected object  
+                        object_hist = calculate_histogram(object_image)  
                         
 
                     
-#                         ## Initialize variables for finding the most similar histogram  
-#                         most_similar_key = None  
-#                         min_distance = -1  # Start with an infinitely large distance  
-#                         is_similar = False  
-#                         tem_to_draw_id = None  
+                        ## Initialize variables for finding the most similar histogram  
+                        most_similar_key = None  
+                        min_distance = -1  # Start with an infinitely large distance  
+                        is_similar = False  
+                        tem_to_draw_id = None  
                     
-#                         ## Check for most similar histogram 
-#                         if len(object_histograms)>0:
-#                             for key, existing_hist in object_histograms.items():  
-#                                 ## Use the cosine similarity function instead of Chi-Squared distance  
-#                                 dist = cosine_similarity(existing_hist, object_hist)  
-#                                 print(f"Distance histogram with key {key} is : ", dist)  
-#                                 #print("Existing histogram is:", existing_hist)  
+                        ## Check for most similar histogram 
+                        if len(object_histograms)>0:
+                            for key, existing_hist in object_histograms.items():  
+                                ## Use the cosine similarity function instead of Chi-Squared distance  
+                                dist = cosine_similarity(existing_hist, object_hist)  
+                                print(f"Distance histogram with key {key} is : ", dist)  
+                                #print("Existing histogram is:", existing_hist)  
                         
-#                                 # Keep track of the most similar histogram (smallest distance)  
-#                                 if dist > min_distance:  
-#                                     min_distance = dist  
-#                                     most_similar_key = key  
-#                                     tem_to_draw_id = key  
+                                # Keep track of the most similar histogram (smallest distance)  
+                                if dist > min_distance:  
+                                    min_distance = dist  
+                                    most_similar_key = key  
+                                    tem_to_draw_id = key  
                         
-#                         ## Define a threshold for comparison  
-#                         threshold = 0.25  # Adjust based on your application needs  
+                        ## Define a threshold for comparison  
+                        threshold = 0.25  # Adjust based on your application needs  
                     
-#                         # After finding the most similar histogram, apply the threshold check  
-#                         if min_distance > threshold:  # If the most similar histogram is within the threshold  
-#                             is_similar = True  
-#                             print(f"Object with key {most_similar_key} found with similar histogram. Distance: {min_distance}")  
+                        # After finding the most similar histogram, apply the threshold check  
+                        if min_distance > threshold:  # If the most similar histogram is within the threshold  
+                            is_similar = True  
+                            print(f"Object with key {most_similar_key} found with similar histogram. Distance: {min_distance}")  
                     
-#                         ## If no similar histogram was found above the threshold, add a new entry  
-#                         if not is_similar:  
-#                             object_histograms[object_counter] = object_hist  # Store new histogram with the current counter  
-#                             print(f"Added new histogram for object with key {object_counter}.")  
-#                             tem_to_draw_id = object_counter  
-#                             object_counter += 1  # Increment the counter for the next new object  
+                        ## If no similar histogram was found above the threshold, add a new entry  
+                        if not is_similar:  
+                            object_histograms[object_counter] = object_hist  # Store new histogram with the current counter  
+                            print(f"Added new histogram for object with key {object_counter}.")  
+                            tem_to_draw_id = object_counter  
+                            object_counter += 1  # Increment the counter for the next new object  
                     
-#                         ## Draw the histogram below the bounding box  
-#                         xt = f"his_id: {tem_to_draw_id}" 
-#                         cv2.putText(im0, f"his_id: {tem_to_draw_id}", (int(x1-10), int(y1 + 30)), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1)  
+                        ## Draw the histogram below the bounding box  
+                        xt = f"his_id: {tem_to_draw_id}" 
+                        cv2.putText(im0, f"his_id: {tem_to_draw_id}", (int(x1-10), int(y1 + 30)), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1)  
 
-#                         ##im0=draw_id(im0, tem_to_draw_id, x1, y1)  # Pass the ID and coordinates  
-#                         tem_to_draw_id = None  
+                        ##im0=draw_id(im0, tem_to_draw_id, x1, y1)  # Pass the ID and coordinates  
+                        tem_to_draw_id = None  
                   
-# #*******************************************************************************************
+#*******************************************************************************************
 
 #************************************************************************************************************************************
                         #########
                         #template matching
                         if pass_to_template==True:
                             im_gray = cv2.cvtColor(im0, cv2.COLOR_BGR2GRAY)  
-                            print(f"Image shape: {im_gray.shape}, Template shape: {template_gray.shape}")
-
-                            # Resize template if necessary
-                            if template_gray.shape[0] > im_gray.shape[0] or template_gray.shape[1] > im_gray.shape[1]:
-                                scale_factor = min(im_gray.shape[0] / template_gray.shape[0], im_gray.shape[1] / template_gray.shape[1])
-                                new_size = (int(template_gray.shape[1] * scale_factor), int(template_gray.shape[0] * scale_factor))
-                                template_gray = cv2.resize(template_gray, new_size)
-
                             res = cv2.matchTemplate(im_gray, template_gray,  cv2.TM_CCOEFF_NORMED)  
                             min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)  
     
@@ -802,7 +671,7 @@ def detect(save_img=False):
                             #print("Main image loaded:", im0 is not None)  
                             #print("Template image loaded:", template_gray is not None)
                             #print("res is ",res)
-                            threshold = 0.40  # Set a threshold for the template matching  
+                            threshold = 0.50  # Set a threshold for the template matching  
                             loc = np.where(res >= threshold)  
                             #print("Locations of matches:", loc)                      
                             #print("Template shape:", template_gray.shape)
@@ -810,7 +679,7 @@ def detect(save_img=False):
                             #print("template_width = ",template_width)
     
                                 
-                            print("**************** middle of template 1 is done ****************")
+                            print("**************** middle of template is done ****************")
     
                             ## Draw rectangles around matched regions  
                             for pt in zip(*loc[::-1]):  # Switch columns and rows  
@@ -822,15 +691,15 @@ def detect(save_img=False):
                                     center_y = pt[1] + template_height // 2  
                                     #center_y = pt[1] + template_height  
 
-                                    centers_Template1.append((center_x, center_y))  
-                                    print("**************** template 1 is done ****************")
+                                    centers_Template.append((center_x, center_y))  
+                                    print("**************** template is done ****************")
                                     ##print("center_x is ", center_x)
                                     ##print("center_y is ", center_y)
     
                                 
                                     ## Draw the center point on the frame  
                                     cv2.circle(im0, (center_x, center_y), 5, (255, 0, 0), 1)  # Draw a small circle at the center 
-                                    # cv2.rectangle(im0, pt, (pt[0] + template_width, pt[1] + template_height), (0, 0, 255), 1) 
+                                    #cv2.rectangle(im0, pt, (pt[0] + template_width, pt[1] + template_height), (0, 0, 255), 1) 
                                     pass_to_template=False
                                     
                                     
@@ -839,12 +708,6 @@ def detect(save_img=False):
                         #template matching
                         if pass_to_template2==True:
                             im_gray2 = cv2.cvtColor(im0, cv2.COLOR_BGR2GRAY)  
-                             # Resize template if necessary
-                            if template_gray2.shape[0] > im_gray.shape[0] or template_gray2.shape[1] > im_gray.shape[1]:
-                                scale_factor = min(im_gray.shape[0] / template_gray2.shape[0], im_gray.shape[1] / template_gray2.shape[1])
-                                new_size = (int(template_gray2.shape[1] * scale_factor), int(template_gray2.shape[0] * scale_factor))
-                                template_gray2 = cv2.resize(template_gray2, new_size)
-
                             res2 = cv2.matchTemplate(im_gray2, template_gray2,  cv2.TM_CCOEFF_NORMED)  
                             min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res2)  
     
@@ -854,7 +717,7 @@ def detect(save_img=False):
                             #print("Main image loaded:", im0 is not None)  
                             #print("Template image loaded:", template_gray is not None)
                             #print("res is ",res)
-                            threshold = 0.20  # Set a threshold for the template matching  
+                            threshold = 0.50  # Set a threshold for the template matching  
                             loc2 = np.where(res2 >= threshold)  
                             #print("Locations of matches:", loc)                      
                             #print("Template shape:", template_gray.shape)
@@ -862,7 +725,7 @@ def detect(save_img=False):
                             #print("template_width = ",template_width)
     
                                 
-                            print("**************** middle of template 2 is done ****************")
+                            print("**************** middle of template is done ****************")
     
                             ## Draw rectangles around matched regions  
                             for pt2 in zip(*loc2[::-1]):  # Switch columns and rows  
@@ -875,14 +738,14 @@ def detect(save_img=False):
                                     #center_y2 = pt2[1] + template_height  
 
                                     centers_Template2.append((center_x2, center_y2))  
-                                    print("**************** template 2 is done ****************")
+                                    print("**************** template is done ****************")
                                     ##print("center_x is ", center_x)
                                     ##print("center_y is ", center_y)
     
                                 
                                     ## Draw the center point on the frame  
                                     cv2.circle(im0, (center_x2, center_y2), 5, (255, 255, 0), 1)  # Draw a small circle at the center 
-                                    # cv2.rectangle(im0, pt, (pt[0] + template_width, pt[1] + template_height), (0, 0, 255), 1) 
+                                    #cv2.rectangle(im0, pt, (pt[0] + template_width, pt[1] + template_height), (0, 0, 255), 1) 
                                     pass_to_template2=False
                                     
                                     
@@ -897,7 +760,7 @@ def detect(save_img=False):
                     #bbox_xyxy = det_np[:, :4]  # Get bounding box coordinates  
                     #identities = det_np[:, 5]  # Get identities if it's located here  
                     
-                    faces = face_detector(im0,1)  # Detect faces  
+                    faces = face_detector(im0)  # Detect faces  
 
 
                     # Prepare for face detection and tracking time spent  
@@ -924,60 +787,40 @@ def detect(save_img=False):
                                     
 #***********************************************************************************************************
 # to save faces employee for detect if it employee or customer
-                            if number_of_employee==0:
-                                    # Face detection logic  
-                                    image1 = cv2.imread('new_videos_for_test/om_4.jpg',cv2.IMREAD_COLOR)
-                                    image2 = cv2.imread('new_videos_for_test/fouad.JPG',cv2.IMREAD_COLOR)
+                            #if number_of_employee==0:
+                                    ## Face detection logic  
+                                    #image1 = cv2.imread('output_face_0.jpg',cv2.IMREAD_COLOR)
+                                    #image2 = cv2.imread('output_face_1.jpg',cv2.IMREAD_COLOR)
                                         
-                                    faces1 = face_detector(image1)  # Detect faces  
-                                    faces2 = face_detector(image2)  # Detect faces  
-                                    # face_id_for_employee=0
-                                    for face in faces1:                                     
-                                        # Extract the shape of the face to compute the descriptor  
-                                        #print("test")
-                                        shape = shape_predictor(image1, face)  
-                                        face_descriptor_1 = face_encoder.compute_face_descriptor(image1, shape)  
-                                        face_descriptor_np_1 = np.array(face_descriptor_1)  
-                                        # face_id_for_employee=face_next_id
-                                        face_descriptors['haidar']=face_descriptor_np_1
-                                        # face_next_id += 1  
-                                        # number_of_employee=1
+                                    #faces1 = face_detector(image1)  # Detect faces  
+                                    #faces2 = face_detector(image2)  # Detect faces  
+                                    #face_id_for_employee=0
+                                    #for face in faces1:                                     
+                                        ## Extract the shape of the face to compute the descriptor  
+                                        ##print("test")
+                                        #shape = shape_predictor(image1, face)  
+                                        #face_descriptor_1 = face_encoder.compute_face_descriptor(image1, shape)  
+                                        #face_descriptor_np_1 = np.array(face_descriptor_1)  
+                                        #face_id_for_employee=face_next_id
+                                        #face_descriptors[face_id_for_employee]=face_descriptor_np_1
+                                        #face_next_id += 1  
 
+                                    #for face in faces2:                                     
 
-                                    # for face in faces2:                                     
-                                    for face in faces2:                                     
-
-                                        shape = shape_predictor(image2, face)  
-                                        face_descriptor_1 = face_encoder.compute_face_descriptor(image2, shape)  
-                                        face_descriptor_np_1 = np.array(face_descriptor_1)  
-                                        face_id_for_employee=face_next_id
-                                        face_descriptors['fouad']=face_descriptor_np_1                                            
-                                        # face_next_id += 1  
-                                        number_of_employee=1
+                                            #shape = shape_predictor(image2, face)  
+                                            #face_descriptor_1 = face_encoder.compute_face_descriptor(image2, shape)  
+                                            #face_descriptor_np_1 = np.array(face_descriptor_1)  
+                                            #face_id_for_employee=face_next_id
+                                            #face_descriptors[face_id_for_employee]=face_descriptor_np_1                                            
+                                            #face_next_id += 1  
+                                            #number_of_employee=1
 
 #******************************************************************************************************************
                             #tosave name of object detection
                             #object_name={}
                             # Face detection logic  
-                            faces = face_detector(im0,1)  # Detect faces  
+                            faces = face_detector(im0)  # Detect faces  
                             face_detected_check=faces
-
-                            for i in face_time_spent.keys():
-                                if isinstance(i, int):  
-                                    if face_time_spent[i]['state']==0:
-                                        if face_time_spent[i]['duration']>5:
-                                            face_time_spent[i]['state']=1
-                                            # face_time_spent[i] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}','state':0}  
-                                        else:
-                                            print("duration is small than 5")
-                                            print("duration = ",face_time_spent[i]['duration'])
-                                            print("isinstance = ",face_time_spent[i]['state'])
-
-
-                                else:  
-                                    print("key is string")  
-                                    print("key = ",i)  
-
                         
                             for face in faces:  
                                 x, y, w, h = (face.left(), face.top(), face.right() - face.left(), face.bottom() - face.top())  
@@ -1007,7 +850,7 @@ def detect(save_img=False):
                                         best_face_id = stored_face_id  
                                         
                                         
-                                     ## After checking all stored descriptors, decide what to do  
+                                    ## After checking all stored descriptors, decide what to do  
                                     ##if best_distance < 0.6:  # If the closest match is within the threshold  
                                         ##face_id = best_face_id  
                                         ##unique_faces[face_id] = current_time  # Update last seen time  
@@ -1034,14 +877,12 @@ def detect(save_img=False):
                                     face_descriptors[face_id] = face_descriptor_np  # Store the descriptor    
                                     unique_faces[face_id] = current_time  # Record appearance time  
                                     last_seen_times[face_id] = [current_time, 0]  # Last seen and time spent  
-                                    # face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}','state':0,'counter':0}  
-                                    # face_next_id += 1  
+                                    face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}'}  
+                                    face_next_id += 1  
                             
                                 # Start or resume the timer for the matched face  
                                 if face_id not in face_time_spent:  
-                                    face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}','state':0,'counter':0,'points':0}  
-                                    face_next_id += 1  
-
+                                    face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}'}  
                                 else:  
                                     face_time_spent[face_id]['duration'] += current_time - face_time_spent[face_id]['start_time']  
                                     face_time_spent[face_id]['start_time'] = current_time  
@@ -1052,8 +893,8 @@ def detect(save_img=False):
                                 cv2.putText(im0, f'Time: {duration:.2f}s', (x+60, y - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)  
                                 cv2.putText(im0, f'face_id: {face_id}', (x+60, y - 75), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)   
                                 #cv2.putText(im0, f'customer_id: {customer_id}', (x, y - 50), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)  
-                                face_id_current=face_time_spent[face_id]['customer_id']
-                                # cv2.putText(im0, f'{face_id_current}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
+                                #face_id_current=face_time_spent[face_id]['customer_id']
+                                #cv2.putText(im0, f'{face_id_current}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
 
 
                                 #print('len of not_avalable_ident_for_face_id ',len(not_avalable_ident_for_face_id))
@@ -1083,7 +924,7 @@ def detect(save_img=False):
                                                 object_name[s]=object_id_and_his_face[face_id][2]
                                                 #object_name[s]=object_id_and_his_face[face_id][2]
 
-                                                cv2.putText(im0, f'{customer_id}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
+                                                #cv2.putText(im0, f'customer_id: {customer_id}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
 
 
                             ######         
@@ -1163,264 +1004,118 @@ def detect(save_img=False):
                     
                                 # Put text above the line  
                                 cv2.putText(im0, f'{distance:.2f}', text_pos, cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2) 
-
-
+                                
 #**************************************************************************************************************************************     
-
-#put employee for customer 
-
-
-                        # put employee in set
-                        for i in face_time_spent.keys():
-                                if isinstance(i, str):  
-                                    employees_id.add(i)
-
-                        # put  customer in set
-                        for i in face_time_spent.keys():
-                                if isinstance(i, int):  
-                                    customers_id.add(i)
-
-                        # to specify  employee has service minimum count of customer 
-                        minimun_count_of_employee={}
-                        for i in employees_id:
-                            minimun_count_of_employee[i]=face_time_spent[i]['counter']
-
-                        minimun_count_of_employee = dict(sorted(minimun_count_of_employee.items(), key=lambda item: item[1]))  
-                        for i in minimun_count_of_employee.keys():
-                           print("face_time_spent id are ",face_time_spent.keys())
-                           if face_time_spent[i]['state']==0:
-                               for j in customers_id:
-                                       print("face_time_spent id are ",face_time_spent.keys())
-
-                                       if j in face_time_spent and face_time_spent[j]['state'] == 0 and face_time_spent[j]['duration'] >= 5:  
-                                            number_of_cople=number_of_cople + 1
-                                            employee_with_his_customer[number_of_cople]=[face_time_spent[i],face_time_spent[j],current_time]
-                                            face_time_spent[i]['state']=1
-                                            face_time_spent[j]['state']=1
-                                            face_time_spent[i]['counter']=face_time_spent[i]['counter']+1
-                                            face_time_spent[i]['counter']=face_time_spent[i]['points']+1
-
-                                            not_available_employee_and_cusomer.add(i)
-                                            not_available_employee_and_cusomer.add(j)
-                                            print("connect key with cutomer")
-                                            break
-
-                                       else:
-                                            print(f"Key '{j}' with anoher one ")
-                           else:
-                                continue
-
-                        ############
-# start calculate distance between custmer and template
-                        #saved_cople
-                        keys = list(centers.keys())  # Convert keys to a list  
-                        print("keys = ",keys)
-
-                        object_id_and_his_face_keyes=list(object_id_and_his_face.keys())
-                        keys_i_id=None
-                        keys_j_id=None
-                            
-                        # not_avalable_ident_for_face_id = identity for object detected
-                        temp_not_avalable_ident_for_face_id_list=list(not_avalable_ident_for_face_id)
-                        temp_centers=list(centers)
-                        distance_1_for_temp=-1
-                        distance_2_for_temp=-1
-
-                        # to remove none exists identity that exists in temp_not_avalable_ident_for_face_id_list and note exists in center.keys()
-                        for key in temp_not_avalable_ident_for_face_id_list:
-                            if key not in keys:
-                                temp_not_avalable_ident_for_face_id_list.remove(key)
-                        print("temp_not_avalable_ident_for_face_id_list = ",temp_not_avalable_ident_for_face_id_list)
-
-                        # get center of bounding box
-                        temp_centers=list(centers)
-
-
-                        # to calculate distance between customer and template
-                        for k in temp_not_avalable_ident_for_face_id_list:
-                                    print("enter to connect between customer and template 1")
-                                    face_id_temp=object_name[k]
-                                    if isinstance(face_id_temp, int):
-                                        cutomer_point=centers[k]
-                                        if len(centers_Template1)>0:
-                                                template_1_point=centers_Template1[0]
-                                                distance_1_for_temp = calculate_distance(cutomer_point, template_1_point)  
-                                                if distance_1_for_temp >0 and distance_1_for_temp < 1.2:
-                                                    face_time_spent[i]['points']+=1
-                                                    print(f'employee{i} incresse one point by template 1')
-                                                    print(f'total of template is {face_time_spent[i]["points"]}')
-
-
-
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("connect between template 1 and customer")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-
-
-                                               
-                        for k in temp_not_avalable_ident_for_face_id_list:
-                                    print("enter to connect between customer and template 2")
-                                    face_id_temp=object_name[k]
-                                    if isinstance(face_id_temp, int):
-                                        cutomer_point=centers[k]
-                                        if len(centers_Template2)>0:
-                                                template_2_point=centers_Template2[0]
-                                                distance_2_for_temp = calculate_distance(cutomer_point, template_2_point)  
-                                                if distance_2_for_temp >0 and distance_2_for_temp < 1.2:
-                                                    face_time_spent[i]['points']+=1
-                                                    print(f'employee{i} incresse one point by template 2')
-                                                    print(f'total of template is {face_time_spent[i]["points"]}')
-
-
-
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("connect between template 2 and customer")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                               
-
-
-                                       
-
-                    
-                                
-                            
-
-
-
-            
-
-# # ***************************************************************************************
-
-# #put employee for customer                           
+#put employee for customer                           object_name
     
-#                         if face_detected_check is not None:   
-#                             #saved_cople
-#                             keys = list(centers.keys())  # Convert keys to a list  
-
-#                             object_id_and_his_face_keyes=list(object_id_and_his_face.keys())
-#                             keys_i_id=None
-#                             keys_j_id=None
-#                             # object_id_and_his_face.keys() = faces id for object detected 
-#                             #centers = list(centers)  # Convert the set to a list if you need indexing  
-#                             #not_avalable_ident_for_face_id=list(not_avalable_ident_for_face_id)
-#                             # not_avalable_ident_for_face_id = identity for object detected
-#                             temp_not_avalable_ident_for_face_id_list=list(not_avalable_ident_for_face_id)
-#                             temp_centers=list(centers)
-#                             distance_1_for_temp=-1
-#                             distance_2_for_temp=-1
+                        if face_detected_check is not None:   
+                            #saved_cople
+                            keys = list(centers.keys())  # Convert keys to a list  
+                            object_id_and_his_face_keyes=list(object_id_and_his_face.keys())
+                            keys_i_id=None
+                            keys_j_id=None
+                            #centers = list(centers)  # Convert the set to a list if you need indexing  
+                            #not_avalable_ident_for_face_id=list(not_avalable_ident_for_face_id)
+                            temp_not_avalable_ident_for_face_id_list=list(not_avalable_ident_for_face_id)
+                            temp_centers=list(centers)
+                            distance_1_for_temp=-1
+                            distance_2_for_temp=-1
                             
-#                             # to remove none exists identity that exists in temp_not_avalable_ident_for_face_id_list and note exists in center.keys()
-#                             for key in temp_not_avalable_ident_for_face_id_list:
-#                                 if key not in keys:
-#                                     temp_not_avalable_ident_for_face_id_list.remove(key)
-
-                            
+                            for key in temp_not_avalable_ident_for_face_id_list:
+                                if key not in keys:
+                                    temp_not_avalable_ident_for_face_id_list.remove(key)
                                 
                             
                             
-#                             for k in range(len(temp_not_avalable_ident_for_face_id_list)):
-#                                     for z in range(k+1,len(temp_not_avalable_ident_for_face_id_list)):
-#                                         # point1 = centers[temp_not_avalable_ident_for_face_id_list[k]]  
-#                                         # point2 = centers[temp_not_avalable_ident_for_face_id_list[z]] 
-#                                         #to compare with tempalte 
-#                                         if len(centers_Template1)>0:
-#                                             point3=centers_Template1[0]
-#                                             distance = calculate_distance(point1, point2)
-#                                             distance_1_for_temp = calculate_distance(point1, point3)  
-#                                             distance_2_for_temp = calculate_distance(point3, point2)  
-#                                             ##print("distance_1_for_temp = ",distance_1_for_temp)
-#                                             ## print("distance_2_for_temp = ",distance_2_for_temp)
+                            for k in range(len(temp_not_avalable_ident_for_face_id_list)):
+                                    for z in range(k+1,len(temp_not_avalable_ident_for_face_id_list)):
+                                        point1 = centers[temp_not_avalable_ident_for_face_id_list[k]]  
+                                        point2 = centers[temp_not_avalable_ident_for_face_id_list[z]] 
+                                        #to compare with tempalte 
+                                        if len(centers_Template)>0:
+                                            point3=centers_Template[0]
+                                            distance = calculate_distance(point1, point2)
+                                            distance_1_for_temp = calculate_distance(point1, point3)  
+                                            distance_2_for_temp = calculate_distance(point3, point2)  
+                                            #print("distance_1_for_temp = ",distance_1_for_temp)
+                                            #print("distance_2_for_temp = ",distance_2_for_temp)
                                            
                                             
-#                                         distance = calculate_distance(point1, point2)  
-#                                         if(distance_1_for_temp<1.4 and distance_1_for_temp>=0   or distance_2_for_temp<1.4 and distance_2_for_temp>=0) and  (object_name[temp_not_avalable_ident_for_face_id_list[k]]   in not_available_people and  object_name[temp_not_avalable_ident_for_face_id_list[z]]  in not_available_people) :
-#                                             for i in saved_cople:
-#                                                 if saved_cople[i][0]==object_name[temp_not_avalable_ident_for_face_id_list[k]] or saved_cople[i][1]==object_name[temp_not_avalable_ident_for_face_id_list[k]]  :
+                                        distance = calculate_distance(point1, point2)  
+                                        if(distance_1_for_temp<1.4 and distance_1_for_temp>=0   or distance_2_for_temp<1.4 and distance_2_for_temp>=0) and  (object_name[temp_not_avalable_ident_for_face_id_list[k]]   in not_available_people and  object_name[temp_not_avalable_ident_for_face_id_list[z]]  in not_available_people) :
+                                            for i in saved_cople:
+                                                if saved_cople[i][0]==object_name[temp_not_avalable_ident_for_face_id_list[k]] or saved_cople[i][1]==object_name[temp_not_avalable_ident_for_face_id_list[k]]  :
                                                     
-#                                                     temp_saved_cople_1=saved_cople[i][0]
-#                                                     temp_saved_cople_2=saved_cople[i][1]
-#                                                     not_available_people.remove(temp_saved_cople_1)  
-#                                                     not_available_people.remove(temp_saved_cople_2)  
-#                                                     del saved_cople[i]  # Removes key   
-#                                                     cople_count-=1
-#                                                     print('this face id was removed from ',temp_saved_cople_1)
-#                                                     print('this face id was removed from ',temp_saved_cople_2)                                                    
-#                                                     #print(f"Point1: {point1}, Point2: {point2}") 
-#                                                     print('cople_count = ',cople_count)
-#                                                     print('not_available_people',not_available_people)                                                   
+                                                    temp_saved_cople_1=saved_cople[i][0]
+                                                    temp_saved_cople_2=saved_cople[i][1]
+                                                    not_available_people.remove(temp_saved_cople_1)  
+                                                    not_available_people.remove(temp_saved_cople_2)  
+                                                    del saved_cople[i]  # Removes key   
+                                                    cople_count-=1
+                                                    print('this face id was removed from ',temp_saved_cople_1)
+                                                    print('this face id was removed from ',temp_saved_cople_2)                                                    
+                                                    #print(f"Point1: {point1}, Point2: {point2}") 
+                                                    print('cople_count = ',cople_count)
+                                                    print('not_available_people',not_available_people)                                                   
 
-#                                                     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ cople was removed$$$$$$$$$$")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ cople was removed$$$$$$$$$$")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
 
-#                                                     break
+                                                    break
                                                     
-#                                                 elif saved_cople[i][0]==object_name[temp_not_avalable_ident_for_face_id_list[z]] or saved_cople[i][1]==object_name[temp_not_avalable_ident_for_face_id_list[z]]:
-#                                                     temp_saved_cople_1=saved_cople[i][0]
-#                                                     temp_saved_cople_2=saved_cople[i][1]
-#                                                     not_available_people.remove(temp_saved_cople_1)  
-#                                                     not_available_people.remove(temp_saved_cople_2)  
-#                                                     del saved_cople[i]  # Removes key   
-#                                                     cople_count-=1
-#                                                     print('this face id was removed from ',temp_saved_cople_1)
-#                                                     print('this face id was removed from ',temp_saved_cople_2)                                                    
-#                                                     #print(f"Point1: {point1}, Point2: {point2}") 
-#                                                     print('cople_count = ',cople_count)
-#                                                     print('not_available_people',not_available_people)                                                   
+                                                elif saved_cople[i][0]==object_name[temp_not_avalable_ident_for_face_id_list[z]] or saved_cople[i][1]==object_name[temp_not_avalable_ident_for_face_id_list[z]]:
+                                                    temp_saved_cople_1=saved_cople[i][0]
+                                                    temp_saved_cople_2=saved_cople[i][1]
+                                                    not_available_people.remove(temp_saved_cople_1)  
+                                                    not_available_people.remove(temp_saved_cople_2)  
+                                                    del saved_cople[i]  # Removes key   
+                                                    cople_count-=1
+                                                    print('this face id was removed from ',temp_saved_cople_1)
+                                                    print('this face id was removed from ',temp_saved_cople_2)                                                    
+                                                    #print(f"Point1: {point1}, Point2: {point2}") 
+                                                    print('cople_count = ',cople_count)
+                                                    print('not_available_people',not_available_people)                                                   
 
-#                                                     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ cople was removed$$$$$$$$$$")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ cople was removed$$$$$$$$$$")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
 
-#                                                     break
+                                                    break
                                                     
                                                     
                                             
-#                                         elif(distance<1.4 and  (object_name[temp_not_avalable_ident_for_face_id_list[k]]  not in not_available_people and  object_name[temp_not_avalable_ident_for_face_id_list[z]] not in not_available_people) ):
-#                                             print("ss")
-#                                             not_available_people.append(object_name[temp_not_avalable_ident_for_face_id_list[k]])
-#                                             not_available_people.append(object_name[temp_not_avalable_ident_for_face_id_list[z]])
+                                        elif(distance<1.4 and  (object_name[temp_not_avalable_ident_for_face_id_list[k]]  not in not_available_people and  object_name[temp_not_avalable_ident_for_face_id_list[z]] not in not_available_people) ):
+                                            print("ss")
+                                            not_available_people.append(object_name[temp_not_avalable_ident_for_face_id_list[k]])
+                                            not_available_people.append(object_name[temp_not_avalable_ident_for_face_id_list[z]])
                                                                                             
-#                                             #object_id_and_his_face[face_id]=[identities[idx],face_time_spent[face_id]['customer_id']]
+                                            #object_id_and_his_face[face_id]=[identities[idx],face_time_spent[face_id]['customer_id']]
 
-#                                             #saved_cople[cople_id]={keys_i_id:face_time_spent[keys[i]]['start_time'],keys_j_id:face_time_spent[keys[j]]['start_time']}
-#                                             saved_cople[cople_id]=[object_name[temp_not_avalable_ident_for_face_id_list[k]],object_name[temp_not_avalable_ident_for_face_id_list[z]],current_time]
-#                                             print('saved_cople',saved_cople.keys())                                        
-#                                             cople_id+=1
-#                                             cople_count+=1
-#                                             print('cople_number = ',cople_count)
+                                            #saved_cople[cople_id]={keys_i_id:face_time_spent[keys[i]]['start_time'],keys_j_id:face_time_spent[keys[j]]['start_time']}
+                                            saved_cople[cople_id]=[object_name[temp_not_avalable_ident_for_face_id_list[k]],object_name[temp_not_avalable_ident_for_face_id_list[z]],current_time]
+                                            print('saved_cople',saved_cople.keys())                                        
+                                            cople_id+=1
+                                            cople_count+=1
+                                            print('cople_number = ',cople_count)
                                             
                                        
      

@@ -125,7 +125,7 @@ def draw_boxes(img, bbox, identities=None, categories=None, confidences=None, co
             #if identities is not None and  len(identities) >0:
                 #if object_name is not None and len(object_name)>0 and id in object_name_keys  :  
                     #object_name = f'object_name: {object_name[id]}'  
-                    # cv2.putText(img, object_name, (x1+20, y1 - 52), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
+                    #cv2.putText(img, object_name, (x1+20, y1 - 52), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
                     
         if identities is not None and  len(identities) >0 and  id in not_avalable_ident_for_face_id and object_name is not None:
             #if object_name is not None and len(object_name)>0 and id in object_name_keys  :  
@@ -136,15 +136,15 @@ def draw_boxes(img, bbox, identities=None, categories=None, confidences=None, co
             obj_name = str(obj_name)  # Convert to string if necessary  
             
             # Now you can use obj_name in putText                  
-            cv2.putText(img, obj_name, (x1+20, y1 + 52), 0, tl / 3, [255, 255, 0], thickness=tf, lineType=cv2.LINE_AA)  
+            #cv2.putText(img, obj_name, (x1+20, y1 + 52), 0, tl / 3, [255, 255, 0], thickness=tf, lineType=cv2.LINE_AA)  
                                            
         if not opt.nolabel:  
             label = f'ID: {id} {names[cat]}' if identities is not None else names[cat]  
             tf = max(tl - 1, 1)  # font thickness  
             t_size = cv2.getTextSize(label, 0, fontScale=tl / 3, thickness=tf)[0]  
             c2 = x1 + t_size[0], y1 - t_size[1] - 3  
-            cv2.rectangle(img, (x1, y1), c2, color, -1, cv2.LINE_AA)  # filled  
-            cv2.putText(img, label, (x1, y1 - 2), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
+            #cv2.rectangle(img, (x1, y1), c2, color, -1, cv2.LINE_AA)  # filled  
+            #cv2.putText(img, label, (x1, y1 - 2), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
         
         # Draw confidence above the bounding box  
         if confidences is not None and len(confidences) > i:  
@@ -364,23 +364,6 @@ def detect(save_img=False):
 #***********************************************************************************************************
 
 #***********************************************************************************************************
-#to save employee id 
-    employees_id=set()
-
-#to save customer id 
-    customers_id=set()
-
-# connect between employee and his customer
-    employee_with_his_customer={}
-    number_of_cople=0
-
-    not_available_employee_and_cusomer=set()
-    
-
-    
-#*****************************************************
-
-#***********************************************************************************************************
 #to save object name
     object_name={}
 
@@ -395,15 +378,13 @@ def detect(save_img=False):
 
 #for template macthing 
 
-    #to sav etemplate matching 
-    # for dressing room 
-    centers_Template1=[]
-    # for exit door
+    #to sav etemplate matching
+    centers_Template=[]
     centers_Template2=[]
 
 
     # Load template image for matching  
-    template_path1 = '../../videos_for_test/accessories_store_2/room_1.JPG'
+    template_path1 = 'new_videos_for_test/temp1.jpg'  
 
     if not os.path.exists(template_path1):  
         print(f"File not found: {template_path1}")  
@@ -416,7 +397,7 @@ def detect(save_img=False):
         #print("template_width = ",template_width)
         
     
-    template_path2 = '../../videos_for_test/accessories_store_2/cacher_3.JPG'      
+    template_path2 = 'new_videos_for_test/temp1.jpg'      
     if not os.path.exists(template_path2):  
         print(f"File not found: {template_path2}")  
     else:  
@@ -491,7 +472,7 @@ def detect(save_img=False):
                 frame_counter += 1  
             
             # Only process very 30th frame for video  
-            if dataset.mode == 'video' and frame_counter % 40 != 0:  
+            if dataset.mode == 'video' and frame_counter % 5 != 0:  
                 continue  # Skip to the next iteration for video  
 
 
@@ -540,7 +521,7 @@ def detect(save_img=False):
             
             
             #to redetect tempalte from each tempalte 
-            centers_Template1=[]
+            centers_Template=[]
             centers_Template2=[]
 
             
@@ -802,7 +783,7 @@ def detect(save_img=False):
                             #print("Main image loaded:", im0 is not None)  
                             #print("Template image loaded:", template_gray is not None)
                             #print("res is ",res)
-                            threshold = 0.40  # Set a threshold for the template matching  
+                            threshold = 0.70  # Set a threshold for the template matching  
                             loc = np.where(res >= threshold)  
                             #print("Locations of matches:", loc)                      
                             #print("Template shape:", template_gray.shape)
@@ -822,7 +803,7 @@ def detect(save_img=False):
                                     center_y = pt[1] + template_height // 2  
                                     #center_y = pt[1] + template_height  
 
-                                    centers_Template1.append((center_x, center_y))  
+                                    centers_Template.append((center_x, center_y))  
                                     print("**************** template 1 is done ****************")
                                     ##print("center_x is ", center_x)
                                     ##print("center_y is ", center_y)
@@ -854,7 +835,7 @@ def detect(save_img=False):
                             #print("Main image loaded:", im0 is not None)  
                             #print("Template image loaded:", template_gray is not None)
                             #print("res is ",res)
-                            threshold = 0.20  # Set a threshold for the template matching  
+                            threshold = 0.70  # Set a threshold for the template matching  
                             loc2 = np.where(res2 >= threshold)  
                             #print("Locations of matches:", loc)                      
                             #print("Template shape:", template_gray.shape)
@@ -927,7 +908,7 @@ def detect(save_img=False):
                             if number_of_employee==0:
                                     # Face detection logic  
                                     image1 = cv2.imread('new_videos_for_test/om_4.jpg',cv2.IMREAD_COLOR)
-                                    image2 = cv2.imread('new_videos_for_test/fouad.JPG',cv2.IMREAD_COLOR)
+                                    image2 = cv2.imread('new_videos_for_test/im1.jpg',cv2.IMREAD_COLOR)
                                         
                                     faces1 = face_detector(image1)  # Detect faces  
                                     faces2 = face_detector(image2)  # Detect faces  
@@ -951,7 +932,7 @@ def detect(save_img=False):
                                         face_descriptor_1 = face_encoder.compute_face_descriptor(image2, shape)  
                                         face_descriptor_np_1 = np.array(face_descriptor_1)  
                                         face_id_for_employee=face_next_id
-                                        face_descriptors['fouad']=face_descriptor_np_1                                            
+                                        face_descriptors['haidar2']=face_descriptor_np_1                                            
                                         # face_next_id += 1  
                                         number_of_employee=1
 
@@ -963,21 +944,10 @@ def detect(save_img=False):
                             face_detected_check=faces
 
                             for i in face_time_spent.keys():
-                                if isinstance(i, int):  
-                                    if face_time_spent[i]['state']==0:
-                                        if face_time_spent[i]['duration']>5:
-                                            face_time_spent[i]['state']=1
-                                            # face_time_spent[i] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}','state':0}  
-                                        else:
-                                            print("duration is small than 5")
-                                            print("duration = ",face_time_spent[i]['duration'])
-                                            print("isinstance = ",face_time_spent[i]['state'])
-
-
+                                if isinstance(i, str):  
+                                    print("The variable is a string.")  
                                 else:  
-                                    print("key is string")  
-                                    print("key = ",i)  
-
+                                    print("The variable is not a string.")  
                         
                             for face in faces:  
                                 x, y, w, h = (face.left(), face.top(), face.right() - face.left(), face.bottom() - face.top())  
@@ -1007,7 +977,7 @@ def detect(save_img=False):
                                         best_face_id = stored_face_id  
                                         
                                         
-                                     ## After checking all stored descriptors, decide what to do  
+                                    ## After checking all stored descriptors, decide what to do  
                                     ##if best_distance < 0.6:  # If the closest match is within the threshold  
                                         ##face_id = best_face_id  
                                         ##unique_faces[face_id] = current_time  # Update last seen time  
@@ -1034,14 +1004,12 @@ def detect(save_img=False):
                                     face_descriptors[face_id] = face_descriptor_np  # Store the descriptor    
                                     unique_faces[face_id] = current_time  # Record appearance time  
                                     last_seen_times[face_id] = [current_time, 0]  # Last seen and time spent  
-                                    # face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}','state':0,'counter':0}  
-                                    # face_next_id += 1  
+                                    face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}'}  
+                                    face_next_id += 1  
                             
                                 # Start or resume the timer for the matched face  
                                 if face_id not in face_time_spent:  
-                                    face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}','state':0,'counter':0,'points':0}  
-                                    face_next_id += 1  
-
+                                    face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}'}  
                                 else:  
                                     face_time_spent[face_id]['duration'] += current_time - face_time_spent[face_id]['start_time']  
                                     face_time_spent[face_id]['start_time'] = current_time  
@@ -1052,8 +1020,8 @@ def detect(save_img=False):
                                 cv2.putText(im0, f'Time: {duration:.2f}s', (x+60, y - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)  
                                 cv2.putText(im0, f'face_id: {face_id}', (x+60, y - 75), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)   
                                 #cv2.putText(im0, f'customer_id: {customer_id}', (x, y - 50), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)  
-                                face_id_current=face_time_spent[face_id]['customer_id']
-                                # cv2.putText(im0, f'{face_id_current}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
+                                #face_id_current=face_time_spent[face_id]['customer_id']
+                                #cv2.putText(im0, f'{face_id_current}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
 
 
                                 #print('len of not_avalable_ident_for_face_id ',len(not_avalable_ident_for_face_id))
@@ -1083,7 +1051,7 @@ def detect(save_img=False):
                                                 object_name[s]=object_id_and_his_face[face_id][2]
                                                 #object_name[s]=object_id_and_his_face[face_id][2]
 
-                                                cv2.putText(im0, f'{customer_id}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
+                                                #cv2.putText(im0, f'customer_id: {customer_id}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
 
 
                             ######         
@@ -1163,264 +1131,122 @@ def detect(save_img=False):
                     
                                 # Put text above the line  
                                 cv2.putText(im0, f'{distance:.2f}', text_pos, cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2) 
-
-
+                                
 #**************************************************************************************************************************************     
-
-#put employee for customer 
-
-
-                        # put employee in set
-                        for i in face_time_spent.keys():
-                                if isinstance(i, str):  
-                                    employees_id.add(i)
-
-                        # put  customer in set
-                        for i in face_time_spent.keys():
-                                if isinstance(i, int):  
-                                    customers_id.add(i)
-
-                        # to specify  employee has service minimum count of customer 
-                        minimun_count_of_employee={}
-                        for i in employees_id:
-                            minimun_count_of_employee[i]=face_time_spent[i]['counter']
-
-                        minimun_count_of_employee = dict(sorted(minimun_count_of_employee.items(), key=lambda item: item[1]))  
-                        for i in minimun_count_of_employee.keys():
-                           print("face_time_spent id are ",face_time_spent.keys())
-                           if face_time_spent[i]['state']==0:
-                               for j in customers_id:
-                                       print("face_time_spent id are ",face_time_spent.keys())
-
-                                       if j in face_time_spent and face_time_spent[j]['state'] == 0 and face_time_spent[j]['duration'] >= 5:  
-                                            number_of_cople=number_of_cople + 1
-                                            employee_with_his_customer[number_of_cople]=[face_time_spent[i],face_time_spent[j],current_time]
-                                            face_time_spent[i]['state']=1
-                                            face_time_spent[j]['state']=1
-                                            face_time_spent[i]['counter']=face_time_spent[i]['counter']+1
-                                            face_time_spent[i]['counter']=face_time_spent[i]['points']+1
-
-                                            not_available_employee_and_cusomer.add(i)
-                                            not_available_employee_and_cusomer.add(j)
-                                            print("connect key with cutomer")
-                                            break
-
-                                       else:
-                                            print(f"Key '{j}' with anoher one ")
-                           else:
-                                continue
-
-                        ############
-# start calculate distance between custmer and template
-                        #saved_cople
-                        keys = list(centers.keys())  # Convert keys to a list  
-                        print("keys = ",keys)
-
-                        object_id_and_his_face_keyes=list(object_id_and_his_face.keys())
-                        keys_i_id=None
-                        keys_j_id=None
-                            
-                        # not_avalable_ident_for_face_id = identity for object detected
-                        temp_not_avalable_ident_for_face_id_list=list(not_avalable_ident_for_face_id)
-                        temp_centers=list(centers)
-                        distance_1_for_temp=-1
-                        distance_2_for_temp=-1
-
-                        # to remove none exists identity that exists in temp_not_avalable_ident_for_face_id_list and note exists in center.keys()
-                        for key in temp_not_avalable_ident_for_face_id_list:
-                            if key not in keys:
-                                temp_not_avalable_ident_for_face_id_list.remove(key)
-                        print("temp_not_avalable_ident_for_face_id_list = ",temp_not_avalable_ident_for_face_id_list)
-
-                        # get center of bounding box
-                        temp_centers=list(centers)
-
-
-                        # to calculate distance between customer and template
-                        for k in temp_not_avalable_ident_for_face_id_list:
-                                    print("enter to connect between customer and template 1")
-                                    face_id_temp=object_name[k]
-                                    if isinstance(face_id_temp, int):
-                                        cutomer_point=centers[k]
-                                        if len(centers_Template1)>0:
-                                                template_1_point=centers_Template1[0]
-                                                distance_1_for_temp = calculate_distance(cutomer_point, template_1_point)  
-                                                if distance_1_for_temp >0 and distance_1_for_temp < 1.2:
-                                                    face_time_spent[i]['points']+=1
-                                                    print(f'employee{i} incresse one point by template 1')
-                                                    print(f'total of template is {face_time_spent[i]["points"]}')
-
-
-
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("connect between template 1 and customer")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-
-
-                                               
-                        for k in temp_not_avalable_ident_for_face_id_list:
-                                    print("enter to connect between customer and template 2")
-                                    face_id_temp=object_name[k]
-                                    if isinstance(face_id_temp, int):
-                                        cutomer_point=centers[k]
-                                        if len(centers_Template2)>0:
-                                                template_2_point=centers_Template2[0]
-                                                distance_2_for_temp = calculate_distance(cutomer_point, template_2_point)  
-                                                if distance_2_for_temp >0 and distance_2_for_temp < 1.2:
-                                                    face_time_spent[i]['points']+=1
-                                                    print(f'employee{i} incresse one point by template 2')
-                                                    print(f'total of template is {face_time_spent[i]["points"]}')
-
-
-
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("connect between template 2 and customer")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                               
-
-
-                                       
-
-                    
-                                
-                            
-
-
-
-            
-
-# # ***************************************************************************************
-
-# #put employee for customer                           
+#put employee for customer                           object_name
     
-#                         if face_detected_check is not None:   
-#                             #saved_cople
-#                             keys = list(centers.keys())  # Convert keys to a list  
+                        if face_detected_check is not None:   
+                            #saved_cople
+                            keys = list(centers.keys())  # Convert keys to a list  
 
-#                             object_id_and_his_face_keyes=list(object_id_and_his_face.keys())
-#                             keys_i_id=None
-#                             keys_j_id=None
-#                             # object_id_and_his_face.keys() = faces id for object detected 
-#                             #centers = list(centers)  # Convert the set to a list if you need indexing  
-#                             #not_avalable_ident_for_face_id=list(not_avalable_ident_for_face_id)
-#                             # not_avalable_ident_for_face_id = identity for object detected
-#                             temp_not_avalable_ident_for_face_id_list=list(not_avalable_ident_for_face_id)
-#                             temp_centers=list(centers)
-#                             distance_1_for_temp=-1
-#                             distance_2_for_temp=-1
+                            object_id_and_his_face_keyes=list(object_id_and_his_face.keys())
+                            keys_i_id=None
+                            keys_j_id=None
+                            # object_id_and_his_face.keys() = faces id for object detected 
+                            #centers = list(centers)  # Convert the set to a list if you need indexing  
+                            #not_avalable_ident_for_face_id=list(not_avalable_ident_for_face_id)
+                            # not_avalable_ident_for_face_id = identity for object detected
+                            temp_not_avalable_ident_for_face_id_list=list(not_avalable_ident_for_face_id)
+                            temp_centers=list(centers)
+                            distance_1_for_temp=-1
+                            distance_2_for_temp=-1
                             
-#                             # to remove none exists identity that exists in temp_not_avalable_ident_for_face_id_list and note exists in center.keys()
-#                             for key in temp_not_avalable_ident_for_face_id_list:
-#                                 if key not in keys:
-#                                     temp_not_avalable_ident_for_face_id_list.remove(key)
-
-                            
+                            # to remove none exists identity that exists in temp_not_avalable_ident_for_face_id_list and note exists in center.keys()
+                            for key in temp_not_avalable_ident_for_face_id_list:
+                                if key not in keys:
+                                    temp_not_avalable_ident_for_face_id_list.remove(key)
                                 
                             
                             
-#                             for k in range(len(temp_not_avalable_ident_for_face_id_list)):
-#                                     for z in range(k+1,len(temp_not_avalable_ident_for_face_id_list)):
-#                                         # point1 = centers[temp_not_avalable_ident_for_face_id_list[k]]  
-#                                         # point2 = centers[temp_not_avalable_ident_for_face_id_list[z]] 
-#                                         #to compare with tempalte 
-#                                         if len(centers_Template1)>0:
-#                                             point3=centers_Template1[0]
-#                                             distance = calculate_distance(point1, point2)
-#                                             distance_1_for_temp = calculate_distance(point1, point3)  
-#                                             distance_2_for_temp = calculate_distance(point3, point2)  
-#                                             ##print("distance_1_for_temp = ",distance_1_for_temp)
-#                                             ## print("distance_2_for_temp = ",distance_2_for_temp)
+                            for k in range(len(temp_not_avalable_ident_for_face_id_list)):
+                                    for z in range(k+1,len(temp_not_avalable_ident_for_face_id_list)):
+                                        point1 = centers[temp_not_avalable_ident_for_face_id_list[k]]  
+                                        point2 = centers[temp_not_avalable_ident_for_face_id_list[z]] 
+                                        #to compare with tempalte 
+                                        if len(centers_Template)>0:
+                                            point3=centers_Template[0]
+                                            distance = calculate_distance(point1, point2)
+                                            distance_1_for_temp = calculate_distance(point1, point3)  
+                                            distance_2_for_temp = calculate_distance(point3, point2)  
+                                            #print("distance_1_for_temp = ",distance_1_for_temp)
+                                            #print("distance_2_for_temp = ",distance_2_for_temp)
                                            
                                             
-#                                         distance = calculate_distance(point1, point2)  
-#                                         if(distance_1_for_temp<1.4 and distance_1_for_temp>=0   or distance_2_for_temp<1.4 and distance_2_for_temp>=0) and  (object_name[temp_not_avalable_ident_for_face_id_list[k]]   in not_available_people and  object_name[temp_not_avalable_ident_for_face_id_list[z]]  in not_available_people) :
-#                                             for i in saved_cople:
-#                                                 if saved_cople[i][0]==object_name[temp_not_avalable_ident_for_face_id_list[k]] or saved_cople[i][1]==object_name[temp_not_avalable_ident_for_face_id_list[k]]  :
+                                        distance = calculate_distance(point1, point2)  
+                                        if(distance_1_for_temp<1.4 and distance_1_for_temp>=0   or distance_2_for_temp<1.4 and distance_2_for_temp>=0) and  (object_name[temp_not_avalable_ident_for_face_id_list[k]]   in not_available_people and  object_name[temp_not_avalable_ident_for_face_id_list[z]]  in not_available_people) :
+                                            for i in saved_cople:
+                                                if saved_cople[i][0]==object_name[temp_not_avalable_ident_for_face_id_list[k]] or saved_cople[i][1]==object_name[temp_not_avalable_ident_for_face_id_list[k]]  :
                                                     
-#                                                     temp_saved_cople_1=saved_cople[i][0]
-#                                                     temp_saved_cople_2=saved_cople[i][1]
-#                                                     not_available_people.remove(temp_saved_cople_1)  
-#                                                     not_available_people.remove(temp_saved_cople_2)  
-#                                                     del saved_cople[i]  # Removes key   
-#                                                     cople_count-=1
-#                                                     print('this face id was removed from ',temp_saved_cople_1)
-#                                                     print('this face id was removed from ',temp_saved_cople_2)                                                    
-#                                                     #print(f"Point1: {point1}, Point2: {point2}") 
-#                                                     print('cople_count = ',cople_count)
-#                                                     print('not_available_people',not_available_people)                                                   
+                                                    temp_saved_cople_1=saved_cople[i][0]
+                                                    temp_saved_cople_2=saved_cople[i][1]
+                                                    not_available_people.remove(temp_saved_cople_1)  
+                                                    not_available_people.remove(temp_saved_cople_2)  
+                                                    del saved_cople[i]  # Removes key   
+                                                    cople_count-=1
+                                                    print('this face id was removed from ',temp_saved_cople_1)
+                                                    print('this face id was removed from ',temp_saved_cople_2)                                                    
+                                                    #print(f"Point1: {point1}, Point2: {point2}") 
+                                                    print('cople_count = ',cople_count)
+                                                    print('not_available_people',not_available_people)                                                   
 
-#                                                     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ cople was removed$$$$$$$$$$")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ cople was removed$$$$$$$$$$")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
 
-#                                                     break
+                                                    break
                                                     
-#                                                 elif saved_cople[i][0]==object_name[temp_not_avalable_ident_for_face_id_list[z]] or saved_cople[i][1]==object_name[temp_not_avalable_ident_for_face_id_list[z]]:
-#                                                     temp_saved_cople_1=saved_cople[i][0]
-#                                                     temp_saved_cople_2=saved_cople[i][1]
-#                                                     not_available_people.remove(temp_saved_cople_1)  
-#                                                     not_available_people.remove(temp_saved_cople_2)  
-#                                                     del saved_cople[i]  # Removes key   
-#                                                     cople_count-=1
-#                                                     print('this face id was removed from ',temp_saved_cople_1)
-#                                                     print('this face id was removed from ',temp_saved_cople_2)                                                    
-#                                                     #print(f"Point1: {point1}, Point2: {point2}") 
-#                                                     print('cople_count = ',cople_count)
-#                                                     print('not_available_people',not_available_people)                                                   
+                                                elif saved_cople[i][0]==object_name[temp_not_avalable_ident_for_face_id_list[z]] or saved_cople[i][1]==object_name[temp_not_avalable_ident_for_face_id_list[z]]:
+                                                    temp_saved_cople_1=saved_cople[i][0]
+                                                    temp_saved_cople_2=saved_cople[i][1]
+                                                    not_available_people.remove(temp_saved_cople_1)  
+                                                    not_available_people.remove(temp_saved_cople_2)  
+                                                    del saved_cople[i]  # Removes key   
+                                                    cople_count-=1
+                                                    print('this face id was removed from ',temp_saved_cople_1)
+                                                    print('this face id was removed from ',temp_saved_cople_2)                                                    
+                                                    #print(f"Point1: {point1}, Point2: {point2}") 
+                                                    print('cople_count = ',cople_count)
+                                                    print('not_available_people',not_available_people)                                                   
 
-#                                                     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ cople was removed$$$$$$$$$$")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ cople was removed$$$$$$$$$$")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
+                                                    print("///////////////////////////////////////////////////////////////////////////////////")
 
-#                                                     break
+                                                    break
                                                     
                                                     
                                             
-#                                         elif(distance<1.4 and  (object_name[temp_not_avalable_ident_for_face_id_list[k]]  not in not_available_people and  object_name[temp_not_avalable_ident_for_face_id_list[z]] not in not_available_people) ):
-#                                             print("ss")
-#                                             not_available_people.append(object_name[temp_not_avalable_ident_for_face_id_list[k]])
-#                                             not_available_people.append(object_name[temp_not_avalable_ident_for_face_id_list[z]])
+                                        elif(distance<1.4 and  (object_name[temp_not_avalable_ident_for_face_id_list[k]]  not in not_available_people and  object_name[temp_not_avalable_ident_for_face_id_list[z]] not in not_available_people) ):
+                                            print("ss")
+                                            not_available_people.append(object_name[temp_not_avalable_ident_for_face_id_list[k]])
+                                            not_available_people.append(object_name[temp_not_avalable_ident_for_face_id_list[z]])
                                                                                             
-#                                             #object_id_and_his_face[face_id]=[identities[idx],face_time_spent[face_id]['customer_id']]
+                                            #object_id_and_his_face[face_id]=[identities[idx],face_time_spent[face_id]['customer_id']]
 
-#                                             #saved_cople[cople_id]={keys_i_id:face_time_spent[keys[i]]['start_time'],keys_j_id:face_time_spent[keys[j]]['start_time']}
-#                                             saved_cople[cople_id]=[object_name[temp_not_avalable_ident_for_face_id_list[k]],object_name[temp_not_avalable_ident_for_face_id_list[z]],current_time]
-#                                             print('saved_cople',saved_cople.keys())                                        
-#                                             cople_id+=1
-#                                             cople_count+=1
-#                                             print('cople_number = ',cople_count)
+                                            #saved_cople[cople_id]={keys_i_id:face_time_spent[keys[i]]['start_time'],keys_j_id:face_time_spent[keys[j]]['start_time']}
+                                            saved_cople[cople_id]=[object_name[temp_not_avalable_ident_for_face_id_list[k]],object_name[temp_not_avalable_ident_for_face_id_list[z]],current_time]
+                                            print('saved_cople',saved_cople.keys())                                        
+                                            cople_id+=1
+                                            cople_count+=1
+                                            print('cople_number = ',cople_count)
                                             
                                        
      

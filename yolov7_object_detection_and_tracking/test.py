@@ -143,8 +143,8 @@ def draw_boxes(img, bbox, identities=None, categories=None, confidences=None, co
             tf = max(tl - 1, 1)  # font thickness  
             t_size = cv2.getTextSize(label, 0, fontScale=tl / 3, thickness=tf)[0]  
             c2 = x1 + t_size[0], y1 - t_size[1] - 3  
-            cv2.rectangle(img, (x1, y1), c2, color, -1, cv2.LINE_AA)  # filled  
-            cv2.putText(img, label, (x1, y1 - 2), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
+            #cv2.rectangle(img, (x1, y1), c2, color, -1, cv2.LINE_AA)  # filled  
+            #cv2.putText(img, label, (x1, y1 - 2), 0, tl / 3, [0, 0, 255], thickness=tf, lineType=cv2.LINE_AA)  
         
         # Draw confidence above the bounding box  
         if confidences is not None and len(confidences) > i:  
@@ -395,15 +395,13 @@ def detect(save_img=False):
 
 #for template macthing 
 
-    #to sav etemplate matching 
-    # for dressing room 
-    centers_Template1=[]
-    # for exit door
+    #to sav etemplate matching
+    centers_Template=[]
     centers_Template2=[]
 
 
     # Load template image for matching  
-    template_path1 = '../../videos_for_test/accessories_store_2/room_1.JPG'
+    template_path1 = 'new_videos_for_test/temp1.jpg'  
 
     if not os.path.exists(template_path1):  
         print(f"File not found: {template_path1}")  
@@ -416,7 +414,7 @@ def detect(save_img=False):
         #print("template_width = ",template_width)
         
     
-    template_path2 = '../../videos_for_test/accessories_store_2/cacher_3.JPG'      
+    template_path2 = 'new_videos_for_test/temp1.jpg'      
     if not os.path.exists(template_path2):  
         print(f"File not found: {template_path2}")  
     else:  
@@ -491,7 +489,7 @@ def detect(save_img=False):
                 frame_counter += 1  
             
             # Only process very 30th frame for video  
-            if dataset.mode == 'video' and frame_counter % 40 != 0:  
+            if dataset.mode == 'video' and frame_counter % 5 != 0:  
                 continue  # Skip to the next iteration for video  
 
 
@@ -540,7 +538,7 @@ def detect(save_img=False):
             
             
             #to redetect tempalte from each tempalte 
-            centers_Template1=[]
+            centers_Template=[]
             centers_Template2=[]
 
             
@@ -802,7 +800,7 @@ def detect(save_img=False):
                             #print("Main image loaded:", im0 is not None)  
                             #print("Template image loaded:", template_gray is not None)
                             #print("res is ",res)
-                            threshold = 0.40  # Set a threshold for the template matching  
+                            threshold = 0.70  # Set a threshold for the template matching  
                             loc = np.where(res >= threshold)  
                             #print("Locations of matches:", loc)                      
                             #print("Template shape:", template_gray.shape)
@@ -822,7 +820,7 @@ def detect(save_img=False):
                                     center_y = pt[1] + template_height // 2  
                                     #center_y = pt[1] + template_height  
 
-                                    centers_Template1.append((center_x, center_y))  
+                                    centers_Template.append((center_x, center_y))  
                                     print("**************** template 1 is done ****************")
                                     ##print("center_x is ", center_x)
                                     ##print("center_y is ", center_y)
@@ -854,7 +852,7 @@ def detect(save_img=False):
                             #print("Main image loaded:", im0 is not None)  
                             #print("Template image loaded:", template_gray is not None)
                             #print("res is ",res)
-                            threshold = 0.20  # Set a threshold for the template matching  
+                            threshold = 0.70  # Set a threshold for the template matching  
                             loc2 = np.where(res2 >= threshold)  
                             #print("Locations of matches:", loc)                      
                             #print("Template shape:", template_gray.shape)
@@ -927,7 +925,7 @@ def detect(save_img=False):
                             if number_of_employee==0:
                                     # Face detection logic  
                                     image1 = cv2.imread('new_videos_for_test/om_4.jpg',cv2.IMREAD_COLOR)
-                                    image2 = cv2.imread('new_videos_for_test/fouad.JPG',cv2.IMREAD_COLOR)
+                                    image2 = cv2.imread('new_videos_for_test/im1.jpg',cv2.IMREAD_COLOR)
                                         
                                     faces1 = face_detector(image1)  # Detect faces  
                                     faces2 = face_detector(image2)  # Detect faces  
@@ -951,7 +949,7 @@ def detect(save_img=False):
                                         face_descriptor_1 = face_encoder.compute_face_descriptor(image2, shape)  
                                         face_descriptor_np_1 = np.array(face_descriptor_1)  
                                         face_id_for_employee=face_next_id
-                                        face_descriptors['fouad']=face_descriptor_np_1                                            
+                                        face_descriptors['haidar2']=face_descriptor_np_1                                            
                                         # face_next_id += 1  
                                         number_of_employee=1
 
@@ -1039,7 +1037,7 @@ def detect(save_img=False):
                             
                                 # Start or resume the timer for the matched face  
                                 if face_id not in face_time_spent:  
-                                    face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}','state':0,'counter':0,'points':0}  
+                                    face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}','state':0,'counter':0}  
                                     face_next_id += 1  
 
                                 else:  
@@ -1053,7 +1051,7 @@ def detect(save_img=False):
                                 cv2.putText(im0, f'face_id: {face_id}', (x+60, y - 75), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)   
                                 #cv2.putText(im0, f'customer_id: {customer_id}', (x, y - 50), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)  
                                 face_id_current=face_time_spent[face_id]['customer_id']
-                                # cv2.putText(im0, f'{face_id_current}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
+                                cv2.putText(im0, f'{face_id_current}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
 
 
                                 #print('len of not_avalable_ident_for_face_id ',len(not_avalable_ident_for_face_id))
@@ -1083,7 +1081,7 @@ def detect(save_img=False):
                                                 object_name[s]=object_id_and_his_face[face_id][2]
                                                 #object_name[s]=object_id_and_his_face[face_id][2]
 
-                                                cv2.putText(im0, f'{customer_id}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
+                                                cv2.putText(im0, f'customer_id: {customer_id}', (x+60, y - 90), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)          
 
 
                             ######         
@@ -1187,28 +1185,20 @@ def detect(save_img=False):
 
                         minimun_count_of_employee = dict(sorted(minimun_count_of_employee.items(), key=lambda item: item[1]))  
                         for i in minimun_count_of_employee.keys():
-                           print("face_time_spent id are ",face_time_spent.keys())
                            if face_time_spent[i]['state']==0:
                                for j in customers_id:
-                                       print("face_time_spent id are ",face_time_spent.keys())
-
                                        if j in face_time_spent and face_time_spent[j]['state'] == 0 and face_time_spent[j]['duration'] >= 5:  
                                             number_of_cople=number_of_cople + 1
                                             employee_with_his_customer[number_of_cople]=[face_time_spent[i],face_time_spent[j],current_time]
                                             face_time_spent[i]['state']=1
                                             face_time_spent[j]['state']=1
                                             face_time_spent[i]['counter']=face_time_spent[i]['counter']+1
-                                            face_time_spent[i]['counter']=face_time_spent[i]['points']+1
-
                                             not_available_employee_and_cusomer.add(i)
                                             not_available_employee_and_cusomer.add(j)
                                             print("connect key with cutomer")
-                                            break
 
                                        else:
-                                            print(f"Key '{j}' with anoher one ")
-                           else:
-                                continue
+                                            print(f"Key '{j}' not found in face_time_spent.")
 
                         ############
 # start calculate distance between custmer and template
@@ -1235,22 +1225,14 @@ def detect(save_img=False):
                         # get center of bounding box
                         temp_centers=list(centers)
 
-
-                        # to calculate distance between customer and template
+                        
                         for k in temp_not_avalable_ident_for_face_id_list:
-                                    print("enter to connect between customer and template 1")
                                     face_id_temp=object_name[k]
                                     if isinstance(face_id_temp, int):
                                         cutomer_point=centers[k]
-                                        if len(centers_Template1)>0:
-                                                template_1_point=centers_Template1[0]
+                                        if len(centers_Template)>0:
+                                                template_1_point=centers_Template[0]
                                                 distance_1_for_temp = calculate_distance(cutomer_point, template_1_point)  
-                                                if distance_1_for_temp >0 and distance_1_for_temp < 1.2:
-                                                    face_time_spent[i]['points']+=1
-                                                    print(f'employee{i} incresse one point by template 1')
-                                                    print(f'total of template is {face_time_spent[i]["points"]}')
-
-
 
                                                 print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
                                                 print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
@@ -1258,35 +1240,7 @@ def detect(save_img=False):
                                                 print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
                                                 print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
                                                 print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("connect between template 1 and customer")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-
-
-                                               
-                        for k in temp_not_avalable_ident_for_face_id_list:
-                                    print("enter to connect between customer and template 2")
-                                    face_id_temp=object_name[k]
-                                    if isinstance(face_id_temp, int):
-                                        cutomer_point=centers[k]
-                                        if len(centers_Template2)>0:
-                                                template_2_point=centers_Template2[0]
-                                                distance_2_for_temp = calculate_distance(cutomer_point, template_2_point)  
-                                                if distance_2_for_temp >0 and distance_2_for_temp < 1.2:
-                                                    face_time_spent[i]['points']+=1
-                                                    print(f'employee{i} incresse one point by template 2')
-                                                    print(f'total of template is {face_time_spent[i]["points"]}')
-
-
-
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("connect between template 2 and customer")
+                                                print("connect between template and customer")
                                                 print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
                                                 print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
                                                 print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
@@ -1337,8 +1291,8 @@ def detect(save_img=False):
 #                                         # point1 = centers[temp_not_avalable_ident_for_face_id_list[k]]  
 #                                         # point2 = centers[temp_not_avalable_ident_for_face_id_list[z]] 
 #                                         #to compare with tempalte 
-#                                         if len(centers_Template1)>0:
-#                                             point3=centers_Template1[0]
+#                                         if len(centers_Template)>0:
+#                                             point3=centers_Template[0]
 #                                             distance = calculate_distance(point1, point2)
 #                                             distance_1_for_temp = calculate_distance(point1, point3)  
 #                                             distance_2_for_temp = calculate_distance(point3, point2)  
@@ -1510,6 +1464,8 @@ if __name__ == '__main__':
 
 
     opt = parser.parse_args()
+
+    print("for test")
     print(opt)
     np.random.seed(opt.seed)
 
