@@ -15,7 +15,7 @@ class DropExiteImageFromBranchesTable extends Migration
     {
         Schema::table('branches', function (Blueprint $table) {
             
-            $table->dropColumn(['exit_image','table_image','fit_clothes_image']);
+            // $table->dropColumn(['exit_image','table_image','fit_clothes_image']);
 
 
         });

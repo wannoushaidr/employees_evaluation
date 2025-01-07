@@ -16,7 +16,7 @@ class CreateBranchesTable extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->id()->unique();
             $table->string('name')->notNull(false); // String column that is not nullable
-            $table->string('phone')->notNull()->unique();
+            $table->integer('phone')->notNull()->unique();
             // $table->string('exit_image',300)->notNull();
             // $table->string('table_image',300)->notNull();
             // $table->string('fit_clothes_image',300)->notNull();

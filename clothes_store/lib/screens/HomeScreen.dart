@@ -28,7 +28,8 @@ class HomeScreen extends StatelessWidget {
       ),
       drawer: Drawer(   
           child:Consumer<Auth>(builder:(context,auth,child){
-            if (!  auth!.authenticated){
+            // if (!  auth!.authenticated){
+            if (!  auth.authenticated){
               return ListView( 
                 children: [
                   ListTile(

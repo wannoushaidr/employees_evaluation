@@ -214,67 +214,186 @@ class BranchesController extends Controller
         // return view('branch.index',['data'=>$data]);
     }
 
-    public function set_new_branches(Request $request){
-        
-        $datatoinsert['name'] = $request->name;
-        $datatoinsert['phone'] = $request->phone;
-        $datatoinsert['address'] = $request->address;
-        $datatoinsert['email'] = $request->email;
-        $datatoinsert['company_id'] = $request->company_id;
-        $is_exsist= Branches::select("*")->where($datatoinsert)->get();
-        if(!empty($is_exsist) and count($is_exsist)>0){
-            $response=array("code"=>403,"message"=>"exists befor Branches");
-        }
-        else{
-            $datatoinsert['created_at']=date("Y-m-d H:i:s");
 
-        $flags=insert(new Branches(),$datatoinsert);
-         if ($flags){
-            $response=array("code"=>200,"message"=>"created succfully Branches");
-         }
-        else{
-            $response=array("code"=>401,"message"=>"created succfully Branches");
+    // public function set_new_branches(Request $request){
+        
+    //     $datatoinsert['name'] = $request->name;
+    //     $datatoinsert['phone'] = $request->phone;
+    //     $datatoinsert['address'] = $request->address;
+    //     $datatoinsert['email'] = $request->email;
+    //     $datatoinsert['company_id'] = $request->company_id;
+    //     $is_exsist= Branches::select("*")->where($datatoinsert)->get();
+    //     if(!empty($is_exsist) and count($is_exsist)>0){
+    //         $response=array("code"=>403,"message"=>"exists befor Branches");
+    //     }
+    //     else{
+    //         $datatoinsert['created_at']=date("Y-m-d H:i:s");
+
+    //     $flags=insert(new Branches(),$datatoinsert);
+    //      if ($flags){
+    //         $response=array("code"=>200,"message"=>"created succfully Branches");
+    //      }
+    //     else{
+    //         $response=array("code"=>401,"message"=>"created succfully Branches");
+    //     }
+    // }
+
+    //     return response()->json($response);
+    //  }
+
+    //  public function update_branches(Request $request) {  
+    //     // Find the existing branch by ID  
+    //     $data = Branches::select("*")->find($request->id);  
+    
+    //     if (!empty($data) ){  
+    //         // If the branch exists, prepare to update  
+    //         $datatoupdate = []; // Initialize an array to hold the data to update  
+    //         $datatoupdate['name'] = $request->name;  
+    //         $datatoupdate['phone'] = $request->phone;  
+    //         $datatoupdate['address'] = $request->address;  
+    //         $datatoupdate['email'] = $request->email;  
+    //         $datatoupdate['company_id'] = $request->company_id;  
+    
+    //         // Perform the update  
+    //         $updated = $data->update($datatoupdate); // Using Eloquent's update method directly on the model instance  
+    //         if ($updated) {  
+    //             return response()->json([  
+    //                 'code' => 200,  
+    //                 'message' => 'Data updated successfully Branches'  
+    //             ]);  
+    //         } else {  
+    //             return response()->json([  
+    //                 'code' => 500,  
+    //                 'message' => 'Failed to update data Branches'  
+    //             ], 500);  
+    //         }  
+    //     } else {  
+    //         // If the branch does not exist  
+    //         return response()->json([  
+    //             'code' => 404,  
+    //             'message' => 'Element not found Branches'  
+    //         ], 404);  
+    //     }  
+    
+    // }
+
+
+
+    public function set_new_branches(Request $request)
+    {
+        // Define custom error messages
+        $messages = [
+            'name.required' => 'Please enter a name.',
+            'phone.required' => 'Please enter a phone number.',
+            'address.required' => 'Please enter an address.',
+            'email.required' => 'Please enter an email address.',
+            'email.email' => 'Please enter a valid email address.',
+            'company_id.required' => 'Please select a company.',
+        ];
+
+        // Validate the request data with custom messages
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'phone' => 'required|numeric',
+            'address' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'company_id' => 'required|integer|exists:companies,id',
+        ], $messages);
+
+        if ($validator->fails()) {
+            // Return the validation error messages
+            return response()->json([
+                'code' => 422,
+                'message' => 'Validation error',
+                'errors' => $validator->errors()
+            ], 422);
         }
-    }
+
+        // Prepare the data for insertion
+        $datatoinsert = $request->only(['name', 'phone', 'address', 'email', 'company_id']);
+        $is_exsist = Branches::where($datatoinsert)->get();
+
+        if ($is_exsist->isNotEmpty()) {
+            $response = ["code" => 403, "message" => "Branch already exists"];
+        } else {
+            $datatoinsert['created_at'] = now();
+
+            $flags = Branches::create($datatoinsert); // Assuming Branches model is fillable
+
+            if ($flags) {
+                $response = ["code" => 200, "message" => "Branch created successfully"];
+            } else {
+                $response = ["code" => 500, "message" => "Failed to create branch"];
+            }
+        }
 
         return response()->json($response);
-     }
+    }
 
-     public function update_branches(Request $request) {  
-        // Find the existing branch by ID  
-        $data = Branches::select("*")->find($request->id);  
-    
-        if (!empty($data) ){  
+    // ...
+
+    public function update_branches(Request $request)
+    {
+        // Define custom error messages
+        $messages = [
+            'id.required' => 'The ID is required.',
+            'id.exists' => 'The branch does not exist.',
+            'name.required' => 'Please enter a name.',
+            'phone.required' => 'Please enter a phone number.',
+            'address.required' => 'Please enter an address.',
+            'email.required' => 'Please enter an email address.',
+            'email.email' => 'Please enter a valid email address.',
+            'company_id.required' => 'Please select a company.',
+        ];
+
+        // Validate the request data with custom messages
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:branches,id',
+            'name' => 'required|string|max:255',
+            'phone' => 'required|numeric',
+            'address' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'company_id' => 'required|integer|exists:companies,id',
+        ], $messages);
+
+        if ($validator->fails()) {
+            // Return the validation error messages
+            return response()->json([
+                'code' => 422,
+                'message' => 'Validation error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Find the existing branch by ID
+        $data = Branches::find($request->id);  
+
+        if (!empty($data)) {  
             // If the branch exists, prepare to update  
-            $datatoupdate = []; // Initialize an array to hold the data to update  
-            $datatoupdate['name'] = $request->name;  
-            $datatoupdate['phone'] = $request->phone;  
-            $datatoupdate['address'] = $request->address;  
-            $datatoupdate['email'] = $request->email;  
-            $datatoupdate['company_id'] = $request->company_id;  
-    
+            $datatoupdate = $request->only(['name', 'phone', 'address', 'email', 'company_id']); 
+
             // Perform the update  
             $updated = $data->update($datatoupdate); // Using Eloquent's update method directly on the model instance  
             if ($updated) {  
                 return response()->json([  
                     'code' => 200,  
-                    'message' => 'Data updated successfully Branches'  
+                    'message' => 'Branch updated successfully'  
                 ]);  
             } else {  
                 return response()->json([  
                     'code' => 500,  
-                    'message' => 'Failed to update data Branches'  
+                    'message' => 'Failed to update branch'  
                 ], 500);  
             }  
         } else {  
             // If the branch does not exist  
             return response()->json([  
                 'code' => 404,  
-                'message' => 'Element not found Branches'  
+                'message' => 'Branch not found'  
             ], 404);  
-        }  
-    
+        }
     }
+
 
     public function delete_branches(Request $request)
     {

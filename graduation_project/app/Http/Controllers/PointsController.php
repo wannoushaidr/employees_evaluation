@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Points;
 use Illuminate\Http\Request;
 use App\Models\Employees;
+use Illuminate\Support\Facades\Validator;
 
 
 class PointsController extends Controller

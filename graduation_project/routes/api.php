@@ -6,8 +6,9 @@ use App\Http\Controllers\BranchesController ;
 use App\Http\Controllers\CompaniesController ;
 use App\Http\Controllers\EmployeesController ;
 use App\Http\Controllers\AccessoriesController ;
+use Illuminate\Validation\ValidationException;
 
-
+use App\Models\User;
 
 
 
@@ -22,9 +23,91 @@ use App\Http\Controllers\AccessoriesController ;
 |
 */
 
+// // to get user information
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// Route::post('/sanctum/token',function (Request $request){
+//     $request->validate([
+//         'email'=>'required|email',
+//         'password'=>'required',
+//         'device_name'=>'required',
+//     ]);
+//     $user = User::where('email',$request->email)->first();
+//     if(!$user || ! \Hash::check($request->password,$user->password)){
+//         throw ValidationException::withMessages([
+//         'email'=>["this provider credientel are incorrect"],
+        
+//         ]);
+//     }
+//     return $user->createToken($request->device_name)->plainTextToken;
+// });
+
+
+// // to get token
+// Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $request) {
+//     $user = $request->user();
+//     $user->$tokens()->delete();
+
+//     return "token are deleted";
+// });
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    // return $request->user();
+    try { return $request->user(); 
+    } catch (Exception $e) { 
+        \Log::error('Error fetching user: ' . $e->getMessage()); 
+        return response()->json(['message' => 'Error fetching user information.'], 500); 
+    }
 });
+
+Route::post('/sanctum/token', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+        'device_name' => 'required',
+    ]);
+    
+    $user = User::where('email', $request->email)->first();
+    
+    if (!$user || !\Hash::check($request->password, $user->password)) {
+        throw ValidationException::withMessages([
+            'email' => ["The provided credentials are incorrect."],
+        ]);
+    }
+    
+    return $user->createToken($request->device_name)->plainTextToken;
+});
+
+// To revoke tokens
+Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $request) {
+    $user = $request->user();
+    $user->tokens()->delete();
+
+    return "Tokens are deleted";
+});
+
+
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+// ***********************************************************************************************
+
 
 // get('/user', function (Request $request) {
 //     return $request->user();});
@@ -56,7 +139,6 @@ Route::get('admin/accesories/get_all_accesories', [AccessoriesController::class 
 Route::post('admin/accesories/set_new_accesories',[AccessoriesController::class ,'set_new_accesories']);
 Route::put('admin/accesories/update_accesories',[AccessoriesController::class ,'update_accesories']);
 Route::delete('admin/accesories/delete_accesories',[AccessoriesController::class ,'delete_accesories']);
-
 
 
 

@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable,HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -40,7 +40,17 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
+
+    protected $appends = ['avatar'];
+
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getAvatarAttribute(){
+        return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email)));
+         
+
+    }
 }

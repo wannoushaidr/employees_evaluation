@@ -167,6 +167,7 @@ return redirect()->route('accessories.index')->with('success', 'accessory update
         return response()->json($response);
      }
 
+     
      public function update_accesories(Request $request) {  
         // Find the existing branch by ID  
         $data = Accessories::select("*")->find($request->id);  
