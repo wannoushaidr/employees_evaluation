@@ -19,42 +19,49 @@ class Auth extends ChangeNotifier{
 
         
       try {  
+        print("step one");
             Dio.Response response = await dio(additionalHeaders: {}).post('/sanctum/token',data:creds);
-
+            print("step two");
             print(response.data.toString());
             print('Response data: ${response.data}'); // Print complete response data 
-                    this._isLoggedIn = true;
 
             String token = response.data.toString();
-                    notifyListeners();
+            print("step three");
+            _isLoggedIn = true;
 
             // this.tryToken(token: token);  
-
+              print("step 4");
+            // this._isLoggedIn = true;
+              notifyListeners();
     
     } catch (e) {  
+          print("step 5");
           print("Login failed: $e");  }
   }  
 
-  void tryToken({required String token})async{
-    if(token == null){
-      return ;
-    }else{
-      try{
-        Dio.Response response = await dio(additionalHeaders: {}).get('/user',
-        options: Dio.Options(headers:{'Authorization':'Bearer $token'})) ;
+    void tryToken({required String token})async{
+      if(token == null){
+        return ;
+      }
+      else{
+            try{
+              Dio.Response response = await dio(additionalHeaders: {}).get('/user',
+              options: Dio.Options(headers:{'Authorization' : 'Bearer $token'})) ;
 
-        this._isLoggedIn = true;
-        this._user = User.formJson(response.data);
-        notifyListeners();
-        print(_user);
-     
-      }catch(e){
-        print("failur $e");
+              this._isLoggedIn = true;
+              this._user = User.fromJson(response.data);
+              notifyListeners();
+              print(_user);
+          
+            }catch(e){
+              print(e);
+            }
+
       }
 
     }
 
-  }
+
 
   void logout(){
     _isLoggedIn = false;
@@ -63,6 +70,3 @@ class Auth extends ChangeNotifier{
 
 
 }
-
-
-

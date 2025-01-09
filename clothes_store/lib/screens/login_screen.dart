@@ -38,10 +38,14 @@ class _LoginScreenState extends State <LoginScreen> {
             TextFormField(
               controller: _emailController,
               validator: (value)=>value!.isEmpty?"plese enter valid email":null,
+              decoration: InputDecoration( labelText: 'Email', hintText: 'Enter your email', border: OutlineInputBorder(),
+              )
             ),
             TextFormField(
               controller: _passwordController,
               validator: (value)=>value!.isEmpty?"plese enter valid password":null,
+              decoration: InputDecoration( labelText: 'Password', hintText: 'Enter your password', border: OutlineInputBorder(),
+              )
             ),
              const SizedBox(height: 10,),
               TextButton ( 

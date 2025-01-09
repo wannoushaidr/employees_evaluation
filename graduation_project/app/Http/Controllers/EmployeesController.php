@@ -285,11 +285,11 @@ public function update_employees(Request $request) {
     $validator = Validator::make($request->all(), [
         'id' => 'required|exists:employees,id',
         'name' => 'required|string|max:255',
-        // 'number' => 'required|numeric',
-        // 'description' => 'required|string',
-        // 'gender' => 'required|string|max:10',
-        // 'position' => 'required|string|max:255',
-        // 'branch_id' => 'required|integer|exists:branches,id',
+        'number' => 'required|numeric',
+        'description' => 'required|string',
+        'gender' => 'required|string|max:10',
+        'position' => 'required|string|max:255',
+        'branch_id' => 'required|integer|exists:branches,id',
         // 'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
     ], $messages);
 
@@ -405,112 +405,153 @@ public function set_new_employees(Request $request){
 }
 
 
+public function delete_employees(Request $request)
+{
+   $data = Employees::select("*")->find($request->id);  
+
+   if(!empty($data)){
+       Employees::where(['id'=>$request->id])->delete();
+       return response()->json([  
+           'code' => 200,  
+           'message' => 'Element deleted companies'  
+       ], 200);
+
+   }
+   else{  
+       
+       return response()->json([  
+           'code' => 404,  
+           'message' => 'Element not found companies'  
+       ], 404);  
+   
+
+   }
+
+}
 
 
 
 
 
+// public function get_my_information(Request $request)
+// {
+//     if ($request->has('id')) {
+//         $id = $request->input('id');
+//         // Retrieve the employee where employee_id matches the given id
+//         $employee = Employees::find($id);
 
-
-
-
-
-// public function update_employees(Request $request) {
-//     // Define custom error messages
-//     $messages = [
-//         'id.required' => 'The ID is required.',
-//         'id.exists' => 'The employee does not exist.',
-//         'name.required' => 'Please enter a name.',
-//         'number.required' => 'Please enter a number.',
-//         'description.required' => 'Please enter a description.',
-//         'gender.required' => 'Please select a gender.',
-//         'position.required' => 'Please enter a position.',
-//         'branch_id.required' => 'Please select a branch.',
-//         'branch_id.exists' => 'The selected branch does not exist.',
-//         'image.image' => 'Please upload a valid image file.',
-//         'leader_id.exists' => 'The selected leader does not exist.',
-//     ];
-
-//     // Validate the request data with custom messages
-//     $validator = Validator::make($request->all(), [
-//         'id' => 'required|exists:employees,id',
-//         'name' => 'required|string|max:255',
-//         'number' => 'required|string|max:255',
-//         'description' => 'required|string',
-//         'gender' => 'required|string|max:10',
-//         'position' => 'required|string|max:255',
-//         'branch_id' => 'required|integer|exists:branches,id',
-//         'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
-//         'leader_id' => 'nullable|integer|exists:employees,id', // Adding validation for leader_id
-//     ], $messages);
-
-//     if ($validator->fails()) {
-//         // Return the validation error messages
-//         return response()->json([
-//             'code' => 422,
-//             'message' => 'Validation error',
-//             'errors' => $validator->errors()
-//         ], 422);
-//     }
-
-//     // Find the existing employee by ID
-//     $data = Employees::find($request->id);
-
-//     if (!empty($data)) {
-//         // If the employee exists, prepare to update
-//         $datatoupdate = $request->only(['name', 'number', 'description', 'gender', 'position', 'branch_id', 'leader_id']);
-//         if ($request->hasFile('image')) {
-//             $image = $request->file('image');
-//             $fileName = time() . '_image.' . $image->getClientOriginalExtension();
-//             $image->move(public_path('uploads'), $fileName);
-//             $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path
+//         if (!$employee) {
+//             return response()->json(['error' => 'Employee not found'], 404);
 //         }
 
-//         // Perform the update
-//         $updated = $data->update($datatoupdate); // Using Eloquent's update method directly on the model instance
-//         if ($updated) {
-//             return response()->json([
-//                 'code' => 200,
-//                 'message' => 'Employee updated successfully'
-//             ]);
-//         } else {
-//             return response()->json([
-//                 'code' => 500,
-//                 'message' => 'Failed to update employee'
-//             ], 500);
+//         // Initialize response data
+//         $data = [
+//             'supervisor' => null,
+//             'manager' => null
+//         ];
+
+//         // Check employee's position and set leader/manager accordingly
+//         if ($employee->position == 'customer_service') {
+//             // Customer has both a supervisor and a manager
+//             $data['supervisor'] = Employees::find($employee->leader_id);
+//             $data['manager'] = Employees::find($data['supervisor']->leader_id ?? null);
+//         } elseif ($employee->position == 'supervisor') {
+//             // Supervisor has only a manager
+//             $data['manager'] = Employees::find($employee->leader_id);
 //         }
+
+//         return response()->json($data);
 //     } else {
-//         // If the employee does not exist
-//         return response()->json([
-//             'code' => 404,
-//             'message' => 'Employee not found'
-//         ], 404);
+//         // If no id is provided, return an error
+//         return response()->json(['error' => 'No ID provided'], 400);
 //     }
 // }
 
 
- 
- public function delete_employees(Request $request)
- {
-    $data = Employees::select("*")->find($request->id);  
- 
-    if(!empty($data)){
-        Employees::where(['id'=>$request->id])->delete();
-        return response()->json([  
-            'code' => 200,  
-            'message' => 'Element deleted companies'  
-        ], 200);
- 
+public function get_my_information(Request $request)
+{
+    if ($request->has('id')) {
+        $id = $request->input('id');
+        // Retrieve the employee where employee_id matches the given id
+        $employee = Employees::find($id);
+
+        if (!$employee) {
+            return response()->json(['message' => 'Employee not found'], 404);
+        }
+
+        // Initialize response data
+        $data = [
+            'employee' => $employee,
+            'supervisor' => null,
+            'manager' => null
+        ];
+
+        // Check employee's position and set leader/manager accordingly
+        if ($employee->position == 'customer_service') {
+            // Customer service has both a supervisor and a manager
+            $supervisor = Employees::find($employee->leader_id);
+            $manager = Employees::find($supervisor->leader_id ?? null);
+            $data['supervisor'] = [
+                'id' => $supervisor->id ?? null,
+                'name' => $supervisor->name ?? null,
+            ];
+            $data['manager'] = [
+                'id' => $manager->id ?? null,
+                'name' => $manager->name ?? null,
+            ];
+        } elseif ($employee->position == 'supervisor') {
+            // Supervisor has only a manager
+            $manager = Employees::find($employee->leader_id);
+            $data['manager'] = [
+                'id' => $manager->id ?? null,
+                'name' => $manager->name ?? null,
+            ];
+        }
+
+        return response()->json($data);
+    } else {
+        // If no id is provided, return an error
+        return response()->json(['message' => 'No ID provided'], 400);
     }
-    else{  
-        
-        return response()->json([  
-            'code' => 404,  
-            'message' => 'Element not found companies'  
-        ], 404);  
-    
- 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+public function get_my_employees(Request $request)
+{
+    if ($request->has('id')) {
+        $managerId = $request->input('id');
+
+        // Retrieve all employees where the leader_id matches the manager's id
+        $supervisors = Employees::where('leader_id', $managerId)
+                                ->where('position', 'supervisor')
+                                ->get();
+
+        $customerService = Employees::where('leader_id', $managerId)
+                                   ->where('position', 'customer_service')
+                                   ->get();
+
+        // Combine both collections into one
+        $employees = $supervisors->merge($customerService);
+
+        return response()->json($employees);
+    } else {
+        // If no id is provided, return an error
+        return response()->json(['error' => 'No ID provided'], 400);
     }
- 
- }
+}
+
+
+
+
 }

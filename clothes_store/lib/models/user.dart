@@ -5,8 +5,16 @@ class User{
 
   User({required this.name, required this.email,required this.avatar});
 
-  User.formJson(Map<String,dynamic> json):
+  User.fromJson(Map<String,dynamic> json):
   name = json['name'],
   email = json['email'],
   avatar = json['avatar'];
+
+
+  @override  
+  String toString() {  
+    return 'User{ name: $name, email: $email, avatar: $avatar}';  
+  }  
+
+
 }
