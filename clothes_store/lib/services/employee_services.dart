@@ -5,26 +5,60 @@ import 'package:clothes_store/models/employee_model.dart';
 
 import 'package:http/http.dart' as http;
 
+// class AppEmployeesService {
+//   Future<List<EmployeeModel?>?> GetAllEmployees() async {
+//     try {
+//       String url =
+//           "http://127.0.0.1:8000/api/admin/employees/get_all_employees";
+//       http.Response response = await http.get(Uri.parse(url));
+//       List<String> lines = response.body.split('\n');
+//       String responseBody = lines.skip(2).join('\n');
+//       Map<String, dynamic> jsonData = jsonDecode(responseBody);
+//       print(jsonData);
+//       List<EmployeeModel> employees = [];
+//       for (var data in jsonData['data']) {
+//         EmployeeModel employee = EmployeeModel.fromJson(data);
+//         employees.add(employee);
+//       }
+
+//       return employees;
+//     } catch (e) {
+//       print(e);
+//     }
+//   }
+
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 class AppEmployeesService {
   Future<List<EmployeeModel?>?> GetAllEmployees() async {
     try {
-      String url =
-          "http://127.0.0.1:8000/api/admin/employees/get_all_employees";
+      String url = "http://127.0.0.1:8000/api/admin/employees/get_all_employees";
       http.Response response = await http.get(Uri.parse(url));
-      List<String> lines = response.body.split('\n');
-      String responseBody = lines.skip(2).join('\n');
-      Map<String, dynamic> jsonData = jsonDecode(responseBody);
-      List<EmployeeModel> employees = [];
-      for (var data in jsonData['data']) {
-        EmployeeModel employee = EmployeeModel.fromJson(data);
-        employees.add(employee);
-      }
 
-      return employees;
+      if (response.statusCode == 200) {
+        // Split response body into lines and skip the first two lines
+        List<String> lines = response.body.split('\n');
+        String responseBody = lines.skip(2).join('\n');
+
+        // Decode the adjusted response body
+        List<dynamic> jsonData = jsonDecode(responseBody);
+        List<EmployeeModel> employees = jsonData.map((data) {
+          return EmployeeModel.fromJson(data);
+        }).toList();
+
+        return employees;
+      } else {
+        print("Error: ${response.statusCode}");
+        print(response.body); // Print the response body for debugging
+        return null;
+      }
     } catch (e) {
       print(e);
+      return null;
     }
   }
+
 
   Future<bool?> AddNewEmployee(
       {required String name,
@@ -104,12 +138,13 @@ class AppEmployeesService {
       //   'description': description,
       //   'gender': gender,
       //   'position': position,
+      //     'active'= active,
       //   'branch_id': branch_id,
       //   'leader_id': leader_id,
       //   'image': image,
       // });
 
-      var request = http.MultipartRequest('PUT', Uri.parse(url));
+      var request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields['id'] = id;
       request.fields['name'] = name;
       request.fields['number'] = number;

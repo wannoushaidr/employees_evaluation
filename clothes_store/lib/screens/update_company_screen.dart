@@ -160,19 +160,7 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                   widget.company!.number = int.parse(value);
                 },
               ),
-              // TextFormField(
-              //   decoration: InputDecoration(labelText: 'Number of Branches'),
-              //   initialValue: widget.company!.number_of_branch.toString(),
-              //   validator: (value) {
-              //     if (value == null || value.isEmpty) {
-              //       return 'Please enter number of branches';
-              //     }
-              //     return null;
-              //   },
-              //   onChanged: (value) {
-              //     widget.company!.number_of_branch = int.parse(value);
-              //   },
-              // ),
+              
               TextFormField(
                 decoration: InputDecoration(labelText: 'Email'),
                 initialValue: widget.company!.email,

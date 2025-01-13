@@ -161,11 +161,9 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
     // for employee API 
     Route::get('admin/employees/get_all_employees', [EmployeesController::class, 'get_all_employees']);
     Route::post('admin/employees/set_new_employees', [EmployeesController::class, 'set_new_employees']);
-    Route::put('admin/employees/update_employees', [EmployeesController::class, 'update_employees']);
+    Route::post('admin/employees/update_employees', [EmployeesController::class, 'update_employees']);
     Route::delete('admin/employees/delete_employees', [EmployeesController::class, 'delete_employees']);
-    // send employee id like a parameter
-    Route::get('employees/get_my_information', [EmployeesController::class, 'get_my_information']);
-
+    
 
     // for accessories API 
     Route::get('admin/accesories/get_all_accesories', [AccessoriesController::class, 'get_all_accesories']);
@@ -178,6 +176,15 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
     Route::post('admin/points/set_new_points', [PointsController::class, 'set_new_points']);
     Route::put('admin/points/update_points', [PointsController::class, 'update_points']);
     Route::delete('admin/points/delete_points', [PointsController::class, 'delete_points']);
+
+    // send employee id like a parameter
+    Route::get('admin/employees/get_my_information', [EmployeesController::class, 'get_my_information']);
+    // get number of employees in my company
+    Route::get('admin/employees/get_employees_count', [EmployeesController::class, 'get_employees_count']);
+    // get number of employees in my company
+    Route::get('admin/branches/get_branches_count/{companyId}', [BranchesController::class, 'get_branches_count']);
+   
+
     
 // });
 

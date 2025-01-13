@@ -413,14 +413,21 @@ class BranchesController extends Controller
                 'code' => 404,  
                 'message' => 'Element not found Branches'  
             ], 404);  
-        
-
         }
-
     }
 
-
-
+    public function get_branches_count(Request $request, $companyId) {
+        try {
+            $count = Branches::where('company_id', $companyId)->count();
+            return response()->json(['count' => $count]);
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes
+            \Log::error('Error fetching branch count: ' . $e->getMessage());
+    
+            // Return a generic error response
+            return response()->json(['error' => 'An error occurred while fetching the branch count.'], 500);
+        }
+    }
     
 
 }

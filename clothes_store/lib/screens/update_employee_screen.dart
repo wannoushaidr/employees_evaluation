@@ -49,6 +49,8 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
       appBar: AppBar(
         title: Text('Update Employee'),
       ),
+
+      
       drawer: Drawer(
           child: ListView(children: [
             Row(children: [
@@ -156,6 +158,8 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
             )
           ],),
          ),
+      
+      
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -320,6 +324,7 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Processing Data')),
                       );
+                      print("after saving *****");
                       // Assuming you have a service to handle employee data
                       AppEmployeesService aes = AppEmployeesService();
                       bool? result = await aes.UpdateEmployee(
@@ -336,10 +341,14 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                       );
                       if (result == true) {
                         print('Employee Updated successfully');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Employee Updated successfully')),);
                         Navigator.pop(context);
                         Navigator.pop(context);
                       } else {
                         print('Error Updating employee');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Error Updating employee')),);
                       }
                     }
                   },

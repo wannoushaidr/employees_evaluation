@@ -241,19 +241,41 @@ class HomeScreen extends StatelessWidget {
                     //   break;
 
 
-                    case 'Show All Employees':
-                      AppEmployeesService aas = new AppEmployeesService();
-                      List<EmployeeModel?>? employees =
-                          await aas.GetAllEmployees();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return ShowAllEmployeesScreen(
-                            employees: employees,
+                    // case 'Show All Employees':
+                    //   AppEmployeesService aas = new AppEmployeesService();
+                    //   List<EmployeeModel?>? employees =
+                    //       await aas.GetAllEmployees();
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(builder: (context) {
+                    //       return ShowAllEmployeesScreen(
+                    //         employees: employees,
+                    //       );
+                    //     }),
+                    //   );
+                    //   break;
+
+
+                        case 'Show All Employees':
+                        AppEmployeesService aas = AppEmployeesService();
+                        List<EmployeeModel?>? employees = await aas.GetAllEmployees();
+                        
+                        if (employees != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return ShowAllEmployeesScreen(
+                                employees: employees,
+                              );
+                            }),
                           );
-                        }),
-                      );
-                      break;
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                          );
+                        }
+                        break;
+
 
 
                       
