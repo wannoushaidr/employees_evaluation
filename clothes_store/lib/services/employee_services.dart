@@ -31,6 +31,7 @@ class AppEmployeesService {
       required String number,
       required String description,
       required String gender,
+      required String active,
       required String position,
       required String branch_id,
       String? leader_id,
@@ -54,6 +55,7 @@ class AppEmployeesService {
       request.fields['name'] = name;
       request.fields['number'] = number;
       request.fields['description'] = description;
+      request.fields['active'] = active;
       request.fields['gender'] = gender;
       request.fields['position'] = position;
       request.fields['branch_id'] = branch_id;
@@ -86,6 +88,7 @@ class AppEmployeesService {
       required String name,
       required String number,
       required String description,
+      required String active,
       required String gender,
       required String position,
       required String branch_id,
@@ -111,6 +114,7 @@ class AppEmployeesService {
       request.fields['name'] = name;
       request.fields['number'] = number;
       request.fields['description'] = description;
+      request.fields['active'] = active;
       request.fields['gender'] = gender;
       request.fields['position'] = position;
       request.fields['branch_id'] = branch_id;

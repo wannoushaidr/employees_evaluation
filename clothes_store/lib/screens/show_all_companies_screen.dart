@@ -131,7 +131,7 @@ class ShowAllCompaniesScreen extends StatelessWidget {
             DataColumn(label: Text('ID')),
             DataColumn(label: Text('Name')),
             DataColumn(label: Text('Number')),
-            DataColumn(label: Text('Branches')),
+            // DataColumn(label: Text('Branches')),
             DataColumn(label: Text('Email')),
             DataColumn(label: Text('Address')),
             DataColumn(label: Text('Actions')),
@@ -140,8 +140,8 @@ class ShowAllCompaniesScreen extends StatelessWidget {
             return DataRow(cells: [
               DataCell(Text(company!.id.toString())),
               DataCell(Text(company.name)),
-              DataCell(Text(company.number)),
-              DataCell(Text(company.number_of_branch.toString())),
+              DataCell(Text(company.number.toString())),
+              // DataCell(Text(company.number_of_branch.toString())),
               DataCell(Text(company.email)),
               DataCell(Text(company.address ?? 'NotDeleted')),
               DataCell(

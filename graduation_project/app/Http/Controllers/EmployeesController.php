@@ -65,6 +65,7 @@ if ($request->hasFile('image')) {
 
 $datatoinsert['description'] = $request->description;
 $datatoinsert['gender'] = $request->gender;
+$datatoinsert['active'] = $request->active;
 $datatoinsert['position'] = $request->position;
 $datatoinsert['branch_id'] = $request->branch_id;
 $datatoinsert['leader_id'] = $request->leader_id;
@@ -131,6 +132,7 @@ if ($request->hasFile('image')) {
 $datatoinsert['description'] = $request->description;
 $datatoinsert['gender'] = $request->gender;
 $datatoinsert['position'] = $request->position;
+$datatoinsert['active'] = $request->active;
 $datatoinsert['branch_id'] = $request->branch_id;
 $datatoinsert['leader_id'] = $request->leader_id;
 
@@ -275,6 +277,7 @@ public function update_employees(Request $request) {
         'number.required' => 'Please enter a number.',
         'description.required' => 'Please enter a description.',
         'gender.required' => 'Please select a gender.',
+        'active.required' => 'Please select a active.',
         'position.required' => 'Please enter a position.',
         'branch_id.required' => 'Please select a branch.',
         'branch_id.exists' => 'The selected branch does not exist.',
@@ -288,6 +291,7 @@ public function update_employees(Request $request) {
         'number' => 'required|numeric',
         'description' => 'required|string',
         'gender' => 'required|string|max:10',
+        'active' => 'required|string|max:10',
         'position' => 'required|string|max:255',
         'branch_id' => 'required|integer|exists:branches,id',
         // 'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
@@ -307,7 +311,7 @@ public function update_employees(Request $request) {
 
     if (!empty($data)) {
         // If the employee exists, prepare to update
-        $datatoupdate = $request->only(['name', 'number', 'description', 'gender', 'position', 'branch_id']);
+        $datatoupdate = $request->only(['name', 'number', 'description','active', 'gender', 'position', 'branch_id']);
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $fileName = time() . '_image.' . $image->getClientOriginalExtension();
@@ -350,6 +354,7 @@ public function set_new_employees(Request $request){
         'number.required' => 'Please enter a number.',
         'description.required' => 'Please enter a description.',
         'gender.required' => 'Please select a gender.',
+        'active.required' => 'Please select a active.',
         'position.required' => 'Please enter a position.',
         'branch_id.required' => 'Please select a branch.',
         'branch_id.exists' => 'The selected branch does not exist.',
@@ -363,6 +368,7 @@ public function set_new_employees(Request $request){
         'number' => 'required|string|max:255',
         'description' => 'required|string',
         'gender' => 'required|string|max:10',
+        'active' => 'required|string|max:10',
         'position' => 'required|string|max:255',
         'branch_id' => 'required|integer|exists:branches,id',
         'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -379,7 +385,7 @@ public function set_new_employees(Request $request){
     }
 
     // Prepare the data for insertion
-    $datatoinsert = $request->only(['name', 'number', 'description', 'gender', 'position', 'branch_id', 'leader_id']);
+    $datatoinsert = $request->only(['name', 'number', 'description','active', 'gender', 'position', 'branch_id', 'leader_id']);
     if ($request->hasFile('image')) {
         $image = $request->file('image');
         $fileName = time() . '_image.' . $image->getClientOriginalExtension();
@@ -527,7 +533,9 @@ public function get_my_information(Request $request)
 
 
 
-public function get_my_employees(Request $request)
+
+
+public function get_my_employees_information(Request $request)
 {
     if ($request->has('id')) {
         $managerId = $request->input('id');

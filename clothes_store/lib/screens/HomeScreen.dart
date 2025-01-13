@@ -185,7 +185,7 @@ class HomeScreen extends StatelessWidget {
                 'Show All Companies',
                 'Add New Company',
                 'Show All Accessories',
-                'Add New Accessory',
+                // 'Add New Accessory',
                 'Show All Employees',
                 'Add New Employee'
               ].map((String value) {
@@ -239,6 +239,8 @@ class HomeScreen extends StatelessWidget {
                     //     }),
                     //   );
                     //   break;
+
+
                     case 'Show All Employees':
                       AppEmployeesService aas = new AppEmployeesService();
                       List<EmployeeModel?>? employees =
@@ -252,6 +254,9 @@ class HomeScreen extends StatelessWidget {
                         }),
                       );
                       break;
+
+
+                      
                     case 'Add New Employee':
                       Navigator.push(
                         context,

@@ -226,6 +226,34 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                     return null;
                   },
                 ),
+
+
+
+                DropdownButtonFormField<String>(
+                  decoration: InputDecoration(labelText: 'active'),
+                  value: widget.employee.active,
+                  items: <String>['true', 'false'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      widget.employee.active = newValue!;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Please select a active';
+                    }
+                    return null;
+                  },
+                ),
+
+
+
+
                 SizedBox(height: 20),
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(labelText: 'Position'),
@@ -304,7 +332,7 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                         branch_id: widget.employee.branch_id.toString(),
                         leader_id: widget.employee.leader_id.toString(),
                         image: image,
-                        SelectedFile: selectedFile,
+                        active: widget.employee.active,
                       );
                       if (result == true) {
                         print('Employee Updated successfully');

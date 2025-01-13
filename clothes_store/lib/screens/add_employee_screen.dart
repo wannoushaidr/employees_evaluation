@@ -42,6 +42,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   String number = '';
   String description = '';
   String gender = '';
+  String active = '';
   String position = '';
   String branch_id = '';
   String? leader_id = '';
@@ -161,6 +162,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
             )
           ],),
          ),
+      
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -227,6 +229,31 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     return null;
                   },
                 ),
+
+
+                DropdownButtonFormField<String>(
+                  decoration: InputDecoration(labelText: 'active'),
+                  items: <String>['true', 'false'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      active = newValue!;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Please select a active';
+                    }
+                    return null;
+                  },
+                ),
+
+
+
                 SizedBox(height: 20),
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(labelText: 'Position'),
@@ -304,6 +331,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         leader_id: leader_id,
                         image: image!,
                         SelectedFile: selectedFile,
+                         active: active,
                       );
                       if (result == true) {
                           SnackbarShow.showSnackbar(context, " added succesfully");

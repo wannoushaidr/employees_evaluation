@@ -135,23 +135,38 @@ class PointsController extends Controller
 
 
 
-// public function get_all_points(Request $request){
-//     $data = Points::select('*')->orderby("id", "ASC")->paginate(4);
-//     return response()->json($data);
-// }
-
 public function get_all_points(Request $request){
-    if ($request->has('id')) {
-        $id = $request->input('id');
-        // Retrieve points where employee_id matches the given id
-        $data = Points::where('employee_id', $id)->paginate(4);
-    } else {
-        // If no id is provided, get all points
-        $data = Points::orderby("id", "ASC")->paginate(4);
-    }
-
+    $data = Points::select('*')->orderby("id", "ASC")->paginate(4);
     return response()->json($data);
 }
+
+public function get_employee_points(Request $request) {
+    try {
+        if ($request->has('id')) {
+            $id = $request->input('id');
+            // Retrieve the employee's position
+            $employee = Employees::find($id);
+            if (!$employee) {
+                return response()->json(['error' => 'We don’t have this ID'], 404);
+            } elseif ($employee->position != 'customer_service') {
+                return response()->json(['error' => 'This ID is not customer service'], 403);
+            } else {
+                // Retrieve points where employee_id matches the given id
+                $data = Points::where('employee_id', $id)->paginate();
+                if ($data->isEmpty()) {
+                    return response()->json(['error' => 'This employee doesn’t have points'], 404);
+                }
+            }
+        } else {
+            return response()->json(['error' => 'ID is required'], 400);
+        }
+
+        return response()->json($data);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
+    }
+}
+
 
 
 

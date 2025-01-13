@@ -36,7 +36,7 @@ public function store(Request $request)
 // $datatoinsert = [];
 $datatoinsert['name'] = $request->name;
 $datatoinsert['number'] = $request->number;
-$datatoinsert['number_of_branches'] = $request->number_of_branches;
+// $datatoinsert['number_of_branches'] = $request->number_of_branches;
 $datatoinsert['address'] = $request->address;
 $datatoinsert['email'] = $request->email;
 
@@ -62,7 +62,7 @@ public function update(Request $request,$id)
 
 $datatoinsert['name'] = $request->name;
 $datatoinsert['number'] = $request->number;
-$datatoinsert['number_of_branches'] = $request->number_of_branches;
+// $datatoinsert['number_of_branches'] = $request->number_of_branches;
 $datatoinsert['address'] = $request->address;
 $datatoinsert['email'] = $request->email;
 
@@ -126,8 +126,8 @@ public function set_new_companies(Request $request)
         $messages = [
             'name.required' => 'Please enter a name.',
             'number.required' => 'Please enter a number.',
-            'number_of_branches.required' => 'Please enter the number of branches.',
-            'number_of_branches.integer' => 'The number of branches must be a numeric value.',
+            // 'number_of_branches.required' => 'Please enter the number of branches.',
+            // 'number_of_branches.integer' => 'The number of branches must be a numeric value.',
             'email.required' => 'Please enter an email address.',
             'email.email' => 'Please enter a valid email address.',
             'address.required' => 'Please enter an address.',
@@ -137,7 +137,7 @@ public function set_new_companies(Request $request)
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'number' => 'required|integer|',
-            'number_of_branches' => 'required|integer',
+            // 'number_of_branches' => 'required|integer',
             'email' => 'required|email|max:255',
             'address' => 'required|string|max:255',
         ], $messages);
@@ -153,7 +153,7 @@ public function set_new_companies(Request $request)
 
         try {
             // Prepare the data for insertion
-            $datatoinsert = $request->only(['name', 'number', 'number_of_branches', 'email', 'address']);
+            $datatoinsert = $request->only(['name', 'number', 'email', 'address']);
             $is_exsist = Companies::where($datatoinsert)->get();
 
             if ($is_exsist->isNotEmpty()) {
@@ -222,8 +222,8 @@ public function set_new_companies(Request $request)
             'id.exists' => 'The company does not exist.',
             'name.required' => 'Please enter a name.',
             'number.required' => 'Please enter a number.',
-            'number_of_branches.required' => 'Please enter the number of branches.',
-            'number_of_branches.integer' => 'The number of branches must be a numeric value.',
+            // 'number_of_branches.required' => 'Please enter the number of branches.',
+            // 'number_of_branches.integer' => 'The number of branches must be a numeric value.',
             'email.required' => 'Please enter an email address.',
             'email.email' => 'Please enter a valid email address.',
             'address.required' => 'Please enter an address.',
@@ -234,7 +234,7 @@ public function set_new_companies(Request $request)
           
             'name' => 'required|string|max:255',
             'number' => 'required|integer|',
-            'number_of_branches' => 'required|integer',
+            // 'number_of_branches' => 'required|integer',
             'email' => 'required|email|max:255',
             'address' => 'required|string|max:255',
         ], $messages);
@@ -253,7 +253,7 @@ public function set_new_companies(Request $request)
 
         if (!empty($data)) {  
             // If the branch exists, prepare to update  
-            $datatoupdate = $request->only(['name', 'number', 'number_of_branches', 'email', 'address']); 
+            $datatoupdate = $request->only(['name', 'number', 'email', 'address']); 
 
             // Perform the update  
             $updated = $data->update($datatoupdate); // Using Eloquent's update method directly on the model instance  

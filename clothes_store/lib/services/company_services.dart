@@ -32,7 +32,7 @@ class AppCompaniesService {
   Future<bool?> AddNewCompany(
       {required String name,
       required String number,
-      required String number_of_branches,
+      // required String number_of_branches,
       required String email,
       required String address}) async {
     try {
@@ -41,7 +41,7 @@ class AppCompaniesService {
       http.Response response = await http.post(Uri.parse(url), body: {
         'name': name,
         'number': number,
-        'number_of_branches': number_of_branches,
+        // 'number_of_branches': number_of_branches,
         'email': email,
         'address': address
       });
@@ -63,7 +63,7 @@ class AppCompaniesService {
     required String name,
     required String number,
     required String address,
-    required String number_of_branches,
+    // required String number_of_branches,
     required String email,
   }) async {
     try {
@@ -74,7 +74,7 @@ class AppCompaniesService {
         'number': number,
         'address': address,
         'email': email,
-        'number_of_branches': number_of_branches,
+        // 'number_of_branches': number_of_branches,
       });
 
       if (response.statusCode == 200) {

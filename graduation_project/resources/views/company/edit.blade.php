@@ -128,11 +128,6 @@
       </div>
 
       <div class="form-group">
-        <label for="number_of_branches"> number_of_branches </label>
-        <input type="number" class="form-control" id="number_of_branches"  name="number_of_branches" value="{{  old('number_of_branches',$data['number_of_branches']) }}">
-      </div>
-
-      <div class="form-group">
         <label for="email"> email </label>
         <input type="text" class="form-control" id="email"  name="email" value="{{ old('email',$data['email'])  }}">
       </div>

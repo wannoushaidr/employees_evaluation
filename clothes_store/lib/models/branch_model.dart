@@ -1,7 +1,7 @@
 class BranchModel {
   int id;
   String name;
-  String phone;
+  int phone;
   String address;
   String email;
   int company_id;

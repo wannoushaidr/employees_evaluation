@@ -20,6 +20,7 @@ class CreateEmployeesTable extends Migration
             $table->integer('number')->notNull()->unique();
             $table->enum('gender',['male','female'])->notNull();
             $table->enum('position',['manager', 'supervisor', 'customer_service'])->notNull();
+            $table->enum('active',['true', 'false'])->notNull();
             $table->foreignId('leader_id')->nullable()->onDelete('no action'); // Matches data type
             $table->string('image',300)->notNull();
             $table->foreignId('branch_id')->notNull()->constrained('branches')->onDelete('no action'); // Self-referential foreign key

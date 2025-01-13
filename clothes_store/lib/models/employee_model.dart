@@ -7,6 +7,7 @@ class EmployeeModel {
   String position;
   int? leader_id;
   String image;
+  String active;
   int branch_id;
   String created_at;
   String updated_at;
@@ -18,6 +19,7 @@ class EmployeeModel {
       required this.description,
       required this.gender,
       required this.position,
+      required this.active,
       required this.created_at,
       required this.updated_at,
       required this.leader_id,
@@ -32,6 +34,7 @@ class EmployeeModel {
       description: data['description'],
       gender: data['gender'],
       position: data['position'],
+      active: data['active'],
       created_at: data['created_at'],
       updated_at: data['updated_at'],
       leader_id: data['leader_id'],

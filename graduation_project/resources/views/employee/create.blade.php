@@ -50,6 +50,16 @@
     </select>
     </div>
 
+    
+    <div>
+      <label for="active">active </label>
+    <select name="active" id="active" required>
+        <option value="">Select Gender</option>
+        <option value="true" {{ old('active') == 'true' ? 'selected' : '' }}>true</option>
+        <option value="false" {{ old('active') == 'true' ? 'false' : '' }}>false</option>
+    </select>
+    </div>
+
 
 
 

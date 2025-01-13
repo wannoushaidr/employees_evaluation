@@ -18,7 +18,7 @@ class CreateCompaniesTable extends Migration
             $table->string('name',100)->notNull(false); // String column that is not nullable
             $table->string('address')->notNull();
             $table->integer('number')->notNull()->unique();
-            $table->integer('number_of_branches')->notNull();
+            // $table->integer('number_of_branches')->notNull();
             $table->string('email')->unique()->notNull();
             $table->softDeletes();
             $table->timestamps();

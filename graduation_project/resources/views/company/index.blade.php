@@ -47,7 +47,7 @@ index
         <td>{{$info->name}}</td>
         <td>{{$info->address}}</td>
         <td>{{$info->number}}</td>
-        <td>{{$info->number_of_branches}}</td>
+        <td>use get method to get number of branch</td>
         <td>{{$info->email}}</td>
 
         <td><a style="color:white" class="btn btn-sm btn-danger" href="{{route('companies.edit',$info->id)}}">edit</a></td>

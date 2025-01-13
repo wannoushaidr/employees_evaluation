@@ -37,6 +37,7 @@ index
         <th scope="col">position </th>
         <th scope="col">leader_id</th>
         <th scope="col">branch_name</th>
+        <th scope="col">active</th>
         <th scope="col">image</th>
         <th scope="col">edit</th>
         <th scope="col">delete</th>
@@ -59,7 +60,10 @@ index
         <td>{{$info->gender}}</td>
         <td>{{$info->position}}</td>
         <td>{{$info->leader_id}}</td>
-    <td>{{$info->branch_id}}</td>
+        <td>{{$info->branch_id}}</td>
+        <td>{{$info->active}}</td>
+        <td>{{$info->image}}</td>
+
 
         <td><img src="{{$info->image}}" alt="Description of image" class="img-fluid" style="max-width: 100px; height: auto;">> <div>{{$info->image}}</div></td>
 

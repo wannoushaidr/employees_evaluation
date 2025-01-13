@@ -151,7 +151,7 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'phone'),
-                initialValue: widget.branch!.phone,
+                initialValue: widget.branch!.phone.toString(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter contact number';
@@ -159,7 +159,7 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                   return null;
                 },
                 onChanged: (value) {
-                  widget.branch!.phone = value;
+                  widget.branch!.phone = int.parse(value);
                 },
               ),
               TextFormField(
@@ -215,7 +215,7 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                     bool? result = await abs.UpdateBranch(
                         id: widget.branch!.id.toString(),
                         name: widget.branch!.name,
-                        phone: widget.branch!.phone,
+                        phone: widget.branch!.toString(),
                         address: widget.branch!.address,
                         email: widget.branch!.email,
                         company_id: widget.branch!.company_id.toString());

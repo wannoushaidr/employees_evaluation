@@ -2,8 +2,8 @@ class CompanyModel {
   int id;
   String name;
   String address;
-  String number;
-  int number_of_branch;
+  int number;
+  // int number_of_branch;
   String email;
   String? created_at;
   String? updated_at;
@@ -15,7 +15,7 @@ class CompanyModel {
       required this.number,
       required this.address,
       required this.email,
-      required this.number_of_branch,
+      // required this.number_of_branch,
       required this.created_at,
       required this.updated_at,
       required this.deleted_at});
@@ -27,7 +27,7 @@ class CompanyModel {
         number: data['number'],
         address: data['address'],
         email: data['email'],
-        number_of_branch: data['number_of_branches'],
+        // number_of_branch: data['number_of_branches'],
         created_at: data['created_at'] ?? '',
         updated_at: data['updated_at'] ?? '',
         deleted_at: data['deleted_at'] ?? '');

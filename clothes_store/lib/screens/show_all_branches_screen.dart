@@ -139,7 +139,8 @@ class ShowAllBranchesScreen extends StatelessWidget {
             return DataRow(cells: [
               DataCell(Text(branch!.id.toString())),
               DataCell(Text(branch.name)),
-              DataCell(Text(branch.phone)),
+              // DataCell(Text(branch.phone)),
+              DataCell(Text(branch.phone.toString())),
               DataCell(Text(branch.address)),
               DataCell(Text(branch.email)),
               DataCell(

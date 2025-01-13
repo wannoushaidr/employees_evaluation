@@ -12,7 +12,7 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
   final _formKey = GlobalKey<FormState>();
   String name = '';
   String number = '';
-  String numberOfBranches = '';
+  // String numberOfBranches = '';
   String email = '';
   String address = '';
 
@@ -52,18 +52,18 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                   number = value;
                 },
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Number of Branches'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter number of branches';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  numberOfBranches = value;
-                },
-              ),
+              // TextFormField(
+              //   decoration: InputDecoration(labelText: 'Number of Branches'),
+              //   validator: (value) {
+              //     if (value == null || value.isEmpty) {
+              //       return 'Please enter number of branches';
+              //     }
+              //     return null;
+              //   },
+              //   onChanged: (value) {
+              //     numberOfBranches = value;
+              //   },
+              // ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Email'),
                 validator: (value) {
@@ -102,7 +102,7 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                     bool? result = await aps.AddNewCompany(
                         name: name,
                         number: number,
-                        number_of_branches: numberOfBranches,
+                        // number_of_branches: numberOfBranches,
                         email: email,
                         address: address);
                     if (result == true) {

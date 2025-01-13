@@ -149,7 +149,7 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Contact Number'),
-                initialValue: widget.company!.number,
+                initialValue: widget.company!.number.toString(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter contact number';
@@ -157,22 +157,22 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                   return null;
                 },
                 onChanged: (value) {
-                  widget.company!.number = value;
+                  widget.company!.number = int.parse(value);
                 },
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Number of Branches'),
-                initialValue: widget.company!.number_of_branch.toString(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter number of branches';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  widget.company!.number_of_branch = int.parse(value);
-                },
-              ),
+              // TextFormField(
+              //   decoration: InputDecoration(labelText: 'Number of Branches'),
+              //   initialValue: widget.company!.number_of_branch.toString(),
+              //   validator: (value) {
+              //     if (value == null || value.isEmpty) {
+              //       return 'Please enter number of branches';
+              //     }
+              //     return null;
+              //   },
+              //   onChanged: (value) {
+              //     widget.company!.number_of_branch = int.parse(value);
+              //   },
+              // ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Email'),
                 initialValue: widget.company!.email,
@@ -213,9 +213,9 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                     bool? result = await aps.UpdateCompany(
                         id: widget.company!.id.toString(),
                         name: widget.company!.name,
-                        number: widget.company!.number,
-                        number_of_branches:
-                            widget.company!.number_of_branch.toString(),
+                        number: widget.company!.number.toString(),
+                        // number_of_branches:
+                            // widget.company!.number_of_branch.toString(),
                         email: widget.company!.email,
                         address: widget.company!.address);
                     if (result == true) {

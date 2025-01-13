@@ -33,13 +33,6 @@
       @enderror
       </div>
 
-      <div class="form-group">
-        <label for="number_of_branches"> number_of_branches </label>
-        <input type="number" class="form-control" id="number_of_branches"  name="number_of_branches" value="{{ old('number_of_branches') }}">
-      @error('number_of_branches')
-      <span class="text-danger"> {{ $message }}</span>
-      @enderror
-      </div>
 
       <div class="form-group">
         <label for="email"> email </label>

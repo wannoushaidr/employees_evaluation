@@ -128,6 +128,7 @@ class ShowAllEmployeesScreen extends StatelessWidget {
             )
           ],),
          ),
+      
       body: SingleChildScrollView(
         child: DataTable(
           columns: const [
@@ -137,6 +138,7 @@ class ShowAllEmployeesScreen extends StatelessWidget {
             DataColumn(label: Text('number')),
             DataColumn(label: Text('gender')),
             DataColumn(label: Text('position')),
+            DataColumn(label: Text('active')),
             DataColumn(label: Text('branch_id')),
             DataColumn(label: Text('leader_id')),
             DataColumn(label: Text('Actions')),
@@ -149,6 +151,7 @@ class ShowAllEmployeesScreen extends StatelessWidget {
               DataCell(Text(employee.number.toString())),
               DataCell(Text(employee.gender)),
               DataCell(Text(employee.position)),
+              DataCell(Text(employee.active)),
               DataCell(Text(employee.branch_id.toString())),
               DataCell(Text(employee.leader_id != null
                   ? employee.leader_id.toString()

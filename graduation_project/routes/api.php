@@ -143,7 +143,7 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
 
 
 
-//// Authorization Middleware: 'role' => ['admin', 'manager', 'service', 'supervisor']
+//// Authorization Middleware: 'role' => ['admin', 'manager', 'customer_service', 'supervisor']
 // Route::middleware(['auth:sanctum', 'role:customer_service'])->group(function() {
 // Route::middleware(['auth:sanctum'])->group(function() {
     // for branch API 
@@ -163,6 +163,9 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
     Route::post('admin/employees/set_new_employees', [EmployeesController::class, 'set_new_employees']);
     Route::put('admin/employees/update_employees', [EmployeesController::class, 'update_employees']);
     Route::delete('admin/employees/delete_employees', [EmployeesController::class, 'delete_employees']);
+    // send employee id like a parameter
+    Route::get('employees/get_my_information', [EmployeesController::class, 'get_my_information']);
+
 
     // for accessories API 
     Route::get('admin/accesories/get_all_accesories', [AccessoriesController::class, 'get_all_accesories']);
@@ -175,16 +178,22 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
     Route::post('admin/points/set_new_points', [PointsController::class, 'set_new_points']);
     Route::put('admin/points/update_points', [PointsController::class, 'update_points']);
     Route::delete('admin/points/delete_points', [PointsController::class, 'delete_points']);
+    
 // });
 
 
 // ********************** customer_service role
 // for points API 
-Route::get('points/get_all_points', [PointsController::class, 'get_all_points']);
-Route::get('employees/get_my_information', [EmployeesController::class, 'get_my_information']);
+//  send employee id like a parameter
+Route::get('points/get_employee_points', [PointsController::class, 'get_employee_points']);
 
 
-
-// ********************** supervisor role adn supervisor role
-Route::get('employees/get_my_employees', [EmployeesController::class, 'get_my_employees']);
+// **********************   for supervisior and manager role
+// send employee id like parameter
+Route::get('employees/get_my_employees_information', [EmployeesController::class, 'get_my_employees_information']);
+// send employee id like parameter
 Route::get('points/get_my_employee_points', [PointsController::class, 'get_my_employee_points']);
+
+// for supervisior and manager and customer_service role
+// send employee id like a parameter
+Route::get('employees/get_my_information', [EmployeesController::class, 'get_my_information']);
