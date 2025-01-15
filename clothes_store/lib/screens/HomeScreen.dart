@@ -1,11 +1,17 @@
+import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
+import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/add_company_screen.dart';
 import 'package:clothes_store/screens/add_employee_screen.dart';
 import 'package:clothes_store/screens/login_screen.dart';
 import 'package:clothes_store/screens/show_all_employees.dart';
+import 'package:clothes_store/screens/show_all_points_screen.dart';
+import 'package:clothes_store/screens/statistics_screen.dart';
+import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/company_services.dart';
 import 'package:clothes_store/services/employee_services.dart';
+import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:clothes_store/services/auth.dart';
@@ -98,7 +104,7 @@ class HomeScreen extends StatelessWidget {
               textColor: Colors.black,  
               onPressed: () {  
                 // Navigating to About Us page  
-                Navigator.of(context).pushNamed('statistic');
+                Navigator.of(context).pushNamed('statistics_screen');
               },  
               // leading:Icon(Icons.home),
               child: const Text("statistics",textAlign: TextAlign.left,),  
@@ -187,7 +193,9 @@ class HomeScreen extends StatelessWidget {
                 'Show All Accessories',
                 // 'Add New Accessory',
                 'Show All Employees',
-                'Add New Employee'
+                'Add New Employee',
+                'Show All Points',
+                'statistics'
               ].map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -287,6 +295,56 @@ class HomeScreen extends StatelessWidget {
                         }),
                       );
                       break;
+
+                    case 'Show All Points':
+                        AppPointsService aas = AppPointsService();
+                        List<PointModel?>? points = await aas.GetAllPoint();
+                        
+                        if (points != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return ShowAllPointsScreen(
+                                points: points,
+                              );
+                            }),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                          );
+                        }
+                        break;
+
+                        case 'statistics':
+                        AppPointsService aas = AppPointsService();
+                        List<PointModel?>? points = await aas.GetAllPoint();
+                        AppBranchesService ass2= AppBranchesService();
+                        int? branchesCount = await ass2.getBranchesCount() ?? 0;
+                        AppEmployeesService aas3 = AppEmployeesService();
+                          Map<String, int>? employeeCount = await aas3.getEmployeesCount();
+                          print(branchesCount);
+                          print(employeeCount);
+                        
+                        if (points != null && employeeCount != null) {
+                          List<int> pointsCount = points.map((points) => points!.points_count).toList();
+                          print(pointsCount);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return statistics_screen(
+                                points: pointsCount,
+                                branchesCount: branchesCount,
+                                employeeCount :  employeeCount ,
+                              );
+                            }),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                          );
+                        }
+                        break;
                   }
                 }
               },

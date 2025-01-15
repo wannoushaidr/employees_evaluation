@@ -198,4 +198,45 @@ class AppEmployeesService {
       print(e);
     }
   }
+
+Future<Map<String, int>?> getEmployeesCount() async {
+  try {
+    String url = "http://127.0.0.1:8000/api/admin/employees/get_employees_count";
+    http.Response response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      // Print the entire response body for debugging
+      print("Response body: ${response.body}");
+
+      // Split response body into lines and skip the first two lines
+      List<String> lines = response.body.split('\n');
+      String responseBody = lines.skip(2).join('\n');
+
+      // Decode the adjusted response body
+      Map<String, dynamic> data = jsonDecode(responseBody);
+
+      // Extract counts and return as a map
+      Map<String, int> counts = {
+        'employee_count': data['employee_count'],
+        'customer_service_count': data['customer_service_count'],
+        'manager_count': data['manager_count'],
+        'supervisor_count': data['supervisor_count']
+      };
+      return counts;
+    } else {
+      print("Error: ${response.statusCode}");
+      print(response.body); // Print the response body for debugging
+      return null;
+    }
+  } catch (e) {
+    print("Exception: $e");
+    return null;
+  }
+}
+
+
+
+
+
+
 }

@@ -416,10 +416,43 @@ class BranchesController extends Controller
         }
     }
 
-    public function get_branches_count(Request $request, $companyId) {
+    // public function get_branches_count(Request $request) {
+    //     try {
+    //         $count = Branches::where('company_id', $request->id)->count();
+    //         return response()->json(['count' => $count]);
+    //     } catch (\Exception $e) {
+    //         // Log the error for debugging purposes
+    //         \Log::error('Error fetching branch count: ' . $e->getMessage());
+    
+    //         // Return a generic error response
+    //         return response()->json(['error' => 'An error occurred while fetching the branch count.'], 500);
+    //     }
+    // }
+
+    // public function get_branches_count(Request $request) {
+    //     try {
+    //         // Check if the company exists
+    //         $companyExists = Branches::where('company_id', $request->id)->exists();
+    //         if (!$companyExists) {
+    //             return response()->json(['error' => 'No company found with this ID.'], 404);
+    //         }
+    
+    //         // Count the branches if the company exists
+    //         $count = Branches::where('company_id', $request->id)->count();
+    //         return response()->json(['count' => $count]);
+    //     } catch (\Exception $e) {
+    //         // Log the error for debugging purposes
+    //         \Log::error('Error fetching branch count: ' . $e->getMessage());
+    
+    //         // Return a generic error response
+    //         return response()->json(['error' => 'An error occurred while fetching the branch count.'], 500);
+    //     }
+    // }
+    public function get_branches_count() {
         try {
-            $count = Branches::where('company_id', $companyId)->count();
-            return response()->json(['count' => $count]);
+            // Count all branches
+            $count = Branches::count();
+            return response()->json(['count' => $count], 200);
         } catch (\Exception $e) {
             // Log the error for debugging purposes
             \Log::error('Error fetching branch count: ' . $e->getMessage());
@@ -428,6 +461,7 @@ class BranchesController extends Controller
             return response()->json(['error' => 'An error occurred while fetching the branch count.'], 500);
         }
     }
+    
     
 
 }

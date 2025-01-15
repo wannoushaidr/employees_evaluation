@@ -525,18 +525,6 @@ public function get_my_information(Request $request)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 public function get_my_employees_information(Request $request)
 {
     if ($request->has('id')) {
@@ -564,41 +552,86 @@ public function get_my_employees_information(Request $request)
 
 
 
-public function get_employees_count(Request $request) {
+// public function get_employees_count(Request $request) {
+//     try {
+//         \Log::info('Request received with company ID: ' . $request->id);
+
+//         // Find the company by ID
+//         $company = Companies::find($request->id);
+
+//         if (!$company) {
+//             \Log::error('Company not found with ID: ' . $request->id);
+//             return response()->json(['error' => 'Company not found.'], 404);
+//         }
+
+//         \Log::info('Company found: ' . $company->name);
+
+//         // Initialize employee count
+//         $employeeCount = 0;
+
+//         // Get the branches for the company
+//         $branches = Branches::where('company_id', $company->id)->get();
+
+//         \Log::info('Company has ' . $branches->count() . ' branches');
+
+//         // Loop through each branch and count the employees
+//         foreach ($branches as $branch) {
+//             $branchEmployeeCount = Employees::where('branch_id', $branch->id)->count();
+//             \Log::info('Branch ID ' . $branch->id . ' has ' . $branchEmployeeCount . ' employees');
+//             $employeeCount += $branchEmployeeCount;
+//         }
+
+//         \Log::info('Total employee count for company ID ' . $company->id . ': ' . $employeeCount);
+
+//         return response()->json([
+//             'company_id' => $company->id,
+//             'company_name' => $company->name,
+//             'employee_count' => $employeeCount
+//         ]);
+//     } catch (\Exception $e) {
+//         // Log the error for debugging purposes
+//         \Log::error('Error fetching employee count: ' . $e->getMessage());
+
+//         // Return a generic error response
+//         return response()->json(['error' => 'An error occurred while fetching the employee count.'], 500);
+//     }
+// }
+
+public function get_employees_count() {
     try {
-        \Log::info('Request received with company ID: ' . $request->id);
-
-        // Find the company by ID
-        $company = Companies::find($request->id);
-
-        if (!$company) {
-            \Log::error('Company not found with ID: ' . $request->id);
-            return response()->json(['error' => 'Company not found.'], 404);
-        }
-
-        \Log::info('Company found: ' . $company->name);
-
-        // Initialize employee count
+        // Initialize employee counts
         $employeeCount = 0;
+        $customerServiceCount = 0;
+        $managerCount = 0;
+        $supervisorCount = 0;
 
-        // Get the branches for the company
-        $branches = Branches::where('company_id', $company->id)->get();
+        // Get all branches
+        $branches = Branches::all();
 
-        \Log::info('Company has ' . $branches->count() . ' branches');
-
-        // Loop through each branch and count the employees
+        // Loop through each branch and count the employees by position
         foreach ($branches as $branch) {
-            $branchEmployeeCount = Employees::where('branch_id', $branch->id)->count();
-            \Log::info('Branch ID ' . $branch->id . ' has ' . $branchEmployeeCount . ' employees');
-            $employeeCount += $branchEmployeeCount;
+            $branchEmployees = Employees::where('branch_id', $branch->id)->get();
+            foreach ($branchEmployees as $employee) {
+                $employeeCount++;
+                switch ($employee->position) {
+                    case 'customer_service':
+                        $customerServiceCount++;
+                        break;
+                    case 'manager':
+                        $managerCount++;
+                        break;
+                    case 'supervisor':
+                        $supervisorCount++;
+                        break;
+                }
+            }
         }
-
-        \Log::info('Total employee count for company ID ' . $company->id . ': ' . $employeeCount);
 
         return response()->json([
-            'company_id' => $company->id,
-            'company_name' => $company->name,
-            'employee_count' => $employeeCount
+            'employee_count' => $employeeCount,
+            'customer_service_count' => $customerServiceCount,
+            'manager_count' => $managerCount,
+            'supervisor_count' => $supervisorCount
         ]);
     } catch (\Exception $e) {
         // Log the error for debugging purposes

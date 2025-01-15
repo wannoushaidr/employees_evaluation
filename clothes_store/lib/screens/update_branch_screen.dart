@@ -130,6 +130,7 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
             )
           ],),
          ),
+      
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

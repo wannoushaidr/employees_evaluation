@@ -96,4 +96,50 @@ class AppBranchesService {
       print(e);
     }
   }
+
+
+//   Future<int?> getBranchesCount() async {
+//   try {
+//     String url = "http://127.0.0.1:8000/api/admin/branches/get_branches_count";
+//     http.Response response = await http.get(Uri.parse(url));
+    
+//     if (response.statusCode == 200) {
+//       // return int.parse(response.body); // Assuming response.body is a single string
+//       Map<String, dynamic> data = jsonDecode(response.body);
+//         return data['count'] as int;
+//     } else {
+//       return null;
+//     }
+//   } catch (e) {
+//     print(e);
+//     return null;
+//   }
+// }
+
+Future<int?> getBranchesCount() async {
+  try {
+    String url = "http://127.0.0.1:8000/api/admin/branches/get_branches_count";
+    http.Response response = await http.get(Uri.parse(url));
+
+    // Split the response body into lines
+    List<String> lines = response.body.split('\n');
+    
+    // Skip the first two lines and join the remaining lines
+    String responseBody = lines.skip(2).join('\n');
+
+    print(responseBody); // Print the cleaned response body for debugging
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(responseBody);
+      return data['count'] as int;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    print(e);
+    return null;
+  }
+}
+
+
 }

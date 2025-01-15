@@ -182,10 +182,9 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
     // get number of employees in my company
     Route::get('admin/employees/get_employees_count', [EmployeesController::class, 'get_employees_count']);
     // get number of employees in my company
-    Route::get('admin/branches/get_branches_count/{companyId}', [BranchesController::class, 'get_branches_count']);
+    Route::get('admin/branches/get_branches_count', [BranchesController::class, 'get_branches_count']);
    
 
-    
 // });
 
 

@@ -7,7 +7,8 @@ import 'package:clothes_store/screens/add_employee_screen.dart';
 import 'package:clothes_store/screens/show_all_accessories_screen.dart';
 import 'package:clothes_store/screens/show_all_branches_screen.dart';
 import 'package:clothes_store/screens/show_all_companies_screen.dart';
-import 'package:clothes_store/screens/statistic.dart';
+import 'package:clothes_store/screens/show_all_points_screen.dart';
+import 'package:clothes_store/screens/statistics_screen.dart';
 import 'package:clothes_store/screens/update_accessory_screen.dart';
 import 'package:clothes_store/screens/update_branch_screen.dart';
 import 'package:clothes_store/screens/update_company_screen.dart';
@@ -63,14 +64,28 @@ class ClothesStore extends StatelessWidget {
         "showBranches":(context) => ShowAllBranchesScreen(branches: [],),
         "showCompanies":(context) => ShowAllCompaniesScreen(companies: [],),
         "showEmployees":(context) => ShowAllEmployeesScreen(employees: [],),
+        "showPoints":(context) => ShowAllPointsScreen(points: [],),
         // "updateEmployee":(context) => UpdateEmployeeScreen(employee: null,),
         "updateCompany":(context) => UpdateCompanyScreen(company: null,),
         "updateBranch":(context) => UpdateBranchScreen(branch: null,),
         "updateAccessories":(context) => UpdateAccessoryScreen(accessory: null,),
-         "statistic":(context) => statistic(accessory: null, accessories: [],),
+        //  "statistics_screen":(context) => const statistics_screen(branchesCount: 0, points: [],employeeCount :[]),
+          "statistics_screen": (context) => const statistics_screen(
+            branchesCount: 0, 
+            points: [], 
+            // employeesCount: [],
+            employeeCount: {
+              'employee_count': 0,
+              'customer_service_count': 0,
+              'manager_count': 0,
+              'supervisor_count': 0,
+            },
+          ),
+          // Other routes...
+}
 
 
-      },
+
     );
   }
 }

@@ -92,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
               textColor: Colors.black,  
               onPressed: () {  
                 // Navigating to About Us page  
-                Navigator.of(context).pushNamed('home');
+                Navigator.of(context).pushNamed('statistics_screen');
               },  
               // leading:Icon(Icons.home),
               child: const Text("statistics",textAlign: TextAlign.left,),  

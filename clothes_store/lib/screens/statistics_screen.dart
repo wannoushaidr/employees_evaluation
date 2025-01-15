@@ -3,25 +3,33 @@
 import 'package:clothes_store/models/accessory_model.dart';
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
+import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/update_accessory_screen.dart';
 import 'package:clothes_store/screens/update_branch_screen.dart';
 import 'package:clothes_store/screens/update_company_screen.dart';
 import 'package:clothes_store/services/accessory_services.dart';
 import 'package:clothes_store/services/branch_services.dart';
+import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 
 import '../services/company_services.dart';
 
-class statistic extends StatelessWidget {
-  const statistic({super.key, required this.accessories, required accessory});
-  final List<AccessoryModel?>? accessories;
+class statistics_screen extends StatelessWidget {
+  const statistics_screen({super.key,   required this.branchesCount, required this.points,  required this.employeeCount});
+  final int  branchesCount;
+  final List<int?> points;
+  final Map<String, int> employeeCount;
+
 
   @override
   Widget build(BuildContext context) {
+  int totalPoints = points.fold(0, (previous, current) => previous + (current ?? 0));
     return Scaffold(
       appBar: AppBar(
         title: const Text('Accessories Data Table'),
       ),
+
+
       drawer: Drawer(
           child: ListView(children: [
             Row(children: [
@@ -68,7 +76,7 @@ class statistic extends StatelessWidget {
               textColor: Colors.black,  
               onPressed: () {  
                 // Navigating to About Us page  
-                Navigator.of(context).pushNamed('home');
+                Navigator.of(context).pushNamed('statistics_screen');
               },  
               // leading:Icon(Icons.home),
               child: const Text("statistics",textAlign: TextAlign.left,),  
@@ -129,67 +137,32 @@ class statistic extends StatelessWidget {
             )
           ],),
          ),
-      body: SingleChildScrollView(
-        child: Text("statix"),
-        // child: DataTable(
-        //   columns: const [
-        //     DataColumn(label: Text('ID')),
-        //     DataColumn(label: Text('Type')),
-        //     DataColumn(label: Text('branch_id')),
-        //     DataColumn(label: Text('created_at')),
-        //     DataColumn(label: Text('updated_at')),
-        //     DataColumn(label: Text('Actions')),
-        //   ],
-        //   rows: accessories!.map((accessory) {
-        //     return DataRow(cells: [
-        //       DataCell(Text(accessory!.id.toString())),
-        //       DataCell(Text(accessory.type)),
-        //       DataCell(Text(accessory.branch_id.toString())),
-        //       DataCell(Text(accessory.created_at)),
-        //       DataCell(Text(accessory.updated_at)),
-        //       DataCell(
-        //         Row(
-        //           children: [
-        //             IconButton(
-        //               icon: const Icon(Icons.edit),
-        //               onPressed: () {
-        //                 Navigator.push(context,
-        //                     MaterialPageRoute(builder: (context) {
-        //                   return UpdateAccessoryScreen(
-        //                     accessory: accessory,
-        //                   );
-        //                 }));
-        //               },
-        //             ),
-        //             IconButton(
-        //               icon: const Icon(Icons.delete),
-        //               onPressed: () async {
-        //                 AppAccessoriesService aas = new AppAccessoriesService();
-        //                 bool? result = await aas.DeleteAccessory(
-        //                     id: accessory.id.toString());
-        //                 if (result == true) {
-        //                   print('success');
-        //                   Navigator.pop(context);
-        //                 } else {
-        //                   print('error');
-        //                 }
-        //                 // Navigator.push(context,
-        //                 //     MaterialPageRoute(builder: (context) {
-        //                 //   return UpdateCompanyScreen(
-        //                 //     company: company,
-        //                 //   );
-        //                 // }));
-        //               },
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     ]);
-        //   }).toList(),
 
-
-        // ),
+    
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Branches Count: $branchesCount', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 16),
+              Text('Points:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(totalPoints.toString()),
+              const SizedBox(height: 16),
+              Text('Employee Statistics:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text('Employee Count: ${employeeCount['employee_count']}'),
+              Text('Customer Service Count: ${employeeCount['customer_service_count']}'),
+              Text('Manager Count: ${employeeCount['manager_count']}'),
+              Text('Supervisor Count: ${employeeCount['supervisor_count']}'),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
+
+      
+     
+      
