@@ -5,6 +5,7 @@ import 'package:clothes_store/screens/MainScreen.dart';
 import 'package:clothes_store/screens/add_company_screen.dart';
 import 'package:clothes_store/screens/add_employee_screen.dart';
 import 'package:clothes_store/screens/manager/manager_main_screen.dart';
+import 'package:clothes_store/screens/manager/manager_statistics_screen.dart';
 import 'package:clothes_store/screens/manager/show_all_managers_employees.dart';
 import 'package:clothes_store/screens/show_all_accessories_screen.dart';
 import 'package:clothes_store/screens/show_all_branches_screen.dart';
@@ -91,7 +92,9 @@ class ClothesStore extends StatelessWidget {
           ),
 
           // ******************************************   managers route *********************************
-          "manager_mainScreen": (context) => ManagerMainScreen(), // Add your screen here 
+          "manager_mainScreen": (context) => ManagerMainScreen(), // Add your screen here  managers_statistics
+          "managers_statistics": (context) => ManagerStatisticScreen(points: [], employeeCount: {},), // Add your screen here  managers_statistics
+
 
 }
 

@@ -182,6 +182,7 @@ class AppEmployeesService {
     }
   }
 
+
   Future<bool?> DeleteEmployee({
     required String id,
   }) async {
@@ -237,10 +238,50 @@ Future<Map<String, int>?> getEmployeesCount() async {
 }
 
 
+Future<Map<String, int>?> getSupervisorsAndCustomerServiceEmployees(int id) async {
+  try {
+    String url = "http://127.0.0.1:8000/api/employees/getSupervisorsAndCustomerServiceEmployees/$id";
+    http.Response response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      // Print the entire response body for debugging
+      // print("Response body: ${response.body}");
+      print("response");
+      print(response);
+
+      // Split response body into lines and skip the first two lines
+      List<String> lines = response.body.split('\n');
+      String responseBody = lines.skip(2).join('\n');
+            print(responseBody);
+
+
+      // Decode the adjusted response body
+      Map<String, dynamic> data = jsonDecode(responseBody);
+      print("data is");
+      print(data);
+
+      // Extract counts and return as a map
+      Map<String, int> counts = {
+        'employee_count': data['employee_count'],
+        'customer_service_count': data['customer_service_count'],
+        'supervisor_count': data['supervisor_count']
+      };
+      return counts;
+    } else {
+      print("Error: ${response.statusCode}");
+      print(response.body); // Print the response body for debugging
+      return null;
+    }
+  } catch (e) {
+    print("Exception: $e");
+    return null;
+  }
+}
+
+
 
   Future<List<EmployeeModel?>?> GetMyEmployeesEnformation(int id) async {
     try {
-      id=8;
       String url = "http://127.0.0.1:8000/api/employees/get_my_employees_information/$id";
       http.Response response = await http.get(Uri.parse(url));
 
@@ -248,10 +289,12 @@ Future<Map<String, int>?> getEmployeesCount() async {
         // Split response body into lines and skip the first two lines
         List<String> lines = response.body.split('\n');
         String responseBody = lines.skip(2).join('\n');
-
+        print("**********************111111111111*************************");
         // Decode the adjusted response body
         List<dynamic> jsonData = jsonDecode(responseBody);
+        print("*********************2222222222222***************************");
         List<EmployeeModel> employees = jsonData.map((data) {
+          print("********************33333333333333****************************");
           return EmployeeModel.fromJson(data);
         }).toList();
 

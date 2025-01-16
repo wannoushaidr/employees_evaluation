@@ -140,34 +140,64 @@ public function get_all_points(Request $request){
     return response()->json($data);
 }
 
-public function get_employee_points(Request $request) {
-    try {
-        if ($request->has('id')) {
-            $id = $request->input('id');
-            // Retrieve the employee's position
-            $employee = Employees::find($id);
-            if (!$employee) {
-                return response()->json(['error' => 'We don’t have this ID'], 404);
-            } elseif ($employee->position != 'customer_service') {
-                return response()->json(['error' => 'This ID is not customer service'], 403);
-            } else {
-                // Retrieve points where employee_id matches the given id
-                $data = Points::where('employee_id', $id)->paginate();
-                if ($data->isEmpty()) {
-                    return response()->json(['error' => 'This employee doesn’t have points'], 404);
-                }
-            }
-        } else {
-            return response()->json(['error' => 'ID is required'], 400);
-        }
 
-        return response()->json($data);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
-    }
+
+// public function get_employee_points(Request $request) {
+//     try {
+//         if ($request->has('id')) {
+//             $id = $request->input('id');
+//             // Retrieve the employee's position
+//             $employee = Employees::find($id);
+//             if (!$employee) {
+//                 return response()->json(['error' => 'We don’t have this ID'], 404);
+//             } elseif ($employee->position != 'customer_service') {
+//                 return response()->json(['error' => 'This ID is not customer service'], 403);
+//             } else {
+//                 // Retrieve points where employee_id matches the given id
+//                 $data = Points::where('employee_id', $id)->paginate();
+//                 if ($data->isEmpty()) {
+//                     return response()->json(['error' => 'This employee doesn’t have points'], 404);
+//                 }
+//             }
+//         } else {
+//             return response()->json(['error' => 'ID is required'], 400);
+//         }
+
+//         return response()->json($data);
+//     } catch (\Exception $e) {
+//         return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
+//     }
+// }
+
+
+public function get_employee_points(Request $request) {  
+    try {  
+        if ($request->has('id')) {  
+            $id = $request->input('id');  
+            // Retrieve the employee's position  
+            $employee = Employees::find($id);  
+            if (!$employee) {  
+                return response()->json(['error' => 'We don’t have this ID'], 404);  
+            } elseif ($employee->position != 'customer_service') {  
+                return response()->json(['error' => 'This ID is not customer service'], 403);  
+            } else {  
+                // Retrieve all points where employee_id matches the given id  
+                $data = Points::where('employee_id', $id)->get();  
+
+                if ($data->isEmpty()) {  
+                    return response()->json(['error' => 'This employee doesn’t have points'], 404);  
+                }  
+                
+                // Return all point records for the employee  
+                return response()->json($data); // Return the entire collection  
+            }  
+        } else {  
+            return response()->json(['error' => 'ID is required'], 400);  
+        }  
+    } catch (\Exception $e) {  
+        return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);  
+    }  
 }
-
-
 
 
 

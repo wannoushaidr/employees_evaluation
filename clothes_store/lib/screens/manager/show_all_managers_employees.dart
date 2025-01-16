@@ -1,12 +1,15 @@
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
+import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/add_accessory_screen.dart';
+import 'package:clothes_store/screens/show_all_points_screen.dart';
 import 'package:clothes_store/screens/update_branch_screen.dart';
 import 'package:clothes_store/screens/update_company_screen.dart';
 import 'package:clothes_store/screens/update_employee_screen.dart';
 import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/employee_services.dart';
+import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 
 // import '../services/company_services.dart';
@@ -226,74 +229,18 @@ import 'package:flutter/material.dart';
 class showEmployeesByManages extends StatelessWidget {
   const showEmployeesByManages( {super.key, required this.employees});
   final List<EmployeeModel?>? employees;
+  
 
   @override
   Widget build(BuildContext context) {
+    print("employees are ss :");
       print(employees);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Employees Data Table'),
       ),
-      // drawer: Drawer(
-        
-      //     child: ListView(children: [
-      //       Row(children: [
-      //         Container(
-      //         height: 60,
-      //         width: 60,
-      //         child:ClipRRect(
-      //           borderRadius: BorderRadius.circular(60),
-      //           child: Image.asset("images/screen.png",
-      //           fit:BoxFit.cover,
-      //         )),
-      //         ),
-      //         Expanded(
-      //           child: ListTile(
-      //           title: Text("user name"),
-      //           subtitle: Text("email"),
-      //         )
-      //         )
-      //       ],
-      //       ),
-            
-      //       ListTile(
-      //         leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
-      //           Navigator.of(context).pushNamed('statistics_screen');
-      //         },  
-      //         // leading:Icon(Icons.home),
-      //         child: const Text("statistics",textAlign: TextAlign.left,),  
 
-      //       ),  
-      //         )
-      //       ),
-          
-      //       ListTile(
-      //         leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
-      //           Navigator.of(context).pushNamed('manager_mainScreen');
-      //         },  
-      //         // leading:Icon(Icons.home),
-      //         child: const Text("main screen",textAlign: TextAlign.left,),  
-
-      //       ),  
-      //         )
-      //       )
-      //     ],),
-      //    ),
       body: employees == null
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -308,6 +255,7 @@ class showEmployeesByManages extends StatelessWidget {
                   DataColumn(label: Text('Active')),
                   DataColumn(label: Text('Branch ID')),
                   DataColumn(label: Text('Leader ID')),
+                  DataColumn(label: Text('more info ')),
                   // DataColumn(label: Text('Actions')),
                 ],
                 rows: employees!.map((employee) {
@@ -320,13 +268,14 @@ class showEmployeesByManages extends StatelessWidget {
                     DataCell(Text(employee.position)),
                     DataCell(Text(employee.active)),
                     DataCell(Text(employee.branch_id.toString())),
-                    DataCell(Text(
-                        employee.leader_id != null ? employee.leader_id.toString() : '')),
+                    DataCell(Text(employee.leader_id != null ? employee.leader_id.toString() : '')),
+                    // DataCell(Text("points")),
+
                     // DataCell(
                     //   Row(
                     //     children: [
                     //       IconButton(
-                    //         icon: const Icon(Icons.edit),
+                    //         icon: const Icon(Icons.details_outlined),
                     //         onPressed: () {
                     //           Navigator.push(context,
                     //               MaterialPageRoute(builder: (context) {
@@ -336,22 +285,42 @@ class showEmployeesByManages extends StatelessWidget {
                     //           }));
                     //         },
                     //       ),
-                    //       IconButton(
-                    //         icon: const Icon(Icons.delete),
-                    //         onPressed: () async {
-                    //           AppEmployeesService aes = AppEmployeesService();
-                    //           bool? result = await aes.DeleteEmployee(id: employee.id.toString());
-                    //           if (result == true) {
-                    //             print('Success');
-                    //             Navigator.pop(context);
-                    //           } else {
-                    //             print('Error');
-                    //           }
-                    //         },
-                    //       ),
+                          
                     //     ],
                     //   ),
                     // ),
+
+                    DataCell(  
+                      
+                            Row(  
+                              children: [  
+                                
+                                IconButton(  
+                                  icon: const Icon(Icons.details_outlined),  
+                                  onPressed: () async {  
+                                    AppPointsService acp = AppPointsService();
+                                    print(employee.id);
+                                    List<PointModel?>? points= await acp.GetEmployeePoint(employee.id);  
+                                    if (points == null) {  
+                                          points = []; // Assign an empty list if null  
+                                        }  
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) {  
+                                      return ShowAllPointsScreen(points: points);  
+                                    }));  
+                                  },  
+                                ),  
+                              ],  
+                            ),  
+                          ),  
+
+
+
+
+
+
+
+
+
                   ]);
                 }).toList(),
               ),

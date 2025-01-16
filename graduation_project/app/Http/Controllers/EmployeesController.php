@@ -693,6 +693,48 @@ public function get_employees_count() {
 }
 
 
+public function getSupervisorsAndCustomerServiceEmployees(Request $request,$id) {
+    if($id){
+    try {
+        // Initialize employee counts
+        $employeeCount = 0;
+        $customerServiceCount = 0;
+        $supervisorCount = 0;
+
+        // Get the supervisors under the given manager
+        $supervisors = Employees::where('leader_id', $request->id)
+                                ->where('position', 'supervisor')
+                                ->get();
+
+        // Loop through each supervisor and count the employees by position
+        foreach ($supervisors as $supervisor) {
+            $supervisorCount++;
+            $supervisorEmployees = Employees::where('leader_id', $supervisor->id)->get();
+            foreach ($supervisorEmployees as $employee) {
+                $employeeCount++;
+                if ($employee->position == 'customer_service') {
+                    $customerServiceCount++;
+                }
+            }
+        }
+
+        return response()->json([
+            'employee_count' => $employeeCount,
+            'customer_service_count' => $customerServiceCount,
+            'supervisor_count' => $supervisorCount
+        ]);
+    } catch (\Exception $e) {
+        // Log the error for debugging purposes
+        \Log::error('Error fetching employee count: ' . $e->getMessage());
+
+        // Return a generic error response
+        return response()->json(['error' => 'An error occurred while fetching the employee count.'], 500);
+    }
+}
+}
+
+
+
 
 
 }

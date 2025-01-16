@@ -215,3 +215,7 @@ Route::get('points/get_my_employee_points', [PointsController::class, 'get_my_em
 // for supervisior and manager and customer_service role
 // send employee id like a parameter
 Route::get('employees/get_my_information', [EmployeesController::class, 'get_my_information']);
+
+
+// ********************** manager role
+Route::get('employees/getSupervisorsAndCustomerServiceEmployees/{id}', [EmployeesController::class, 'getSupervisorsAndCustomerServiceEmployees']);
