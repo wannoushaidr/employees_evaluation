@@ -180,7 +180,7 @@
         <label for="leader_id">leader_id :</label>
       <select name="leader_id" id="leader_id" required>
         @foreach($data3 as $employee)
-        <option value="{{ $employee->leader_id }}" {{ old($employee->name) == $employee->name ? 'selected' : '' }}>{{ $employee->name }}</option>
+        <option value="{{ $employee->leader_id }}" {{ old($employee->id) == $employee->id ? 'selected' : '' }}>{{ $employee->id }}</option>
         @endforeach
         <option value="">Null</option>
 

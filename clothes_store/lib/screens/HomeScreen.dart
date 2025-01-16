@@ -33,151 +33,176 @@ class HomeScreen extends StatelessWidget {
         title: Text('Home Screen'),
       ),
       drawer: Drawer(   
-          child:Consumer<Auth>(builder:(context,auth,child){
-            // if (!  auth!.authenticated){
-            if (!  auth.authenticated){
-              return ListView( 
-                children: [
-                  ListTile(
-              leading:const Icon(Icons.login),
-              title:const Text("loginn"),
-              onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginScreen()));
-              },
-              )],
-            );
-            // );
+                          child:Consumer<Auth>(builder:(context,auth,child){
+                            // if (!  auth!.authenticated){
+                            if (!  auth.authenticated){
+                              return ListView( 
+                                children: [
+                                  ListTile(
+                              leading:const Icon(Icons.login),
+                              title:const Text("loginn"),
+                              onTap: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginScreen()));
+                              },
+                              )],
+                            );
+                            // );
 
-            }
-            else{
-          return ListView(children: [
-            const Row(
-              children: [
-              DrawerHeader(
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.blue,
-                      radius: 30,
-                    ),
-                    SizedBox(height: 10,),
-                    Text("haidar",style: 
-                    TextStyle(color: Colors.black)),
+                            }
+                            else{
+                          return ListView(children: [
 
-                    SizedBox(height: 10,),
-                    Text("wannous",style: 
-                    TextStyle(color: Colors.black)),
-                  ],
+                            IntrinsicHeight(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: DrawerHeader(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const CircleAvatar(
+                                backgroundColor: Colors.blue,
+                                radius: 30,
+                              ),
+                              const SizedBox(height: 10),
+                              Text(auth.user.name, style: const TextStyle(color: Colors.black)),
+                              const SizedBox(height: 10),
+                              Text(auth.user.email, style: const TextStyle(color: Colors.black)),
+                              // const SizedBox(height: 10),
+                              // Text(auth.user.role, style: const TextStyle(color: Colors.black)),
+                            ],
+                          ),
+                          decoration: const BoxDecoration(
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
 
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-              ),
-             
-            ],
-            ),
-            
-            ListTile(
-            leading:Icon(Icons.home),
-              title:Container(  
-            margin: EdgeInsets.symmetric(horizontal: 20),  
-            child: MaterialButton(  
-              // color: Colors.red,  
-              textColor: Colors.black,  
-              onPressed: () {  
-                // Navigating to About Us page  
-                Navigator.of(context).pushNamed('home');
-              },  
-              // leading:Icon(Icons.home),
-              child: const Text("add new",textAlign: TextAlign.left,),  
 
-            ),  
-              )
-            ),
-            ListTile(
-              leading:Icon(Icons.home),
-              title:Container(  
-            margin: EdgeInsets.symmetric(horizontal: 20),  
-            child: MaterialButton(  
-              // color: Colors.red,  
-              textColor: Colors.black,  
-              onPressed: () {  
-                // Navigating to About Us page  
-                Navigator.of(context).pushNamed('statistics_screen');
-              },  
-              // leading:Icon(Icons.home),
-              child: const Text("statistics",textAlign: TextAlign.left,),  
+                            
+                            ListTile(
+                            leading:Icon(Icons.home),
+                              title:Container(  
+                            margin: EdgeInsets.symmetric(horizontal: 20),  
+                            child: MaterialButton(  
+                              // color: Colors.red,  
+                              textColor: Colors.black,  
+                              onPressed: () {  
+                                // Navigating to About Us page  
+                                Navigator.of(context).pushNamed('home');
+                              },  
+                              // leading:Icon(Icons.home),
+                              child: const Text("add new",textAlign: TextAlign.left,),  
 
-            ),  
-              )
-            ),
-            ListTile(
-             leading:Icon(Icons.home),
-              title:Container(  
-            margin: EdgeInsets.symmetric(horizontal: 20),  
-            child: MaterialButton(  
-              // color: Colors.red,  
-              textColor: Colors.black,  
-              onPressed: () {  
-                // Navigating to About Us page  
-                Navigator.of(context).pushNamed('showEmployees');
-              },  
-              // leading:Icon(Icons.home),
-              child: const Text("employees",textAlign: TextAlign.left,),  
+                            ),  
+                              )
+                            ),
 
-            ),  
-              )
-            ),
-            ListTile(
-              leading:Icon(Icons.home),
-              title:Container(  
-            margin: EdgeInsets.symmetric(horizontal: 20),  
-            child: MaterialButton(  
-              // color: Colors.red,  
-              textColor: Colors.black,  
-              onPressed: () {  
-                // Navigating to About Us page  
-                Navigator.of(context).pushNamed('showBranches');
-              },  
-              // leading:Icon(Icons.home),
-              child: const Text("branches",textAlign: TextAlign.left,),  
+                            ListTile(
+                            leading:Icon(Icons.home),
+                              title:Container(  
+                            margin: EdgeInsets.symmetric(horizontal: 20),  
+                            child: MaterialButton(  
+                              // color: Colors.red,  
+                              textColor: Colors.black,  
+                              onPressed: () {  
+                                // Navigating to About Us page  
+                                Navigator.of(context).pushNamed('userProfile');
+                              },  
+                              // leading:Icon(Icons.home),
+                              child: const Text("userProfile",textAlign: TextAlign.left,),  
 
-            ),  
-              )
-            ),
-            ListTile(
-              leading:Icon(Icons.home),
-              title:Container(  
-            margin: EdgeInsets.symmetric(horizontal: 20),  
-            child: MaterialButton(  
-              // color: Colors.red,  
-              textColor: Colors.black,  
-              onPressed: () {  
-                // Navigating to About Us page  
-                Navigator.of(context).pushNamed('home');
-              },  
-              // leading:Icon(Icons.home),
-              child: const Text("go to home",textAlign: TextAlign.left,),  
+                            ),  
+                              )
+                            ),
 
-            ),  
-              )
-            ),
-           
-           ListTile(
-              leading:const Icon(Icons.logout),
-              title:const Text("logout"),
-              onTap: (){
-                 Provider.of<Auth>(context,listen: false)
-                  ..logout();
-              },
-            ),
-            
-          ],
-          );
-            }
-      }) 
-      ),
+
+                            ListTile(
+                              leading:Icon(Icons.home),
+                              title:Container(  
+                            margin: EdgeInsets.symmetric(horizontal: 20),  
+                            child: MaterialButton(  
+                              // color: Colors.red,  
+                              textColor: Colors.black,  
+                              onPressed: () {  
+                                // Navigating to About Us page  
+                                Navigator.of(context).pushNamed('statistics_screen');
+                              },  
+                              // leading:Icon(Icons.home),
+                              child: const Text("statistics",textAlign: TextAlign.left,),  
+
+                            ),  
+                              )
+                            ),
+                            ListTile(
+                            leading:Icon(Icons.home),
+                              title:Container(  
+                            margin: EdgeInsets.symmetric(horizontal: 20),  
+                            child: MaterialButton(  
+                              // color: Colors.red,  
+                              textColor: Colors.black,  
+                              onPressed: () {  
+                                // Navigating to About Us page  
+                                Navigator.of(context).pushNamed('showEmployees');
+                              },  
+                              // leading:Icon(Icons.home),
+                              child: const Text("employees",textAlign: TextAlign.left,),  
+
+                            ),  
+                              )
+                            ),
+                            ListTile(
+                              leading:Icon(Icons.home),
+                              title:Container(  
+                            margin: EdgeInsets.symmetric(horizontal: 20),  
+                            child: MaterialButton(  
+                              // color: Colors.red,  
+                              textColor: Colors.black,  
+                              onPressed: () {  
+                                // Navigating to About Us page  
+                                Navigator.of(context).pushNamed('showBranches');
+                              },  
+                              // leading:Icon(Icons.home),
+                              child: const Text("branches",textAlign: TextAlign.left,),  
+
+                            ),  
+                              )
+                            ),
+                            ListTile(
+                              leading:Icon(Icons.home),
+                              title:Container(  
+                            margin: EdgeInsets.symmetric(horizontal: 20),  
+                            child: MaterialButton(  
+                              // color: Colors.red,  
+                              textColor: Colors.black,  
+                              onPressed: () {  
+                                // Navigating to About Us page  
+                                Navigator.of(context).pushNamed('home');
+                              },  
+                              // leading:Icon(Icons.home),
+                              child: const Text("go to home",textAlign: TextAlign.left,),  
+
+                            ),  
+                              )
+                            ),
+                          
+                          ListTile(
+                              leading:const Icon(Icons.logout),
+                              title:const Text("logout"),
+                              onTap: (){
+                                Provider.of<Auth>(context,listen: false)
+                                  ..logout();
+                              },
+                            ),
+                            
+                          ],
+                          );
+                            }
+                      }) 
+                      ),
 
       // );
       body: Center(

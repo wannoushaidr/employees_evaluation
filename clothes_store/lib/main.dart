@@ -4,6 +4,8 @@ import 'package:clothes_store/screens/MainScreen.dart';
 
 import 'package:clothes_store/screens/add_company_screen.dart';
 import 'package:clothes_store/screens/add_employee_screen.dart';
+import 'package:clothes_store/screens/manager/manager_main_screen.dart';
+import 'package:clothes_store/screens/manager/show_all_managers_employees.dart';
 import 'package:clothes_store/screens/show_all_accessories_screen.dart';
 import 'package:clothes_store/screens/show_all_branches_screen.dart';
 import 'package:clothes_store/screens/show_all_companies_screen.dart';
@@ -13,6 +15,7 @@ import 'package:clothes_store/screens/update_accessory_screen.dart';
 import 'package:clothes_store/screens/update_branch_screen.dart';
 import 'package:clothes_store/screens/update_company_screen.dart';
 import 'package:clothes_store/screens/update_employee_screen.dart';
+import 'package:clothes_store/screens/user_profile_screen.dart';
 import 'package:clothes_store/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:clothes_store/models/company_model.dart';
@@ -52,9 +55,14 @@ class ClothesStore extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: ManagerMainScreen(),
       routes: {
+        // ************************************* admin route *****************************
         "home":(context) => HomeScreen(),
+        "admin_main_Screen": (context) => HomeScreen(), // Add your screen here 
+        // "supervisorScreen": (context) => SupervisorScreen(), // Add your screen here 
+        // "customerServiceScreen": (context) => CustomerServiceScreen(), // Add your screen here
+        "userProfile": (context) => UserProfile(), // Add your new route here
         "mainscreen":(context) => MainScreen(),
         "addAccessory":(context) => AddAccessoryScreen(branch_id: '',),
         "addCompany":(context) => AddCompanyScreen(),
@@ -81,7 +89,10 @@ class ClothesStore extends StatelessWidget {
               'supervisor_count': 0,
             },
           ),
-          // Other routes...
+
+          // ******************************************   managers route *********************************
+          "manager_mainScreen": (context) => ManagerMainScreen(), // Add your screen here 
+
 }
 
 

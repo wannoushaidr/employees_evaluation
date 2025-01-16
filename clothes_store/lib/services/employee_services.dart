@@ -31,6 +31,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AppEmployeesService {
+
+
   Future<List<EmployeeModel?>?> GetAllEmployees() async {
     try {
       String url = "http://127.0.0.1:8000/api/admin/employees/get_all_employees";
@@ -235,6 +237,35 @@ Future<Map<String, int>?> getEmployeesCount() async {
 }
 
 
+
+  Future<List<EmployeeModel?>?> GetMyEmployeesEnformation(int id) async {
+    try {
+      id=8;
+      String url = "http://127.0.0.1:8000/api/employees/get_my_employees_information/$id";
+      http.Response response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        // Split response body into lines and skip the first two lines
+        List<String> lines = response.body.split('\n');
+        String responseBody = lines.skip(2).join('\n');
+
+        // Decode the adjusted response body
+        List<dynamic> jsonData = jsonDecode(responseBody);
+        List<EmployeeModel> employees = jsonData.map((data) {
+          return EmployeeModel.fromJson(data);
+        }).toList();
+
+        return employees;
+      } else {
+        print("Error: ${response.statusCode}");
+        print(response.body); // Print the response body for debugging
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
 
 

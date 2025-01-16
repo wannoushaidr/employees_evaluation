@@ -441,40 +441,6 @@ public function delete_employees(Request $request)
 
 
 
-// public function get_my_information(Request $request)
-// {
-//     if ($request->has('id')) {
-//         $id = $request->input('id');
-//         // Retrieve the employee where employee_id matches the given id
-//         $employee = Employees::find($id);
-
-//         if (!$employee) {
-//             return response()->json(['error' => 'Employee not found'], 404);
-//         }
-
-//         // Initialize response data
-//         $data = [
-//             'supervisor' => null,
-//             'manager' => null
-//         ];
-
-//         // Check employee's position and set leader/manager accordingly
-//         if ($employee->position == 'customer_service') {
-//             // Customer has both a supervisor and a manager
-//             $data['supervisor'] = Employees::find($employee->leader_id);
-//             $data['manager'] = Employees::find($data['supervisor']->leader_id ?? null);
-//         } elseif ($employee->position == 'supervisor') {
-//             // Supervisor has only a manager
-//             $data['manager'] = Employees::find($employee->leader_id);
-//         }
-
-//         return response()->json($data);
-//     } else {
-//         // If no id is provided, return an error
-//         return response()->json(['error' => 'No ID provided'], 400);
-//     }
-// }
-
 
 public function get_my_information(Request $request)
 {
@@ -525,31 +491,115 @@ public function get_my_information(Request $request)
 
 
 
-public function get_my_employees_information(Request $request)
-{
-    if ($request->has('id')) {
-        $managerId = $request->input('id');
 
-        // Retrieve all employees where the leader_id matches the manager's id
-        $supervisors = Employees::where('leader_id', $managerId)
-                                ->where('position', 'supervisor')
-                                ->get();
+public function get_my_employees_information(Request $request, $id)  
+{  
+    if ($id) {  
+        $managerId = $id;  
 
-        $customerService = Employees::where('leader_id', $managerId)
-                                   ->where('position', 'customer_service')
-                                   ->get();
+        // Initialize an array to hold the results  
+        $results = [];  
 
-        // Combine both collections into one
-        $employees = $supervisors->merge($customerService);
+        // Retrieve manager data and add it to results  
+        $manager = Employees::find($managerId);  
+        
+        // If the manager exists, store their data in the results array  
+        // but do not include them in the final output.  
+        if ($manager) {  
+            // You can still keep this data for logging or other purposes if needed  
+            $managerData = [  
+                'id' => $manager->id,  
+                'name' => $manager->name,  
+                'description' => $manager->description,  
+                'number' => $manager->number,  
+                'gender' => $manager->gender,  
+                'position' => $manager->position,  
+                'active' => $manager->active,  
+                'leader_id' => $manager->leader_id,  
+                'image' => $manager->image,  
+                'branch_id' => $manager->branch_id,  
+                'created_at' => $manager->created_at,  
+                'updated_at' => $manager->updated_at,  
+            ];  
+        }  
 
-        return response()->json($employees);
-    } else {
-        // If no id is provided, return an error
-        return response()->json(['error' => 'No ID provided'], 400);
-    }
+        // Retrieve all supervisors under the manager  
+        $supervisors = Employees::where('leader_id', $managerId)  
+                                ->where('position', 'supervisor')  
+                                ->get();  
+
+        // For each supervisor, retrieve their respective employees and add to results  
+        foreach ($supervisors as $supervisor) {  
+            $results[] = [  
+                'id' => $supervisor->id, // Keep supervisor's ID  
+                'name' => $supervisor->name,  
+                'description' => $supervisor->description,  
+                'number' => $supervisor->number,  
+                'gender' => $supervisor->gender,  
+                'position' => $supervisor->position,  
+                'active' => $supervisor->active,  
+                'leader_id' => $supervisor->leader_id,  
+                'image' => $supervisor->image,  
+                'branch_id' => $supervisor->branch_id,  
+                'created_at' => $supervisor->created_at,  
+                'updated_at' => $supervisor->updated_at,  
+            ];  
+
+            // Retrieve employees for each supervisor  
+            $employees = Employees::where('leader_id', $supervisor->id)->get();  
+            foreach ($employees as $employee) {  
+                $results[] = [  
+                    'id' => $employee->id,  // Keep the employee's ID  
+                    'name' => $employee->name,  
+                    'description' => $employee->description,  
+                    'number' => $employee->number,  
+                    'gender' => $employee->gender,  
+                    'position' => $employee->position,  
+                    'active' => $employee->active,  
+                    'leader_id' => $employee->leader_id,  
+                    'image' => $employee->image,  
+                    'branch_id' => $employee->branch_id,  
+                    'created_at' => $employee->created_at,  
+                    'updated_at' => $employee->updated_at,  
+                ];  
+            }  
+        }  
+
+        // Retrieve customer service employees directly under the manager  
+        $customerService = Employees::where('leader_id', $managerId)  
+                                   ->where('position', 'customer_service')  
+                                   ->get();  
+
+        // Add customer service employees to results  
+        foreach ($customerService as $customer) {  
+            $results[] = [  
+                'id' => $customer->id,  // Keep customer service employee's ID  
+                'name' => $customer->name,  
+                'description' => $customer->description,  
+                'number' => $customer->number,  
+                'gender' => $customer->gender,  
+                'position' => $customer->position,  
+                'active' => $customer->active,  
+                'leader_id' => $customer->leader_id,  
+                'image' => $customer->image,  
+                'branch_id' => $customer->branch_id,  
+                'created_at' => $customer->created_at,  
+                'updated_at' => $customer->updated_at,  
+            ];  
+        }  
+
+        // Filter out the manager's ID from the results  
+        $filteredResults = array_filter($results, function($employee) use ($managerId) {  
+            return $employee['id'] !== $managerId; // Exclude employee with manager's ID  
+        });  
+
+        // Return the filtered results as a flat array   
+        return response()->json(array_values($filteredResults));  
+    } else {  
+        // If no ID is provided, return an error  
+        return response()->json(['error' => 'No ID provided'], 400);  
+    }  
 }
-
-
 
 
 // public function get_employees_count(Request $request) {

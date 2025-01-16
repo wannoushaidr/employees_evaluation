@@ -58,18 +58,30 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
 });
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    try {
-        // Attempt to return the authenticated user's information
-        return $request->user();
-    } catch (\Illuminate\Auth\AuthenticationException $e) {
-        // Return a custom error message if the token is invalid
-        return response()->json(['message' => 'Invalid token provided. Please log in again.'], 401);
-    } catch (Exception $e) {
-        // Log other exceptions and return a generic error message
-        \Log::error('Error fetching user: ' . $e->getMessage());
-        return response()->json(['message' => 'Error fetching user information.'], 500);
-    }
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     try {
+//         // Attempt to return the authenticated user's information
+//         return $request->user();
+//     } catch (\Illuminate\Auth\AuthenticationException $e) {
+//         // Return a custom error message if the token is invalid
+//         return response()->json(['message' => 'Invalid token provided. Please log in again.'], 401);
+//     } catch (Exception $e) {
+//         // Log other exceptions and return a generic error message
+//         \Log::error('Error fetching user: ' . $e->getMessage());
+//         return response()->json(['message' => 'Error fetching user information.'], 500);
+//     }
+// });
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {  
+    try {  
+        \Log::info('User Authenticated: ', [$request->user()]);  
+        return $request->user(); // This should return user data as JSON  
+    } catch (\Illuminate\Auth\AuthenticationException $e) {  
+        return response()->json(['message' => 'Invalid token provided. Please log in again.'], 401);  
+    } catch (Exception $e) {  
+        \Log::error('Error fetching user: ' . $e->getMessage());  
+        return response()->json(['message' => 'Error fetching user information.'], 500);  
+    }  
 });
 
 Route::get('/login', function () {
@@ -196,7 +208,7 @@ Route::get('points/get_employee_points', [PointsController::class, 'get_employee
 
 // **********************   for supervisior and manager role
 // send employee id like parameter
-Route::get('employees/get_my_employees_information', [EmployeesController::class, 'get_my_employees_information']);
+Route::get('employees/get_my_employees_information/{id}', [EmployeesController::class, 'get_my_employees_information']);
 // send employee id like parameter
 Route::get('points/get_my_employee_points', [PointsController::class, 'get_my_employee_points']);
 

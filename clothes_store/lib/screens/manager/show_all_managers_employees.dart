@@ -9,8 +9,8 @@ import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/employee_services.dart';
 import 'package:flutter/material.dart';
 
-import '../services/company_services.dart';
-
+// import '../services/company_services.dart';
+// 
 //   class ShowAllEmployeesScreen extends StatelessWidget {
 //   const ShowAllEmployeesScreen({super.key, required this.employees});
 //   final List<EmployeeModel?>? employees;
@@ -223,18 +223,18 @@ import '../services/company_services.dart';
 // *******************************************   this is updataed code for above code ****************
 import 'package:flutter/material.dart';
 
-class ShowAllEmployeesScreen extends StatelessWidget {
-  const ShowAllEmployeesScreen({super.key, required this.employees});
+class showEmployeesByManages extends StatelessWidget {
+  const showEmployeesByManages( {super.key, required this.employees});
   final List<EmployeeModel?>? employees;
 
   @override
   Widget build(BuildContext context) {
+      print(employees);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Employees Data Table'),
       ),
-
-
       // drawer: Drawer(
         
       //     child: ListView(children: [
@@ -256,23 +256,7 @@ class ShowAllEmployeesScreen extends StatelessWidget {
       //         )
       //       ],
       //       ),
-      //       ListTile(
-      //       leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
-      //           Navigator.of(context).pushNamed('home');
-      //         },  
-      //         // leading:Icon(Icons.home),
-      //         child: const Text("add new",textAlign: TextAlign.left,),  
-
-      //       ),  
-      //         )
-      //       ),
+            
       //       ListTile(
       //         leading:Icon(Icons.home),
       //         title:Container(  
@@ -290,23 +274,7 @@ class ShowAllEmployeesScreen extends StatelessWidget {
       //       ),  
       //         )
       //       ),
-      //       ListTile(
-      //        leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
-      //           Navigator.of(context).pushNamed('showEmployees');
-      //         },  
-      //         // leading:Icon(Icons.home),
-      //         child: const Text("employees",textAlign: TextAlign.left,),  
-
-      //       ),  
-      //         )
-      //       ),
+          
       //       ListTile(
       //         leading:Icon(Icons.home),
       //         title:Container(  
@@ -316,35 +284,16 @@ class ShowAllEmployeesScreen extends StatelessWidget {
       //         textColor: Colors.black,  
       //         onPressed: () {  
       //           // Navigating to About Us page  
-      //           Navigator.of(context).pushNamed('showBranches');
+      //           Navigator.of(context).pushNamed('manager_mainScreen');
       //         },  
       //         // leading:Icon(Icons.home),
-      //         child: const Text("branches",textAlign: TextAlign.left,),  
-
-      //       ),  
-      //         )
-      //       ),
-      //       ListTile(
-      //         leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
-      //           Navigator.of(context).pushNamed('home');
-      //         },  
-      //         // leading:Icon(Icons.home),
-      //         child: const Text("go to home",textAlign: TextAlign.left,),  
+      //         child: const Text("main screen",textAlign: TextAlign.left,),  
 
       //       ),  
       //         )
       //       )
       //     ],),
       //    ),
-     
-     
       body: employees == null
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -359,7 +308,7 @@ class ShowAllEmployeesScreen extends StatelessWidget {
                   DataColumn(label: Text('Active')),
                   DataColumn(label: Text('Branch ID')),
                   DataColumn(label: Text('Leader ID')),
-                  DataColumn(label: Text('Actions')),
+                  // DataColumn(label: Text('Actions')),
                 ],
                 rows: employees!.map((employee) {
                   return DataRow(cells: [
@@ -373,36 +322,36 @@ class ShowAllEmployeesScreen extends StatelessWidget {
                     DataCell(Text(employee.branch_id.toString())),
                     DataCell(Text(
                         employee.leader_id != null ? employee.leader_id.toString() : '')),
-                    DataCell(
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return UpdateEmployeeScreen(
-                                  employee: employee,
-                                );
-                              }));
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              AppEmployeesService aes = AppEmployeesService();
-                              bool? result = await aes.DeleteEmployee(id: employee.id.toString());
-                              if (result == true) {
-                                print('Success');
-                                Navigator.pop(context);
-                              } else {
-                                print('Error');
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                    // DataCell(
+                    //   Row(
+                    //     children: [
+                    //       IconButton(
+                    //         icon: const Icon(Icons.edit),
+                    //         onPressed: () {
+                    //           Navigator.push(context,
+                    //               MaterialPageRoute(builder: (context) {
+                    //             return UpdateEmployeeScreen(
+                    //               employee: employee,
+                    //             );
+                    //           }));
+                    //         },
+                    //       ),
+                    //       IconButton(
+                    //         icon: const Icon(Icons.delete),
+                    //         onPressed: () async {
+                    //           AppEmployeesService aes = AppEmployeesService();
+                    //           bool? result = await aes.DeleteEmployee(id: employee.id.toString());
+                    //           if (result == true) {
+                    //             print('Success');
+                    //             Navigator.pop(context);
+                    //           } else {
+                    //             print('Error');
+                    //           }
+                    //         },
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ]);
                 }).toList(),
               ),

@@ -9,7 +9,6 @@ Dio dio({required Map<String, String> additionalHeaders}) {
   dio.options.baseUrl = "http://127.0.0.1:8000/api"; // Base URL for your API 
   dio.options.headers['Content-Type'] = 'application/json'; // Set Content-Type  
     dio.options.headers['Accept'] = 'application/json'; // Set Content-Type  
-
- 
+    
   return dio; // Return the Dio instance  
 }
