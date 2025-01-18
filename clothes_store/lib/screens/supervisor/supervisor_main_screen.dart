@@ -5,6 +5,7 @@ import 'package:clothes_store/screens/login_screen.dart';
 import 'package:clothes_store/screens/manager/manager_statistics_screen.dart';
 import 'package:clothes_store/screens/manager/show_all_managers_employees.dart';
 import 'package:clothes_store/screens/show_all_companies_screen.dart';
+import 'package:clothes_store/screens/supervisor/supervisor_statistic_screen.dart';
 import 'package:clothes_store/screens/user_profile_screen.dart';
 import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/company_services.dart';
@@ -14,13 +15,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:clothes_store/services/auth.dart'; // Import your Auth class
 
-class ManagerMainScreen extends StatelessWidget {
+class SupervisorMainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Manager')),
+      appBar: AppBar(title: Text('supervisior')),
 
      
      
@@ -73,7 +74,8 @@ class ManagerMainScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                
+
+
                             ListTile(
                               title:ElevatedButton(
                                           onPressed: () async {
@@ -94,44 +96,44 @@ class ManagerMainScreen extends StatelessWidget {
                                         ),
                             ),
 
-
-                    ListTile(
+                             ListTile(
                               title:ElevatedButton(
                                           onPressed: () async {
-                                            // Your new button functionality goes here
-                                            print('ManagerMainScreen');
-                                           
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return ManagerMainScreen();
-                                                  },
-                                                ),
-                                              );
+                                                                        AppEmployeesService acp = AppEmployeesService();
+                                              List<EmployeeModel?>? employees = await acp.GetMyEmployeesEnformation(auth.user.id);
+                                              print(employees);
+
+                                              if (employees != null) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) {
+                                                      return showEmployeesByManages(employees: employees);
+                                                    },
+                                                  ),
+                                                );
+                                              }
                                             // Example: Fetch another set of data or navigate to a different screen
                                           },
-                                          child: Text('main screen '),
+                                          child: Text('employees information'),
                                         ),
                             ),
-
-
 
                             ListTile(
                               title:ElevatedButton(
                                           onPressed: () async {
-                                            // Your new button functionality goes here
-                                            print('statistic');
+                                           // Your new button functionality goes here
+                                            print('Second button pressed');
                                             AppPointsService aas = AppPointsService();
                                                     AppEmployeesService aas3 = AppEmployeesService();
-                                                      Map<String, int>? employeeCount = await aas3.getSupervisorsAndCustomerServiceEmployees(auth.user.id);
+                                                      Map<String, int>? employeeCount = await aas3.getCustomerServiceEmployeesCount(auth.user.id);
 
                                             if (employeeCount != null) {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) {
-                                                    return ManagerStatisticScreen(employeeCount: employeeCount,);
+                                                    return SupervisiorStatisticScreen(employeeCount: employeeCount,);
                                                   },
                                                 ),
                                               );
@@ -142,33 +144,30 @@ class ManagerMainScreen extends StatelessWidget {
                                         ),
                             ),
 
+                          
                             ListTile(
                             title:ElevatedButton(
-                                          // onPressed: () async {
-                                            // Your new button functionality goes here
+                                          
                                             onPressed: () async {
-                                            AppEmployeesService acp = AppEmployeesService();
-                                            List<EmployeeModel?>? employees = await acp.GetMyEmployeesEnformation(auth.user.id);
-                                            print(employees);
-
+                                            
                                             // if (employees != null) {
                                               Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return showEmployeesByManages(employees: employees);
-                                                  },
-                                                ),
-                                              );
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) {
+                                                      return SupervisorMainScreen();
+                                                    }
+                                                  ),
+                                                );
+                                              
                                             // }
                                             },
                                             // Example: Fetch another set of data or navigate to a different screen
                                           // },
-                                          child: Text('employees information'),
+                                          child: Text('main screen'),
                                         ),
                             ),
 
-                           
                           
                           ListTile(
                               leading:const Icon(Icons.logout),
@@ -213,31 +212,29 @@ class ManagerMainScreen extends StatelessWidget {
                   );
                 }
               },
-              child: Text('Show Employees by Managers'),
+              child: Text('Show Employees by supervisior'),
             ),
 
             ElevatedButton(
               onPressed: () async {
                 // Your new button functionality goes here
-                print('Second button pressed');
                 AppPointsService aas = AppPointsService();
-                        // List<PointModel?>? points = await aas.GetAllPoint();
                         AppEmployeesService aas3 = AppEmployeesService();
-                          Map<String, int>? employeeCount = await aas3.getSupervisorsAndCustomerServiceEmployees(auth.user.id);
+                          Map<String, int>? employeeCount = await aas3.getCustomerServiceEmployeesCount(auth.user.id);
 
                 if (employeeCount != null) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return ManagerStatisticScreen(employeeCount: employeeCount,);
+                        return SupervisiorStatisticScreen(employeeCount: employeeCount,);
                       },
                     ),
                   );
                 }
                 // Example: Fetch another set of data or navigate to a different screen
               },
-              child: Text('Second Button'),
+              child: Text('statistic'),
             ),
           ],
         ),

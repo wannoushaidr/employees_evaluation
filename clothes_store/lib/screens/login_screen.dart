@@ -47,7 +47,9 @@ class _LoginScreenState extends State <LoginScreen> {
           Navigator.pushReplacementNamed(context, "admin_main_Screen");  
         } else if (role == 'manager') {  
           Navigator.pushReplacementNamed(context, "manager_mainScreen");  
-        } else {  
+        }else if (role == 'supervisior') {  
+          Navigator.pushReplacementNamed(context, "supervisor_mainScreen");
+         }else {  
           Navigator.pushReplacementNamed(context, "manager_mainScreen"); // Default or user screen  
         }  
       }  

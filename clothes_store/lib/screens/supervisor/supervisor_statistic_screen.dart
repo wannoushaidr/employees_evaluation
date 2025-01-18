@@ -12,8 +12,8 @@ import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 
-class ManagerStatisticScreen extends StatelessWidget {
-  const ManagerStatisticScreen({super.key  ,required this.employeeCount});
+class SupervisiorStatisticScreen extends StatelessWidget {
+  const SupervisiorStatisticScreen({super.key  ,required this.employeeCount});
   final Map<String, int> employeeCount;
 
 
@@ -21,7 +21,7 @@ class ManagerStatisticScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('managers statistic point'),
+        title: const Text('employees statistic point'),
       ),
 
 
@@ -39,7 +39,6 @@ class ManagerStatisticScreen extends StatelessWidget {
               Text('Employee Statistics:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               Text('Employee Count: ${employeeCount['employee_count']}'),
               Text('Customer Service Count: ${employeeCount['customer_service_count']}'),
-              Text('Supervisor Count: ${employeeCount['supervisor_count']}'),
             ],
           ),
         ),

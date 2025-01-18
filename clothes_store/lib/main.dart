@@ -12,6 +12,8 @@ import 'package:clothes_store/screens/show_all_branches_screen.dart';
 import 'package:clothes_store/screens/show_all_companies_screen.dart';
 import 'package:clothes_store/screens/show_all_points_screen.dart';
 import 'package:clothes_store/screens/statistics_screen.dart';
+import 'package:clothes_store/screens/supervisor/supervisor_main_screen.dart';
+import 'package:clothes_store/screens/supervisor/supervisor_statistic_screen.dart';
 import 'package:clothes_store/screens/update_accessory_screen.dart';
 import 'package:clothes_store/screens/update_branch_screen.dart';
 import 'package:clothes_store/screens/update_company_screen.dart';
@@ -38,7 +40,9 @@ import 'package:clothes_store/screens/MainScreen.dart';
 import '../services/accessory_services.dart';
 
 void main() {
+  
   runApp(
+    
     // for authunticated  
     MultiProvider(
       providers: [
@@ -54,9 +58,10 @@ class ClothesStore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ManagerMainScreen(),
+      home: SupervisorMainScreen(),
       routes: {
         // ************************************* admin route *****************************
         "home":(context) => HomeScreen(),
@@ -80,20 +85,25 @@ class ClothesStore extends StatelessWidget {
         "updateAccessories":(context) => UpdateAccessoryScreen(accessory: null,),
         //  "statistics_screen":(context) => const statistics_screen(branchesCount: 0, points: [],employeeCount :[]),
           "statistics_screen": (context) => const statistics_screen(
-            branchesCount: 0, 
-            points: [], 
-            // employeesCount: [],
-            employeeCount: {
-              'employee_count': 0,
-              'customer_service_count': 0,
-              'manager_count': 0,
-              'supervisor_count': 0,
-            },
-          ),
+                                                                        branchesCount: 0, 
+                                                                        points: [], 
+                                                                        // employeesCount: [],
+                                                                        employeeCount: {
+                                                                          'employee_count': 0,
+                                                                          'customer_service_count': 0,
+                                                                          'manager_count': 0,
+                                                                          'supervisor_count': 0,
+                                                                        },
+                                                                      ),
 
           // ******************************************   managers route *********************************
           "manager_mainScreen": (context) => ManagerMainScreen(), // Add your screen here  managers_statistics
-          "managers_statistics": (context) => ManagerStatisticScreen(points: [], employeeCount: {},), // Add your screen here  managers_statistics
+          "managers_statistics": (context) => ManagerStatisticScreen( employeeCount: {},), // Add your screen here  managers_statistics
+
+          // ******************************************   supervisor route *********************************
+          "supervisor_mainScreen": (context) => SupervisorMainScreen(), // Add your screen here  supervisor
+          "supervisors_statistics": (context) => SupervisiorStatisticScreen( employeeCount: {},), // Add your screen here  supervisor_statistics
+
 
 
 }

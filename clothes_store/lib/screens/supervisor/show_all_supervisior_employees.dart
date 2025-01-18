@@ -17,8 +17,8 @@ import 'package:flutter/material.dart';
 // *******************************************   this is updataed code for above code ****************
 import 'package:flutter/material.dart';
 
-class showEmployeesByManages extends StatelessWidget {
-  const showEmployeesByManages( {super.key, required this.employees});
+class showEmployeesBySupervisior extends StatelessWidget {
+  const showEmployeesBySupervisior( {super.key, required this.employees});
   final List<EmployeeModel?>? employees;
   
 

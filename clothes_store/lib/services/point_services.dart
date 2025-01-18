@@ -170,15 +170,6 @@ Future<List<PointModel>?> GetEmployeePoint(int id) async {
   }  
 }
 
-
-
-
-
-
-
-
-
-
     getBranchesCount() {}
 
 

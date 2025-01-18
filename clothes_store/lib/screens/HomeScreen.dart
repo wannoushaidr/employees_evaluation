@@ -8,6 +8,7 @@ import 'package:clothes_store/screens/login_screen.dart';
 import 'package:clothes_store/screens/show_all_employees.dart';
 import 'package:clothes_store/screens/show_all_points_screen.dart';
 import 'package:clothes_store/screens/statistics_screen.dart';
+import 'package:clothes_store/screens/user_profile_screen.dart';
 import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/company_services.dart';
 import 'package:clothes_store/services/employee_services.dart';
@@ -82,112 +83,185 @@ class HomeScreen extends StatelessWidget {
                 ),
 
 
+                            ListTile(
+                              title:ElevatedButton(
+                                          onPressed: () async {
+                                            // Your new button functionality goes here
+                                           
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return UserProfile();
+                                                  },
+                                                ),
+                                              );
+                                            // Example: Fetch another set of data or navigate to a different screen
+                                          },
+                                          child: Text('add new'),
+                                        ),
+                            ),
+
+
+
+                            ListTile(
+                              title:ElevatedButton(
+                                          onPressed: () async {
+                                            // Your new button functionality goes here
+                                            print('profile');
+                                           
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return UserProfile();
+                                                  },
+                                                ),
+                                              );
+                                            // Example: Fetch another set of data or navigate to a different screen
+                                          },
+                                          child: Text('profile'),
+                                        ),
+                            ),
+
+                            ListTile(
+                              title:ElevatedButton(
+                                          onPressed: () async {
+                                            // Your new button functionality goes here
+                                            print('statistic');
+                                           
+                                              AppPointsService aas = AppPointsService();
+                                              List<PointModel?>? points = await aas.GetAllPoint();
+                                              AppBranchesService ass2= AppBranchesService();
+                                              int? branchesCount = await ass2.getBranchesCount() ?? 0;
+                                              AppEmployeesService aas3 = AppEmployeesService();
+                                                Map<String, int>? employeeCount = await aas3.getEmployeesCount();
+                                                print(branchesCount);
+                                                print(employeeCount);
+                                              
+                                              if (points != null && employeeCount != null) {
+                                                List<int> pointsCount = points.map((points) => points!.points_count).toList();
+                                                print(pointsCount);
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) {
+                                                    return statistics_screen(
+                                                      points: pointsCount,
+                                                      branchesCount: branchesCount,
+                                                      employeeCount :  employeeCount ,
+                                                    );
+                                                  }),
+                                                );
+                                              } else {
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                                                );
+                                              }
+                                            // Example: Fetch another set of data or navigate to a different screen
+                                          },
+                                          child: Text('statistic'),
+                                        ),
+                            ),
+
                             
-                            ListTile(
-                            leading:Icon(Icons.home),
-                              title:Container(  
-                            margin: EdgeInsets.symmetric(horizontal: 20),  
-                            child: MaterialButton(  
-                              // color: Colors.red,  
-                              textColor: Colors.black,  
-                              onPressed: () {  
-                                // Navigating to About Us page  
-                                Navigator.of(context).pushNamed('home');
-                              },  
-                              // leading:Icon(Icons.home),
-                              child: const Text("add new",textAlign: TextAlign.left,),  
-
-                            ),  
-                              )
-                            ),
-
-                            ListTile(
-                            leading:Icon(Icons.home),
-                              title:Container(  
-                            margin: EdgeInsets.symmetric(horizontal: 20),  
-                            child: MaterialButton(  
-                              // color: Colors.red,  
-                              textColor: Colors.black,  
-                              onPressed: () {  
-                                // Navigating to About Us page  
-                                Navigator.of(context).pushNamed('userProfile');
-                              },  
-                              // leading:Icon(Icons.home),
-                              child: const Text("userProfile",textAlign: TextAlign.left,),  
-
-                            ),  
-                              )
-                            ),
 
 
                             ListTile(
-                              leading:Icon(Icons.home),
-                              title:Container(  
-                            margin: EdgeInsets.symmetric(horizontal: 20),  
-                            child: MaterialButton(  
-                              // color: Colors.red,  
-                              textColor: Colors.black,  
-                              onPressed: () {  
-                                // Navigating to About Us page  
-                                Navigator.of(context).pushNamed('statistics_screen');
-                              },  
-                              // leading:Icon(Icons.home),
-                              child: const Text("statistics",textAlign: TextAlign.left,),  
+                              title:ElevatedButton(
+                                          onPressed: () async {
+                                            // Your new button functionality goes here
+                                            AppEmployeesService aas = AppEmployeesService();
+                                              List<EmployeeModel?>? employees = await aas.GetAllEmployees();
+                                              
+                                              if (employees != null) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) {
+                                                    return ShowAllEmployeesScreen(
+                                                      employees: employees,
+                                                    );
+                                                  }),
+                                                );
+                                              } else {
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                                                );
+                                              }
+                       
+                                          },
+                                          child: Text('employees'),
+                                        ),
+                                     ),
 
-                            ),  
-                              )
-                            ),
+
+                            
+                            
+
                             ListTile(
-                            leading:Icon(Icons.home),
-                              title:Container(  
-                            margin: EdgeInsets.symmetric(horizontal: 20),  
-                            child: MaterialButton(  
-                              // color: Colors.red,  
-                              textColor: Colors.black,  
-                              onPressed: () {  
-                                // Navigating to About Us page  
-                                Navigator.of(context).pushNamed('showEmployees');
-                              },  
-                              // leading:Icon(Icons.home),
-                              child: const Text("employees",textAlign: TextAlign.left,),  
+                              title:ElevatedButton(
+                                          onPressed: () async {
+                                            // Your new button functionality goes here
+                                            AppEmployeesService aas = AppEmployeesService();
+                                              List<EmployeeModel?>? employees = await aas.GetAllEmployees();
+                                              
+                                              if (employees != null) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) {
+                                                    return ShowAllEmployeesScreen(
+                                                      employees: employees,
+                                                    );
+                                                  }),
+                                                );
+                                              } else {
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                                                );
+                                              }
+                       
+                                          },
+                                          child: Text('bracnhes'),
+                                        ),
+                             ),
 
-                            ),  
-                              )
-                            ),
-                            ListTile(
-                              leading:Icon(Icons.home),
-                              title:Container(  
-                            margin: EdgeInsets.symmetric(horizontal: 20),  
-                            child: MaterialButton(  
-                              // color: Colors.red,  
-                              textColor: Colors.black,  
-                              onPressed: () {  
-                                // Navigating to About Us page  
-                                Navigator.of(context).pushNamed('showBranches');
-                              },  
-                              // leading:Icon(Icons.home),
-                              child: const Text("branches",textAlign: TextAlign.left,),  
 
-                            ),  
-                              )
-                            ),
-                            ListTile(
-                              leading:Icon(Icons.home),
-                              title:Container(  
-                            margin: EdgeInsets.symmetric(horizontal: 20),  
-                            child: MaterialButton(  
-                              // color: Colors.red,  
-                              textColor: Colors.black,  
-                              onPressed: () {  
-                                // Navigating to About Us page  
-                                Navigator.of(context).pushNamed('home');
-                              },  
-                              // leading:Icon(Icons.home),
-                              child: const Text("go to home",textAlign: TextAlign.left,),  
+                             ListTile(
+                              title:ElevatedButton(
+                                          onPressed: () async {
+                                                              AppPointsService aas = AppPointsService();
+                                          List<PointModel?>? points = await aas.GetAllPoint();
+                                          
+                                          if (points != null) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) {
+                                                return ShowAllPointsScreen(
+                                                  points: points,
+                                                );
+                                              }),
+                                            );
+                                          } else {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                                            );
+                                          }
+                       
+                                          },
+                                          child: Text('points'),
+                                        ),
+                             ),
 
-                            ),  
-                              )
-                            ),
+                             ListTile(
+                              title:ElevatedButton(
+                                          onPressed: () async {
+                                            // Navigating to About Us page  
+                                             Navigator.of(context).pushNamed('home');
+                                  
+                                          },
+                                          child: Text('home'),
+                                        ),
+                             ),
+
                           
                           ListTile(
                               leading:const Icon(Icons.logout),
@@ -264,29 +338,7 @@ class HomeScreen extends StatelessWidget {
                         }),
                       );
                       break;
-                    // case 'Add New Accessory':
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(builder: (context) {
-                    //       return AddAccessoryScreen(branch_id: ,);
-                    //     }),
-                    //   );
-                    //   break;
-
-
-                    // case 'Show All Employees':
-                    //   AppEmployeesService aas = new AppEmployeesService();
-                    //   List<EmployeeModel?>? employees =
-                    //       await aas.GetAllEmployees();
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(builder: (context) {
-                    //       return ShowAllEmployeesScreen(
-                    //         employees: employees,
-                    //       );
-                    //     }),
-                    //   );
-                    //   break;
+                    
 
 
                         case 'Show All Employees':

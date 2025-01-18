@@ -219,3 +219,6 @@ Route::get('employees/get_my_information', [EmployeesController::class, 'get_my_
 
 // ********************** manager role
 Route::get('employees/getSupervisorsAndCustomerServiceEmployees/{id}', [EmployeesController::class, 'getSupervisorsAndCustomerServiceEmployees']);
+
+// ********************** supervisior role
+Route::get('employees/getCustomerServiceEmployeesCount/{id}', [EmployeesController::class, 'getCustomerServiceEmployeesCount']);
