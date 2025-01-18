@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart' as Dio;
 
 class Auth extends ChangeNotifier{  
-  bool _isLoggedIn=false;
+  bool _isLoggedIn=true;
   late String _token;
   late var _user = User( name: "haidar wannous", 
   email: "wannous.email@example.com",  role: "admin",id:8);
