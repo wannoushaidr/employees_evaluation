@@ -4,6 +4,7 @@ import 'package:clothes_store/screens/MainScreen.dart';
 
 import 'package:clothes_store/screens/add_company_screen.dart';
 import 'package:clothes_store/screens/add_employee_screen.dart';
+import 'package:clothes_store/screens/login_screen.dart';
 import 'package:clothes_store/screens/manager/manager_main_screen.dart';
 import 'package:clothes_store/screens/manager/manager_statistics_screen.dart';
 import 'package:clothes_store/screens/manager/show_all_managers_employees.dart';
@@ -61,7 +62,7 @@ class ClothesStore extends StatelessWidget {
     
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SupervisorMainScreen(),
+      home: LoginScreen(),
       routes: {
         // ************************************* admin route *****************************
         "home":(context) => HomeScreen(),

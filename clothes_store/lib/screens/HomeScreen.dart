@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
       drawer: Drawer(   
                           child:Consumer<Auth>(builder:(context,auth,child){
                             // if (!  auth!.authenticated){
-                            if (!  auth.authenticated){
+                            if (  !auth.authenticated){
                               return ListView( 
                                 children: [
                                   ListTile(
@@ -274,6 +274,7 @@ class HomeScreen extends StatelessWidget {
                               onTap: (){
                                 Provider.of<Auth>(context,listen: false)
                                   ..logout();
+                                  Navigator.pushReplacementNamed(context, 'mainscreen');
                               },
                             ),
                             
