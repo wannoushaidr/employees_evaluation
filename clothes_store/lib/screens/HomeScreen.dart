@@ -5,6 +5,7 @@ import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/add_company_screen.dart';
 import 'package:clothes_store/screens/add_employee_screen.dart';
 import 'package:clothes_store/screens/login_screen.dart';
+import 'package:clothes_store/screens/show_all_branches_screen.dart';
 import 'package:clothes_store/screens/show_all_employees.dart';
 import 'package:clothes_store/screens/show_all_points_screen.dart';
 import 'package:clothes_store/screens/statistics_screen.dart';
@@ -28,6 +29,7 @@ import 'update_company_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
+  
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -201,15 +203,18 @@ class HomeScreen extends StatelessWidget {
                               title:ElevatedButton(
                                           onPressed: () async {
                                             // Your new button functionality goes here
-                                            AppEmployeesService aas = AppEmployeesService();
-                                              List<EmployeeModel?>? employees = await aas.GetAllEmployees();
+                                            AppBranchesService aas = AppBranchesService();
+                                            print("ssssssssssssss");
+                                              List<BranchModel?>? branches = await aas.GetAllBranches();
+                                              print("ssssss32222222222");
+                                              print(branches);
                                               
-                                              if (employees != null) {
+                                              if (branches != null) {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(builder: (context) {
-                                                    return ShowAllEmployeesScreen(
-                                                      employees: employees,
+                                                    return ShowAllBranchesScreen(
+                                                      branches: branches,
                                                     );
                                                   }),
                                                 );

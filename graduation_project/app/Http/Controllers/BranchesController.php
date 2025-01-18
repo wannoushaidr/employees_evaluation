@@ -208,11 +208,18 @@ class BranchesController extends Controller
 
 
 //    ///////////////////////////////////  function for API /////////////////////////////////////////////
-    public function get_all_branches(){
-        $data=Branches::select('*')->orderby("id","ASC")->paginate(10);
+    // public function get_all_branches(){
+    //     $data=Branches::select('*')->orderby("id","ASC")->paginate();
+    //     return response()->json($data);
+    //     // return view('branch.index',['data'=>$data]);
+    // }
+
+
+    public function get_all_branches() {
+        $data = Branches::select('*')->orderby("id", "ASC")->get();
         return response()->json($data);
-        // return view('branch.index',['data'=>$data]);
     }
+    
 
 
     // public function set_new_branches(Request $request){

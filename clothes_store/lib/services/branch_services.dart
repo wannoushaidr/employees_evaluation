@@ -8,15 +8,18 @@ class AppBranchesService {
     try {
       String url = "http://127.0.0.1:8000/api/admin/branches/get_all_branches";
       http.Response response = await http.get(Uri.parse(url));
-      List<String> lines = response.body.split('\n');
+
+      List<String> lines = response.body.split('\n'); 
       String responseBody = lines.skip(2).join('\n');
-      Map<String, dynamic> data = jsonDecode(responseBody);
-      List<dynamic> jsonData = data['data'];
-      List<BranchModel> branches = [];
-      for (var data in jsonData) {
-        BranchModel branch = BranchModel.fromJson(data);
-        branches.add(branch);
-      }
+      print("responseBody");
+      print(responseBody);
+
+      // Decode the response as a List<dynamic> 
+      List<dynamic> jsonData = jsonDecode(responseBody); 
+      print("jsonData"); 
+      print(jsonData);
+      List<BranchModel> branches = jsonData.map((branch) => BranchModel.fromJson(branch)).toList();
+      
 
       return branches;
     } catch (e) {
