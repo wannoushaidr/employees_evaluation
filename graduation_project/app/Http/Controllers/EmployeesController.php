@@ -536,40 +536,69 @@ public function set_new_employees(Request $request){
             $employee->user_id = $user->id; // Assign the new user ID to the employee  
             $employee->save(); // Save the employee record with the new user ID  
 
-
-
             return response()->json(["code" => 200, "message" => "Employee and user created successfully"]);  
-
     }
 
     return response()->json($response);
 }
 
 
-public function delete_employees(Request $request)
-{
-   $data = Employees::select("*")->find($request->id);  
+// public function delete_employees(Request $request)
+// {
+//    $data = Employees::select("*")->find($request->id);  
 
-   if(!empty($data)){
-       Employees::where(['id'=>$request->id])->delete();
-       return response()->json([  
-           'code' => 200,  
-           'message' => 'Element deleted companies'  
-       ], 200);
+//    if(!empty($data)){
+//        Employees::where(['id'=>$request->id])->delete();
+//        return response()->json([  
+//            'code' => 200,  
+//            'message' => 'Element deleted companies'  
+//        ], 200);
 
-   }
-   else{  
+//    }
+//    else{  
        
-       return response()->json([  
-           'code' => 404,  
-           'message' => 'Element not found companies'  
-       ], 404);  
+//        return response()->json([  
+//            'code' => 404,  
+//            'message' => 'Element not found companies'  
+//        ], 404);  
    
 
-   }
+//    }
 
+// }
+
+public function delete_employees(Request $request)  
+{  
+    // Find the employee record based on the provided ID  
+    $employee = Employees::select("*")->find($request->id);  
+
+    // Check if the employee record exists  
+    if (!empty($employee)) {  
+        // Get the user_id of the employee to delete the corresponding user record  
+        $userId = $employee->user_id;  
+
+        // Delete the employee record  
+        Employees::where(['id' => $request->id])->delete();  
+
+        // Check if the user_id is not null before attempting to delete the user  
+        if ($userId) {  
+            // Delete the corresponding user record  
+            User::where(['id' => $userId])->delete();  
+        }  
+
+        // Return a success response  
+        return response()->json([  
+            'code' => 200,  
+            'message' => 'Employee and associated user deleted successfully'  
+        ], 200);  
+    } else {  
+        // Return a response indicating that the employee was not found  
+        return response()->json([  
+            'code' => 404,  
+            'message' => 'Employee not found'  
+        ], 404);  
+    }  
 }
-
 
 
 
