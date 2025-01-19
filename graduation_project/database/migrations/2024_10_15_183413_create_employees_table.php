@@ -23,7 +23,12 @@ class CreateEmployeesTable extends Migration
             $table->enum('active',['true', 'false'])->notNull();
             $table->foreignId('leader_id')->nullable()->onDelete('no action'); // Matches data type
             $table->string('image',300)->notNull();
+            $table->string('email')->unique()->notNull();
             $table->foreignId('branch_id')->notNull()->constrained('branches')->onDelete('no action'); // Self-referential foreign key
+            $table->unsignedBigInteger('user_id')->nullable()->unique(); // Foreign key to user ID (optional)  
+
+
+            
             $table->timestamps();
         });
     }

@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 use App\Models\Employees;
 use App\Models\Branches;
 use App\Models\Companies;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+
+
+// use Illuminate\Support\Facades\Validator;
 
 
 
@@ -270,82 +274,193 @@ public function get_all_employees(){
 
 
 
-public function update_employees(Request $request) {
-    // Define custom error messages
-    $messages = [
-        'id.required' => 'The ID is required.',
-        'id.exists' => 'The employee does not exist.',
-        'name.required' => 'Please enter a name.',
-        'number.required' => 'Please enter a number.',
-        'description.required' => 'Please enter a description.',
-        'gender.required' => 'Please select a gender.',
-        'active.required' => 'Please select a active.',
-        'position.required' => 'Please enter a position.',
-        'branch_id.required' => 'Please select a branch.',
-        'branch_id.exists' => 'The selected branch does not exist.',
-        'image.image' => 'Please upload a valid image file.',
-    ];
+// public function update_employees(Request $request) {
+//     // Define custom error messages
+//     $messages = [
+//         'id.required' => 'The ID is required.',
+//         'id.exists' => 'The employee does not exist.',
+//         'name.required' => 'Please enter a name.',
+//         'number.required' => 'Please enter a number.',
+//         'description.required' => 'Please enter a description.',
+//         'gender.required' => 'Please select a gender.',
+//         'active.required' => 'Please select a active.',
+//         'position.required' => 'Please enter a position.',
+//         'branch_id.required' => 'Please select a branch.',
+//         'branch_id.exists' => 'The selected branch does not exist.',
+//         'image.image' => 'Please upload a valid image file.',
+//         'email.email' => 'Please enter a valid email address.',  
+//         'email.unique' => 'This email is already in use.', 
+//     ];
 
-    // Validate the request data with custom messages
-    $validator = Validator::make($request->all(), [
-        'id' => 'required|exists:employees,id',
-        'name' => 'required|string|max:255',
-        'number' => 'required|numeric',
-        'description' => 'required|string',
-        'gender' => 'required|string|max:10',
-        'active' => 'required|string|max:10',
-        'position' => 'required|string|max:255',
-        'branch_id' => 'required|integer|exists:branches,id',
-        // 'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
-    ], $messages);
+//     // Validate the request data with custom messages
+//     $validator = Validator::make($request->all(), [
+//         'id' => 'required|exists:employees,id',
+//         'name' => 'required|string|max:255',
+//         'number' => 'required|numeric',
+//         'description' => 'required|string',
+//         'gender' => 'required|string|max:10',
+//         'active' => 'required|string|max:10',
+//         'position' => 'required|string|max:255',
+//         'branch_id' => 'required|integer|exists:branches,id',
+//         'user_id' => 'nullable|integer',
+//         'email' => 'required|email|unique:users,email',  
 
-    if ($validator->fails()) {
-        // Return the validation error messages
-        return response()->json([
-            'code' => 422,
-            'message' => 'Validation error',
-            'errors' => $validator->errors()
-        ], 422);
-    }
+//         // 'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
+//     ], $messages);
 
-    // Find the existing employee by ID
-    $data = Employees::find($request->id);
+//     if ($validator->fails()) {
+//         // Return the validation error messages
+//         return response()->json([
+//             'code' => 422,
+//             'message' => 'Validation error',
+//             'errors' => $validator->errors()
+//         ], 422);
+//     }
 
-    if (!empty($data)) {
-        // If the employee exists, prepare to update
-        $datatoupdate = $request->only(['name', 'number', 'description','active', 'gender', 'position', 'branch_id']);
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $fileName = time() . '_image.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads'), $fileName);
-            $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path
-        }
+//     // Find the existing employee by ID
+//     $data = Employees::find($request->id);
 
-        // Check if leader_id is provided and is not the string 'null'
-        $leaderId = $request->leader_id;
-        $datatoupdate['leader_id'] = ($leaderId !== 'null' && $leaderId !== null) ? $leaderId : null;
+//     if (!empty($data)) {
+//         // If the employee exists, prepare to update
+//         $datatoupdate = $request->only(['name', 'number', 'description','active', 'gender', 'position', 'branch_id']);
+//         if ($request->hasFile('image')) {
+//             $image = $request->file('image');
+//             $fileName = time() . '_image.' . $image->getClientOriginalExtension();
+//             $image->move(public_path('uploads'), $fileName);
+//             $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path
+//         }
 
-        // Perform the update
-        $updated = $data->update($datatoupdate); // Using Eloquent's update method directly on the model instance
-        if ($updated) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'Employee updated successfully'
-            ]);
-        } else {
-            return response()->json([
-                'code' => 500,
-                'message' => 'Failed to update employee'
-            ], 500);
-        }
-    } else {
-        // If the employee does not exist
-        return response()->json([
-            'code' => 404,
-            'message' => 'Employee not found'
-        ], 404);
-    }
+//         // Check if leader_id is provided and is not the string 'null'
+//         $leaderId = $request->leader_id;
+//         $datatoupdate['leader_id'] = ($leaderId !== 'null' && $leaderId !== null) ? $leaderId : null;
+
+//         // Perform the update
+//         $updated = $data->update($datatoupdate); // Using Eloquent's update method directly on the model instance
+//         if ($updated) {
+//             return response()->json([
+//                 'code' => 200,
+//                 'message' => 'Employee updated successfully'
+//             ]);
+//         } else {
+//             return response()->json([
+//                 'code' => 500,
+//                 'message' => 'Failed to update employee'
+//             ], 500);
+//         }
+//     } else {
+//         // If the employee does not exist
+//         return response()->json([
+//             'code' => 404,
+//             'message' => 'Employee not found'
+//         ], 404);
+//     }
+// }
+
+
+public function update_employees(Request $request) {  
+    // Define custom error messages  
+    $messages = [  
+        'id.required' => 'The ID is required.',  
+        'id.exists' => 'The employee does not exist.',  
+        'name.required' => 'Please enter a name.',  
+        'number.required' => 'Please enter a number.',  
+        'description.required' => 'Please enter a description.',  
+        'gender.required' => 'Please select a gender.',  
+        'active.required' => 'Please select an active status.',  
+        'position.required' => 'Please enter a position.',  
+        'branch_id.required' => 'Please select a branch.',  
+        'branch_id.exists' => 'The selected branch does not exist.',  
+        'image.image' => 'Please upload a valid image file.',  
+        'email.email' => 'Please enter a valid email address.',  
+        'email.unique' => 'This email is already in use.',   
+    ];  
+
+    // Validate the request data with custom messages  
+    $validator = Validator::make($request->all(), [  
+        'id' => 'required|exists:employees,id',  
+        'name' => 'required|string|max:255',  
+        'number' => 'required|numeric',  
+        'description' => 'required|string',  
+        'gender' => 'required|string|max:10',  
+        'active' => 'required|string|max:10',  
+        'position' => 'required|string|max:255',  
+        'branch_id' => 'required|integer|exists:branches,id',  
+        'user_id' => 'nullable|integer|exists:users,id', // Ensure user_id exists in users table  
+        'email' => 'required|email' ,  // Allow existing email for the user being updated  
+    ], $messages);  
+
+    if ($validator->fails()) {  
+        // Return the validation error messages  
+        return response()->json([  
+            'code' => 422,  
+            'message' => 'Validation error',  
+            'errors' => $validator->errors()  
+        ], 422);  
+    }  
+
+    // Find the existing employee by ID  
+    $data = Employees::find($request->id);  
+
+    if (!empty($data)) {  
+        // If the employee exists, prepare to update  
+        $datatoupdate = $request->only(['name', 'number', 'description', 'active', 'gender', 'position', 'branch_id','email']);  
+
+        // Check if an image is uploaded  
+        if ($request->hasFile('image')) {  
+            $image = $request->file('image');  
+            $fileName = time() . '_image.' . $image->getClientOriginalExtension();  
+            $image->move(public_path('uploads'), $fileName);  
+            $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path  
+        }  
+
+        // Check if leader_id is provided and is not the string 'null'  
+        $leaderId = $request->leader_id;  
+        $datatoupdate['leader_id'] = ($leaderId !== 'null' && $leaderId !== null) ? $leaderId : null;  
+
+        // Perform the update on the employee  
+        $updated = $data->update($datatoupdate); // Using Eloquent's update method directly on the model instance  
+
+        // Update the associated user's email if user_id is provided  
+        if ($request->user_id) {  
+            $user = User::find($request->user_id);  
+            if ($user) {  
+                $user->email = $request->email;  // Update the user's email  
+                $user->save();  // Save the user record  
+            }  
+        }  
+
+        if ($updated) {  
+            return response()->json([  
+                'code' => 200,  
+                'message' => 'Employee updated successfully'  
+            ]);  
+        } else {  
+            return response()->json([  
+                'code' => 500,  
+                'message' => 'Failed to update employee'  
+            ], 500);  
+        }  
+    } else {  
+        // If the employee does not exist  
+        return response()->json([  
+            'code' => 404,  
+            'message' => 'Employee not found'  
+        ], 404);  
+    }  
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -361,7 +476,12 @@ public function set_new_employees(Request $request){
         'branch_id.required' => 'Please select a branch.',
         'branch_id.exists' => 'The selected branch does not exist.',
         'image.image' => 'Please upload a valid image file.',
-        'leader_id.exists' => 'The selected leader does not exist.',
+        // 'leader_id.exists' => 'The selected leader does not exist.',
+        'email.required' => 'Please enter an email address.',  
+        'email.email' => 'Please enter a valid email address.',  
+        'email.unique' => 'This email is already in use.',  
+        // 'password.required' => 'Please enter a password.',  
+        // 'password.min' => 'The password must be at least 8 characters.',  
     ];
 
     // Validate the request data with custom messages
@@ -374,7 +494,10 @@ public function set_new_employees(Request $request){
         'position' => 'required|string|max:255',
         'branch_id' => 'required|integer|exists:branches,id',
         'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'leader_id' => 'nullable|integer|exists:employees,id', // Adding validation for leader_id
+        'leader_id' => 'nullable|integer|exists:employees,id','unique:employees', // Adding validation for leader_id
+        'email' => 'required|email|unique:users',  
+        'user_id' => 'nullable|integer',
+        // 'password' => 'required|string|min:8',
     ], $messages);
 
     if ($validator->fails()) {
@@ -387,7 +510,7 @@ public function set_new_employees(Request $request){
     }
 
     // Prepare the data for insertion
-    $datatoinsert = $request->only(['name', 'number', 'description','active', 'gender', 'position', 'branch_id', 'leader_id']);
+    $datatoinsert = $request->only(['name', 'number', 'description','active', 'gender', 'position', 'branch_id', 'leader_id','user_id','email']);
     if ($request->hasFile('image')) {
         $image = $request->file('image');
         $fileName = time() . '_image.' . $image->getClientOriginalExtension();
@@ -400,13 +523,23 @@ public function set_new_employees(Request $request){
         $response = ["code" => 403, "message" => "Employee already exists"];
     } else {
         $datatoinsert['created_at'] = now();
-        $flags = Employees::create($datatoinsert); // Assuming Employees model is fillable
+        $employee = Employees::create($datatoinsert); // Assuming Employees model is fillable
 
-        if ($flags) {
-            $response = ["code" => 200, "message" => "Employee created successfully"];
-        } else {
-            $response = ["code" => 500, "message" => "Failed to create employee"];
-        }
+        $user = User::create([
+            'name' => $request->name,  
+            'email'=>$request->email,
+            'password' => Hash::make('12345678'), // Hash the password  
+            'role' => $request->position, // Default role, adjust as needed 
+
+        ]);
+        // Associate the created user with the new employee  
+            $employee->user_id = $user->id; // Assign the new user ID to the employee  
+            $employee->save(); // Save the employee record with the new user ID  
+
+
+
+            return response()->json(["code" => 200, "message" => "Employee and user created successfully"]);  
+
     }
 
     return response()->json($response);

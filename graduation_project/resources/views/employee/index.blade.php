@@ -37,6 +37,7 @@ index
         <th scope="col">position </th>
         <th scope="col">leader_id</th>
         <th scope="col">branch_name</th>
+        <th scope="col">email</th>
         <th scope="col">active</th>
         <th scope="col">image</th>
         <th scope="col">edit</th>
@@ -62,6 +63,7 @@ index
         <td>{{$info->leader_id}}</td>
         <td>{{$info->branch_id}}</td>
         <td>{{$info->active}}</td>
+        <td>{{$info->email}}</td>
         <td>{{$info->image}}</td>
 
 

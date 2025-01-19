@@ -173,7 +173,7 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
     // for employee API 
     Route::get('admin/employees/get_all_employees', [EmployeesController::class, 'get_all_employees']);
     Route::post('admin/employees/set_new_employees', [EmployeesController::class, 'set_new_employees']);
-    Route::post('admin/employees/update_employees', [EmployeesController::class, 'update_employees']);
+    Route::put('admin/employees/update_employees', [EmployeesController::class, 'update_employees']);
     Route::delete('admin/employees/delete_employees', [EmployeesController::class, 'delete_employees']);
     
 

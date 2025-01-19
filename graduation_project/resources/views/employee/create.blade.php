@@ -50,6 +50,14 @@
     </select>
     </div>
 
+    <div class="form-group">
+      <label for="email"> email </label>
+      <input type="text" class="form-control" id="email"  name="email" value="{{ old('email') }}">
+    @error('email')
+    <span class="text-danger"> {{ $message }}</span>
+    @enderror
+    </div>
+
     
     <div>
       <label for="active">active </label>

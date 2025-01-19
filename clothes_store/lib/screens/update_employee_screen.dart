@@ -71,6 +71,22 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                     widget.employee.name = value;
                   },
                 ),
+
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'email'),
+                  // initialValue: widget.employee.email,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter email';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    widget.employee.email = value;
+                  },
+                ),
+
+
                 SizedBox(height: 20),
                 TextFormField(
                   decoration: InputDecoration(labelText: 'Number'),
@@ -186,6 +202,23 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                     widget.employee.branch_id = int.parse(value);
                   },
                 ),
+
+                SizedBox(height: 20),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'user ID'),
+                  initialValue: widget.employee.user_id.toString(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter user_id ';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    widget.employee.user_id = int.parse(value);
+                  },
+                ),
+
+
                 SizedBox(height: 20),
                 TextFormField(
                   decoration:
@@ -197,6 +230,7 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                     widget.employee.leader_id = int.parse(value);
                   },
                 ),
+                
                 SizedBox(height: 20),
                 TextFormField(
                   decoration: InputDecoration(labelText: 'image (optional)'),
@@ -225,10 +259,12 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                         description: widget.employee.description,
                         gender: widget.employee.gender,
                         position: widget.employee.position,
+                        email: widget.employee.email,
                         branch_id: widget.employee.branch_id.toString(),
                         leader_id: widget.employee.leader_id.toString(),
                         image: image,
-                        active: widget.employee.active,
+                        active: widget.employee.active, 
+                        user_id: widget.employee.user_id.toString(),
                       );
                       if (result == true) {
                         print('Employee Updated successfully');

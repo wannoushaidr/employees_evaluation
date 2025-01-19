@@ -29,6 +29,8 @@ class RegisterController extends Controller
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>bcrypt($request->password),
+            'role' => $request->role, // Make sure to include the role  
+
 
         ]);
         $token = $user->createToken('auth_token')->plainTextToken;

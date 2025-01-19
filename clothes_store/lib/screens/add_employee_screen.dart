@@ -45,6 +45,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   String active = '';
   String position = '';
   String branch_id = '';
+  String email = '';
   String? leader_id = '';
   Uint8List? image;
   String selectedFile = '';
@@ -74,6 +75,20 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                   },
                   onChanged: (value) {
                     name = value;
+                  },
+                  
+                ),
+
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'email'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter email';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    email = value;
                   },
                 ),
                 SizedBox(height: 20),
@@ -217,6 +232,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                       AppEmployeesService aes = AppEmployeesService();
                       bool? result = await aes.AddNewEmployee(
                         name: name,
+                        email:email,
                         number: number,
                         description: description,
                         gender: gender,
@@ -225,7 +241,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         leader_id: leader_id,
                         image: image!,
                         SelectedFile: selectedFile,
-                         active: active,
+                         active: active, user_id: '',
                       );
                       if (result == true) {
                           SnackbarShow.showSnackbar(context, " added succesfully");

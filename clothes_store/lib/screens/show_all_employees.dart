@@ -359,7 +359,11 @@ class ShowAllEmployeesScreen extends StatelessWidget {
                   DataColumn(label: Text('Active')),
                   DataColumn(label: Text('Branch ID')),
                   DataColumn(label: Text('Leader ID')),
+                  DataColumn(label: Text('email')),
+                  DataColumn(label: Text('user id')),
                   DataColumn(label: Text('Actions')),
+                  
+
                 ],
                 rows: employees!.map((employee) {
                   return DataRow(cells: [
@@ -371,8 +375,11 @@ class ShowAllEmployeesScreen extends StatelessWidget {
                     DataCell(Text(employee.position)),
                     DataCell(Text(employee.active)),
                     DataCell(Text(employee.branch_id.toString())),
-                    DataCell(Text(
-                        employee.leader_id != null ? employee.leader_id.toString() : '')),
+                    DataCell(Text(employee.leader_id != null ? employee.leader_id.toString() : '')),
+                    DataCell(Text(employee.email)),
+                    DataCell(Text(employee.user_id .toString())),
+
+
                     DataCell(
                       Row(
                         children: [
