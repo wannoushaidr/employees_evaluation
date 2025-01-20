@@ -63,43 +63,111 @@ class AppAccessoriesService {
     }
   }
 
-  Future<bool?> UpdateAccessory({
-    required String id,
-    required String type,
-    Uint8List? image,
-    String? SelectedFile,
-    required String branch_id,
-  }) async {
-    try {
-      String url =
-          "http://127.0.0.1:8000/api/admin/accesories/update_accesories";
 
-      var request = http.MultipartRequest('PUT', Uri.parse(url));
-      request.fields['type'] = type;
-      request.fields['branch_id'] = branch_id;
 
-      if (image != null && SelectedFile != null) {
-        request.files.add(http.MultipartFile.fromBytes(
-          'image', // The field name expected by the server
-          image,
-          filename: SelectedFile,
-        ));
-      }
-      //  print(image);
-      var response = await request.send();
-      // http.Response response = await http.post(Uri.parse(url),
-      //     body: {'type': type, 'image': image, 'branch_id': branch_id});
+  // Future<bool?> UpdateAccessory({
+  //   required String id,
+  //   required String type,
+  //     required Uint8List image,
+  //   // Uint8List? image,
+  //   String? SelectedFile,
+  //   required String branch_id,
+  // }) async {
+  //   try {
+  //     String url =
+  //         "http://127.0.0.1:8000/api/admin/accesories/update_accesories";
 
-      print(response.stream);
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  //     var request = http.MultipartRequest('PUT', Uri.parse(url));
+  //     request.fields['type'] = type;
+  //     request.fields['branch_id'] = branch_id;
+  //     request.files.add(http.MultipartFile.fromBytes(
+  //       'image', // The field name expected by the server
+  //       image,
+  //       filename: SelectedFile,
+  //     ));
+
+
+  //     // if (image != null && SelectedFile != null) {
+  //     //   request.files.add(http.MultipartFile.fromBytes(
+  //     //     'image', // The field name expected by the server
+  //     //     image,
+  //     //     filename: SelectedFile,
+  //     //   ));
+  //     // }
+  //     //  print(image);
+  //     var response = await request.send();
+  //     // http.Response response = await http.post(Uri.parse(url),
+  //     //     body: {'type': type, 'image': image, 'branch_id': branch_id});
+
+  //     print("ssssssssssss");
+  //     // print(response.stream);
+  //           print("ssssssssssss");
+
+  //     if (response.statusCode == 200) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+
+
+
+
+  Future<bool?> UpdateAccessory({  
+  required String id,  
+  required String type,  
+  required Uint8List image,  
+  String? SelectedFile,  
+  required String branch_id,  
+}) async {  
+  
+
+  try {  
+    String url = "http://127.0.0.1:8000/api/admin/accesories/update_accesories";  
+
+    var request = http.MultipartRequest('PUT', Uri.parse(url));  
+    request.fields['id'] = id;  
+    request.fields['type'] = type;  
+    request.fields['branch_id'] = branch_id;  
+    request.files.add(http.MultipartFile.fromBytes(  
+      'image', // The field name expected by the server  
+      image,  
+      filename: SelectedFile ?? 'image.jpg', // Provide default name if null  
+    ));  
+    print(id);
+    print(request);
+
+    var response = await request.send();  
+
+    // Read the response stream and convert to String  
+    final responseBytes = await response.stream.toBytes();  
+    final responseString = String.fromCharCodes(responseBytes);  
+
+    print("Response content: $responseString");  
+
+    if (response.statusCode == 200) {  
+      return true;  
+    } else {  
+      print("Error: ${response.statusCode}");  
+      return false;  
+    }  
+  } catch (e) {  
+    print("Exception: $e");  
+    return null;  
+  }  
+}
+
+
+
+
+
+
+
+
 
   Future<bool?> DeleteAccessory({
     required String id,

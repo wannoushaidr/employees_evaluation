@@ -357,7 +357,7 @@ public function get_all_employees(){
 // }
 
 
-public function update_employees(Request $request) {  
+public function update_employees(Request $request,$id) {  
     // Define custom error messages  
     $messages = [  
         'id.required' => 'The ID is required.',  
@@ -399,11 +399,15 @@ public function update_employees(Request $request) {
     }  
 
     // Find the existing employee by ID  
-    $data = Employees::find($request->id);  
+    // $data = Employees::find($request->id);  
+    $data = Companies::select("*")->find($id);  
 
     if (!empty($data)) {  
         // If the employee exists, prepare to update  
         $datatoupdate = $request->only(['name', 'number', 'description', 'active', 'gender', 'position', 'branch_id','email']);  
+
+
+
 
         // Check if an image is uploaded  
         if ($request->hasFile('image')) {  
@@ -412,6 +416,45 @@ public function update_employees(Request $request) {
             $image->move(public_path('uploads'), $fileName);  
             $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path  
         }  
+
+
+
+
+
+        // if ($request->hasFile('image')) {  
+        //         $image = $request->file('image');  
+        //         $fileName = time() . '_image.' . $image->getClientOriginalExtension();  
+            
+        //         // Specify the desired absolute directory path  
+        //         $desiredPath = 'C:/Users/LENOVO/AndroidStudioProjects'; // Change this to your desired path  
+            
+        //         // Full path to the directory  
+        //         $fullPath = $desiredPath; // Save directly to the specified path  
+            
+        //         // Create the directory if it doesn't exist  
+        //         if (!file_exists($fullPath)) {  
+        //             // Attempt to create the directory, set permissions, and allow recursive creation of directories  
+        //             if (!mkdir($fullPath, 0755, true) && !is_dir($fullPath)) {  
+        //                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $fullPath));  
+        //             }  
+        //         }  
+            
+        //         // Move the uploaded file to the specified path  
+        //         $image->move($fullPath, $fileName);  
+            
+        //         // Save the relative path in the database  
+        //         $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path if needed  
+        //     }
+
+
+
+
+
+
+
+
+
+
 
         // Check if leader_id is provided and is not the string 'null'  
         $leaderId = $request->leader_id;  
@@ -496,7 +539,7 @@ public function set_new_employees(Request $request){
         'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         'leader_id' => 'nullable|integer|exists:employees,id','unique:employees', // Adding validation for leader_id
         'email' => 'required|email|unique:users',  
-        'user_id' => 'nullable|integer',
+        'user_id' => 'integer',
         // 'password' => 'required|string|min:8',
     ], $messages);
 
@@ -654,6 +697,67 @@ public function get_my_information(Request $request)
 
 
 
+public function get_my_activativate_employee(Request $request, $id)  
+{  
+    // Check if an ID is provided  
+    if (!$id) {  
+        return response()->json(['error' => 'No ID provided'], 400);  
+    }  
+
+    // Initialize an array to hold the results  
+    $results = [];  
+
+    // Find the employee based on the provided ID  
+    $employee = Employees::find($id);  
+
+    if (!$employee) {  
+        return response()->json(['error' => 'No employee found with the provided ID'], 404);  
+    }  
+
+    // Check if the ID corresponds to a manager or a supervisor  
+    // If the employee is a manager, get their supervisors  
+    if ($employee->position === 'manager') {  
+        // Retrieve all supervisors under the manager  
+        $supervisors = Employees::where('leader_id', $employee->id)  
+                                 ->where('position', 'supervisor')  
+                                 ->get();  
+    } else {  
+        // If it's a supervisor, create a collection with this supervisor for employee retrieval   
+        $supervisors = collect([$employee]);  
+    }  
+
+    // For each supervisor, retrieve their respective employees  
+    foreach ($supervisors as $supervisor) {  
+        $employees = Employees::where('leader_id', $supervisor->id)->get();  
+        foreach ($employees as $employee) {  
+            // Check if the employee is active  
+            if ($employee->active=='true') {  
+                $results[] = [  
+                    'id' => $employee->id,  
+                    'name' => $employee->name,  
+                    'description' => $employee->description,  
+                    'number' => $employee->number,  
+                    'gender' => $employee->gender,  
+                    'position' => $employee->position,  
+                    'active' => $employee->active,  
+                    'leader_id' => $employee->leader_id,  
+                    'user_id' => $employee->user_id,  
+                    'image' => $employee->image,  
+                    'branch_id' => $employee->branch_id,  
+                    'created_at' => $employee->created_at,  
+                    'updated_at' => $employee->updated_at,  
+                ];  
+            }  
+        }  
+    }  
+
+    // Return the result as a JSON response  
+    return response()->json(array_values($results));  
+}
+
+
+
+
 public function get_my_employees_information(Request $request, $id)  
 {  
     if ($id) {  
@@ -680,6 +784,7 @@ public function get_my_employees_information(Request $request, $id)
                 'leader_id' => $manager->leader_id,  
                 'image' => $manager->image,  
                 'branch_id' => $manager->branch_id,  
+                'user_id' => $manager->user_id,  
                 'created_at' => $manager->created_at,  
                 'updated_at' => $manager->updated_at,  
             ];  
@@ -703,6 +808,7 @@ public function get_my_employees_information(Request $request, $id)
                 'leader_id' => $supervisor->leader_id,  
                 'image' => $supervisor->image,  
                 'branch_id' => $supervisor->branch_id,  
+                'user_id' => $manager->user_id,
                 'created_at' => $supervisor->created_at,  
                 'updated_at' => $supervisor->updated_at,  
             ];  
@@ -719,6 +825,7 @@ public function get_my_employees_information(Request $request, $id)
                     'position' => $employee->position,  
                     'active' => $employee->active,  
                     'leader_id' => $employee->leader_id,  
+                    'user_id' => $employee->user_id,
                     'image' => $employee->image,  
                     'branch_id' => $employee->branch_id,  
                     'created_at' => $employee->created_at,  
@@ -744,6 +851,7 @@ public function get_my_employees_information(Request $request, $id)
                 'active' => $customer->active,  
                 'leader_id' => $customer->leader_id,  
                 'image' => $customer->image,  
+                'user_id' => $customer->user_id,
                 'branch_id' => $customer->branch_id,  
                 'created_at' => $customer->created_at,  
                 'updated_at' => $customer->updated_at,  
@@ -764,50 +872,11 @@ public function get_my_employees_information(Request $request, $id)
 }
 
 
-// public function get_employees_count(Request $request) {
-//     try {
-//         \Log::info('Request received with company ID: ' . $request->id);
 
-//         // Find the company by ID
-//         $company = Companies::find($request->id);
 
-//         if (!$company) {
-//             \Log::error('Company not found with ID: ' . $request->id);
-//             return response()->json(['error' => 'Company not found.'], 404);
-//         }
 
-//         \Log::info('Company found: ' . $company->name);
 
-//         // Initialize employee count
-//         $employeeCount = 0;
 
-//         // Get the branches for the company
-//         $branches = Branches::where('company_id', $company->id)->get();
-
-//         \Log::info('Company has ' . $branches->count() . ' branches');
-
-//         // Loop through each branch and count the employees
-//         foreach ($branches as $branch) {
-//             $branchEmployeeCount = Employees::where('branch_id', $branch->id)->count();
-//             \Log::info('Branch ID ' . $branch->id . ' has ' . $branchEmployeeCount . ' employees');
-//             $employeeCount += $branchEmployeeCount;
-//         }
-
-//         \Log::info('Total employee count for company ID ' . $company->id . ': ' . $employeeCount);
-
-//         return response()->json([
-//             'company_id' => $company->id,
-//             'company_name' => $company->name,
-//             'employee_count' => $employeeCount
-//         ]);
-//     } catch (\Exception $e) {
-//         // Log the error for debugging purposes
-//         \Log::error('Error fetching employee count: ' . $e->getMessage());
-
-//         // Return a generic error response
-//         return response()->json(['error' => 'An error occurred while fetching the employee count.'], 500);
-//     }
-// }
 
 public function get_employees_count() {
     try {

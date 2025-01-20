@@ -9,7 +9,7 @@ class Auth extends ChangeNotifier{
   bool _isLoggedIn=true;
   late String _token;
   late var _user = User( name: "haidar wannous", 
-  email: "wannous.email@example.com",  role: "admin",id:8);
+  email: "wannous.email@example.com",  role: "manager",id:12);
 
   bool get authenticated => _isLoggedIn;
   User get user => _user;

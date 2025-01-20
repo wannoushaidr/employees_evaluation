@@ -12,7 +12,7 @@ class EmployeeModel {
   String created_at;
   String updated_at;
   String email;
-  int user_id;
+  int? user_id;
 
 
   EmployeeModel(
@@ -33,22 +33,22 @@ class EmployeeModel {
 
   factory EmployeeModel.fromJson(dynamic data) {
     return EmployeeModel(
-      id: data['id'],
-      name: data['name'],
-      number: data['number'],
-      description: data['description'],
-      gender: data['gender'],
-      position: data['position'],
-      active: data['active'],
-       email: data['email'],
-        user_id: data['user_id'],
-      created_at: data['created_at'],
-      updated_at: data['updated_at'],
-      leader_id: data['leader_id'],
+      id: data['id'] ?? 0,
+      name: data['name'] ?? '',
+      number: data['number'] ?? 0,
+      description: data['description' ?? ''],
+      gender: data['gender'] ?? '',
+      position: data['position'] ?? '',
+      active: data['active'] ?? '',
+       email: data['email'] ?? '',
+        user_id: data['user_id'] ?? 0,
+      created_at: data['created_at'] ?? '',
+      updated_at: data['updated_at'] ?? '',
+      leader_id: data['leader_id'] ?? 0,
       image:
           "C:/Users/LENOVO/projects/graduation_project/graduation_project/public/" +
               data['image'],
-      branch_id: data['branch_id'],
+      branch_id: data['branch_id'] ?? 0,
     );
   }
 }

@@ -183,6 +183,68 @@ class AppEmployeesService {
 
 
 
+// Future<bool?> UpdateEmployee({  
+//   required String id,  
+//   required String name,  
+//   required String number,  
+//   required String description,  
+//   required String active,  
+//   required String gender,  
+//   required String position,  
+//   required String branch_id,  
+//   required String user_id,  
+//   required String email, // Add email as a required parameter  
+//   String? leader_id,  
+//   Uint8List? image,  
+//   String? SelectedFile,  
+// }) async {  
+//   try {  
+//     String url = "http://127.0.0.1:8000/api/admin/employees/update_employees";  
+    
+//     var request = http.MultipartRequest('PUT', Uri.parse(url));  
+//     request.fields['id'] = id;  
+//     request.fields['name'] = name;  
+//     request.fields['number'] = number;  
+//     request.fields['description'] = description;  
+//     request.fields['active'] = active;  
+//     request.fields['gender'] = gender;  
+//     request.fields['position'] = position;  
+//     request.fields['branch_id'] = branch_id;  
+//     request.fields['email'] = email; // Include email in the request  
+//     request.fields['user_id'] = user_id ; // Include email in the request  
+
+
+//     if (leader_id != null) {  
+//       request.fields['leader_id'] = leader_id;  
+//     }  
+
+//     if (image != null && SelectedFile != null) {  
+//       request.files.add(http.MultipartFile.fromBytes(  
+//         'image', // The field name expected by the server  
+//         image,  
+//         filename: SelectedFile,  
+//       ));  
+//     }  
+//     print("request is :");
+//     print(request);
+
+//     var response = await request.send();  
+//     print(response.statusCode);  
+//     String responseBody = await response.stream.bytesToString();  
+//     print('Response Body: $responseBody');  
+
+//     if (response.statusCode == 200) {  
+//       return true;  
+//     } else {  
+//       return false;  
+//     }  
+//   } catch (e) {  
+//     print(e);  
+//     return false; // Return false if there's an error  
+//   }  
+// }
+
+
 Future<bool?> UpdateEmployee({  
   required String id,  
   required String name,  
@@ -196,12 +258,13 @@ Future<bool?> UpdateEmployee({
   required String email, // Add email as a required parameter  
   String? leader_id,  
   Uint8List? image,  
-  String? SelectedFile,  
+  String? selectedFile,  
 }) async {  
   try {  
-    String url = "http://127.0.0.1:8000/api/admin/employees/update_employees";  
-    
+    String url = "http://127.0.0.1:8000/api/admin/employees/update_employees/"; // Include ID in URL  
     var request = http.MultipartRequest('PUT', Uri.parse(url));  
+
+    // Populate fields for the employee update request  
     request.fields['id'] = id;  
     request.fields['name'] = name;  
     request.fields['number'] = number;  
@@ -211,31 +274,34 @@ Future<bool?> UpdateEmployee({
     request.fields['position'] = position;  
     request.fields['branch_id'] = branch_id;  
     request.fields['email'] = email; // Include email in the request  
-    request.fields['user_id'] = user_id ; // Include email in the request  
+    request.fields['user_id'] = user_id; // Include user ID in the request  
 
-
+    // Optional fields  
     if (leader_id != null) {  
       request.fields['leader_id'] = leader_id;  
     }  
 
-    if (image != null && SelectedFile != null) {  
+    // Attach image if provided  
+    if (image != null && selectedFile != null) {  
       request.files.add(http.MultipartFile.fromBytes(  
         'image', // The field name expected by the server  
         image,  
-        filename: SelectedFile,  
+        filename: selectedFile,  
       ));  
     }  
-    print("request is :");
-    print(request);
+
+    print("Request is:");  
+    // print(request);  
 
     var response = await request.send();  
-    print(response.statusCode);  
+    // print(response.statusCode);  
     String responseBody = await response.stream.bytesToString();  
-    print('Response Body: $responseBody');  
+    // print('Response Body: $responseBody');  
 
     if (response.statusCode == 200) {  
       return true;  
     } else {  
+      print('Error updating employee: $responseBody');  
       return false;  
     }  
   } catch (e) {  
@@ -400,9 +466,9 @@ Future<Map<String, int>?> getCustomerServiceEmployeesCount(int id) async {
 
 
 
-  Future<List<EmployeeModel?>?> GetMyEmployeesEnformation(int id) async {
+  Future<List<EmployeeModel?>?> GetMyAtivateEmployee(int id) async {
     try {
-      String url = "http://127.0.0.1:8000/api/employees/get_my_employees_information/$id";
+      String url = "http://127.0.0.1:8000/api/employees/get_my_activativate_employee/$id";
       http.Response response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -413,6 +479,7 @@ Future<Map<String, int>?> getCustomerServiceEmployeesCount(int id) async {
         // Decode the adjusted response body
         List<dynamic> jsonData = jsonDecode(responseBody);
         print("*********************2222222222222***************************");
+        print(jsonData);
         List<EmployeeModel> employees = jsonData.map((data) {
           print("********************33333333333333****************************");
           return EmployeeModel.fromJson(data);
@@ -429,6 +496,50 @@ Future<Map<String, int>?> getCustomerServiceEmployeesCount(int id) async {
       return null;
     }
   }
+
+
+
+  
+  Future<List<EmployeeModel?>?> GetMyEmployeesEnformation(int id) async {
+    try {
+      String url = "http://127.0.0.1:8000/api/employees/get_my_employees_information/$id";
+      http.Response response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        // Split response body into lines and skip the first two lines
+        List<String> lines = response.body.split('\n');
+        String responseBody = lines.skip(2).join('\n');
+        print("**********************111111111111*************************");
+        // Decode the adjusted response body
+        List<dynamic> jsonData = jsonDecode(responseBody);
+        print("*********************2222222222222***************************");
+        print(jsonData);
+        List<EmployeeModel> employees = jsonData.map((data) {
+          print("********************33333333333333****************************");
+          return EmployeeModel.fromJson(data);
+        }).toList();
+
+        return employees;
+      } else {
+        print("Error: ${response.statusCode}");
+        print(response.body); // Print the response body for debugging
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
 
 
   Future<List<EmployeeModel?>?> get_my_information(int id) async {
@@ -446,6 +557,9 @@ Future<Map<String, int>?> getCustomerServiceEmployeesCount(int id) async {
         print("*********************2222222222222***************************");
         List<EmployeeModel> employees = jsonData.map((data) {
           print("********************33333333333333****************************");
+          print("jsonData");
+          print(jsonData);
+          
           return EmployeeModel.fromJson(data);
         }).toList();
 
@@ -460,8 +574,6 @@ Future<Map<String, int>?> getCustomerServiceEmployeesCount(int id) async {
       return null;
     }
   }
-
-
 
 
 }

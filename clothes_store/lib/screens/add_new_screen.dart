@@ -4,7 +4,6 @@ import 'package:clothes_store/models/employee_model.dart';
 import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/add_company_screen.dart';
 import 'package:clothes_store/screens/add_employee_screen.dart';
-import 'package:clothes_store/screens/add_new_screen.dart';
 import 'package:clothes_store/screens/login_screen.dart';
 import 'package:clothes_store/screens/show_all_branches_screen.dart';
 import 'package:clothes_store/screens/show_all_employees.dart';
@@ -28,16 +27,14 @@ import 'show_all_accessories_screen.dart';
 import 'show_all_companies_screen.dart';
 import 'update_company_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class AddNewScreen extends StatelessWidget {
   @override
   
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Screen'),
+        title: Text('add new Screen'),
       ),
-
-
       drawer: Drawer(   
                           child:Consumer<Auth>(builder:(context,auth,child){
                             // if (!  auth!.authenticated){
@@ -87,25 +84,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
-
-                            ListTile(
-                              title:ElevatedButton(
-                                          onPressed: () async {
-                                            // Your new button functionality goes here
-                                           
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return AddNewScreen();
-                                                  },
-                                                ),
-                                              );
-                                            // Example: Fetch another set of data or navigate to a different screen
-                                          },
-                                          child: Text('add new'),
-                                        ),
-                            ),
 
 
 
@@ -287,7 +265,6 @@ class HomeScreen extends StatelessWidget {
                       }) 
                       ),
 
-
       // );
       body: Center(
         child: Column(
@@ -439,7 +416,7 @@ class HomeScreen extends StatelessWidget {
              Container(  
             margin: EdgeInsets.symmetric(horizontal: 20),  
             child: MaterialButton(  
-              color: Colors.red,  
+              color: const Color.fromARGB(255, 36, 56, 244),  
               textColor: Colors.white,  
               onPressed: () {  
                 // Navigating to About Us page  

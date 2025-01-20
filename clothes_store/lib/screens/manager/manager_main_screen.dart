@@ -2,6 +2,7 @@ import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
 import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/login_screen.dart';
+import 'package:clothes_store/screens/manager/activate_employee_screen.dart';
 import 'package:clothes_store/screens/manager/manager_statistics_screen.dart';
 import 'package:clothes_store/screens/manager/show_all_managers_employees.dart';
 import 'package:clothes_store/screens/show_all_companies_screen.dart';
@@ -148,7 +149,34 @@ class ManagerMainScreen extends StatelessWidget {
                                             // Your new button functionality goes here
                                             onPressed: () async {
                                             AppEmployeesService acp = AppEmployeesService();
+                                            List<EmployeeModel?>? employees = await acp.GetMyAtivateEmployee(auth.user.id);
+                                            print(employees);
+
+                                            // if (employees != null) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return showActivateEmployees(employees: employees);
+                                                  },
+                                                ),
+                                              );
+                                            // }
+                                            },
+                                            // Example: Fetch another set of data or navigate to a different screen
+                                          // },
+                                          child: Text('activate'),
+                                        ),
+                            ),
+
+                            ListTile(
+                            title:ElevatedButton(
+                                          // onPressed: () async {
+                                            // Your new button functionality goes here
+                                            onPressed: () async {
+                                            AppEmployeesService acp = AppEmployeesService();
                                             List<EmployeeModel?>? employees = await acp.GetMyEmployeesEnformation(auth.user.id);
+                                            print("employees");
                                             print(employees);
 
                                             // if (employees != null) {

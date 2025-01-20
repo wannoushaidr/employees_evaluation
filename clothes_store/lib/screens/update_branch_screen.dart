@@ -111,7 +111,7 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                     bool? result = await abs.UpdateBranch(
                         id: widget.branch!.id.toString(),
                         name: widget.branch!.name,
-                        phone: widget.branch!.toString(),
+                        phone: widget.branch!.phone.toString(),
                         address: widget.branch!.address,
                         email: widget.branch!.email,
                         company_id: widget.branch!.company_id.toString());

@@ -40,12 +40,37 @@ class AccessoriesController extends Controller
 $datatoinsert['type'] = $request->type;
 $datatoinsert['branch_id'] = $request->branch_id;
 
-// Handle the uploaded files
-if ($request->hasFile('image')) {
-    $image = $request->file('image');
-    $fileName = time() . '_image.' . $image->getClientOriginalExtension();
-    $image->move(public_path('uploads'), $fileName);
-    $datatoinsert['image'] = 'uploads/' . $fileName; // Save relative path
+// // Handle the uploaded files
+// if ($request->hasFile('image')) {
+//     $image = $request->file('image');
+//     $fileName = time() . '_image.' . $image->getClientOriginalExtension();
+//     $image->move(public_path('uploads'), $fileName);
+//     $datatoinsert['image'] = 'uploads/' . $fileName; // Save relative path
+// }
+
+if ($request->hasFile('image')) {  
+    $image = $request->file('image');  
+    $fileName = time() . '_image.' . $image->getClientOriginalExtension();  
+    
+    // Specify the desired absolute directory path  
+    $desiredPath = 'C:/Users/LENOVO/AndroidStudioProjects'; // Change this to your desired path  
+
+    // Full path to the directory  
+    $fullPath = $desiredPath;  // No need to use public_path for absolute paths  
+    
+    // Create the directory if it doesn't exist, including parent directories  
+    if (!file_exists($fullPath)) {  
+        // Attempt to create the directory, set permissions, and allow recursive creation of directories  
+        if (!mkdir($fullPath, 0755, true) && !is_dir($fullPath)) {  
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $fullPath));  
+        }  
+    }  
+
+    // Move the uploaded file to the specified path  
+    $image->move($fullPath, $fileName);  
+
+    // Save the relative path in the database (if needed)  
+    $datatoinsert['image'] = $fullPath . '/' . $fileName; // Save absolute path if needed  
 }
 
 
@@ -143,34 +168,73 @@ return redirect()->route('accessories.index')->with('success', 'accessory update
         // $datatoinsert['image'] = $request->image;
         $datatoinsert['branch_id'] = $request->branch_id;
         $is_exsist= Accessories::select("*")->where($datatoinsert)->get();
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $fileName = time() . '_image.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads'), $fileName);
-            $datatoinsert['image'] = 'uploads/' . $fileName; // Save relative path
-        }
-        if(!empty($is_exsist) and count($is_exsist)>0){
-            $response=array("code"=>403,"message"=>"exists befor Branches");
-        }
-        else{
-            $datatoinsert['created_at']=date("Y-m-d H:i:s");
+        // if ($request->hasFile('image')) {
+        //     $image = $request->file('image');
+        //     $fileName = time() . '_image.' . $image->getClientOriginalExtension();
+        //     $image->move(public_path('uploads'), $fileName);
+        //     $datatoinsert['image'] = 'uploads/' . $fileName; // Save relative path
 
-        $flags=insert(new Accessories(),$datatoinsert);
-         if ($flags){
-            $response=array("code"=>200,"message"=>"created succfully Branches");
-         }
-        else{
-            $response=array("code"=>401,"message"=>"created succfully Branches");
-        }
-    }
+            
+        // }
 
-        return response()->json($response);
-     }
+
+        if ($request->hasFile('image')) {  
+            $image = $request->file('image');  
+            $fileName = time() . '_image.' . $image->getClientOriginalExtension();  
+        
+            // Specify the desired absolute directory path  
+            $desiredPath = 'C:/Users/LENOVO/AndroidStudioProjects'; // Change this to your desired path  
+        
+            // Full path to the directory (you might want to include a subdirectory for uploads)  
+            $fullPath = $desiredPath; // Save directly to the specified path  
+        
+            // Create the directory if it doesn't exist  
+            if (!file_exists($fullPath)) {  
+                // Attempt to create the directory, set permissions, and allow recursive creation of directories  
+                if (!mkdir($fullPath, 0755, true) && !is_dir($fullPath)) {  
+                    throw new \RuntimeException(sprintf('Directory "%s" was not created', $fullPath));  
+                }  
+            }  
+        
+            // Move the uploaded file to the specified path  
+            $image->move($fullPath, $fileName);  
+        
+            // Save the absolute path in the database  
+            $datatoinsert['image'] = $fullPath . '/' . $fileName; // Save absolute path  
+            }
+
+
+
+
+
+
+
+
+
+            if(!empty($is_exsist) and count($is_exsist)>0){
+                $response=array("code"=>403,"message"=>"exists befor Branches");
+            }
+            else{
+                $datatoinsert['created_at']=date("Y-m-d H:i:s");
+
+            $flags=insert(new Accessories(),$datatoinsert);
+            if ($flags){
+                $response=array("code"=>200,"message"=>"created succfully Branches");
+            }
+            else{
+                $response=array("code"=>401,"message"=>"created succfully Branches");
+            }
+        }
+
+            return response()->json($response);
+        }
 
      
-     public function update_accesories(Request $request) {  
+public function update_accesories(Request $request) {  
         // Find the existing branch by ID  
         $data = Accessories::select("*")->find($request->id);  
+        
+        
     
         if (!empty($data) ){  
             // If the branch exists, prepare to update  
@@ -184,29 +248,74 @@ return redirect()->route('accessories.index')->with('success', 'accessory update
                 $image->move(public_path('uploads'), $fileName);
                 $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path
             }
+
+
+
+
+            // if ($request->hasFile('image')) {  
+            //     $image = $request->file('image');  
+            //     $fileName = time() . '_image.' . $image->getClientOriginalExtension();  
+            
+            //     // Specify the desired absolute directory path  
+            //     $desiredPath = 'C:/Users/LENOVO/AndroidStudioProjects'; // Change this to your desired path  
+            
+            //     // Full path to the directory  
+            //     $fullPath = $desiredPath; // Save directly to the specified path  
+            
+            //     // Create the directory if it doesn't exist  
+            //     if (!file_exists($fullPath)) {  
+            //         // Attempt to create the directory, set permissions, and allow recursive creation of directories  
+            //         if (!mkdir($fullPath, 0755, true) && !is_dir($fullPath)) {  
+            //             throw new \RuntimeException(sprintf('Directory "%s" was not created', $fullPath));  
+            //         }  
+            //     }  
+            
+            //     // Move the uploaded file to the specified path  
+            //     $image->move($fullPath, $fileName);  
+            
+            //     // Save the relative path in the database  
+            //     $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path if needed  
+            // }
+
+
+
+
+
+
+
+
+
+
+
+
+
            
             // Perform the update  
             $updated = $data->update($datatoupdate); // Using Eloquent's update method directly on the model instance  
             if ($updated) {  
                 return response()->json([  
                     'code' => 200,  
-                    'message' => 'Data updated successfully Branches'  
+                    'message' => 'Data updated successfully accessories'  
                 ]);  
             } else {  
                 return response()->json([  
                     'code' => 500,  
-                    'message' => 'Failed to update data Branches'  
+                    'message' => 'Failed to update data accessories'  
                 ], 500);  
             }  
-        } else {  
+        } else 
+        
+        {  
             // If the branch does not exist  
             return response()->json([  
                 'code' => 404,  
-                'message' => 'Element not found Branches'  
+                'message' => 'Element not found accessories'  
             ], 404);  
         }  
     
     }
+
+
 
     public function delete_accesories(Request $request)
     {

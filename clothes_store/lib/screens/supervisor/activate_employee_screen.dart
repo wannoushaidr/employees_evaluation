@@ -17,8 +17,8 @@ import 'package:flutter/material.dart';
 // *******************************************   this is updataed code for above code ****************
 import 'package:flutter/material.dart';
 
-class showEmployeesByManages extends StatelessWidget {
-  const showEmployeesByManages( {super.key, required this.employees});
+class showActivateEmployees extends StatelessWidget {
+  const showActivateEmployees( {super.key, required this.employees});
   final List<EmployeeModel?>? employees;
   
 
@@ -29,7 +29,7 @@ class showEmployeesByManages extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Employees Data Table'),
+        title: const Text('activated employees  Data Table'),
       ),
 
       body: employees == null

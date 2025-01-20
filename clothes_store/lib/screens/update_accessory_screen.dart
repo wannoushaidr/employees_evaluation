@@ -31,7 +31,7 @@ class _UpdateAccessoryScreenState extends State<UpdateAccessoryScreen> {
 
       if (result != null && result.files.isNotEmpty) {
         setState(() {
-          image = result.files.single.bytes;
+          image = result.files.single.bytes!;
           selectedFile = result.files.single.name;
         });
       }
@@ -42,7 +42,8 @@ class _UpdateAccessoryScreenState extends State<UpdateAccessoryScreen> {
   }
 
   String? selectedFile = null;
-  Uint8List? image = null;
+  String id='';
+  late Uint8List image ;
   String type = '';
   String branch_id = '';
 
