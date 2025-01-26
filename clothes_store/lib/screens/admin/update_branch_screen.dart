@@ -1,30 +1,31 @@
-import 'package:clothes_store/helper/snackbar.dart';
-import 'package:clothes_store/services/branch_services.dart';
+import 'package:clothes_store/models/branch_model.dart';
+import 'package:clothes_store/models/company_model.dart';
+import 'package:clothes_store/screens/admin/show_all_companies_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../services/company_services.dart';
+import '../../services/branch_services.dart';
+import '../../services/company_services.dart';
 
-class AddBranchScreen extends StatefulWidget {
-  const AddBranchScreen({super.key, required this.company_id});
-  final String company_id;
+class UpdateBranchScreen extends StatefulWidget {
+  UpdateBranchScreen({super.key, required this.branch});
+  BranchModel? branch;
+
   @override
-  _AddBranchScreenState createState() => _AddBranchScreenState();
+  State<UpdateBranchScreen> createState() => _UpdateBranchScreenState();
 }
 
-class _AddBranchScreenState extends State<AddBranchScreen> {
+class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
   final _formKey = GlobalKey<FormState>();
-  String name = '';
-  String phone = '';
-  String address = '';
-  String email = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Branch'),
+        title: Text('Update Branch'),
       ),
-      
+
+
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -33,42 +34,46 @@ class _AddBranchScreenState extends State<AddBranchScreen> {
             children: [
               TextFormField(
                 decoration: InputDecoration(labelText: 'Branch Name'),
+                initialValue: widget.branch!.name,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter company name';
+                    return 'Please enter branch name';
                   }
                   return null;
                 },
                 onChanged: (value) {
-                  name = value;
+                  widget.branch!.name = value;
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Phone'),
+                decoration: InputDecoration(labelText: 'phone'),
+                initialValue: widget.branch!.phone.toString(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter phone number';
+                    return 'Please enter contact number';
                   }
                   return null;
                 },
                 onChanged: (value) {
-                  phone = value;
+                  widget.branch!.phone = int.parse(value);
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Address'),
+                decoration: InputDecoration(labelText: 'address'),
+                initialValue: widget.branch!.address.toString(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter address';
+                    return 'Please enter number of branches';
                   }
                   return null;
                 },
                 onChanged: (value) {
-                  address = value;
+                  widget.branch!.address = value;
                 },
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Email'),
+                initialValue: widget.branch!.email,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter email';
@@ -78,7 +83,20 @@ class _AddBranchScreenState extends State<AddBranchScreen> {
                   return null;
                 },
                 onChanged: (value) {
-                  email = value;
+                  widget.branch!.email = value;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'company_id'),
+                initialValue: widget.branch!.company_id.toString(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter Address';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  widget.branch!.company_id = int.parse(value);
                 },
               ),
               SizedBox(height: 20),
@@ -90,18 +108,18 @@ class _AddBranchScreenState extends State<AddBranchScreen> {
                       SnackBar(content: Text('Processing Data')),
                     );
                     AppBranchesService abs = AppBranchesService();
-                    bool? result = await abs.AddNewBranch(
-                        name: name,
-                        phone: phone,
-                        address: address,
-                        email: email,
-                        company_id: widget.company_id);
+                    bool? result = await abs.UpdateBranch(
+                        id: widget.branch!.id.toString(),
+                        name: widget.branch!.name,
+                        phone: widget.branch!.phone.toString(),
+                        address: widget.branch!.address,
+                        email: widget.branch!.email,
+                        company_id: widget.branch!.company_id.toString());
                     if (result == true) {
                       print('success');
                       Navigator.pop(context);
-                       SnackbarShow.showSnackbar(context, "added sussesfully ");
+                      Navigator.pop(context);
                     } else {
-                      SnackbarShow.showSnackbar(context, " error");
                       print('error');
                     }
                   }

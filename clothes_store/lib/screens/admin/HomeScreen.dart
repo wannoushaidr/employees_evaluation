@@ -2,39 +2,46 @@ import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
 import 'package:clothes_store/models/point_model.dart';
-import 'package:clothes_store/screens/add_company_screen.dart';
-import 'package:clothes_store/screens/add_employee_screen.dart';
-import 'package:clothes_store/screens/login_screen.dart';
-import 'package:clothes_store/screens/show_all_branches_screen.dart';
-import 'package:clothes_store/screens/show_all_employees.dart';
-import 'package:clothes_store/screens/show_all_points_screen.dart';
-import 'package:clothes_store/screens/statistics_screen.dart';
-import 'package:clothes_store/screens/user_profile_screen.dart';
+import 'package:clothes_store/models/user.dart';
+import 'package:clothes_store/screens/admin/add_admin_screen.dart';
+import 'package:clothes_store/screens/admin/add_company_screen.dart';
+import 'package:clothes_store/screens/admin/add_employee_screen.dart';
+import 'package:clothes_store/screens/admin/add_new_screen.dart';
+import 'package:clothes_store/screens/admin/show_user_screen.dart';
+import 'package:clothes_store/screens/shared_screen/login_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_branches_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_employees.dart';
+import 'package:clothes_store/screens/admin/show_all_points_screen.dart';
+import 'package:clothes_store/screens/admin/statistics_screen.dart';
+import 'package:clothes_store/screens/shared_screen/user_profile_screen.dart';
 import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/company_services.dart';
 import 'package:clothes_store/services/employee_services.dart';
 import 'package:clothes_store/services/point_services.dart';
+import 'package:clothes_store/services/user_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:clothes_store/services/auth.dart';
 
-import '../models/accessory_model.dart';
-import 'package:clothes_store/screens/MainScreen.dart';
+import '../../models/accessory_model.dart';
+import 'package:clothes_store/screens/shared_screen/MainScreen.dart';
 
-import '../services/accessory_services.dart';
+import '../../services/accessory_services.dart';
 import 'add_accessory_screen.dart';
 import 'show_all_accessories_screen.dart';
 import 'show_all_companies_screen.dart';
 import 'update_company_screen.dart';
 
-class AddNewScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   @override
   
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('add new Screen'),
+        title: Text('Home Screen'),
       ),
+
+
       drawer: Drawer(   
                           child:Consumer<Auth>(builder:(context,auth,child){
                             // if (!  auth!.authenticated){
@@ -84,6 +91,25 @@ class AddNewScreen extends StatelessWidget {
                   ),
                 ),
 
+
+                            ListTile(
+                              title:ElevatedButton(
+                                          onPressed: () async {
+                                            // Your new button functionality goes here
+                                           
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return AddNewScreen();
+                                                  },
+                                                ),
+                                              );
+                                            // Example: Fetch another set of data or navigate to a different screen
+                                          },
+                                          child: Text('add new'),
+                                        ),
+                            ),
 
 
 
@@ -248,6 +274,36 @@ class AddNewScreen extends StatelessWidget {
                                         ),
                              ),
 
+                             ListTile(
+                              title:ElevatedButton(
+                                          onPressed: () async {
+                                            // Your new button functionality goes here
+                                            AppUsersService aas = AppUsersService();
+                                            print("users1");
+                                              List<UserModel?>? users = await aas.GetAllUsers();
+                                              print("user2");
+                                              print(users);
+                                              
+                                              if (users != null) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) {
+                                                    return ShowAllUsersScreen(
+                                                      users: users,
+                                                    );
+                                                  }),
+                                                );
+                                              } else {
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                                                );
+                                              }
+                       
+                                          },
+                                          child: Text('users'),
+                                        ),
+                             ),
+
                           
                           ListTile(
                               leading:const Icon(Icons.logout),
@@ -265,6 +321,7 @@ class AddNewScreen extends StatelessWidget {
                       }) 
                       ),
 
+
       // );
       body: Center(
         child: Column(
@@ -280,6 +337,7 @@ class AddNewScreen extends StatelessWidget {
                 // 'Add New Accessory',
                 'Show All Employees',
                 'Add New Employee',
+                'Add New Admin',
                 'Show All Points',
                 'statistics'
               ].map((String value) {
@@ -360,6 +418,15 @@ class AddNewScreen extends StatelessWidget {
                       );
                       break;
 
+                      case 'Add New Admin':
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return AddAdminScreen();
+                        }),
+                      );
+                      break;
+
                     case 'Show All Points':
                         AppPointsService aas = AppPointsService();
                         List<PointModel?>? points = await aas.GetAllPoint();
@@ -416,7 +483,7 @@ class AddNewScreen extends StatelessWidget {
              Container(  
             margin: EdgeInsets.symmetric(horizontal: 20),  
             child: MaterialButton(  
-              color: const Color.fromARGB(255, 36, 56, 244),  
+              color: Colors.red,  
               textColor: Colors.white,  
               onPressed: () {  
                 // Navigating to About Us page  

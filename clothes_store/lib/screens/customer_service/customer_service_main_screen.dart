@@ -1,6 +1,7 @@
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
 import 'package:clothes_store/models/point_model.dart';
+import 'package:clothes_store/screens/customer_service/customer_service_points.dart';
 import 'package:clothes_store/screens/shared_screen/login_screen.dart';
 import 'package:clothes_store/screens/manager/activate_employee_screen.dart';
 import 'package:clothes_store/screens/manager/manager_statistics_screen.dart';
@@ -15,13 +16,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:clothes_store/services/auth.dart'; // Import your Auth class
 
-class ManagerMainScreen extends StatelessWidget {
+class CutmoerServiceMainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Manager')),
+      appBar: AppBar(title: Text('customer sercice main screen')),
 
      
      
@@ -106,7 +107,7 @@ class ManagerMainScreen extends StatelessWidget {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) {
-                                                    return ManagerMainScreen();
+                                                    return CutmoerServiceMainScreen();
                                                   },
                                                 ),
                                               );
@@ -124,22 +125,24 @@ class ManagerMainScreen extends StatelessWidget {
                                             // Your new button functionality goes here
                                             print('statistic');
                                             AppPointsService aas = AppPointsService();
-                                                    AppEmployeesService aas3 = AppEmployeesService();
-                                                      Map<String, int>? employeeCount = await aas3.getSupervisorsAndCustomerServiceEmployees(auth.user.id);
+                                                    // AppEmployeesService aas3 = AppEmployeesService();
+                                                      // Map<String, int>? employeeCount = await aas3.getSupervisorsAndCustomerServiceEmployees(auth.user.id);
+                                                    List<PointModel?>? points = await aas.GetEmployeePoint(auth.user.id);
 
-                                            if (employeeCount != null) {
+
+                                            if (points != null) {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) {
-                                                    return ManagerStatisticScreen(employeeCount: employeeCount,);
+                                                    return CustomerServicePoints(points: points,);
                                                   },
                                                 ),
                                               );
                                             }
                                             // Example: Fetch another set of data or navigate to a different screen
                                           },
-                                          child: Text('statistic'),
+                                          child: Text('points'),
                                         ),
                             ),
 
@@ -165,7 +168,7 @@ class ManagerMainScreen extends StatelessWidget {
                                             },
                                             // Example: Fetch another set of data or navigate to a different screen
                                           // },
-                                          child: Text('activate'),
+                                          child: Text('notification'),
                                         ),
                             ),
 
@@ -192,7 +195,7 @@ class ManagerMainScreen extends StatelessWidget {
                                             },
                                             // Example: Fetch another set of data or navigate to a different screen
                                           // },
-                                          child: Text('employees information'),
+                                          child: Text('statistic'),
                                         ),
                             ),
 

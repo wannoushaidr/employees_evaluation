@@ -1,14 +1,15 @@
 import 'dart:typed_data';
 
 import 'package:clothes_store/models/employee_model.dart';
+import 'package:clothes_store/models/user.dart';
 import 'package:clothes_store/services/accessory_services.dart';
 import 'package:clothes_store/services/employee_services.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../services/company_services.dart';
-import 'dart:html' as html; // Import the html library for web
+import '../../services/company_services.dart';
+import 'dart:html' as html; // Import the html library for web *******************************
 import 'package:http/http.dart' as http;
 
 class UpdateEmployeeScreen extends StatefulWidget {

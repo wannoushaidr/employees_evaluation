@@ -5,27 +5,7 @@ import 'package:clothes_store/models/employee_model.dart';
 
 import 'package:http/http.dart' as http;
 
-// class AppEmployeesService {
-//   Future<List<EmployeeModel?>?> GetAllEmployees() async {
-//     try {
-//       String url =
-//           "http://127.0.0.1:8000/api/admin/employees/get_all_employees";
-//       http.Response response = await http.get(Uri.parse(url));
-//       List<String> lines = response.body.split('\n');
-//       String responseBody = lines.skip(2).join('\n');
-//       Map<String, dynamic> jsonData = jsonDecode(responseBody);
-//       print(jsonData);
-//       List<EmployeeModel> employees = [];
-//       for (var data in jsonData['data']) {
-//         EmployeeModel employee = EmployeeModel.fromJson(data);
-//         employees.add(employee);
-//       }
 
-//       return employees;
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -127,124 +107,6 @@ class AppEmployeesService {
 
 
 
-
-  // Future<bool?> UpdateEmployee(
-  //     {required String id,
-  //     required String name,
-  //     required String number,
-  //     required String description,
-  //     required String active,
-  //     required String gender,
-  //     required String position,
-  //     required String branch_id,
-  //     String? leader_id,
-  //     Uint8List? image,
-  //     String? SelectedFile}) async {
-  //   try {
-  //     String url = "http://127.0.0.1:8000/api/admin/employees/update_employees";
-      
-
-  //     var request = http.MultipartRequest('PUT', Uri.parse(url));
-  //     request.fields['id'] = id;
-  //     request.fields['name'] = name;
-  //     request.fields['number'] = number;
-  //     request.fields['description'] = description;
-  //     request.fields['active'] = active;
-  //     request.fields['gender'] = gender;
-  //     request.fields['position'] = position;
-  //     request.fields['branch_id'] = branch_id;
-  //     if (leader_id != null) {
-  //       request.fields['leader_id'] = leader_id;
-  //     }
-
-  //     if (image != null && SelectedFile != null) {
-  //       request.files.add(http.MultipartFile.fromBytes(
-  //         'image', // The field name expected by the server
-  //         image,
-  //         filename: SelectedFile,
-  //       ));
-  //     }
-
-  //     var response = await request.send();
-  //     print(response.statusCode);
-  //     String responseBody = await response.stream.bytesToString();
-  //     print('Response Body: $responseBody');
-
-  //     if (response.statusCode == 200) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-
-
-
-// Future<bool?> UpdateEmployee({  
-//   required String id,  
-//   required String name,  
-//   required String number,  
-//   required String description,  
-//   required String active,  
-//   required String gender,  
-//   required String position,  
-//   required String branch_id,  
-//   required String user_id,  
-//   required String email, // Add email as a required parameter  
-//   String? leader_id,  
-//   Uint8List? image,  
-//   String? SelectedFile,  
-// }) async {  
-//   try {  
-//     String url = "http://127.0.0.1:8000/api/admin/employees/update_employees";  
-    
-//     var request = http.MultipartRequest('PUT', Uri.parse(url));  
-//     request.fields['id'] = id;  
-//     request.fields['name'] = name;  
-//     request.fields['number'] = number;  
-//     request.fields['description'] = description;  
-//     request.fields['active'] = active;  
-//     request.fields['gender'] = gender;  
-//     request.fields['position'] = position;  
-//     request.fields['branch_id'] = branch_id;  
-//     request.fields['email'] = email; // Include email in the request  
-//     request.fields['user_id'] = user_id ; // Include email in the request  
-
-
-//     if (leader_id != null) {  
-//       request.fields['leader_id'] = leader_id;  
-//     }  
-
-//     if (image != null && SelectedFile != null) {  
-//       request.files.add(http.MultipartFile.fromBytes(  
-//         'image', // The field name expected by the server  
-//         image,  
-//         filename: SelectedFile,  
-//       ));  
-//     }  
-//     print("request is :");
-//     print(request);
-
-//     var response = await request.send();  
-//     print(response.statusCode);  
-//     String responseBody = await response.stream.bytesToString();  
-//     print('Response Body: $responseBody');  
-
-//     if (response.statusCode == 200) {  
-//       return true;  
-//     } else {  
-//       return false;  
-//     }  
-//   } catch (e) {  
-//     print(e);  
-//     return false; // Return false if there's an error  
-//   }  
-// }
-
-
 Future<bool?> UpdateEmployee({  
   required String id,  
   required String name,  
@@ -261,7 +123,7 @@ Future<bool?> UpdateEmployee({
   String? selectedFile,  
 }) async {  
   try {  
-    String url = "http://127.0.0.1:8000/api/admin/employees/update_employees/"; // Include ID in URL  
+    String url = "http://127.0.0.1:8000/api/admin/employees/update_employees"; // Include ID in URL  
     var request = http.MultipartRequest('PUT', Uri.parse(url));  
 
     // Populate fields for the employee update request  

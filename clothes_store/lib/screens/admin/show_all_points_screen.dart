@@ -1,24 +1,24 @@
-import 'package:clothes_store/models/accessory_model.dart';
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
-import 'package:clothes_store/screens/update_accessory_screen.dart';
-import 'package:clothes_store/screens/update_branch_screen.dart';
-import 'package:clothes_store/screens/update_company_screen.dart';
-import 'package:clothes_store/services/accessory_services.dart';
-import 'package:clothes_store/services/branch_services.dart';
+import 'package:clothes_store/models/point_model.dart';
+import 'package:clothes_store/screens/admin/add_branch_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_branches_screen.dart';
+import 'package:clothes_store/screens/admin/update_company_screen.dart';
+import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 
-import '../services/company_services.dart';
+import '../../services/branch_services.dart';
+import '../../services/company_services.dart';
 
-class ShowAllAccessoriesScreen extends StatelessWidget {
-  const ShowAllAccessoriesScreen({super.key, required this.accessories});
-  final List<AccessoryModel?>? accessories;
+class ShowAllPointsScreen extends StatelessWidget {
+  const ShowAllPointsScreen({super.key, required this.points});
+  final List<PointModel?>? points;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Accessories Data Table'),
+        title: const Text('points Data Table'),
       ),
 
       // drawer: Drawer(
@@ -129,43 +129,73 @@ class ShowAllAccessoriesScreen extends StatelessWidget {
       //     ],),
       //    ),
       
+      
       body: SingleChildScrollView(
         child: DataTable(
           columns: const [
             DataColumn(label: Text('ID')),
-            DataColumn(label: Text('Type')),
-            DataColumn(label: Text('branch_id')),
-            DataColumn(label: Text('created_at')),
-            DataColumn(label: Text('updated_at')),
+            DataColumn(label: Text('points_count')),
+            DataColumn(label: Text('description')),
+            DataColumn(label: Text('employee_id')),
             DataColumn(label: Text('Actions')),
           ],
-          rows: accessories!.map((accessory) {
-            return DataRow(cells: [
-              DataCell(Text(accessory!.id.toString())),
-              DataCell(Text(accessory.type)),
-              DataCell(Text(accessory.branch_id.toString())),
-              DataCell(Text(accessory.created_at)),
-              DataCell(Text(accessory.updated_at)),
+          rows: points!.map((point) {
+            return DataRow(cells: <DataCell>[
+              DataCell(Text(point!.id.toString())),
+              DataCell(Text(point.points_count.toString())),
+              DataCell(Text(point.description)),
+              // DataCell(Text(point.description)),
+              DataCell(Text(point.employee_id.toString())),
               DataCell(
                 Row(
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return UpdateAccessoryScreen(
-                            accessory: accessory,
-                          );
-                        }));
-                      },
-                    ),
+
+
+                    // IconButton(
+                    //   icon: const Icon(Icons.ad_units),
+                    //   onPressed: () async {
+                    //     AppBranchesService abs = AppBranchesService();
+                    //     List<BranchModel?>? branches =
+                    //         await abs.GetAllBranches();
+                    //     print(branches);
+                    //     Navigator.push(context,
+                    //         MaterialPageRoute(builder: (context) {
+                    //       return ShowAllBranchesScreen(
+                    //         branches: branches,
+                    //       );
+                    //     }));
+                    //   },
+                    // ),
+                    // IconButton(
+                    //   icon: const Icon(Icons.add),
+                    //   onPressed: () {
+                    //     Navigator.push(context,
+                    //         MaterialPageRoute(builder: (context) {
+                    //       return AddBranchScreen(
+                    //         company_id: company.id.toString(),
+                    //       );
+                    //     }));
+                    //   },
+                    // ),
+                    // IconButton(
+                    //   icon: const Icon(Icons.edit),
+                    //   onPressed: () {
+                    //     Navigator.push(context,
+                    //         MaterialPageRoute(builder: (context) {
+                    //       return UpdateCompanyScreen(
+                    //         company: company,
+                    //       );
+                    //     }));
+                    //   },
+                    // ),
+
+
                     IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () async {
-                        AppAccessoriesService aas = new AppAccessoriesService();
-                        bool? result = await aas.DeleteAccessory(
-                            id: accessory.id.toString());
+                        AppPointsService acp = new AppPointsService();
+                        bool? result =
+                            await acp.DeletePoint(id: point.id.toString());
                         if (result == true) {
                           print('success');
                           Navigator.pop(context);

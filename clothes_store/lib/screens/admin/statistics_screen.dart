@@ -1,24 +1,35 @@
+
+
+import 'package:clothes_store/models/accessory_model.dart';
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
-import 'package:clothes_store/screens/add_accessory_screen.dart';
-import 'package:clothes_store/screens/update_branch_screen.dart';
-import 'package:clothes_store/screens/update_company_screen.dart';
+import 'package:clothes_store/models/point_model.dart';
+import 'package:clothes_store/screens/admin/update_accessory_screen.dart';
+import 'package:clothes_store/screens/admin/update_branch_screen.dart';
+import 'package:clothes_store/screens/admin/update_company_screen.dart';
+import 'package:clothes_store/services/accessory_services.dart';
 import 'package:clothes_store/services/branch_services.dart';
+import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 
-import '../services/company_services.dart';
+import '../../services/company_services.dart';
 
-class ShowAllBranchesScreen extends StatelessWidget {
-  const ShowAllBranchesScreen({super.key, required this.branches});
-  final List<BranchModel?>? branches;
+class statistics_screen extends StatelessWidget {
+  const statistics_screen({super.key,   required this.branchesCount, required this.points,  required this.employeeCount});
+  final int  branchesCount;
+  final List<int?> points;
+  final Map<String, int> employeeCount;
+
 
   @override
   Widget build(BuildContext context) {
+  int totalPoints = points.fold(0, (previous, current) => previous + (current ?? 0));
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Branch Data Table'),
+        title: const Text('Accessories Data Table'),
       ),
-      
+
+
       // drawer: Drawer(
       //     child: ListView(children: [
       //       Row(children: [
@@ -126,76 +137,32 @@ class ShowAllBranchesScreen extends StatelessWidget {
       //       )
       //     ],),
       //    ),
-      
-      body: SingleChildScrollView(
-        child: DataTable(
-          columns: const [
-            DataColumn(label: Text('ID')),
-            DataColumn(label: Text('Name')),
-            DataColumn(label: Text('phone')),
-            DataColumn(label: Text('address')),
-            DataColumn(label: Text('Email')),
-            DataColumn(label: Text('Actions')),
-          ],
-          rows: branches!.map((branch) {
-            return DataRow(cells: [
-              DataCell(Text(branch!.id.toString())),
-              DataCell(Text(branch.name)),
-              // DataCell(Text(branch.phone)),
-              DataCell(Text(branch.phone.toString())),
-              DataCell(Text(branch.address)),
-              DataCell(Text(branch.email)),
-              DataCell(
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return AddAccessoryScreen(branch_id: branch.id.toString(),);
-                        }));
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return UpdateBranchScreen(
-                            branch: branch,
-                          );
-                        }));
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () async {
-                        AppBranchesService acp = new AppBranchesService();
-                        
-                        bool? result =
-                            await acp.DeleteBranch(id: branch.id.toString());
-                        if (result == true) {
-                          print('success');
-                          Navigator.pop(context);
-                        } else {
-                          print('error');
-                        }
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) {
-                        //   return UpdateCompanyScreen(
-                        //     company: company,
-                        //   );
-                        // }));
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ]);
-          }).toList(),
+
+    
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Branches Count: $branchesCount', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 16),
+              Text('Points:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(totalPoints.toString()),
+              const SizedBox(height: 16),
+              Text('Employee Statistics:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text('Employee Count: ${employeeCount['employee_count']}'),
+              Text('Customer Service Count: ${employeeCount['customer_service_count']}'),
+              Text('Manager Count: ${employeeCount['manager_count']}'),
+              Text('Supervisor Count: ${employeeCount['supervisor_count']}'),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+      
+     
+      

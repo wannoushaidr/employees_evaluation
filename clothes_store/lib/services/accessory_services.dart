@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:html' as html;
+// import 'dart:html' as html;
 import 'dart:typed_data';
 import 'package:clothes_store/models/accessory_model.dart';
 

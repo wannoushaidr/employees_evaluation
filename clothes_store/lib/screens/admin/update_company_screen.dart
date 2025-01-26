@@ -1,31 +1,30 @@
-import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
-import 'package:clothes_store/screens/show_all_companies_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_companies_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../services/branch_services.dart';
-import '../services/company_services.dart';
+import '../../services/company_services.dart';
 
-class UpdateBranchScreen extends StatefulWidget {
-  UpdateBranchScreen({super.key, required this.branch});
-  BranchModel? branch;
+class UpdateCompanyScreen extends StatefulWidget {
+  UpdateCompanyScreen({super.key, required this.company});
+  CompanyModel? company;
 
   @override
-  State<UpdateBranchScreen> createState() => _UpdateBranchScreenState();
+  State<UpdateCompanyScreen> createState() => _UpdateCompanyScreenState();
 }
 
-class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
+class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Branch'),
+        title: Text('Update Company'),
       ),
 
 
-
+   
+   
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -33,21 +32,21 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Branch Name'),
-                initialValue: widget.branch!.name,
+                decoration: InputDecoration(labelText: 'Company Name'),
+                initialValue: widget.company!.name,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter branch name';
+                    return 'Please enter company name';
                   }
                   return null;
                 },
                 onChanged: (value) {
-                  widget.branch!.name = value;
+                  widget.company!.name = value;
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'phone'),
-                initialValue: widget.branch!.phone.toString(),
+                decoration: InputDecoration(labelText: 'Contact Number'),
+                initialValue: widget.company!.number.toString(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter contact number';
@@ -55,25 +54,13 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                   return null;
                 },
                 onChanged: (value) {
-                  widget.branch!.phone = int.parse(value);
+                  widget.company!.number = int.parse(value);
                 },
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'address'),
-                initialValue: widget.branch!.address.toString(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter number of branches';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  widget.branch!.address = value;
-                },
-              ),
+              
               TextFormField(
                 decoration: InputDecoration(labelText: 'Email'),
-                initialValue: widget.branch!.email,
+                initialValue: widget.company!.email,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter email';
@@ -83,12 +70,12 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                   return null;
                 },
                 onChanged: (value) {
-                  widget.branch!.email = value;
+                  widget.company!.email = value;
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'company_id'),
-                initialValue: widget.branch!.company_id.toString(),
+                decoration: InputDecoration(labelText: 'Address'),
+                initialValue: widget.company!.address,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter Address';
@@ -96,7 +83,7 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                   return null;
                 },
                 onChanged: (value) {
-                  widget.branch!.company_id = int.parse(value);
+                  widget.company!.address = value;
                 },
               ),
               SizedBox(height: 20),
@@ -107,14 +94,15 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Processing Data')),
                     );
-                    AppBranchesService abs = AppBranchesService();
-                    bool? result = await abs.UpdateBranch(
-                        id: widget.branch!.id.toString(),
-                        name: widget.branch!.name,
-                        phone: widget.branch!.phone.toString(),
-                        address: widget.branch!.address,
-                        email: widget.branch!.email,
-                        company_id: widget.branch!.company_id.toString());
+                    AppCompaniesService aps = AppCompaniesService();
+                    bool? result = await aps.UpdateCompany(
+                        id: widget.company!.id.toString(),
+                        name: widget.company!.name,
+                        number: widget.company!.number.toString(),
+                        // number_of_branches:
+                            // widget.company!.number_of_branch.toString(),
+                        email: widget.company!.email,
+                        address: widget.company!.address);
                     if (result == true) {
                       print('success');
                       Navigator.pop(context);

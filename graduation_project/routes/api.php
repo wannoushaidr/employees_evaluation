@@ -3,13 +3,15 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BranchesController ;
+// use App\Http\Controllers\ApiController ;
 use App\Http\Controllers\CompaniesController ;
 use App\Http\Controllers\EmployeesController ;
 use App\Http\Controllers\AccessoriesController ;
+use App\Http\Controllers\UserController ;
 use App\Http\Controllers\PointsController ;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-
+use App\Http\Controllers\PythonDataController;
 use App\Models\User;
 
 
@@ -53,7 +55,6 @@ Route::post('/sanctum/token',function (Request $request){
 Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $request) {
     $user = $request->user();
     $user->$tokens()->delete();
-
     return "token are deleted";
 });
 
@@ -189,12 +190,20 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
     Route::put('admin/points/update_points', [PointsController::class, 'update_points']);
     Route::delete('admin/points/delete_points', [PointsController::class, 'delete_points']);
 
+    // for admin API
+    Route::get('admin/users/get_all_users', [UserController::class, 'get_all_users']);
+    Route::post('admin/users/set_new_admins', [UserController::class, 'set_new_admins']);
+    Route::put('admin/users/update_admins', [UserController::class, 'update_admins']);
+    Route::delete('admin/users/delete_admins', [UserController::class, 'delete_admins']);
+    
+
     // send employee id like a parameter
     Route::get('admin/employees/get_my_information', [EmployeesController::class, 'get_my_information']);
     // get number of employees in my company
     Route::get('admin/employees/get_employees_count', [EmployeesController::class, 'get_employees_count']);
     // get number of employees in my company
     Route::get('admin/branches/get_branches_count', [BranchesController::class, 'get_branches_count']);
+    Route::get('admin/users/get_user', [BranchesController::class, 'get_branches_count']);
    
 
 // });
@@ -224,3 +233,18 @@ Route::get('employees/getSupervisorsAndCustomerServiceEmployees/{id}', [Employee
 
 // ********************** supervisior role
 Route::get('employees/getCustomerServiceEmployeesCount/{id}', [EmployeesController::class, 'getCustomerServiceEmployeesCount']);
+
+
+// //////////////////////////////////////////////////////////////
+
+// connect between laravel and python
+// Add this to routes/web.php or routes/api.php  
+// Route::get('/log-test', function () {  
+//     \Log::info('Logging test message');  
+//     return 'Logged!';  
+// });
+
+
+// // ///****************************    connect betweeen laravel and python            */
+// // In routes/api.php
+// Route::post('/data_from_python', [PythonDataController::class, 'receiveData']);

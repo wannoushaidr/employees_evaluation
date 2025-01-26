@@ -12,7 +12,7 @@ use App\Http\Controllers\EmployeesController ;
 use App\Http\Controllers\CompaniesController ;
 use App\Http\Controllers\AccessoriesController ;
 use App\Http\Controllers\PointsController ;
-
+use App\Http\Controllers\PythonDataController;
 
 
 
@@ -145,6 +145,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// In routes/api.php
+// Route::post('/data_from_python', [App\Http\Controllers\PythonDataController::class, 'receiveData']);
 
 
 // Route::group(['prefix'=>'admin'],function(){

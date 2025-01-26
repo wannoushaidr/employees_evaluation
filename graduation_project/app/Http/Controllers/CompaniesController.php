@@ -302,4 +302,6 @@ public function delete_companies(Request $request)
    }
 
 }
+
+
 }

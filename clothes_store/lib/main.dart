@@ -1,34 +1,35 @@
-import 'package:clothes_store/screens/HomeScreen.dart';
-import 'package:clothes_store/screens/add_accessory_screen.dart';
-import 'package:clothes_store/screens/MainScreen.dart';
+import 'package:clothes_store/screens/admin/HomeScreen.dart';
+import 'package:clothes_store/screens/admin/add_accessory_screen.dart';
+import 'package:clothes_store/screens/customer_service/customer_service_main_screen.dart';
+import 'package:clothes_store/screens/shared_screen/MainScreen.dart';
 
-import 'package:clothes_store/screens/add_company_screen.dart';
-import 'package:clothes_store/screens/add_employee_screen.dart';
-import 'package:clothes_store/screens/login_screen.dart';
+import 'package:clothes_store/screens/admin/add_company_screen.dart';
+import 'package:clothes_store/screens/admin/add_employee_screen.dart';
+import 'package:clothes_store/screens/shared_screen/login_screen.dart';
 import 'package:clothes_store/screens/manager/manager_main_screen.dart';
 import 'package:clothes_store/screens/manager/manager_statistics_screen.dart';
 import 'package:clothes_store/screens/manager/show_all_managers_employees.dart';
-import 'package:clothes_store/screens/show_all_accessories_screen.dart';
-import 'package:clothes_store/screens/show_all_branches_screen.dart';
-import 'package:clothes_store/screens/show_all_companies_screen.dart';
-import 'package:clothes_store/screens/show_all_points_screen.dart';
-import 'package:clothes_store/screens/statistics_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_accessories_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_branches_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_companies_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_points_screen.dart';
+import 'package:clothes_store/screens/admin/statistics_screen.dart';
 import 'package:clothes_store/screens/supervisor/supervisor_main_screen.dart';
 import 'package:clothes_store/screens/supervisor/supervisor_statistic_screen.dart';
-import 'package:clothes_store/screens/update_accessory_screen.dart';
-import 'package:clothes_store/screens/update_branch_screen.dart';
-import 'package:clothes_store/screens/update_company_screen.dart';
-import 'package:clothes_store/screens/update_employee_screen.dart';
-import 'package:clothes_store/screens/user_profile_screen.dart';
+import 'package:clothes_store/screens/admin/update_accessory_screen.dart';
+import 'package:clothes_store/screens/admin/update_branch_screen.dart';
+import 'package:clothes_store/screens/admin/update_company_screen.dart';
+import 'package:clothes_store/screens/admin/update_employee_screen.dart';
+import 'package:clothes_store/screens/shared_screen/user_profile_screen.dart';
 import 'package:clothes_store/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
-import 'package:clothes_store/screens/add_company_screen.dart';
-import 'package:clothes_store/screens/add_branch_screen.dart';
+import 'package:clothes_store/screens/admin/add_company_screen.dart';
+import 'package:clothes_store/screens/admin/add_branch_screen.dart';
 
-import 'package:clothes_store/screens/add_employee_screen.dart';
-import 'package:clothes_store/screens/show_all_employees.dart';
+import 'package:clothes_store/screens/admin/add_employee_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_employees.dart';
 import 'package:clothes_store/services/company_services.dart';
 import 'package:clothes_store/services/employee_services.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ import 'package:provider/provider.dart';
 
 
 import '../models/accessory_model.dart';
-import 'package:clothes_store/screens/MainScreen.dart';
+import 'package:clothes_store/screens/shared_screen/MainScreen.dart';
 
 import '../services/accessory_services.dart';
 
@@ -62,7 +63,7 @@ class ClothesStore extends StatelessWidget {
     
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SupervisorMainScreen(),
+      home: CutmoerServiceMainScreen(),
       routes: {
         // ************************************* admin route *****************************
         "home":(context) => HomeScreen(),
@@ -104,6 +105,12 @@ class ClothesStore extends StatelessWidget {
           // ******************************************   supervisor route *********************************
           "supervisor_mainScreen": (context) => SupervisorMainScreen(), // Add your screen here  supervisor
           "supervisors_statistics": (context) => SupervisiorStatisticScreen( employeeCount: {},), // Add your screen here  supervisor_statistics
+
+
+
+          // ******************************************   supervisor route *********************************
+          "customerService_mainScreen": (context) => CutmoerServiceMainScreen(), // Add your screen here  supervisor
+
 
 
 

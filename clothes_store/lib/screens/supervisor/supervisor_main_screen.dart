@@ -1,13 +1,13 @@
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
 import 'package:clothes_store/models/point_model.dart';
-import 'package:clothes_store/screens/login_screen.dart';
+import 'package:clothes_store/screens/shared_screen/login_screen.dart';
 import 'package:clothes_store/screens/manager/activate_employee_screen.dart';
 import 'package:clothes_store/screens/manager/manager_statistics_screen.dart';
 import 'package:clothes_store/screens/manager/show_all_managers_employees.dart';
-import 'package:clothes_store/screens/show_all_companies_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_companies_screen.dart';
 import 'package:clothes_store/screens/supervisor/supervisor_statistic_screen.dart';
-import 'package:clothes_store/screens/user_profile_screen.dart';
+import 'package:clothes_store/screens/shared_screen/user_profile_screen.dart';
 import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/company_services.dart';
 import 'package:clothes_store/services/employee_services.dart';

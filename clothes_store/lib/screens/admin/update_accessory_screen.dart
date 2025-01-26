@@ -3,13 +3,13 @@ import 'dart:typed_data';
 import 'package:clothes_store/models/accessory_model.dart';
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
-import 'package:clothes_store/screens/show_all_companies_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_companies_screen.dart';
 import 'package:clothes_store/services/accessory_services.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-import '../services/branch_services.dart';
-import '../services/company_services.dart';
+import '../../services/branch_services.dart';
+import '../../services/company_services.dart';
 
 class UpdateAccessoryScreen extends StatefulWidget {
   UpdateAccessoryScreen({super.key, required this.accessory});

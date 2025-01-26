@@ -1,15 +1,15 @@
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
-import 'package:clothes_store/screens/add_accessory_screen.dart';
-import 'package:clothes_store/screens/update_branch_screen.dart';
-import 'package:clothes_store/screens/update_company_screen.dart';
-import 'package:clothes_store/screens/update_employee_screen.dart';
+import 'package:clothes_store/screens/admin/add_accessory_screen.dart';
+import 'package:clothes_store/screens/admin/update_branch_screen.dart';
+import 'package:clothes_store/screens/admin/update_company_screen.dart';
+import 'package:clothes_store/screens/admin/update_employee_screen.dart';
 import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/employee_services.dart';
 import 'package:flutter/material.dart';
 
-import '../services/company_services.dart';
+import '../../services/company_services.dart';
 
 //   class ShowAllEmployeesScreen extends StatelessWidget {
 //   const ShowAllEmployeesScreen({super.key, required this.employees});

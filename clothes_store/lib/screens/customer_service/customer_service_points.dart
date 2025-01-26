@@ -1,17 +1,17 @@
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/point_model.dart';
-import 'package:clothes_store/screens/add_branch_screen.dart';
-import 'package:clothes_store/screens/show_all_branches_screen.dart';
-import 'package:clothes_store/screens/update_company_screen.dart';
+import 'package:clothes_store/screens/admin/add_branch_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_branches_screen.dart';
+import 'package:clothes_store/screens/admin/update_company_screen.dart';
 import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 
-import '../services/branch_services.dart';
-import '../services/company_services.dart';
+import '../../services/branch_services.dart';
+import '../../services/company_services.dart';
 
-class ShowAllPointsScreen extends StatelessWidget {
-  const ShowAllPointsScreen({super.key, required this.points});
+class CustomerServicePoints extends StatelessWidget {
+  const CustomerServicePoints({super.key, required this.points});
   final List<PointModel?>? points;
 
   @override

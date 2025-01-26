@@ -8,11 +8,11 @@ import 'package:dio/dio.dart' as Dio;
 class Auth extends ChangeNotifier{  
   bool _isLoggedIn=true;
   late String _token;
-  late var _user = User( name: "haidar wannous", 
-  email: "wannous.email@example.com",  role: "manager",id:12);
+  late var _user = UserModel( name: "haidar wannous", 
+  email: "wannous.email@example.com",  role: "customer_service",id:13,password: "testpassword1");
 
   bool get authenticated => _isLoggedIn;
-  User get user => _user;
+  UserModel get user => _user;
 
 
   void login({required Map creds, required BuildContext context}) async{
@@ -29,11 +29,11 @@ class Auth extends ChangeNotifier{
 
             String token = response.data.toString();
             print("step three");
-            _isLoggedIn = true;
-
-            // this.tryToken(token: token);  
+            // _isLoggedIn = true;
+//
+            this.tryToken(token: token);  
               print("step 4");
-            // this._isLoggedIn = true;
+            this._isLoggedIn = true;
               notifyListeners();
               print("ten 10");
     
@@ -53,7 +53,7 @@ class Auth extends ChangeNotifier{
               options: Dio.Options(headers:{'Authorization' : 'Bearer $token'})) ;
 
               this._isLoggedIn = true;
-              this._user = User.fromJson(response.data);
+              this._user = UserModel.fromJson(response.data);
               notifyListeners();
               print(_user);
           

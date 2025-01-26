@@ -1,24 +1,25 @@
+import 'package:clothes_store/models/accessory_model.dart';
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
-import 'package:clothes_store/screens/add_branch_screen.dart';
-import 'package:clothes_store/screens/show_all_branches_screen.dart';
-import 'package:clothes_store/screens/update_company_screen.dart';
+import 'package:clothes_store/screens/admin/update_accessory_screen.dart';
+import 'package:clothes_store/screens/admin/update_branch_screen.dart';
+import 'package:clothes_store/screens/admin/update_company_screen.dart';
+import 'package:clothes_store/services/accessory_services.dart';
+import 'package:clothes_store/services/branch_services.dart';
 import 'package:flutter/material.dart';
 
-import '../services/branch_services.dart';
-import '../services/company_services.dart';
+import '../../services/company_services.dart';
 
-class ShowAllCompaniesScreen extends StatelessWidget {
-  const ShowAllCompaniesScreen({super.key, required this.companies});
-  final List<CompanyModel?>? companies;
+class ShowAllAccessoriesScreen extends StatelessWidget {
+  const ShowAllAccessoriesScreen({super.key, required this.accessories});
+  final List<AccessoryModel?>? accessories;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Company Data Table'),
+        title: const Text('Accessories Data Table'),
       ),
-
 
       // drawer: Drawer(
       //     child: ListView(children: [
@@ -127,63 +128,34 @@ class ShowAllCompaniesScreen extends StatelessWidget {
       //       )
       //     ],),
       //    ),
-     
-     
+      
       body: SingleChildScrollView(
         child: DataTable(
           columns: const [
             DataColumn(label: Text('ID')),
-            DataColumn(label: Text('Name')),
-            DataColumn(label: Text('Number')),
-            // DataColumn(label: Text('Branches')),
-            DataColumn(label: Text('Email')),
-            DataColumn(label: Text('Address')),
+            DataColumn(label: Text('Type')),
+            DataColumn(label: Text('branch_id')),
+            DataColumn(label: Text('created_at')),
+            DataColumn(label: Text('updated_at')),
             DataColumn(label: Text('Actions')),
           ],
-          rows: companies!.map((company) {
+          rows: accessories!.map((accessory) {
             return DataRow(cells: [
-              DataCell(Text(company!.id.toString())),
-              DataCell(Text(company.name)),
-              DataCell(Text(company.number.toString())),
-              // DataCell(Text(company.number_of_branch.toString())),
-              DataCell(Text(company.email)),
-              DataCell(Text(company.address ?? 'NotDeleted')),
+              DataCell(Text(accessory!.id.toString())),
+              DataCell(Text(accessory.type)),
+              DataCell(Text(accessory.branch_id.toString())),
+              DataCell(Text(accessory.created_at)),
+              DataCell(Text(accessory.updated_at)),
               DataCell(
                 Row(
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.ad_units),
-                      onPressed: () async {
-                        AppBranchesService abs = AppBranchesService();
-                        List<BranchModel?>? branches =
-                            await abs.GetAllBranches();
-                        print(branches);
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return ShowAllBranchesScreen(
-                            branches: branches,
-                          );
-                        }));
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return AddBranchScreen(
-                            company_id: company.id.toString(),
-                          );
-                        }));
-                      },
-                    ),
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return UpdateCompanyScreen(
-                            company: company,
+                          return UpdateAccessoryScreen(
+                            accessory: accessory,
                           );
                         }));
                       },
@@ -191,9 +163,9 @@ class ShowAllCompaniesScreen extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () async {
-                        AppCompaniesService acp = new AppCompaniesService();
-                        bool? result =
-                            await acp.DeleteCompany(id: company.id.toString());
+                        AppAccessoriesService aas = new AppAccessoriesService();
+                        bool? result = await aas.DeleteAccessory(
+                            id: accessory.id.toString());
                         if (result == true) {
                           print('success');
                           Navigator.pop(context);

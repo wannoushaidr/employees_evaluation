@@ -153,7 +153,7 @@
 // ******************************************************************************************************
 // *//*********************************************************************************************** */
 
-import 'package:clothes_store/screens/login_screen.dart';
+import 'package:clothes_store/screens/shared_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 // Import other necessary packages
 

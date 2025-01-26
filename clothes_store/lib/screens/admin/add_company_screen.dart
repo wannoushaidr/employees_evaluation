@@ -1,30 +1,27 @@
-import 'package:clothes_store/models/company_model.dart';
-import 'package:clothes_store/screens/show_all_companies_screen.dart';
+import 'package:clothes_store/helper/snackbar.dart';
 import 'package:flutter/material.dart';
 
-import '../services/company_services.dart';
+import '../../services/company_services.dart';
 
-class UpdateCompanyScreen extends StatefulWidget {
-  UpdateCompanyScreen({super.key, required this.company});
-  CompanyModel? company;
-
+class AddCompanyScreen extends StatefulWidget {
   @override
-  State<UpdateCompanyScreen> createState() => _UpdateCompanyScreenState();
+  _AddCompanyScreenState createState() => _AddCompanyScreenState();
 }
 
-class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
+class _AddCompanyScreenState extends State<AddCompanyScreen> {
   final _formKey = GlobalKey<FormState>();
+  String name = '';
+  String number = '';
+  // String numberOfBranches = '';
+  String email = '';
+  String address = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Company'),
+        title: Text('Create Company'),
       ),
-
-
-   
-   
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -33,7 +30,6 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
             children: [
               TextFormField(
                 decoration: InputDecoration(labelText: 'Company Name'),
-                initialValue: widget.company!.name,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter company name';
@@ -41,12 +37,11 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                   return null;
                 },
                 onChanged: (value) {
-                  widget.company!.name = value;
+                  name = value;
                 },
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Contact Number'),
-                initialValue: widget.company!.number.toString(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter contact number';
@@ -54,13 +49,23 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                   return null;
                 },
                 onChanged: (value) {
-                  widget.company!.number = int.parse(value);
+                  number = value;
                 },
               ),
-              
+              // TextFormField(
+              //   decoration: InputDecoration(labelText: 'Number of Branches'),
+              //   validator: (value) {
+              //     if (value == null || value.isEmpty) {
+              //       return 'Please enter number of branches';
+              //     }
+              //     return null;
+              //   },
+              //   onChanged: (value) {
+              //     numberOfBranches = value;
+              //   },
+              // ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Email'),
-                initialValue: widget.company!.email,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter email';
@@ -70,12 +75,11 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                   return null;
                 },
                 onChanged: (value) {
-                  widget.company!.email = value;
+                  email = value;
                 },
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Address'),
-                initialValue: widget.company!.address,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter Address';
@@ -83,7 +87,7 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                   return null;
                 },
                 onChanged: (value) {
-                  widget.company!.address = value;
+                  address = value;
                 },
               ),
               SizedBox(height: 20),
@@ -95,19 +99,19 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                       SnackBar(content: Text('Processing Data')),
                     );
                     AppCompaniesService aps = AppCompaniesService();
-                    bool? result = await aps.UpdateCompany(
-                        id: widget.company!.id.toString(),
-                        name: widget.company!.name,
-                        number: widget.company!.number.toString(),
-                        // number_of_branches:
-                            // widget.company!.number_of_branch.toString(),
-                        email: widget.company!.email,
-                        address: widget.company!.address);
+                    bool? result = await aps.AddNewCompany(
+                        name: name,
+                        number: number,
+                        // number_of_branches: numberOfBranches,
+                        email: email,
+                        address: address);
                     if (result == true) {
                       print('success');
-                      Navigator.pop(context);
+                      SnackbarShow.showSnackbar(context, "added successfully  ");
+
                       Navigator.pop(context);
                     } else {
+                      SnackbarShow.showSnackbar(context, " error ");
                       print('error');
                     }
                   }

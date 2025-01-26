@@ -7,8 +7,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../services/company_services.dart';
-import 'dart:html' as html; // Import the html library for web
+import '../../services/company_services.dart';
+import 'dart:html' as html; // Import the html library for web ************************************
 import 'package:http/http.dart' as http;
 
 class AddEmployeeScreen extends StatefulWidget {

@@ -1,32 +1,22 @@
-
-
-import 'package:clothes_store/models/accessory_model.dart';
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
-import 'package:clothes_store/models/point_model.dart';
-import 'package:clothes_store/screens/update_accessory_screen.dart';
-import 'package:clothes_store/screens/update_branch_screen.dart';
-import 'package:clothes_store/screens/update_company_screen.dart';
-import 'package:clothes_store/services/accessory_services.dart';
-import 'package:clothes_store/services/branch_services.dart';
-import 'package:clothes_store/services/point_services.dart';
+import 'package:clothes_store/screens/admin/add_branch_screen.dart';
+import 'package:clothes_store/screens/admin/show_all_branches_screen.dart';
+import 'package:clothes_store/screens/admin/update_company_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../services/company_services.dart';
+import '../../services/branch_services.dart';
+import '../../services/company_services.dart';
 
-class statistics_screen extends StatelessWidget {
-  const statistics_screen({super.key,   required this.branchesCount, required this.points,  required this.employeeCount});
-  final int  branchesCount;
-  final List<int?> points;
-  final Map<String, int> employeeCount;
-
+class ShowAllCompaniesScreen extends StatelessWidget {
+  const ShowAllCompaniesScreen({super.key, required this.companies});
+  final List<CompanyModel?>? companies;
 
   @override
   Widget build(BuildContext context) {
-  int totalPoints = points.fold(0, (previous, current) => previous + (current ?? 0));
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Accessories Data Table'),
+        title: const Text('Company Data Table'),
       ),
 
 
@@ -137,32 +127,94 @@ class statistics_screen extends StatelessWidget {
       //       )
       //     ],),
       //    ),
-
-    
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Branches Count: $branchesCount', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 16),
-              Text('Points:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Text(totalPoints.toString()),
-              const SizedBox(height: 16),
-              Text('Employee Statistics:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Text('Employee Count: ${employeeCount['employee_count']}'),
-              Text('Customer Service Count: ${employeeCount['customer_service_count']}'),
-              Text('Manager Count: ${employeeCount['manager_count']}'),
-              Text('Supervisor Count: ${employeeCount['supervisor_count']}'),
-            ],
-          ),
+     
+     
+      body: SingleChildScrollView(
+        child: DataTable(
+          columns: const [
+            DataColumn(label: Text('ID')),
+            DataColumn(label: Text('Name')),
+            DataColumn(label: Text('Number')),
+            // DataColumn(label: Text('Branches')),
+            DataColumn(label: Text('Email')),
+            DataColumn(label: Text('Address')),
+            DataColumn(label: Text('Actions')),
+          ],
+          rows: companies!.map((company) {
+            return DataRow(cells: [
+              DataCell(Text(company!.id.toString())),
+              DataCell(Text(company.name)),
+              DataCell(Text(company.number.toString())),
+              // DataCell(Text(company.number_of_branch.toString())),
+              DataCell(Text(company.email)),
+              DataCell(Text(company.address ?? 'NotDeleted')),
+              DataCell(
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.ad_units),
+                      onPressed: () async {
+                        AppBranchesService abs = AppBranchesService();
+                        List<BranchModel?>? branches =
+                            await abs.GetAllBranches();
+                        print(branches);
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return ShowAllBranchesScreen(
+                            branches: branches,
+                          );
+                        }));
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return AddBranchScreen(
+                            company_id: company.id.toString(),
+                          );
+                        }));
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return UpdateCompanyScreen(
+                            company: company,
+                          );
+                        }));
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () async {
+                        AppCompaniesService acp = new AppCompaniesService();
+                        bool? result =
+                            await acp.DeleteCompany(id: company.id.toString());
+                        if (result == true) {
+                          print('success');
+                          Navigator.pop(context);
+                        } else {
+                          print('error');
+                        }
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) {
+                        //   return UpdateCompanyScreen(
+                        //     company: company,
+                        //   );
+                        // }));
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ]);
+          }).toList(),
         ),
       ),
     );
   }
 }
-
-      
-     
-      
