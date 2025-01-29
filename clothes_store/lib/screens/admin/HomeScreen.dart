@@ -27,6 +27,7 @@ import '../../models/accessory_model.dart';
 import 'package:clothes_store/screens/shared_screen/MainScreen.dart';
 
 import '../../services/accessory_services.dart';
+import '../../services/auth_remastered.dart';
 import 'add_accessory_screen.dart';
 import 'show_all_accessories_screen.dart';
 import 'show_all_companies_screen.dart';

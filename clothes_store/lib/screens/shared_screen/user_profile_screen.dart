@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:clothes_store/services/auth.dart'; // Import your Auth class
+import 'package:clothes_store/services/auth.dart';
+
+import '../../services/auth_remastered.dart'; // Import your Auth class
 
 class UserProfile extends StatelessWidget {
   @override

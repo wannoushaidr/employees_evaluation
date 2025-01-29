@@ -13,7 +13,9 @@ import 'package:clothes_store/services/employee_services.dart';
 import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:clothes_store/services/auth.dart'; // Import your Auth class
+import 'package:clothes_store/services/auth.dart';
+
+import '../../services/auth_remastered.dart'; // Import your Auth class
 
 class ManagerMainScreen extends StatelessWidget {
   @override

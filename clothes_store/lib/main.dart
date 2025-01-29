@@ -40,6 +40,7 @@ import '../models/accessory_model.dart';
 import 'package:clothes_store/screens/shared_screen/MainScreen.dart';
 
 import '../services/accessory_services.dart';
+import 'services/auth_remastered.dart';
 
 void main() {
   

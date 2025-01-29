@@ -138,6 +138,7 @@
 
 import 'package:clothes_store/models/user.dart';
 import 'package:clothes_store/services/auth.dart';
+import 'package:clothes_store/services/auth_remastered.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -169,11 +170,25 @@ class _LoginScreenState extends State<LoginScreen> {
       'password': _passwordController.text,
       'device_name': 'mobile',
     };
+    
 
     if (_formkey.currentState!.validate()) {
-      Provider.of<Auth>(context, listen: false).login(creds: creds, context: context);
+      try{
+      Auth auth = Auth();
+      String? token = await auth.login(creds: creds, context: context);
+      Map<String,dynamic>? data = await auth.tryToken(token: token!);
 
-      // Check if the user is authenticated
+      UserModel user = UserModel.fromJson(data!);
+       Provider.of<Auth>(context, listen: false).user.id = user.id;
+        Provider.of<Auth>(context, listen: false).user.name = user.name;
+         Provider.of<Auth>(context, listen: false).user.email = user.email;
+          Provider.of<Auth>(context, listen: false).user.role = user.role;
+          Provider.of<Auth>(context, listen: false).authenticated = true;
+           
+      print(user);
+      }catch(e)
+      {print(e);}
+print(Provider.of<Auth>(context, listen: false).authenticated);
       if (Provider.of<Auth>(context, listen: false).authenticated) {
         // Navigate based on user role
         String role = Provider.of<Auth>(context, listen: false).user.role;
@@ -192,7 +207,32 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
     }
-  }
+    }
+  
+  
+  //   if (_formkey.currentState!.validate()) {
+  //     Provider.of<AuthRemastered>(context, listen: false).login(creds: creds, context: context);
+
+  //     // Check if the user is authenticated
+  //     if (Provider.of<AuthRemastered>(context, listen: false).authenticated) {
+  //       // Navigate based on user role
+  //       String role = Provider.of<Auth>(context, listen: false).user.role;
+
+  //       if (role == 'admin') {
+  //         Navigator.pushReplacementNamed(context, "admin_main_Screen");
+  //       } else if (role == 'manager') {
+  //         Navigator.pushReplacementNamed(context, "manager_mainScreen");
+  //       } else if (role == 'supervisor') {
+  //         Navigator.pushReplacementNamed(context, "supervisor_mainScreen");
+  //       }
+  //       else if (role == 'customer_service') {
+  //         Navigator.pushReplacementNamed(context, "customerService_mainScreen");
+  //       } else {
+  //         Navigator.pushReplacementNamed(context, "default_mainScreen"); // Default or user screen
+  //       }
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

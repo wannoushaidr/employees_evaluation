@@ -7,7 +7,7 @@
     String? password;
 
 
-    UserModel({required this.name, required this.email , required this.role, required  this.id, required  this.password});
+    UserModel({required this.name, required this.email , required this.role, required  this.id, this.password});
 
     UserModel.fromJson(Map<String,dynamic> json):
     name = json['name'],
@@ -15,7 +15,7 @@
     // avatar = json['avatar'],
     id = json['id'],
     role = json['role'],// Initialize the role field
-    password = json['password']; // Initialize the role field
+    password = json['password']??''; // Initialize the role field
 
 
 
