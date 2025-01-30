@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\PythonDataController;
 use App\Models\User;
-
+use App\Http\Controllers\NotificationController;
 
 
 /*
@@ -245,6 +245,10 @@ Route::get('employees/getCustomerServiceEmployeesCount/{id}', [EmployeesControll
 // });
 
 
-// // ///****************************    connect betweeen laravel and python            */
-// // In routes/api.php
-// Route::post('/data_from_python', [PythonDataController::class, 'receiveData']);
+// ///****************************    connect betweeen laravel and python            */
+// In routes/api.php
+Route::post('/data_from_python', [PythonDataController::class, 'receiveData']);
+
+
+// for notification 
+Route::post('employees/send_notification', [NotificationController::class, 'send']);
