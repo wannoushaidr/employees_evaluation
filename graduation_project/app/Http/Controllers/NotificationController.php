@@ -13,8 +13,9 @@ class NotificationController extends Controller
         $user = User::find($request->input('user_id'));
         if ($user) {
             $data = [
-                'title' => 'Notification Title',
-                'body' => 'Notification Body',
+                'user_id' => $request->user_id,
+                'title' => $request->title,
+                'body' => $request->body,
                 'url' => url('/')
             ];
             $user->notify(new NotificatiForCustmoerService($data));
