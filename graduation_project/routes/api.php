@@ -76,6 +76,7 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {  
     try {  
         \Log::info('User Authenticated: ', [$request->user()]);  
+        
         return $request->user(); // This should return user data as JSON  
     } catch (\Illuminate\Auth\AuthenticationException $e) {  
         return response()->json(['message' => 'Invalid token provided. Please log in again.'], 401);  
@@ -252,3 +253,13 @@ Route::post('/data_from_python', [PythonDataController::class, 'receiveData']);
 
 // for notification 
 Route::post('employees/send_notification', [NotificationController::class, 'send']);
+
+
+Route::get('/config-test', function () {
+    return [
+        'PUSHER_APP_ID' => env('PUSHER_APP_ID'),
+        'PUSHER_APP_KEY' => env('PUSHER_APP_KEY'),
+        'PUSHER_APP_SECRET' => env('PUSHER_APP_SECRET'),
+        'PUSHER_APP_CLUSTER' => env('PUSHER_APP_CLUSTER'),
+    ];
+});

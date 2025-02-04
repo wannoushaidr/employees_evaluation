@@ -30,7 +30,7 @@ class NotificatiForCustmoerService extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'user_id' => $this->data['user_id'],
+            'id' => $this->data['id'],
             'title' => $this->data['title'],
             'body' => $this->data['body'],
             'url' => $this->data['url']

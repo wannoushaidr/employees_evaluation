@@ -55,8 +55,10 @@ class AppUsersService {
       required String role,
       // required Uint8List image,
       // required String SelectedFile, 
-      required String email,
-      required String passowrd,
+       required String email,
+       required String password,
+      Uint8List? image,  
+  String? selectedFile,  
       }) async {
     try {
       String url =
@@ -78,14 +80,15 @@ class AppUsersService {
       // request.fields['gender'] = gender;
       request.fields['role'] = role;
       request.fields['email'] = email;
-      request.fields['password'] = passowrd;
+      request.fields['password'] = password;
       
-
-      // request.files.add(http.MultipartFile.fromBytes(
-      //   'image', // The field name expected by the server
-      //   image,
-      //   filename: SelectedFile,
-      // ));
+// if (image != null && selectedFile != null) {  
+//       request.files.add(http.MultipartFile.fromBytes(  
+//         'image', // The field name expected by the server  
+//         image,  
+//         filename: selectedFile,  
+//       ));  
+//     }  
       
 
       var response = await request.send();

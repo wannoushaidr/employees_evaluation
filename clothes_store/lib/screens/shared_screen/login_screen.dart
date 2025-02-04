@@ -136,6 +136,8 @@
 
 
 
+import 'dart:ui';
+
 import 'package:clothes_store/models/user.dart';
 import 'package:clothes_store/services/auth.dart';
 import 'package:clothes_store/services/auth_remastered.dart';
@@ -237,48 +239,80 @@ print(Provider.of<Auth>(context, listen: false).authenticated);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formkey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextFormField(
-                controller: _emailController,
-                validator: (value) => value!.isEmpty ? "Please enter a valid email" : null,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  hintText: 'Enter your email',
-                  border: OutlineInputBorder(),
-                ),
+      body: Stack(  
+        fit: StackFit.expand,  
+        children: [  
+          // Background image  
+          Image.asset(  
+            'assets/images/clothes-background.jpg',  
+            fit: BoxFit.cover,  
+          ),  
+          // Apply blur effect  
+          BackdropFilter(  
+            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),  
+            child: Container(  
+              color: Colors.black.withOpacity(0.5), // Optional: add overlay color  
+             
+          
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Form(
+              key: _formkey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+               
+                children: <Widget>[
+                  Container(
+                     width: 500,
+                    child: TextFormField(
+                      
+                      controller: _emailController,
+                      validator: (value) => value!.isEmpty ? "Please enter a valid email" : null,
+                      decoration: InputDecoration(
+                        
+                        labelText: 'Email',
+                        hintText: 'Enter your email',
+                        border: OutlineInputBorder(),
+                    
+                        
+                      ),
+                      
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                     width: 500,
+                    child: TextFormField(
+                      controller: _passwordController,
+                      validator: (value) => value!.isEmpty ? "Please enter a valid password" : null,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'Enter your password',
+                        border: OutlineInputBorder(),
+                      ),
+                      obscureText: true,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      minimumSize: Size(500, 50),
+                      backgroundColor: const Color.fromARGB(255, 123, 123, 123),
+                    ),
+                    child: Text(
+                      'Login',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: _login,
+                    
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: _passwordController,
-                validator: (value) => value!.isEmpty ? "Please enter a valid password" : null,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  hintText: 'Enter your password',
-                  border: OutlineInputBorder(),
-                ),
-                obscureText: true,
-              ),
-              SizedBox(height: 20),
-              TextButton(
-                style: TextButton.styleFrom(
-                  minimumSize: Size(double.infinity, 36),
-                  backgroundColor: Colors.blue,
-                ),
-                child: Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: _login,
-              ),
-            ],
+            ),
           ),
         ),
+          ),
+        ],
       ),
     );
   }

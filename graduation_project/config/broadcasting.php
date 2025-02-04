@@ -30,16 +30,16 @@ return [
 
     'connections' => [
 
-        'pusher' => [
-            'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
-            'options' => [
-                'cluster' => env('PUSHER_APP_CLUSTER'),
-                'useTLS' => true,
-            ],
-        ],
+        // 'pusher' => [
+        //     'driver' => 'pusher',
+        //     'key' => env('PUSHER_APP_KEY'),
+        //     'secret' => env('PUSHER_APP_SECRET'),
+        //     'app_id' => env('PUSHER_APP_ID'),
+        //     'options' => [
+        //         'cluster' => env('PUSHER_APP_CLUSTER'),
+        //         'useTLS' => true,
+        //     ],
+        // ],
 
         'ably' => [
             'driver' => 'ably',
@@ -59,6 +59,31 @@ return [
             'driver' => 'null',
         ],
 
-    ],
+    // ],
+
+    'pusher' => [
+            'driver' => 'pusher',
+            'key' => env('PUSHER_APP_KEY'),
+            'secret' => env('PUSHER_APP_SECRET'),
+            'app_id' => env('PUSHER_APP_ID'),
+            'options' => [
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'useTLS' => false,
+                'host' => '127.0.0.1',
+                'port' => 6001,
+                'scheme' => 'http',
+
+                // 'cluster' => 'mt1',
+                // 'useTLS' => true
+            ],
+
+
+            // 'options' => [
+            //     'cluster' => 'mt1',
+            //     'useTLS' => true
+            //     ],
+],
+],
+
 
 ];

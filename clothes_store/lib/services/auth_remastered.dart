@@ -7,10 +7,10 @@ import '../models/user.dart';
 
 class Auth extends ChangeNotifier {
   late String _token;
-  late var _user = UserModel( name: "haidar wannous", 
-  email: "wannous.email@example.com",  role: "customer_service",id:13);
+  late var _user = UserModel( name: "samer", 
+  email: "no3umms@gmmail.com",  role: "customer_service",id:11,image:"");
 
-  bool authenticated = false;
+  bool authenticated = true;
   UserModel get user => _user;
 
   Future<String?> login ({required Map creds, required BuildContext context})async{

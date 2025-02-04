@@ -567,12 +567,16 @@ public function set_new_employees(Request $request){
     } else {
         $datatoinsert['created_at'] = now();
         $employee = Employees::create($datatoinsert); // Assuming Employees model is fillable
-
+        $image = $request->file('image');
+        $fileName = time() . '_image.' . $image->getClientOriginalExtension();
+        $image->move(public_path('uploads'), $fileName);
+        $imagepath = 'C:/Users/LENOVO/AndroidStudioProjects/employees_evaluation/graduation_project/public/'.'uploads/' . $fileName;
         $user = User::create([
             'name' => $request->name,  
             'email'=>$request->email,
             'password' => Hash::make('12345678'), // Hash the password  
             'role' => $request->position, // Default role, adjust as needed 
+            'image' => $imagepath, // Default role, adjust as needed 
 
         ]);
         // Associate the created user with the new employee  

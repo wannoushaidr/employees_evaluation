@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Notifications\NotificatiForCustmoerService;
 use App\Models\User;
+use App\Models\Employees;
+
 
 class NotificationController extends Controller
 {
     public function send(Request $request)
     {
-        $user = User::find($request->input('user_id'));
+        $user = User::find($request->input('id'));
         if ($user) {
             $data = [
-                'user_id' => $request->user_id,
+                'id' => $request->id,
                 'title' => $request->title,
                 'body' => $request->body,
                 'url' => url('/')

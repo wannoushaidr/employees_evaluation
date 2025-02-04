@@ -53,6 +53,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'image' => ['required'],
         ]);
     }
 
@@ -64,10 +65,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $image = $data->file('image');
+        $fileName = time() . '_image.' . $image->getClientOriginalExtension();
+        $image->move(public_path('uploads'), $fileName);
+        $imagepath = 'C:/Users/LENOVO/AndroidStudioProjects/employees_evaluation/graduation_project/public/'.'uploads/' . $fileName;
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'image' => $imagepath,
         ]);
     }
 }

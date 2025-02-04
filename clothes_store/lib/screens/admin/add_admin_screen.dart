@@ -183,7 +183,7 @@ class _AddAdminScreen extends State<AddAdminScreen> {
                         // number: number,
                         // gender: gender,
                         role: role,
-                        passowrd: password
+                        password: password
                         // image: image!,
                         // SelectedFile: selectedFile,
                       );
