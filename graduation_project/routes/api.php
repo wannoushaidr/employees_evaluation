@@ -175,14 +175,14 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
     // for employee API 
     Route::get('admin/employees/get_all_employees', [EmployeesController::class, 'get_all_employees']);
     Route::post('admin/employees/set_new_employees', [EmployeesController::class, 'set_new_employees']);
-    Route::put('admin/employees/update_employees', [EmployeesController::class, 'update_employees']);
+    Route::post('admin/employees/update_employees', [EmployeesController::class, 'update_employees']);
     Route::delete('admin/employees/delete_employees', [EmployeesController::class, 'delete_employees']);
     
 
     // for accessories API 
     Route::get('admin/accesories/get_all_accesories', [AccessoriesController::class, 'get_all_accesories']);
     Route::post('admin/accesories/set_new_accesories', [AccessoriesController::class, 'set_new_accesories']);
-    Route::put('admin/accesories/update_accesories', [AccessoriesController::class, 'update_accesories']);
+    Route::post('admin/accesories/update_accesories', [AccessoriesController::class, 'update_accesories']);
     Route::delete('admin/accesories/delete_accesories', [AccessoriesController::class, 'delete_accesories']);
 
     // for points API 

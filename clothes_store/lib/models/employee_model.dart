@@ -14,7 +14,6 @@ class EmployeeModel {
   String email;
   int? user_id;
 
-
   EmployeeModel(
       {required this.id,
       required this.name,
@@ -33,6 +32,22 @@ class EmployeeModel {
 
   factory EmployeeModel.fromJson(dynamic data) {
     return EmployeeModel(
+      // id: data['id'],
+      // name: data['name'],
+      // number: data['number'],
+      // description: data['description'],
+      // gender: data['gender'],
+      // position: data['position'],
+      // active: data['active'],
+      // email: data['email'],
+      // user_id: data['user_id'],
+      // created_at: data['created_at'],
+      // updated_at: data['updated_at'],
+      // leader_id: data['leader_id']?? 0,
+      // image: data['image'],
+      // branch_id: data['branch_id'],
+
+
       id: data['id'] ?? 0,
       name: data['name'] ?? '',
       number: data['number'] ?? 0,

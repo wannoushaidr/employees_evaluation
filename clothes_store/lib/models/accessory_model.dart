@@ -25,8 +25,8 @@ class AccessoryModel {
       updated_at: data['updated_at'],
       deleted_at: data['deleted_at'],
       image:
-          "C:/Users/LENOVO/projects/graduation_project/graduation_project/public/" +
-              data['image'],
+          //  "C:/Users/LENOVO/projects/graduation_project/graduation_project/public/" +
+          data['image'],
     );
   }
 }

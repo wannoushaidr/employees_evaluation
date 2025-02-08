@@ -32,8 +32,8 @@ dependencies:
     sdk: flutter
   provider: ^6.1.2  # or any latest 6.x.x version  
   dio: ^5.0.0
-  web_socket_channel: ^3.0.2
-  flutter_local_notifications: ^18.0.1
+  web_socket_channel: ^2.1.0
+  flutter_local_notifications: ^8.2.0
   
 
 
@@ -54,7 +54,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

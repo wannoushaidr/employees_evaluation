@@ -318,66 +318,180 @@ public function delete_points(Request $request)
 
 
 
-public function get_my_employee_points(Request $request)
-{
-    if ($request->has('id')) {
-        $id = $request->input('id');
+// public function get_my_employee_points(Request $request)
+// {
+//     if ($request->has('id')) {
+//         $id = $request->input('id');
 
-        // Retrieve the employee with the given id
-        $employee = Employees::find($id);
+//         // Retrieve the employee with the given id
+//         $employee = Employees::find($id);
 
-        if (!$employee) {
-            return response()->json(['error' => 'Employee not found'], 404);
-        }
+//         if (!$employee) {
+//             return response()->json(['error' => 'Employee not found'], 404);
+//         }
 
-        $data = [];
+//         $data = [];
 
-        // Check the employee's position
-        if ($employee->position == 'manager') {
-            // Manager: Get all supervisors under this manager and their customer service employees
-            $supervisors = Employees::where('leader_id', $employee->id)
-                                   ->where('position', 'supervisor')
-                                   ->get();
+//         // Check the employee's position
+//         if ($employee->position == 'manager') {
+//             // Manager: Get all supervisors under this manager and their customer service employees
+//             $supervisors = Employees::where('leader_id', $employee->id)
+//                                    ->where('position', 'supervisor')
+//                                    ->get();
 
-            foreach ($supervisors as $supervisor) {
-                $customerServices = Employees::where('leader_id', $supervisor->id)
-                                            ->where('position', 'customer_service')
-                                            ->get();
+//             foreach ($supervisors as $supervisor) {
+//                 $customerServices = Employees::where('leader_id', $supervisor->id)
+//                                             ->where('position', 'customer_service')
+//                                             ->get();
 
-                foreach ($customerServices as $customerService) {
-                    $points = Points::where('employee_id', $customerService->id)->get();
-                    $data[] = [
-                        'supervisor' => $supervisor,
-                        'employee' => $customerService,
-                        'points' => $points
-                    ];
-                }
-            }
-        } elseif ($employee->position == 'supervisor') {
-            // Supervisor: Get all customer service employees under this supervisor
-            $customerServices = Employees::where('leader_id', $employee->id)
-                                        ->where('position', 'customer_service')
-                                        ->get();
+//                 foreach ($customerServices as $customerService) {
+//                     $points = Points::where('employee_id', $customerService->id)->get();
+//                     $data[] = [
+//                         'supervisor' => $supervisor,
+//                         'employee' => $customerService,
+//                         'points' => $points
+//                     ];
+//                 }
+//             }
+//         } elseif ($employee->position == 'supervisor') {
+//             // Supervisor: Get all customer service employees under this supervisor
+//             $customerServices = Employees::where('leader_id', $employee->id)
+//                                         ->where('position', 'customer_service')
+//                                         ->get();
 
-            foreach ($customerServices as $customerService) {
-                $points = Points::where('employee_id', $customerService->id)->get();
-                $data[] = [
-                    'employee' => $customerService,
-                    'points' => $points
-                ];
-            }
-        } else {
-            // If the employee is neither a manager nor a supervisor, return an error
-            return response()->json(['error' => 'Invalid employee position (this is service cusomer id'], 400);
-        }
+//             foreach ($customerServices as $customerService) {
+//                 $points = Points::where('employee_id', $customerService->id)->get();
+//                 $data[] = [
+//                     'employee' => $customerService,
+//                     'points' => $points
+//                 ];
+//             }
+//         } else {
+//             // If the employee is neither a manager nor a supervisor, return an error
+//             return response()->json(['error' => 'Invalid employee position (this is service cusomer id'], 400);
+//         }
 
-        return response()->json($data);
-    } else {
-        // If no id is provided, return an error
-        return response()->json(['error' => 'No ID provided'], 400);
-    }
+//         return response()->json($data);
+//     } else {
+//         // If no id is provided, return an error
+//         return response()->json(['error' => 'No ID provided'], 400);
+//     }
+// }
+
+
+// public function get_my_employee_points(Request $request)
+// {
+//     if ($request->has('id')) {
+//         $id = $request->input('id');
+
+//         // Retrieve the employee with the given id
+//         $employee = Employees::find($id);
+
+//         if (!$employee) {
+//             return response()->json(['error' => 'Employee not found'], 404);
+//         }
+
+//         $data = [];
+
+//         // Check the employee's position
+//         if ($employee->position == 'manager') {
+//             // Manager: Get all supervisors under this manager and their customer service employees
+//             $supervisors = Employees::where('leader_id', $employee->id)
+//                                    ->where('position', 'supervisor')
+//                                    ->get();
+
+//             foreach ($supervisors as $supervisor) {
+//                 $customerServices = Employees::where('leader_id', $supervisor->id)
+//                                             ->where('position', 'customer_service')
+//                                             ->get();
+
+//                 foreach ($customerServices as $customerService) {
+//                     $points = Points::where('employee_id', $customerService->id)->get();
+//                     $data[] = [
+//                         // 'supervisor' => $supervisor,
+//                         // 'employee' => $customerService,
+//                         'points' => $points
+//                     ];
+//                 }
+//             }
+//         } elseif ($employee->position == 'supervisor') {
+//             // Supervisor: Get all customer service employees under this supervisor
+//             $customerServices = Employees::where('leader_id', $employee->id)
+//                                         ->where('position', 'customer_service')
+//                                         ->get();
+
+//             foreach ($customerServices as $customerService) {
+//                 $points = Points::where('employee_id', $customerService->id)->get();
+//                 $data[] = [
+//                     // 'employee' => $customerService,
+//                     'points' => $points
+//                 ];
+//             }
+//         } else {
+//             // If the employee is neither a manager nor a supervisor, return an error
+//             return response()->json(['error' => 'Invalid employee position (this is service cusomer id'], 400);
+//         }
+
+//         return response()->json($data);
+//     } else {
+//         // If no id is provided, return an error
+//         return response()->json(['error' => 'No ID provided'], 400);
+//     }
+// }
+
+
+public function get_my_employee_points(Request $request)  
+{  
+    if ($request->has('id')) {  
+        $id = $request->input('id');  
+
+        // Retrieve the employee with the given id  
+        $employee = Employees::find($id);  
+
+        if (!$employee) {  
+            return response()->json(['error' => 'Employee not found'], 404);  
+        }  
+
+        $pointsData = []; // Use this array to collect all points  
+
+        // Check the employee's position  
+        if ($employee->position == 'manager') {  
+            // Manager: Get all supervisors under this manager and their customer service employees  
+            $supervisors = Employees::where('leader_id', $employee->id)  
+                                   ->where('position', 'supervisor')  
+                                   ->get();  
+
+            foreach ($supervisors as $supervisor) {  
+                $customerServices = Employees::where('leader_id', $supervisor->id)  
+                                            ->where('position', 'customer_service')  
+                                            ->get();  
+
+                foreach ($customerServices as $customerService) {  
+                    $points = Points::where('employee_id', $customerService->id)->get();  
+                    $pointsData = array_merge($pointsData, $points->toArray()); // Merge points  
+                }  
+            }  
+        } elseif ($employee->position == 'supervisor') {  
+            // Supervisor: Get all customer service employees under this supervisor  
+            $customerServices = Employees::where('leader_id', $employee->id)  
+                                        ->where('position', 'customer_service')  
+                                        ->get();  
+
+            foreach ($customerServices as $customerService) {  
+                $points = Points::where('employee_id', $customerService->id)->get();  
+                $pointsData = array_merge($pointsData, $points->toArray()); // Merge points  
+            }  
+        } else {  
+            // If the employee is neither a manager nor a supervisor, return an error  
+            return response()->json(['error' => 'Invalid employee position'], 400);  
+        }  
+
+        return response()->json($pointsData); // Directly return the points data array  
+    } else {  
+        // If no id is provided, return an error  
+        return response()->json(['error' => 'No ID provided'], 400);  
+    }  
 }
-
 
 
 

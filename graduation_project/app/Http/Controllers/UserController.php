@@ -19,6 +19,7 @@ class UserController extends Controller
          
         public function set_new_admins(Request $request)
         {  
+            // return($request);
 
             $messages = [
                 'name.required' => 'Please enter a name.',
@@ -42,7 +43,7 @@ class UserController extends Controller
                 'name' => 'required|string|max:255',  
                 'role' => 'required|string|max:255',  
                 'email' => 'required|email|max:255|unique:users,email', // Ensure email uniqueness  
-                'image' => 'required', // Ensure email uniqueness  
+                // 'image' => 'required', // Ensure email uniqueness  
                 'password' => [  
                     'required',  
                     'string',  
@@ -62,8 +63,8 @@ class UserController extends Controller
             $image = $request->file('image');
             $fileName = time() . '_image.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads'), $fileName);
-            $imagepath = 'C:/Users/LENOVO/AndroidStudioProjects/employees_evaluation/graduation_project/public/'.'uploads/' . $fileName;
-            $dataToInsert['image'] = $imagepath;
+            // $imagepath = 'C:/Users/LENOVO/AndroidStudioProjects/employees_evaluation/graduation_project/public/'.'uploads/' . $fileName;
+            $dataToInsert['image'] = 'uploads/' . $fileName;
             // Check if user already exists (by email)  
             $isExist = User::where('email', $dataToInsert['email'])->exists();  
         

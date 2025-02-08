@@ -17,8 +17,11 @@ class ShowAllBranchesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Branch Data Table'),
+        backgroundColor: const Color.fromARGB(255, 39, 95, 193),
+        shadowColor: Colors.black,
+        elevation: 2,
       ),
-      
+
       // drawer: Drawer(
       //     child: ListView(children: [
       //       Row(children: [
@@ -41,159 +44,198 @@ class ShowAllBranchesScreen extends StatelessWidget {
       //       ),
       //       ListTile(
       //       leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
+      //         title:Container(
+      //       margin: EdgeInsets.symmetric(horizontal: 20),
+      //       child: MaterialButton(
+      //         // color: Colors.red,
+      //         textColor: Colors.black,
+      //         onPressed: () {
+      //           // Navigating to About Us page
       //           Navigator.of(context).pushNamed('home');
-      //         },  
+      //         },
       //         // leading:Icon(Icons.home),
-      //         child: const Text("add new",textAlign: TextAlign.left,),  
+      //         child: const Text("add new",textAlign: TextAlign.left,),
 
-      //       ),  
+      //       ),
       //         )
       //       ),
       //       ListTile(
       //         leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
+      //         title:Container(
+      //       margin: EdgeInsets.symmetric(horizontal: 20),
+      //       child: MaterialButton(
+      //         // color: Colors.red,
+      //         textColor: Colors.black,
+      //         onPressed: () {
+      //           // Navigating to About Us page
       //           Navigator.of(context).pushNamed('statistics_screen');
-      //         },  
+      //         },
       //         // leading:Icon(Icons.home),
-      //         child: const Text("statistics",textAlign: TextAlign.left,),  
+      //         child: const Text("statistics",textAlign: TextAlign.left,),
 
-      //       ),  
+      //       ),
       //         )
       //       ),
       //       ListTile(
       //        leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
+      //         title:Container(
+      //       margin: EdgeInsets.symmetric(horizontal: 20),
+      //       child: MaterialButton(
+      //         // color: Colors.red,
+      //         textColor: Colors.black,
+      //         onPressed: () {
+      //           // Navigating to About Us page
       //           Navigator.of(context).pushNamed('showEmployees');
-      //         },  
+      //         },
       //         // leading:Icon(Icons.home),
-      //         child: const Text("employees",textAlign: TextAlign.left,),  
+      //         child: const Text("employees",textAlign: TextAlign.left,),
 
-      //       ),  
+      //       ),
       //         )
       //       ),
       //       ListTile(
       //         leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
+      //         title:Container(
+      //       margin: EdgeInsets.symmetric(horizontal: 20),
+      //       child: MaterialButton(
+      //         // color: Colors.red,
+      //         textColor: Colors.black,
+      //         onPressed: () {
+      //           // Navigating to About Us page
       //           Navigator.of(context).pushNamed('showBranches');
-      //         },  
+      //         },
       //         // leading:Icon(Icons.home),
-      //         child: const Text("branches",textAlign: TextAlign.left,),  
+      //         child: const Text("branches",textAlign: TextAlign.left,),
 
-      //       ),  
+      //       ),
       //         )
       //       ),
       //       ListTile(
       //         leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
+      //         title:Container(
+      //       margin: EdgeInsets.symmetric(horizontal: 20),
+      //       child: MaterialButton(
+      //         // color: Colors.red,
+      //         textColor: Colors.black,
+      //         onPressed: () {
+      //           // Navigating to About Us page
       //           Navigator.of(context).pushNamed('home');
-      //         },  
+      //         },
       //         // leading:Icon(Icons.home),
-      //         child: const Text("go to home",textAlign: TextAlign.left,),  
+      //         child: const Text("go to home",textAlign: TextAlign.left,),
 
-      //       ),  
+      //       ),
       //         )
       //       )
       //     ],),
       //    ),
-      
-      body: SingleChildScrollView(
-        child: DataTable(
-          columns: const [
-            DataColumn(label: Text('ID')),
-            DataColumn(label: Text('Name')),
-            DataColumn(label: Text('phone')),
-            DataColumn(label: Text('address')),
-            DataColumn(label: Text('Email')),
-            DataColumn(label: Text('Actions')),
-          ],
-          rows: branches!.map((branch) {
-            return DataRow(cells: [
-              DataCell(Text(branch!.id.toString())),
-              DataCell(Text(branch.name)),
-              // DataCell(Text(branch.phone)),
-              DataCell(Text(branch.phone.toString())),
-              DataCell(Text(branch.address)),
-              DataCell(Text(branch.email)),
-              DataCell(
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return AddAccessoryScreen(branch_id: branch.id.toString(),);
-                        }));
-                      },
+
+      body: Container(
+        color: const Color.fromARGB(255, 219, 219, 219),
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: DataTable(
+                headingRowColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 186, 184, 184)),
+                dataRowColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 255, 255, 255)),
+                columns: const [
+                  DataColumn(
+                      label: Text(
+                    'ID',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Name',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'phone',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'address',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Email',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Actions',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+                ],
+                rows: branches!.map((branch) {
+                  return DataRow(cells: [
+                    DataCell(Text(branch!.id.toString())),
+                    DataCell(Text(branch.name)),
+                    // DataCell(Text(branch.phone)),
+                    DataCell(Text(branch.phone.toString())),
+                    DataCell(Text(branch.address)),
+                    DataCell(Text(branch.email)),
+                    DataCell(
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return AddAccessoryScreen(
+                                  branch_id: branch.id.toString(),
+                                );
+                              }));
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return UpdateBranchScreen(
+                                  branch: branch,
+                                );
+                              }));
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () async {
+                              AppBranchesService acp = new AppBranchesService();
+
+                              bool? result = await acp.DeleteBranch(
+                                  id: branch.id.toString());
+                              if (result == true) {
+                                print('success');
+                                Navigator.pop(context);
+                              } else {
+                                print('error');
+                              }
+                              // Navigator.push(context,
+                              //     MaterialPageRoute(builder: (context) {
+                              //   return UpdateCompanyScreen(
+                              //     company: company,
+                              //   );
+                              // }));
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return UpdateBranchScreen(
-                            branch: branch,
-                          );
-                        }));
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () async {
-                        AppBranchesService acp = new AppBranchesService();
-                        
-                        bool? result =
-                            await acp.DeleteBranch(id: branch.id.toString());
-                        if (result == true) {
-                          print('success');
-                          Navigator.pop(context);
-                        } else {
-                          print('error');
-                        }
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) {
-                        //   return UpdateCompanyScreen(
-                        //     company: company,
-                        //   );
-                        // }));
-                      },
-                    ),
-                  ],
-                ),
+                  ]);
+                }).toList(),
               ),
-            ]);
-          }).toList(),
+            ),
+          ],
         ),
       ),
     );

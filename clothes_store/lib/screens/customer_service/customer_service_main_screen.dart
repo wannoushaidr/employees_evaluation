@@ -26,14 +26,11 @@
 //     return Scaffold(
 //       appBar: AppBar(title: Text('customer sercice main screen')),
 
-     
-     
-     
-//       drawer: Drawer(   
+//       drawer: Drawer(
 //                               child:Consumer<Auth>(builder:(context,auth,child){
 //                                 // if (!  auth!.authenticated){
 //                                 if (!  auth.authenticated){
-//                                   return ListView( 
+//                                   return ListView(
 //                                     children: [
 //                                       ListTile(
 //                                   leading:const Icon(Icons.login),
@@ -77,13 +74,13 @@
 //                     ],
 //                   ),
 //                 ),
-                
+
 //                             ListTile(
 //                               title:ElevatedButton(
 //                                           onPressed: () async {
 //                                             // Your new button functionality goes here
 //                                             print('profile');
-                                           
+
 //                                               Navigator.push(
 //                                                 context,
 //                                                 MaterialPageRoute(
@@ -98,13 +95,12 @@
 //                                         ),
 //                             ),
 
-
 //                     ListTile(
 //                               title:ElevatedButton(
 //                                           onPressed: () async {
 //                                             // Your new button functionality goes here
 //                                             print('ManagerMainScreen');
-                                           
+
 //                                               Navigator.push(
 //                                                 context,
 //                                                 MaterialPageRoute(
@@ -119,8 +115,6 @@
 //                                         ),
 //                             ),
 
-
-
 //                             ListTile(
 //                               title:ElevatedButton(
 //                                           onPressed: () async {
@@ -130,7 +124,6 @@
 //                                                     // AppEmployeesService aas3 = AppEmployeesService();
 //                                                       // Map<String, int>? employeeCount = await aas3.getSupervisorsAndCustomerServiceEmployees(auth.user.id);
 //                                                     List<PointModel?>? points = await aas.GetEmployeePoint(auth.user.id);
-
 
 //                                             if (points != null) {
 //                                               Navigator.push(
@@ -201,8 +194,6 @@
 //                                         ),
 //                             ),
 
-                           
-                          
 //                           ListTile(
 //                               leading:const Icon(Icons.logout),
 //                               title:const Text("logout"),
@@ -212,13 +203,13 @@
 //                                    Navigator.pushReplacementNamed(context, 'mainscreen');
 //                               },
 //                             ),
-                            
+
 //                           ],
 //                           );
 //                             }
-//                       }) 
+//                       })
 //                       ),
-     
+
 //       body: Center(
 //         child: Column(
 //           mainAxisAlignment: MainAxisAlignment.center,
@@ -278,7 +269,6 @@
 //     );
 //   }
 // }
-
 
 // import 'package:clothes_store/models/company_model.dart';
 // import 'package:clothes_store/models/employee_model.dart';
@@ -576,11 +566,13 @@ import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:clothes_store/services/auth.dart';
-import '../../services/auth_remastered.dart'; // Import your Auth class
+import '../../services/auth_remastered.dart';
+import '../admin/statistics_screen.dart'; // Import your Auth class
 
 class CutmoerServiceMainScreen extends StatefulWidget {
   @override
-  State<CutmoerServiceMainScreen> createState() => _CutmoerServiceMainScreenState();
+  State<CutmoerServiceMainScreen> createState() =>
+      _CutmoerServiceMainScreenState();
 }
 
 class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
@@ -651,13 +643,15 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const CircleAvatar(
-                              backgroundColor: Colors.blue,
-                              radius: 30,
+                              backgroundImage: AssetImage(
+                                  'assets/images/clothes-background.jpg'),
+                              //NetworkImage(auth.user.image??''),
+                              //  backgroundColor: Colors.blue,
+                              radius: 35,
                             ),
                             const SizedBox(height: 10),
                             Text(auth.user.name,
                                 style: const TextStyle(color: Colors.black)),
-                            const SizedBox(height: 10),
                             Text(auth.user.email,
                                 style: const TextStyle(color: Colors.black)),
                           ],
@@ -681,152 +675,95 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
   List<Widget> _buildDrawerItems(Auth auth, BuildContext context) {
     return [
       ListTile(
-        title: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => UserProfile()),
-            );
-          },
-          child: Text('profile'),
-        ),
-      ),
-      // Add other drawer items here...
-      ListTile(
-        leading: const Icon(Icons.logout),
-        title: const Text("logout"),
+        leading: const Icon(Icons.person), // Add an icon for the profile
+        title: const Text('Profile'),
         onTap: () {
-          Provider.of<Auth>(context, listen: false).logout();
-          Navigator.pushReplacementNamed(context, 'mainscreen');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => UserProfile()),
+          );
         },
       ),
-                      ListTile(
-                  title: ElevatedButton(
-                    onPressed: () async {
-                      // Your new button functionality goes here
-                      print('profile');
+      ListTile(
+        leading: const Icon(Icons.home), // Add an icon for the main screen
+        title: const Text('Main Screen'),
+        onTap: () async {
+          print('MainScreen');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CutmoerServiceMainScreen()),
+          );
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.point_of_sale), // Add an icon for points
+        title: const Text('Points'),
+        onTap: () async {
+          print('points');
+          AppPointsService aas = AppPointsService();
+          List<PointModel?>? points = await aas.GetEmployeePoint(auth.user.id);
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return UserProfile();
-                          },
-                        ),
-                      );
-                      // Example: Fetch another set of data or navigate to a different screen
-                    },
-                    child: Text('profile'),
-                  ),
-                ),
-                ListTile(
-                  title: ElevatedButton(
-                    onPressed: () async {
-                      // Your new button functionality goes here
-                      print('ManagerMainScreen');
+          if (points != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return CustomerServicePoints(
+                    points: points,
+                  );
+                },
+              ),
+            );
+          }
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.notifications), // Notification icon
+        title: const Text('Notifications'),
+        onTap: () async {
+          AppEmployeesService acp = AppEmployeesService();
+          List<EmployeeModel?>? employees =
+              await acp.GetMyAtivateEmployee(auth.user.id);
+          print(employees);
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return CutmoerServiceMainScreen();
-                          },
-                        ),
-                      );
-                      // Example: Fetch another set of data or navigate to a different screen
-                    },
-                    child: Text('main screen '),
-                  ),
-                ),
-                ListTile(
-                  title: ElevatedButton(
-                    onPressed: () async {
-                      // Your new button functionality goes here
-                      print('statistic');
-                      AppPointsService aas = AppPointsService();
-                      // AppEmployeesService aas3 = AppEmployeesService();
-                      // Map<String, int>? employeeCount = await aas3.getSupervisorsAndCustomerServiceEmployees(auth.user.id);
-                      List<PointModel?>? points =
-                          await aas.GetEmployeePoint(auth.user.id);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return showActivateEmployees(employees: employees);
+              },
+            ),
+          );
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.pie_chart), // Statistic icon
+        title: const Text('Statistics'),
+        onTap: () async {
+          AppEmployeesService acp = AppEmployeesService();
+          List<EmployeeModel?>? employees =
+              await acp.GetMyEmployeesEnformation(auth.user.id);
+          print("employees");
+          print(employees);
 
-                      if (points != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return CustomerServicePoints(
-                                points: points,
-                              );
-                            },
-                          ),
-                        );
-                      }
-                      // Example: Fetch another set of data or navigate to a different screen
-                    },
-                    child: Text('points'),
-                  ),
-                ),
-                ListTile(
-                  title: ElevatedButton(
-                    // onPressed: () async {
-                    // Your new button functionality goes here
-                    onPressed: () async {
-                      AppEmployeesService acp = AppEmployeesService();
-                      List<EmployeeModel?>? employees =
-                          await acp.GetMyAtivateEmployee(auth.user.id);
-                      print(employees);
-
-                      // if (employees != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return showActivateEmployees(employees: employees);
-                          },
-                        ),
-                      );
-                      // }
-                    },
-                    // Example: Fetch another set of data or navigate to a different screen
-                    // },
-                    child: Text('notification'),
-                  ),
-                ),
-                ListTile(
-                  title: ElevatedButton(
-                    // onPressed: () async {
-                    // Your new button functionality goes here
-                    onPressed: () async {
-                      AppEmployeesService acp = AppEmployeesService();
-                      List<EmployeeModel?>? employees =
-                          await acp.GetMyEmployeesEnformation(auth.user.id);
-                      print("employees");
-                      print(employees);
-
-                      // if (employees != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return showEmployeesByManages(employees: employees);
-                          },
-                        ),
-                      );
-                      // }
-                    },
-                    // Example: Fetch another set of data or navigate to a different screen
-                    // },
-                    child: Text('statistic'),
-                  ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.logout),
-                  title: const Text("logout"),
-                  onTap: () {
-                    Provider.of<Auth>(context, listen: false).logout();
-                    Navigator.pushReplacementNamed(context, 'mainscreen');
-                  },
-                ),
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return showEmployeesByManages(employees: employees);
+              },
+            ),
+          );
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.logout),
+        title: const Text("Logout"),
+        onTap: () {
+          Provider.of<Auth>(context, listen: false).logout();
+          Navigator.pushReplacementNamed(context, 'LoginScreen');
+        },
+      ),
     ];
   }
 
@@ -836,12 +773,26 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: 10),
-          Text('Name: ${auth.user.name}'),
+          Text(
+            'Name: ${auth.user.name}',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           SizedBox(height: 5),
-          Text('Email: ${auth.user.email}'),
+          Text(
+            'Email: ${auth.user.email}',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           SizedBox(height: 5),
-          Text('Role: ${auth.user.role}'),
+          Text(
+            'Role: ${auth.user.role}',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 5),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(200, 50),
+              backgroundColor: Colors.blueAccent,
+            ),
             onPressed: () async {
               AppEmployeesService acp = AppEmployeesService();
               List<EmployeeModel?>? employees =
@@ -857,9 +808,17 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
                 );
               }
             },
-            child: Text('Show Employees by Managers'),
+            child: Text(
+              'Show Employees by Managers',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
+          SizedBox(height: 5),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(200, 50),
+              backgroundColor: Colors.blueAccent,
+            ),
             onPressed: () async {
               AppPointsService aas = AppPointsService();
               AppEmployeesService aas3 = AppEmployeesService();
@@ -879,7 +838,10 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
                 );
               }
             },
-            child: Text('Second Button'),
+            child: Text(
+              'Second Button',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),

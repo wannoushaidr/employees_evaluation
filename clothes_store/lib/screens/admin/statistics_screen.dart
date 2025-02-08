@@ -1,5 +1,3 @@
-
-
 import 'package:clothes_store/models/accessory_model.dart';
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
@@ -15,20 +13,26 @@ import 'package:flutter/material.dart';
 import '../../services/company_services.dart';
 
 class statistics_screen extends StatelessWidget {
-  const statistics_screen({super.key,   required this.branchesCount, required this.points,  required this.employeeCount});
-  final int  branchesCount;
+  const statistics_screen(
+      {super.key,
+      required this.branchesCount,
+      required this.points,
+      required this.employeeCount});
+  final int branchesCount;
   final List<int?> points;
   final Map<String, int> employeeCount;
 
-
   @override
   Widget build(BuildContext context) {
-  int totalPoints = points.fold(0, (previous, current) => previous + (current ?? 0));
+    int totalPoints =
+        points.fold(0, (previous, current) => previous + (current ?? 0));
     return Scaffold(
       appBar: AppBar(
         title: const Text('Accessories Data Table'),
+        backgroundColor: const Color.fromARGB(255, 39, 95, 193),
+        shadowColor: Colors.black,
+        elevation: 2,
       ),
-
 
       // drawer: Drawer(
       //     child: ListView(children: [
@@ -52,117 +56,199 @@ class statistics_screen extends StatelessWidget {
       //       ),
       //       ListTile(
       //       leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
+      //         title:Container(
+      //       margin: EdgeInsets.symmetric(horizontal: 20),
+      //       child: MaterialButton(
+      //         // color: Colors.red,
+      //         textColor: Colors.black,
+      //         onPressed: () {
+      //           // Navigating to About Us page
       //           Navigator.of(context).pushNamed('home');
-      //         },  
+      //         },
       //         // leading:Icon(Icons.home),
-      //         child: const Text("add new",textAlign: TextAlign.left,),  
+      //         child: const Text("add new",textAlign: TextAlign.left,),
 
-      //       ),  
+      //       ),
       //         )
       //       ),
       //       ListTile(
       //         leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
+      //         title:Container(
+      //       margin: EdgeInsets.symmetric(horizontal: 20),
+      //       child: MaterialButton(
+      //         // color: Colors.red,
+      //         textColor: Colors.black,
+      //         onPressed: () {
+      //           // Navigating to About Us page
       //           Navigator.of(context).pushNamed('statistics_screen');
-      //         },  
+      //         },
       //         // leading:Icon(Icons.home),
-      //         child: const Text("statistics",textAlign: TextAlign.left,),  
+      //         child: const Text("statistics",textAlign: TextAlign.left,),
 
-      //       ),  
+      //       ),
       //         )
       //       ),
       //       ListTile(
       //        leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
+      //         title:Container(
+      //       margin: EdgeInsets.symmetric(horizontal: 20),
+      //       child: MaterialButton(
+      //         // color: Colors.red,
+      //         textColor: Colors.black,
+      //         onPressed: () {
+      //           // Navigating to About Us page
       //           Navigator.of(context).pushNamed('showEmployees');
-      //         },  
+      //         },
       //         // leading:Icon(Icons.home),
-      //         child: const Text("employees",textAlign: TextAlign.left,),  
+      //         child: const Text("employees",textAlign: TextAlign.left,),
 
-      //       ),  
+      //       ),
       //         )
       //       ),
       //       ListTile(
       //         leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
+      //         title:Container(
+      //       margin: EdgeInsets.symmetric(horizontal: 20),
+      //       child: MaterialButton(
+      //         // color: Colors.red,
+      //         textColor: Colors.black,
+      //         onPressed: () {
+      //           // Navigating to About Us page
       //           Navigator.of(context).pushNamed('showBranches');
-      //         },  
+      //         },
       //         // leading:Icon(Icons.home),
-      //         child: const Text("branches",textAlign: TextAlign.left,),  
+      //         child: const Text("branches",textAlign: TextAlign.left,),
 
-      //       ),  
+      //       ),
       //         )
       //       ),
       //       ListTile(
       //         leading:Icon(Icons.home),
-      //         title:Container(  
-      //       margin: EdgeInsets.symmetric(horizontal: 20),  
-      //       child: MaterialButton(  
-      //         // color: Colors.red,  
-      //         textColor: Colors.black,  
-      //         onPressed: () {  
-      //           // Navigating to About Us page  
+      //         title:Container(
+      //       margin: EdgeInsets.symmetric(horizontal: 20),
+      //       child: MaterialButton(
+      //         // color: Colors.red,
+      //         textColor: Colors.black,
+      //         onPressed: () {
+      //           // Navigating to About Us page
       //           Navigator.of(context).pushNamed('home');
-      //         },  
+      //         },
       //         // leading:Icon(Icons.home),
-      //         child: const Text("go to home",textAlign: TextAlign.left,),  
+      //         child: const Text("go to home",textAlign: TextAlign.left,),
 
-      //       ),  
+      //       ),
       //         )
       //       )
       //     ],),
       //    ),
 
-    
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Branches Count: $branchesCount', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 16),
-              Text('Points:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Text(totalPoints.toString()),
-              const SizedBox(height: 16),
-              Text('Employee Statistics:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Text('Employee Count: ${employeeCount['employee_count']}'),
-              Text('Customer Service Count: ${employeeCount['customer_service_count']}'),
-              Text('Manager Count: ${employeeCount['manager_count']}'),
-              Text('Supervisor Count: ${employeeCount['supervisor_count']}'),
-            ],
-          ),
+      body: Container(
+        margin: EdgeInsets.all(40),
+        child: GridView(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, childAspectRatio: 2),
+          children: [
+            Card(
+              color: Colors.white,
+              elevation: 5,
+              //  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text('Branches Count:',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      Center(
+                        child: Text('$branchesCount',
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  )),
+            ),
+            Card(
+              color: Colors.white,
+              elevation: 5,
+              //  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Points:${totalPoints.toString()}',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ),
+            ),
+            Card(
+              color: Colors.white,
+              elevation: 5,
+              //  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    'Employee Count: ${employeeCount['employee_count']}',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ),
+            ),
+            Card(
+              color: Colors.white,
+              elevation: 5,
+              //  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    'Customer Service Count: ${employeeCount['customer_service_count']}',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ),
+            ),
+            Card(
+              color: Colors.white,
+              elevation: 5,
+              //   margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Manager Count: ${employeeCount['manager_count']}',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ),
+            ),
+            Card(
+              color: Colors.white,
+              elevation: 5,
+              //     margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    'Supervisor Count: ${employeeCount['supervisor_count']}',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ),
+            ),
+
+            // Text('Employee Statistics:',
+            //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          ],
         ),
       ),
     );
   }
 }
-
-      
-     
-      

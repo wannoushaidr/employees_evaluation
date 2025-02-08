@@ -35,7 +35,6 @@ import 'package:clothes_store/services/employee_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 import '../models/accessory_model.dart';
 import 'package:clothes_store/screens/shared_screen/MainScreen.dart';
 
@@ -43,10 +42,8 @@ import '../services/accessory_services.dart';
 import 'services/auth_remastered.dart';
 
 void main() {
-  
   runApp(
-    
-    // for authunticated  
+    // for authunticated
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => Auth()),
@@ -61,68 +58,84 @@ class ClothesStore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
-      routes: {
-        // ************************************* admin route *****************************
-        "home":(context) => HomeScreen(),
-        "admin_main_Screen": (context) => HomeScreen(), // Add your screen here 
-        // "supervisorScreen": (context) => SupervisorScreen(), // Add your screen here 
-        // "customerServiceScreen": (context) => CustomerServiceScreen(), // Add your screen here
-        "userProfile": (context) => UserProfile(), // Add your new route here
-        "mainscreen":(context) => MainScreen(),
-        "addAccessory":(context) => AddAccessoryScreen(branch_id: '',),
-        "addCompany":(context) => AddCompanyScreen(),
-        "addEmployee":(context) => AddEmployeeScreen(),
-        "addBranch":(context) => AddBranchScreen(company_id: '',),
-        "showAccessories":(context) => ShowAllAccessoriesScreen(accessories: [],),
-        "showBranches":(context) => ShowAllBranchesScreen(branches: [],),
-        "showCompanies":(context) => ShowAllCompaniesScreen(companies: [],),
-        "showEmployees":(context) => ShowAllEmployeesScreen(employees: [],),
-        "showPoints":(context) => ShowAllPointsScreen(points: [],),
-        // "updateEmployee":(context) => UpdateEmployeeScreen(employee: null,),
-        "updateCompany":(context) => UpdateCompanyScreen(company: null,),
-        "updateBranch":(context) => UpdateBranchScreen(branch: null,),
-        "updateAccessories":(context) => UpdateAccessoryScreen(accessory: null,),
-        //  "statistics_screen":(context) => const statistics_screen(branchesCount: 0, points: [],employeeCount :[]),
+        debugShowCheckedModeBanner: false,
+        home: LoginScreen(),
+        routes: {
+          // ************************************* admin route *****************************
+          "home": (context) => HomeScreen(),
+          "admin_main_Screen": (context) =>
+              HomeScreen(), // Add your screen here
+          // "supervisorScreen": (context) => SupervisorScreen(), // Add your screen here
+          // "customerServiceScreen": (context) => CustomerServiceScreen(), // Add your screen here
+          "userProfile": (context) => UserProfile(), // Add your new route here
+          "mainscreen": (context) => MainScreen(),
+          "addAccessory": (context) => AddAccessoryScreen(
+                branch_id: '',
+              ),
+          "addCompany": (context) => AddCompanyScreen(),
+          "addEmployee": (context) => AddEmployeeScreen(),
+          "addBranch": (context) => AddBranchScreen(
+                company_id: '',
+              ),
+          "showAccessories": (context) => ShowAllAccessoriesScreen(
+                accessories: [],
+              ),
+          "showBranches": (context) => ShowAllBranchesScreen(
+                branches: [],
+              ),
+          "showCompanies": (context) => ShowAllCompaniesScreen(
+                companies: [],
+              ),
+          "showEmployees": (context) => ShowAllEmployeesScreen(
+                employees: [],
+              ),
+          "showPoints": (context) => ShowAllPointsScreen(
+                points: [],
+              ),
+          // "updateEmployee":(context) => UpdateEmployeeScreen(employee: null,),
+          "updateCompany": (context) => UpdateCompanyScreen(
+                company: null,
+              ),
+          "updateBranch": (context) => UpdateBranchScreen(
+                branch: null,
+              ),
+          "updateAccessories": (context) => UpdateAccessoryScreen(
+                accessory: null,
+              ),
+          //  "statistics_screen":(context) => const statistics_screen(branchesCount: 0, points: [],employeeCount :[]),
           "statistics_screen": (context) => const statistics_screen(
-                                                                        branchesCount: 0, 
-                                                                        points: [], 
-                                                                        // employeesCount: [],
-                                                                        employeeCount: {
-                                                                          'employee_count': 0,
-                                                                          'customer_service_count': 0,
-                                                                          'manager_count': 0,
-                                                                          'supervisor_count': 0,
-                                                                        },
-                                                                      ),
+                branchesCount: 0,
+                points: [],
+                // employeesCount: [],
+                employeeCount: {
+                  'employee_count': 0,
+                  'customer_service_count': 0,
+                  'manager_count': 0,
+                  'supervisor_count': 0,
+                },
+              ),
 
           // ******************************************   managers route *********************************
-          "manager_mainScreen": (context) => ManagerMainScreen(), // Add your screen here  managers_statistics
-          "managers_statistics": (context) => ManagerStatisticScreen( employeeCount: {},), // Add your screen here  managers_statistics
+          "manager_mainScreen": (context) =>
+              ManagerMainScreen(), // Add your screen here  managers_statistics
+          "managers_statistics": (context) => ManagerStatisticScreen(
+                employeeCount: {},
+              ), // Add your screen here  managers_statistics
 
           // ******************************************   supervisor route *********************************
-          "supervisor_mainScreen": (context) => SupervisorMainScreen(), // Add your screen here  supervisor
-          "supervisors_statistics": (context) => SupervisiorStatisticScreen( employeeCount: {},), // Add your screen here  supervisor_statistics
-
-
+          "supervisor_mainScreen": (context) =>
+              SupervisorMainScreen(), // Add your screen here  supervisor
+          "supervisors_statistics": (context) => SupervisiorStatisticScreen(
+                employeeCount: {},
+              ), // Add your screen here  supervisor_statistics
 
           // ******************************************   supervisor route *********************************
-          "customerService_mainScreen": (context) => CutmoerServiceMainScreen(), // Add your screen here  supervisor
-
-
-
-
-}
-
-
-
-    );
+          "customerService_mainScreen": (context) =>
+              CutmoerServiceMainScreen(), // Add your screen here  supervisor
+        });
   }
 }
-
 
 // import 'package:clothes_store/screens/admin/add_branch_screen.dart';
 // import 'package:clothes_store/screens/admin/show_all_employees.dart';
@@ -267,8 +280,6 @@ class ClothesStore extends StatelessWidget {
 //     );
 //   }
 // }
-
-
 
 // import 'package:clothes_store/screens/admin/add_branch_screen.dart';
 // import 'package:clothes_store/screens/admin/show_all_employees.dart';

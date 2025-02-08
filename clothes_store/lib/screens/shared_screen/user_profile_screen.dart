@@ -10,7 +10,12 @@ class UserProfile extends StatelessWidget {
     final auth = Provider.of<Auth>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text('User Profile')),
+      appBar: AppBar(
+        title: Text('User Profile'),
+        backgroundColor: Colors.blueAccent,
+        shadowColor: Colors.black,
+        elevation: 2,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -20,11 +25,25 @@ class UserProfile extends StatelessWidget {
               radius: 50,
             ),
             SizedBox(height: 10),
-            Text('Name: ${auth.user.name}'),
+            Text(
+              'Name: ${auth.user.name}',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 5),
-            Text('Email: ${auth.user.email}'),
+            Text(
+              'Email: ${auth.user.email}',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 5),
-            Text('Role: ${auth.user.role}'),
+            Text(
+              'Role: ${auth.user.role}',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 5),
+            Text(
+              'id: ${auth.user.id}',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),

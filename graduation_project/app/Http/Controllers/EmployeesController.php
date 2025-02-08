@@ -357,8 +357,9 @@ public function get_all_employees(){
 // }
 
 
-public function update_employees(Request $request,$id) {  
+public function update_employees(Request $request) {  
     // Define custom error messages  
+  //  return response()->json($request);
     $messages = [  
         'id.required' => 'The ID is required.',  
         'id.exists' => 'The employee does not exist.',  
@@ -385,7 +386,7 @@ public function update_employees(Request $request,$id) {
         'active' => 'required|string|max:10',  
         'position' => 'required|string|max:255',  
         'branch_id' => 'required|integer|exists:branches,id',  
-        'user_id' => 'nullable|integer|exists:users,id', // Ensure user_id exists in users table  
+       //   'user_id' => 'nullable|exists:users,id', // Ensure user_id exists in users table  
         'email' => 'required|email' ,  // Allow existing email for the user being updated  
     ], $messages);  
 
@@ -399,10 +400,9 @@ public function update_employees(Request $request,$id) {
     }  
 
     // Find the existing employee by ID  
-    // $data = Employees::find($request->id);  
-    $data = Companies::select("*")->find($id);  
+    $data = Employees::find($request->id);  
 
-    if (!empty($data)) {  
+//return response()->json($data);
         // If the employee exists, prepare to update  
         $datatoupdate = $request->only(['name', 'number', 'description', 'active', 'gender', 'position', 'branch_id','email']);  
 
@@ -416,44 +416,6 @@ public function update_employees(Request $request,$id) {
             $image->move(public_path('uploads'), $fileName);  
             $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path  
         }  
-
-
-
-
-
-        // if ($request->hasFile('image')) {  
-        //         $image = $request->file('image');  
-        //         $fileName = time() . '_image.' . $image->getClientOriginalExtension();  
-            
-        //         // Specify the desired absolute directory path  
-        //         $desiredPath = 'C:/Users/LENOVO/AndroidStudioProjects'; // Change this to your desired path  
-            
-        //         // Full path to the directory  
-        //         $fullPath = $desiredPath; // Save directly to the specified path  
-            
-        //         // Create the directory if it doesn't exist  
-        //         if (!file_exists($fullPath)) {  
-        //             // Attempt to create the directory, set permissions, and allow recursive creation of directories  
-        //             if (!mkdir($fullPath, 0755, true) && !is_dir($fullPath)) {  
-        //                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $fullPath));  
-        //             }  
-        //         }  
-            
-        //         // Move the uploaded file to the specified path  
-        //         $image->move($fullPath, $fileName);  
-            
-        //         // Save the relative path in the database  
-        //         $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path if needed  
-        //     }
-
-
-
-
-
-
-
-
-
 
 
         // Check if leader_id is provided and is not the string 'null'  
@@ -483,13 +445,13 @@ public function update_employees(Request $request,$id) {
                 'message' => 'Failed to update employee'  
             ], 500);  
         }  
-    } else {  
-        // If the employee does not exist  
-        return response()->json([  
-            'code' => 404,  
-            'message' => 'Employee not found'  
-        ], 404);  
-    }  
+    // } else {  
+    //     // If the employee does not exist  
+    //     return response()->json([  
+    //         'code' => 404,  
+    //         'message' => 'Employee not found'  
+    //     ], 404);  
+    // }  
 }
 
 
@@ -509,6 +471,8 @@ public function update_employees(Request $request,$id) {
 
 public function set_new_employees(Request $request){
     // Define custom error messages
+    //return response()->json($data);
+
     $messages = [
         'name.required' => 'Please enter a name.',
         'number.required' => 'Please enter a number.',
@@ -536,10 +500,10 @@ public function set_new_employees(Request $request){
         'active' => 'required|string|max:10',
         'position' => 'required|string|max:255',
         'branch_id' => 'required|integer|exists:branches,id',
-        'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif',
         'leader_id' => 'nullable|integer|exists:employees,id','unique:employees', // Adding validation for leader_id
         'email' => 'required|email|unique:users',  
-        'user_id' => 'integer',
+        // 'user_id' => 'integer',
         // 'password' => 'required|string|min:8',
     ], $messages);
 
@@ -567,16 +531,16 @@ public function set_new_employees(Request $request){
     } else {
         $datatoinsert['created_at'] = now();
         $employee = Employees::create($datatoinsert); // Assuming Employees model is fillable
-        $image = $request->file('image');
-        $fileName = time() . '_image.' . $image->getClientOriginalExtension();
-        $image->move(public_path('uploads'), $fileName);
-        $imagepath = 'C:/Users/LENOVO/AndroidStudioProjects/employees_evaluation/graduation_project/public/'.'uploads/' . $fileName;
+        // $image = $request->file('image');
+        // $fileName = time() . '_image.' . $image->getClientOriginalExtension();
+        // $image->move(public_path('uploads'), $fileName);
+        // $imagepath = 'uploads/' . $fileName;
         $user = User::create([
             'name' => $request->name,  
             'email'=>$request->email,
             'password' => Hash::make('12345678'), // Hash the password  
             'role' => $request->position, // Default role, adjust as needed 
-            'image' => $imagepath, // Default role, adjust as needed 
+            'image' => $datatoinsert['image'], // Default role, adjust as needed 
 
         ]);
         // Associate the created user with the new employee  
@@ -984,6 +948,7 @@ public function getCustomerServiceEmployeesCount(Request $request,$id) {
                 $employeeCount++;
                 if ($employee->position == 'customer_service') {
                     $customerServiceCount++;
+                    $employeeCount++;
                 }
             }
 

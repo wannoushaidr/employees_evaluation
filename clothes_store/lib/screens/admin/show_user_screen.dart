@@ -1,5 +1,3 @@
-
-
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
@@ -16,8 +14,6 @@ import 'package:flutter/material.dart';
 
 import '../../services/company_services.dart';
 
-
-
 // *******************************************   this is updataed code for above code ****************
 import 'package:flutter/material.dart';
 
@@ -30,68 +26,99 @@ class ShowAllUsersScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Employees Data Table'),
+        backgroundColor: const Color.fromARGB(255, 39, 95, 193),
+        shadowColor: Colors.black,
+        elevation: 2,
       ),
-
-
-     
       body: users == null
           ? Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              child: DataTable(
-                columns: const [
-                  DataColumn(label: Text('ID')),
-                  DataColumn(label: Text('Name')),
-                  // DataColumn(label: Text('Number')),
-                  // DataColumn(label: Text('Gender')),
-                  DataColumn(label: Text('role')),
-                  
-                  DataColumn(label: Text('email')),
-                  DataColumn(label: Text('Actions')),
-                  
+          : Container(
+              color: const Color.fromARGB(255, 219, 219, 219),
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DataTable(
+                      headingRowColor: MaterialStateProperty.all(
+                          const Color.fromARGB(255, 186, 184, 184)),
+                      dataRowColor: MaterialStateProperty.all(
+                          const Color.fromARGB(255, 255, 255, 255)),
+                      columns: const [
+                        DataColumn(
+                            label: Text(
+                          'ID',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Name',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                        // DataColumn(label: Text('Number')),
+                        // DataColumn(label: Text('Gender')),
+                        DataColumn(
+                            label: Text(
+                          'role',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
 
-                ],
-                rows: users!.map((users) {
-                  return DataRow(cells: [
-                    DataCell(Text(users!.id.toString())),
-                    DataCell(Text(users.name)),
-                    // DataCell(Text(employee.number.toString())),
-                    // DataCell(Text(employee.gender)),
-                    DataCell(Text(users.role)),
-                    DataCell(Text(users.email)),
+                        DataColumn(
+                            label: Text(
+                          'email',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Actions',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                      ],
+                      rows: users!.map((users) {
+                        return DataRow(cells: [
+                          DataCell(Text(users!.id.toString())),
+                          DataCell(Text(users.name)),
+                          // DataCell(Text(employee.number.toString())),
+                          // DataCell(Text(employee.gender)),
+                          DataCell(Text(users.role)),
+                          DataCell(Text(users.email)),
 
-
-                    DataCell(
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return UpdateAdminScreen(
-                                   admins: users,
-                                );
-                              }));
-                            },
+                          DataCell(
+                            Row(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return UpdateAdminScreen(
+                                        admins: users,
+                                      );
+                                    }));
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () async {
+                                    AppUsersService aes = AppUsersService();
+                                    bool? result = await aes.DeleteAdmin(
+                                        id: users.id.toString());
+                                    if (result == true) {
+                                      print('Success');
+                                      Navigator.pop(context);
+                                    } else {
+                                      print('Error');
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              AppUsersService aes = AppUsersService();
-                              bool? result = await aes.DeleteAdmin(id: users.id.toString());
-                              if (result == true) {
-                                print('Success');
-                                Navigator.pop(context);
-                              } else {
-                                print('Error');
-                              }
-                            },
-                          ),
-                        ],
-                      ),
+                        ]);
+                      }).toList(),
                     ),
-                  ]);
-                }).toList(),
+                  ),
+                ],
               ),
             ),
     );

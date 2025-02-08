@@ -168,40 +168,40 @@ return redirect()->route('accessories.index')->with('success', 'accessory update
         // $datatoinsert['image'] = $request->image;
         $datatoinsert['branch_id'] = $request->branch_id;
         $is_exsist= Accessories::select("*")->where($datatoinsert)->get();
-        // if ($request->hasFile('image')) {
-        //     $image = $request->file('image');
-        //     $fileName = time() . '_image.' . $image->getClientOriginalExtension();
-        //     $image->move(public_path('uploads'), $fileName);
-        //     $datatoinsert['image'] = 'uploads/' . $fileName; // Save relative path
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName = time() . '_image.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads'), $fileName);
+            $datatoinsert['image'] = 'uploads/' . $fileName; // Save relative path
 
             
-        // }
+        }
 
 
-        if ($request->hasFile('image')) {  
-            $image = $request->file('image');  
-            $fileName = time() . '_image.' . $image->getClientOriginalExtension();  
+        // if ($request->hasFile('image')) {  
+        //     $image = $request->file('image');  
+        //     $fileName = time() . '_image.' . $image->getClientOriginalExtension();  
         
-            // Specify the desired absolute directory path  
-            $desiredPath = 'C:/Users/LENOVO/AndroidStudioProjects'; // Change this to your desired path  
+        //     // Specify the desired absolute directory path  
+        //     $desiredPath = 'C:/Users/LENOVO/AndroidStudioProjects'; // Change this to your desired path  
         
-            // Full path to the directory (you might want to include a subdirectory for uploads)  
-            $fullPath = $desiredPath; // Save directly to the specified path  
+        //     // Full path to the directory (you might want to include a subdirectory for uploads)  
+        //     $fullPath = $desiredPath; // Save directly to the specified path  
         
-            // Create the directory if it doesn't exist  
-            if (!file_exists($fullPath)) {  
-                // Attempt to create the directory, set permissions, and allow recursive creation of directories  
-                if (!mkdir($fullPath, 0755, true) && !is_dir($fullPath)) {  
-                    throw new \RuntimeException(sprintf('Directory "%s" was not created', $fullPath));  
-                }  
-            }  
+        //     // Create the directory if it doesn't exist  
+        //     if (!file_exists($fullPath)) {  
+        //         // Attempt to create the directory, set permissions, and allow recursive creation of directories  
+        //         if (!mkdir($fullPath, 0755, true) && !is_dir($fullPath)) {  
+        //             throw new \RuntimeException(sprintf('Directory "%s" was not created', $fullPath));  
+        //         }  
+        //     }  
         
-            // Move the uploaded file to the specified path  
-            $image->move($fullPath, $fileName);  
+        //     // Move the uploaded file to the specified path  
+        //     $image->move($fullPath, $fileName);  
         
-            // Save the absolute path in the database  
-            $datatoinsert['image'] = $fullPath . '/' . $fileName; // Save absolute path  
-            }
+        //     // Save the absolute path in the database  
+        //     $datatoinsert['image'] = $fullPath . '/' . $fileName; // Save absolute path  
+        //     }
 
 
 
@@ -228,15 +228,15 @@ return redirect()->route('accessories.index')->with('success', 'accessory update
 
             return response()->json($response);
         }
-
+    
      
 public function update_accesories(Request $request) {  
         // Find the existing branch by ID  
-        $data = Accessories::select("*")->find($request->id);  
-        
-        
+       // $data = Accessories::select("*")->find($request->id);  
+        $accessory = Accessories::where('id',$request->id)->first();
+        //return response()->json($request);
     
-        if (!empty($data) ){  
+        if (!empty($accessory) ){  
             // If the branch exists, prepare to update  
             $datatoupdate = []; // Initialize an array to hold the data to update  
             // $datatoupdate['image'] = $request->image;  
@@ -291,7 +291,7 @@ public function update_accesories(Request $request) {
 
            
             // Perform the update  
-            $updated = $data->update($datatoupdate); // Using Eloquent's update method directly on the model instance  
+            $updated = $accessory->update($datatoupdate); // Using Eloquent's update method directly on the model instance  
             if ($updated) {  
                 return response()->json([  
                     'code' => 200,  

@@ -15,7 +15,7 @@
 // import '../services/company_services.dart';
 
 // class MainScreen extends StatefulWidget {
-  
+
 //   @override
 //   State<MainScreen> createState() => _MainScreenState();
 // }
@@ -23,32 +23,29 @@
 // class _MainScreenState extends State<MainScreen> {
 //   final _formKey = GlobalKey<FormState>();
 
-
-
-
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       // appBar: AppBar(
 //       //   title: Text('Main screen'),
 //       // ),
-//         appBar: AppBar( 
+//         appBar: AppBar(
 //         centerTitle: true,
-        
+
 //         // shadow
 //         elevation: 20.0,
 //         shadowColor: Colors.red,
-//          title: const Text(  "Main screen",   ),  
-//           titleTextStyle: TextStyle(color: Colors.blue), 
+//          title: const Text(  "Main screen",   ),
+//           titleTextStyle: TextStyle(color: Colors.blue),
 //          backgroundColor: Colors.amber,
-         
+
 //          ),
 
-//         drawer: Drawer(   
+//         drawer: Drawer(
 //                           child:Consumer<Auth>(builder:(context,auth,child){
 //                             // if (!  auth!.authenticated){
 //                             if (!  auth.authenticated){
-//                               return ListView( 
+//                               return ListView(
 //                                 children: [
 //                                   ListTile(
 //                               leading:const Icon(Icons.login),
@@ -93,28 +90,24 @@
 //                   ),
 //                 ),
 
-
-                            
 //                             ListTile(
 //                             leading:Icon(Icons.home),
-//                               title:Container(  
-//                             margin: EdgeInsets.symmetric(horizontal: 20),  
-//                             child: MaterialButton(  
-//                               // color: Colors.red,  
-//                               textColor: Colors.black,  
-//                               onPressed: () {  
-//                                 // Navigating to About Us page  
+//                               title:Container(
+//                             margin: EdgeInsets.symmetric(horizontal: 20),
+//                             child: MaterialButton(
+//                               // color: Colors.red,
+//                               textColor: Colors.black,
+//                               onPressed: () {
+//                                 // Navigating to About Us page
 //                                 Navigator.of(context).pushNamed('home');
-//                               },  
+//                               },
 //                               // leading:Icon(Icons.home),
-//                               child: const Text("home",textAlign: TextAlign.left,),  
+//                               child: const Text("home",textAlign: TextAlign.left,),
 
-//                             ),  
+//                             ),
 //                               )
 //                             ),
 
-                           
-                          
 //                           ListTile(
 //                               leading:const Icon(Icons.logout),
 //                               title:const Text("logout"),
@@ -124,13 +117,12 @@
 //                                   Navigator.of(context).pushNamed('mainscreen');
 //                               },
 //                             ),
-                            
+
 //                           ],
 //                           );
 //                             }
-//                       }) 
+//                       })
 //                       ),
-
 
 //       body: Padding(
 //         padding: const EdgeInsets.all(16.0),
@@ -139,7 +131,6 @@
 //           child: Column(
 //             children: [
 
-             
 //             ],
 //           ),
 //         ),
@@ -147,7 +138,6 @@
 //     );
 //   }
 // }
-
 
 // ********************************************************************************************************
 // ******************************************************************************************************
@@ -167,22 +157,27 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        elevation: 20.0,
-        shadowColor: Colors.red,
+        backgroundColor: const Color.fromARGB(255, 39, 95, 193),
+        shadowColor: Colors.black,
+        elevation: 2,
         title: const Text("Main screen"),
-        titleTextStyle: TextStyle(color: Colors.blue),
-        backgroundColor: Colors.amber,
       ),
       body: Center(
         child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(500, 50),
+            backgroundColor: Colors.blueAccent,
+          ),
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => LoginScreen()),
             );
           },
-          child: Text('Login'),
+          child: Text(
+            'Login',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ),
     );

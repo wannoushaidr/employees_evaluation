@@ -12,54 +12,94 @@ import 'package:clothes_store/services/employee_services.dart';
 import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 
-
-
 // *******************************************   this is updataed code for above code ****************
 import 'package:flutter/material.dart';
 
 class showEmployeesByManages extends StatelessWidget {
-  const showEmployeesByManages( {super.key, required this.employees});
+  const showEmployeesByManages({super.key, required this.employees});
   final List<EmployeeModel?>? employees;
-  
 
   @override
   Widget build(BuildContext context) {
     print("employees are ss :");
-      print(employees);
+    print(employees);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Employees Data Table'),
-         backgroundColor: const Color.fromARGB(255, 39, 95, 193),
+        backgroundColor: const Color.fromARGB(255, 39, 95, 193),
         shadowColor: Colors.black,
         elevation: 2,
-      //  automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,
+        //  automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,
       ),
-
       body: employees == null
           ? Center(child: CircularProgressIndicator())
           : Container(
-            color: const Color.fromARGB(255, 219, 219, 219),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-                children:[ 
-                  Padding(
+              color: const Color.fromARGB(255, 219, 219, 219),
+              child: ListView(scrollDirection: Axis.horizontal, children: [
+                Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: DataTable(
-                    headingRowColor: MaterialStateProperty.all(const Color.fromARGB(255, 186, 184, 184)),
-                    dataRowColor: MaterialStateProperty.all(const Color.fromARGB(255, 219, 219, 219)),
+                    headingRowColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 186, 184, 184)),
+                    dataRowColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 255, 255, 255)),
                     columns: const [
-                      DataColumn(label: Text('ID',style: TextStyle(fontWeight: FontWeight.bold),)),
-                      DataColumn(label: Text('Name',style: TextStyle(fontWeight: FontWeight.bold),)),
-                      DataColumn(label: Text('Description',style: TextStyle(fontWeight: FontWeight.bold),)),
-                      DataColumn(label: Text('Number',style: TextStyle(fontWeight: FontWeight.bold),)),
-                      DataColumn(label: Text('Gender',style: TextStyle(fontWeight: FontWeight.bold),)),
-                      DataColumn(label: Text('Position',style: TextStyle(fontWeight: FontWeight.bold),)),
-                      DataColumn(label: Text('Active',style: TextStyle(fontWeight: FontWeight.bold),)),
-                      DataColumn(label: Text('Branch ID',style: TextStyle(fontWeight: FontWeight.bold),)),
-                       DataColumn(label: Text('user ID',style: TextStyle(fontWeight: FontWeight.bold),)),
-                       DataColumn(label: Text('Leader ID',style: TextStyle(fontWeight: FontWeight.bold),)),
-                      DataColumn(label: Text('more info ',style: TextStyle(fontWeight: FontWeight.bold),)),
+                      DataColumn(
+                          label: Text(
+                        'ID',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Name',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Description',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Number',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Gender',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Position',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Active',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Branch ID',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'user ID',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Leader ID',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'more info ',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
                       // DataColumn(label: Text('Actions')),
                     ],
                     rows: employees!.map((employee) {
@@ -73,9 +113,11 @@ class showEmployeesByManages extends StatelessWidget {
                         DataCell(Text(employee.active)),
                         DataCell(Text(employee.branch_id.toString())),
                         DataCell(Text(employee.user_id.toString())),
-                        DataCell(Text(employee.leader_id != null ? employee.leader_id.toString() : '')),
+                        DataCell(Text(employee.leader_id != null
+                            ? employee.leader_id.toString()
+                            : '')),
                         // DataCell(Text("points")),
-                  
+
                         // DataCell(
                         //   Row(
                         //     children: [
@@ -90,49 +132,39 @@ class showEmployeesByManages extends StatelessWidget {
                         //           }));
                         //         },
                         //       ),
-                              
+
                         //     ],
                         //   ),
                         // ),
-                  
-                        DataCell(  
-                          
-                                Row(  
-                                  children: [  
-                                    
-                                    IconButton(  
-                                      icon: const Icon(Icons.details_outlined),  
-                                      onPressed: () async {  
-                                        AppPointsService acp = AppPointsService();
-                                        print(employee.id);
-                                        List<PointModel?>? points= await acp.GetEmployeePoint(employee.id);  
-                                        if (points == null) {  
-                                              points = []; // Assign an empty list if null  
-                                            }  
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) {  
-                                          return ShowAllPointsScreen(points: points);  
-                                        }));  
-                                      },  
-                                    ),  
-                                  ],  
-                                ),  
-                              ),  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
+
+                        DataCell(
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.details_outlined),
+                                onPressed: () async {
+                                  AppPointsService acp = AppPointsService();
+                                  print(employee.id);
+                                  List<PointModel?>? points =
+                                      await acp.GetEmployeePoint(employee.id);
+                                  if (points == null) {
+                                    points = []; // Assign an empty list if null
+                                  }
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return ShowAllPointsScreen(points: points);
+                                  }));
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                       ]);
                     }).toList(),
                   ),
                 ),
-                ]
-              ),
-          ),
+              ]),
+            ),
     );
   }
 }

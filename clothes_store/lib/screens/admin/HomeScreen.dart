@@ -40,7 +40,7 @@
 
 // class _HomeScreenState extends State<HomeScreen> {
 //   @override
-  
+
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
@@ -51,12 +51,11 @@
 //         automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,
 //       ),
 
-
-//       drawer: Drawer(   
+//       drawer: Drawer(
 //                           child:Consumer<Auth>(builder:(context,auth,child){
 //                             // if (!  auth!.authenticated){
 //                             if (  !auth.authenticated){
-//                               return ListView( 
+//                               return ListView(
 //                                 children: [
 //                                   ListTile(
 //                               leading:const Icon(Icons.login),
@@ -101,12 +100,11 @@
 //                   ),
 //                 ),
 
-
 //                             ListTile(
 //                               title:ElevatedButton(
 //                                           onPressed: () async {
 //                                             // Your new button functionality goes here
-                                           
+
 //                                               Navigator.push(
 //                                                 context,
 //                                                 MaterialPageRoute(
@@ -121,14 +119,12 @@
 //                                         ),
 //                             ),
 
-
-
 //                             ListTile(
 //                               title:ElevatedButton(
 //                                           onPressed: () async {
 //                                             // Your new button functionality goes here
 //                                             print('profile');
-                                           
+
 //                                               Navigator.push(
 //                                                 context,
 //                                                 MaterialPageRoute(
@@ -148,7 +144,7 @@
 //                                           onPressed: () async {
 //                                             // Your new button functionality goes here
 //                                             print('statistic');
-                                           
+
 //                                               AppPointsService aas = AppPointsService();
 //                                               List<PointModel?>? points = await aas.GetAllPoint();
 //                                               AppBranchesService ass2= AppBranchesService();
@@ -157,7 +153,7 @@
 //                                                 Map<String, int>? employeeCount = await aas3.getEmployeesCount();
 //                                                 print(branchesCount);
 //                                                 print(employeeCount);
-                                              
+
 //                                               if (points != null && employeeCount != null) {
 //                                                 List<int> pointsCount = points.map((points) => points!.points_count).toList();
 //                                                 print(pointsCount);
@@ -182,16 +178,13 @@
 //                                         ),
 //                             ),
 
-                            
-
-
 //                             ListTile(
 //                               title:ElevatedButton(
 //                                           onPressed: () async {
 //                                             // Your new button functionality goes here
 //                                             AppEmployeesService aas = AppEmployeesService();
 //                                               List<EmployeeModel?>? employees = await aas.GetAllEmployees();
-                                              
+
 //                                               if (employees != null) {
 //                                                 Navigator.push(
 //                                                   context,
@@ -206,15 +199,11 @@
 //                                                   SnackBar(content: Text('Failed to load employees. Please try again later.')),
 //                                                 );
 //                                               }
-                       
+
 //                                           },
 //                                           child: Text('employees'),
 //                                         ),
 //                                      ),
-
-
-                            
-                            
 
 //                             ListTile(
 //                               title:ElevatedButton(
@@ -225,7 +214,7 @@
 //                                               List<BranchModel?>? branches = await aas.GetAllBranches();
 //                                               print("ssssss32222222222");
 //                                               print(branches);
-                                              
+
 //                                               if (branches != null) {
 //                                                 Navigator.push(
 //                                                   context,
@@ -240,19 +229,18 @@
 //                                                   SnackBar(content: Text('Failed to load employees. Please try again later.')),
 //                                                 );
 //                                               }
-                       
+
 //                                           },
 //                                           child: Text('bracnhes'),
 //                                         ),
 //                              ),
-
 
 //                              ListTile(
 //                               title:ElevatedButton(
 //                                           onPressed: () async {
 //                                                               AppPointsService aas = AppPointsService();
 //                                           List<PointModel?>? points = await aas.GetAllPoint();
-                                          
+
 //                                           if (points != null) {
 //                                             Navigator.push(
 //                                               context,
@@ -267,7 +255,7 @@
 //                                               SnackBar(content: Text('Failed to load employees. Please try again later.')),
 //                                             );
 //                                           }
-                       
+
 //                                           },
 //                                           child: Text('points'),
 //                                         ),
@@ -276,9 +264,9 @@
 //                              ListTile(
 //                               title:ElevatedButton(
 //                                           onPressed: () async {
-//                                             // Navigating to About Us page  
+//                                             // Navigating to About Us page
 //                                              Navigator.of(context).pushNamed('home');
-                                  
+
 //                                           },
 //                                           child: Text('home'),
 //                                         ),
@@ -293,7 +281,7 @@
 //                                               List<UserModel?>? users = await aas.GetAllUsers();
 //                                               print("user2");
 //                                               print(users);
-                                              
+
 //                                               if (users != null) {
 //                                                 Navigator.push(
 //                                                   context,
@@ -308,13 +296,12 @@
 //                                                   SnackBar(content: Text('Failed to load employees. Please try again later.')),
 //                                                 );
 //                                               }
-                       
+
 //                                           },
 //                                           child: Text('users'),
 //                                         ),
 //                              ),
 
-                          
 //                           ListTile(
 //                               leading:const Icon(Icons.logout),
 //                               title:const Text("logout"),
@@ -324,13 +311,12 @@
 //                                   Navigator.pushReplacementNamed(context, 'mainscreen');
 //                               },
 //                             ),
-                            
+
 //                           ],
 //                           );
 //                             }
-//                       }) 
+//                       })
 //                       ),
-
 
 //       // );
 //       body: Center(
@@ -393,13 +379,11 @@
 //                         }),
 //                       );
 //                       break;
-                    
-
 
 //                         case 'Show All Employees':
 //                         AppEmployeesService aas = AppEmployeesService();
 //                         List<EmployeeModel?>? employees = await aas.GetAllEmployees();
-                        
+
 //                         if (employees != null) {
 //                           Navigator.push(
 //                             context,
@@ -416,9 +400,6 @@
 //                         }
 //                         break;
 
-
-
-                      
 //                     case 'Add New Employee':
 //                       Navigator.push(
 //                         context,
@@ -440,7 +421,7 @@
 //                     case 'Show All Points':
 //                         AppPointsService aas = AppPointsService();
 //                         List<PointModel?>? points = await aas.GetAllPoint();
-                        
+
 //                         if (points != null) {
 //                           Navigator.push(
 //                             context,
@@ -466,7 +447,7 @@
 //                           Map<String, int>? employeeCount = await aas3.getEmployeesCount();
 //                           print(branchesCount);
 //                           print(employeeCount);
-                        
+
 //                         if (points != null && employeeCount != null) {
 //                           List<int> pointsCount = points.map((points) => points!.points_count).toList();
 //                           print(pointsCount);
@@ -490,32 +471,24 @@
 //                 }
 //               },
 //             ),
-//              Container(  
-//             margin: EdgeInsets.symmetric(horizontal: 20),  
-//             child: MaterialButton(  
-//               color: Colors.red,  
-//               textColor: Colors.white,  
-//               onPressed: () {  
-//                 // Navigating to About Us page  
+//              Container(
+//             margin: EdgeInsets.symmetric(horizontal: 20),
+//             child: MaterialButton(
+//               color: Colors.red,
+//               textColor: Colors.white,
+//               onPressed: () {
+//                 // Navigating to About Us page
 //                 Navigator.of(context).pushNamed('mainscreen');
-//               },  
-//               child: const Text("Go to About Us by pushReplacementNamed"),  
-//             ),  
-//           ),  
+//               },
+//               child: const Text("Go to About Us by pushReplacementNamed"),
+//             ),
+//           ),
 //           ],
 //         ),
 //       ),
 //     );
 //   }
 // }
-
-
-
-
-
-
-
-
 
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
@@ -543,6 +516,7 @@ import '../../services/user_services.dart';
 import '../customer_service/customer_service_main_screen.dart';
 import 'AddCompanyScreen.dart';
 import 'add_admin_screen.dart';
+import 'add_company_screen.dart';
 import 'add_employee_screen.dart';
 import 'show_all_accessories_screen.dart';
 import 'show_all_branches_screen.dart';
@@ -623,16 +597,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                             CircleAvatar(
-                              backgroundImage: AssetImage('assets/images/clothes-background.jpg'),
+                            CircleAvatar(
+                              backgroundImage: AssetImage(
+                                  'assets/images/clothes-background.jpg'),
                               //NetworkImage(auth.user.image??''),
-                            //  backgroundColor: Colors.blue,
+                              //  backgroundColor: Colors.blue,
                               radius: 35,
                             ),
                             const SizedBox(height: 10),
                             Text(auth.user.name,
                                 style: const TextStyle(color: Colors.black)),
-                           // const SizedBox(height: 2),
+                            // const SizedBox(height: 2),
                             Text(auth.user.email,
                                 style: const TextStyle(color: Colors.black)),
                           ],
@@ -655,249 +630,226 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> _buildDrawerItems(Auth auth, BuildContext context) {
     return [
-      // Add other drawer items here...
-             //                             ListTile(
-                              
-                          
+      ListTile(
+        leading: const Icon(Icons.person_3),
+        title: const Text('profile'),
+        onTap: () {
+          print('profile');
 
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return UserProfile();
+              },
+            ),
+          );
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.people_alt),
+        title: const Text('employees'),
+        onTap: () async {
+          AppEmployeesService aas = AppEmployeesService();
+          List<EmployeeModel?>? employees = await aas.GetAllEmployees();
 
+          if (employees != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return ShowAllEmployeesScreen(
+                  employees: employees,
+                );
+              }),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(
+                      'Failed to load employees. Please try again later.')),
+            );
+          }
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.add_chart),
+        title: const Text('statistic'),
+        onTap: () async {
+          print('statistic');
 
-                            ListTile(
-                              title:ElevatedButton(
-                                          onPressed: () async {
-                                            // Your new button functionality goes here
-                                            print('profile');
-                                           
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return UserProfile();
-                                                  },
-                                                ),
-                                              );
-                                            // Example: Fetch another set of data or navigate to a different screen
-                                          },
-                                          child: Text('profile'),
-                                        ),
-                            ),
-   ListTile(
-                              title:ElevatedButton(
-                                          onPressed: () async {
-                                            // Your new button functionality goes here
-                                            AppEmployeesService aas = AppEmployeesService();
-                                              List<EmployeeModel?>? employees = await aas.GetAllEmployees();
-                                              
-                                              if (employees != null) {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(builder: (context) {
-                                                    return ShowAllEmployeesScreen(
-                                                      employees: employees,
-                                                    );
-                                                  }),
-                                                );
-                                              } else {
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
-                                                );
-                                              }
-                       
-                                          },
-                                          child: Text('employees'),
-                                        ),
-                                     ),
-                            ListTile(
-                              title:ElevatedButton(
-                                          onPressed: () async {
-                                            // Your new button functionality goes here
-                                            print('statistic');
-                                           
-                                              AppPointsService aas = AppPointsService();
-                                              List<PointModel?>? points = await aas.GetAllPoint();
-                                              AppBranchesService ass2= AppBranchesService();
-                                              int? branchesCount = await ass2.getBranchesCount() ?? 0;
-                                              AppEmployeesService aas3 = AppEmployeesService();
-                                                Map<String, int>? employeeCount = await aas3.getEmployeesCount();
-                                                print(branchesCount);
-                                                print(employeeCount);
-                                              
-                                              if (points != null && employeeCount != null) {
-                                                List<int> pointsCount = points.map((points) => points!.points_count).toList();
-                                                print(pointsCount);
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(builder: (context) {
-                                                    return statistics_screen(
-                                                      points: pointsCount,
-                                                      branchesCount: branchesCount,
-                                                      employeeCount :  employeeCount ,
-                                                    );
-                                                  }),
-                                                );
-                                              } else {
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
-                                                );
-                                              }
-                                            // Example: Fetch another set of data or navigate to a different screen
-                                          },
-                                          child: Text('statistic'),
-                                        ),
-                            ),
+          AppPointsService aas = AppPointsService();
+          List<PointModel?>? points = await aas.GetAllPoint();
+          AppBranchesService ass2 = AppBranchesService();
+          int? branchesCount = await ass2.getBranchesCount() ?? 0;
+          AppEmployeesService aas3 = AppEmployeesService();
+          Map<String, int>? employeeCount = await aas3.getEmployeesCount();
+          print(branchesCount);
+          print(employeeCount);
 
-                            
+          if (points != null && employeeCount != null) {
+            List<int> pointsCount =
+                points.map((points) => points!.points_count).toList();
+            print(pointsCount);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return statistics_screen(
+                  points: pointsCount,
+                  branchesCount: branchesCount,
+                  employeeCount: employeeCount,
+                );
+              }),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(
+                      'Failed to load statistics. Please try again later.')),
+            );
+          }
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.other_houses),
+        title: const Text('branches'),
+        onTap: () async {
+          AppBranchesService aas = AppBranchesService();
+          print("Fetching branches...");
+          List<BranchModel?>? branches = await aas.GetAllBranches();
+          print("Branches fetched: $branches");
 
+          if (branches != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return ShowAllBranchesScreen(
+                  branches: branches,
+                );
+              }),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content:
+                      Text('Failed to load branches. Please try again later.')),
+            );
+          }
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.pages),
+        title: const Text('points'),
+        onTap: () async {
+          AppPointsService aas = AppPointsService();
+          List<PointModel?>? points = await aas.GetAllPoint();
 
-                            ListTile(
-                              title:ElevatedButton(
-                                          onPressed: () async {
-                                            // Your new button functionality goes here
-                                            AppEmployeesService aas = AppEmployeesService();
-                                              List<EmployeeModel?>? employees = await aas.GetAllEmployees();
-                                              
-                                              if (employees != null) {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(builder: (context) {
-                                                    return ShowAllEmployeesScreen(
-                                                      employees: employees,
-                                                    );
-                                                  }),
-                                                );
-                                              } else {
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
-                                                );
-                                              }
-                       
-                                          },
-                                          child: Text('employees'),
-                                        ),
-                                     ),
+          if (points != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return ShowAllPointsScreen(
+                  points: points,
+                );
+              }),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content:
+                      Text('Failed to load points. Please try again later.')),
+            );
+          }
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.pages),
+        title: const Text('points'),
+        onTap: () async {
+          AppPointsService aas = AppPointsService();
+          List<PointModel?>? points = await aas.GetAllPoint();
 
+          if (points != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return ShowAllPointsScreen(
+                  points: points,
+                );
+              }),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content:
+                      Text('Failed to load points. Please try again later.')),
+            );
+          }
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.home),
+        title: const Text('home'),
+        onTap: () {
+          // Navigating to Home page
+          Navigator.of(context).pushNamed('home');
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.people),
+        title: const Text('users'),
+        onTap: () async {
+          AppUsersService aas = AppUsersService();
+          print("Fetching users...");
+          List<UserModel?>? users = await aas.GetAllUsers();
+          print("Users fetched: $users");
 
-                            
-                            
-
-                            ListTile(
-                              title:ElevatedButton(
-                                          onPressed: () async {
-                                            // Your new button functionality goes here
-                                            AppBranchesService aas = AppBranchesService();
-                                            print("ssssssssssssss");
-                                              List<BranchModel?>? branches = await aas.GetAllBranches();
-                                              print("ssssss32222222222");
-                                              print(branches);
-                                              
-                                              if (branches != null) {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(builder: (context) {
-                                                    return ShowAllBranchesScreen(
-                                                      branches: branches,
-                                                    );
-                                                  }),
-                                                );
-                                              } else {
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
-                                                );
-                                              }
-                       
-                                          },
-                                          child: Text('bracnhes'),
-                                        ),
-                             ),
-
-
-                             ListTile(
-                              title:ElevatedButton(
-                                          onPressed: () async {
-                                                              AppPointsService aas = AppPointsService();
-                                          List<PointModel?>? points = await aas.GetAllPoint();
-                                          
-                                          if (points != null) {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(builder: (context) {
-                                                return ShowAllPointsScreen(
-                                                  points: points,
-                                                );
-                                              }),
-                                            );
-                                          } else {
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(content: Text('Failed to load employees. Please try again later.')),
-                                            );
-                                          }
-                       
-                                          },
-                                          child: Text('points'),
-                                        ),
-                             ),
-
-                             ListTile(
-                              title:ElevatedButton(
-                                          onPressed: () async {
-                                            // Navigating to About Us page  
-                                             Navigator.of(context).pushNamed('home');
-                                  
-                                          },
-                                          child: Text('home'),
-                                        ),
-                             ),
-
-                             ListTile(
-                              title:ElevatedButton(
-                                          onPressed: () async {
-                                            // Your new button functionality goes here
-                                            AppUsersService aas = AppUsersService();
-                                            print("users1");
-                                              List<UserModel?>? users = await aas.GetAllUsers();
-                                              print("user2");
-                                              print(users);
-                                              
-                                              if (users != null) {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(builder: (context) {
-                                                    return ShowAllUsersScreen(
-                                                      users: users,
-                                                    );
-                                                  }),
-                                                );
-                                              } else {
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
-                                                );
-                                              }
-                       
-                                          },
-                                          child: Text('users'),
-                                        ),
-                             ),
-
-                          
-                          ListTile(
-                              leading:const Icon(Icons.logout),
-                              title:const Text("logout"),
-                              onTap: (){
-                                Provider.of<Auth>(context,listen: false)
-                                  ..logout();
-                                  Navigator.pushReplacementNamed(context, 'mainscreen');
-                              },
-                            ),
+          if (users != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return ShowAllUsersScreen(
+                  users: users,
+                );
+              }),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content:
+                      Text('Failed to load users. Please try again later.')),
+            );
+          }
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.logout),
+        title: const Text("logout"),
+        onTap: () {
+          Provider.of<Auth>(context, listen: false).logout();
+          Navigator.pushReplacementNamed(context, 'LoginScreen');
+        },
+      ),
     ];
   }
 
   Widget _buildBody(Auth auth, BuildContext context) {
-    return  Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            DropdownButton<String>(
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: const Color.fromARGB(255, 0, 0, 0),
+                  width: 1), // Border color and width
+              borderRadius: BorderRadius.circular(8), // Rounded corners
+              color: Colors.white, // Background color
+            ),
+            padding: EdgeInsets.symmetric(
+                horizontal: 10), // Padding for the dropdown
+
+            child: DropdownButton<String>(
               hint: Text('Select'),
               items: <String>[
                 'Show All Companies',
@@ -952,32 +904,30 @@ class _HomeScreenState extends State<HomeScreen> {
                         }),
                       );
                       break;
-                    
 
+                    case 'Show All Employees':
+                      AppEmployeesService aas = AppEmployeesService();
+                      List<EmployeeModel?>? employees =
+                          await aas.GetAllEmployees();
 
-                        case 'Show All Employees':
-                        AppEmployeesService aas = AppEmployeesService();
-                        List<EmployeeModel?>? employees = await aas.GetAllEmployees();
-                        
-                        if (employees != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return ShowAllEmployeesScreen(
-                                employees: employees,
-                              );
-                            }),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed to load employees. Please try again later.')),
-                          );
-                        }
-                        break;
+                      if (employees != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return ShowAllEmployeesScreen(
+                              employees: employees,
+                            );
+                          }),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                                  'Failed to load employees. Please try again later.')),
+                        );
+                      }
+                      break;
 
-
-
-                      
                     case 'Add New Employee':
                       Navigator.push(
                         context,
@@ -987,7 +937,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                       break;
 
-                      case 'Add New Admin':
+                    case 'Add New Admin':
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {
@@ -997,70 +947,78 @@ class _HomeScreenState extends State<HomeScreen> {
                       break;
 
                     case 'Show All Points':
-                        AppPointsService aas = AppPointsService();
-                        List<PointModel?>? points = await aas.GetAllPoint();
-                        
-                        if (points != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return ShowAllPointsScreen(
-                                points: points,
-                              );
-                            }),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed to load employees. Please try again later.')),
-                          );
-                        }
-                        break;
+                      AppPointsService aas = AppPointsService();
+                      List<PointModel?>? points = await aas.GetAllPoint();
 
-                        case 'statistics':
-                        AppPointsService aas = AppPointsService();
-                        List<PointModel?>? points = await aas.GetAllPoint();
-                        AppBranchesService ass2= AppBranchesService();
-                        int? branchesCount = await ass2.getBranchesCount() ?? 0;
-                        AppEmployeesService aas3 = AppEmployeesService();
-                          Map<String, int>? employeeCount = await aas3.getEmployeesCount();
-                          print(branchesCount);
-                          print(employeeCount);
-                        
-                        if (points != null && employeeCount != null) {
-                          List<int> pointsCount = points.map((points) => points!.points_count).toList();
-                          print(pointsCount);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return statistics_screen(
-                                points: pointsCount,
-                                branchesCount: branchesCount,
-                                employeeCount :  employeeCount ,
-                              );
-                            }),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed to load employees. Please try again later.')),
-                          );
-                        }
-                        break;
+                      if (points != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return ShowAllPointsScreen(
+                              points: points,
+                            );
+                          }),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                                  'Failed to load employees. Please try again later.')),
+                        );
+                      }
+                      break;
+
+                    case 'statistics':
+                      AppPointsService aas = AppPointsService();
+                      List<PointModel?>? points = await aas.GetAllPoint();
+                      AppBranchesService ass2 = AppBranchesService();
+                      int? branchesCount = await ass2.getBranchesCount() ?? 0;
+                      AppEmployeesService aas3 = AppEmployeesService();
+                      Map<String, int>? employeeCount =
+                          await aas3.getEmployeesCount();
+                      print(branchesCount);
+                      print(employeeCount);
+
+                      if (points != null && employeeCount != null) {
+                        List<int> pointsCount = points
+                            .map((points) => points!.points_count)
+                            .toList();
+                        print(pointsCount);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return statistics_screen(
+                              points: pointsCount,
+                              branchesCount: branchesCount,
+                              employeeCount: employeeCount,
+                            );
+                          }),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                                  'Failed to load employees. Please try again later.')),
+                        );
+                      }
+                      break;
                   }
                 }
               },
             ),
-             Container(  
-            margin: EdgeInsets.symmetric(horizontal: 20),  
-            child: MaterialButton(  
-              color: Colors.red,  
-              textColor: Colors.white,  
-              onPressed: () {  
-                // Navigating to About Us page  
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: MaterialButton(
+              color: Colors.red,
+              textColor: Colors.white,
+              onPressed: () {
+                // Navigating to About Us page
                 Navigator.of(context).pushNamed('mainscreen');
-              },  
-              child: const Text("Go to About Us by pushReplacementNamed"),  
-            ),  
-          ),  
+              },
+              child: const Text("Go to About Us by pushReplacementNamed"),
+            ),
+          ),
         ],
       ),
     );

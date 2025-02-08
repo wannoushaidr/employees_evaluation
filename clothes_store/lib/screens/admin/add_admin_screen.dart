@@ -53,155 +53,188 @@ class _AddAdminScreen extends State<AddAdminScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add admin screen'),
+        backgroundColor: Colors.blueAccent,
+        shadowColor: Colors.black,
+        elevation: 2,
       ),
-      
-      
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Name'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter name';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    name = value;
-                  },
-                  
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 500,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Name',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter name';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          name = value;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      width: 500,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'email',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter email';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          email = value;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      width: 500,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'password',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter password';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          password = value;
+                        },
+                      ),
+                    ),
+
+                    // SizedBox(height: 20),
+                    // TextFormField(
+                    //   decoration: InputDecoration(labelText: 'Number'),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Please enter number';
+                    //     }
+                    //     return null;
+                    //   },
+                    //   onChanged: (value) {
+                    //     number = value;
+                    //   },
+                    // ),
+
+                    // SizedBox(height: 20),
+                    // DropdownButtonFormField<String>(
+                    //   decoration: InputDecoration(labelText: 'Gender'),
+                    //   items: <String>['male', 'female'].map((String value) {
+                    //     return DropdownMenuItem<String>(
+                    //       value: value,
+                    //       child: Text(value),
+                    //     );
+                    //   }).toList(),
+                    //   onChanged: (String? newValue) {
+                    //     setState(() {
+                    //       gender = newValue!;
+                    //     });
+                    //   },
+                    //   validator: (value) {
+                    //     if (value == null) {
+                    //       return 'Please select a gender';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
+
+                    SizedBox(height: 20),
+                    Container(
+                      width: 500,
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          labelText: 'role',
+                          border: OutlineInputBorder(),
+                        ),
+                        items: <String>['admin'].map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            role = newValue!;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select a Position';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(500, 50),
+                        backgroundColor: Colors.blueAccent,
+                      ),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          // Process the data (e.g., send it to a server or save it locally)
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Processing Data')),
+                          );
+                          // Assuming you have a service to handle employee data
+                          AppUsersService aes = AppUsersService();
+                          bool? result = await aes.SetNewAdmin(
+                              name: name,
+                              email: email,
+                              // number: number,
+                              // gender: gender,
+                              role: role,
+                              password: password
+                              // image: image!,
+                              // SelectedFile: selectedFile,
+                              );
+                          if (result == true) {
+                            SnackbarShow.showSnackbar(
+                                context, " added succesfully");
+
+                            print('Employee added successfully');
+                            Navigator.pop(context);
+                          } else {
+                            SnackbarShow.showSnackbar(
+                                context, " there is error");
+
+                            print('Error adding employee');
+                          }
+                        }
+                      },
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
                 ),
-
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'email'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter email';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    email = value;
-                  },
-                ),
-
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'password'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter password';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    password = value;
-                  },
-                ),
-
-
-                // SizedBox(height: 20),
-                // TextFormField(
-                //   decoration: InputDecoration(labelText: 'Number'),
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'Please enter number';
-                //     }
-                //     return null;
-                //   },
-                //   onChanged: (value) {
-                //     number = value;
-                //   },
-                // ),
-
-                // SizedBox(height: 20),
-                // DropdownButtonFormField<String>(
-                //   decoration: InputDecoration(labelText: 'Gender'),
-                //   items: <String>['male', 'female'].map((String value) {
-                //     return DropdownMenuItem<String>(
-                //       value: value,
-                //       child: Text(value),
-                //     );
-                //   }).toList(),
-                //   onChanged: (String? newValue) {
-                //     setState(() {
-                //       gender = newValue!;
-                //     });
-                //   },
-                //   validator: (value) {
-                //     if (value == null) {
-                //       return 'Please select a gender';
-                //     }
-                //     return null;
-                //   },
-                // ),
-
-
-
-
-                SizedBox(height: 20),
-                DropdownButtonFormField<String>(
-                  decoration: InputDecoration(labelText: 'role'),
-                  items: <String>['admin']
-                      .map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      role = newValue!;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Please select a Position';
-                    }
-                    return null;
-                  },
-                ),
-                
-
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      // Process the data (e.g., send it to a server or save it locally)
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Processing Data')),
-                      );
-                      // Assuming you have a service to handle employee data
-                      AppUsersService aes = AppUsersService();
-                      bool? result = await aes.SetNewAdmin(
-                        name: name,
-                        email:email,
-                        // number: number,
-                        // gender: gender,
-                        role: role,
-                        password: password
-                        // image: image!,
-                        // SelectedFile: selectedFile,
-                      );
-                      if (result == true) {
-                          SnackbarShow.showSnackbar(context, " added succesfully");
-
-                        print('Employee added successfully');
-                        Navigator.pop(context);
-                      } else {
-                         SnackbarShow.showSnackbar(context, " there is error");
-
-                        print('Error adding employee');
-                      }
-                    }
-                  },
-                  child: Text('Submit'),
-                ),
-              ],
+              ),
             ),
           ),
         ),
