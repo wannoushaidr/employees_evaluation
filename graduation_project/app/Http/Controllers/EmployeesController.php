@@ -445,13 +445,7 @@ public function update_employees(Request $request) {
                 'message' => 'Failed to update employee'  
             ], 500);  
         }  
-    // } else {  
-    //     // If the employee does not exist  
-    //     return response()->json([  
-    //         'code' => 404,  
-    //         'message' => 'Employee not found'  
-    //     ], 404);  
-    // }  
+    
 }
 
 
@@ -964,6 +958,42 @@ public function getCustomerServiceEmployeesCount(Request $request,$id) {
         return response()->json(['error' => 'An error occurred while fetching the employee count.'], 500);
     }
 }
+}
+
+// to update cutomer_service active value  when strt service new cutmer
+public function update_customer_service_active(Request $request) {
+    // Validate the request data
+    $validator = Validator::make($request->all(), [
+        'id' => 'required|exists:employees,id',
+        'active' => 'required|string|max:255',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'code' => 422,
+            'message' => 'Validation error',
+            'errors' => $validator->errors()
+        ], 422);
+    }
+
+    // Find the existing employee by ID
+    $employee = Employees::find($request->id);
+
+    if ($employee) {
+        // Update only the position
+        $employee->active = $request->active;
+        $employee->save();
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Employee active updated successfully'
+        ]);
+    } else {
+        return response()->json([
+            'code' => 404,
+            'message' => 'Employee not found'
+        ], 404);
+    }
 }
 
 

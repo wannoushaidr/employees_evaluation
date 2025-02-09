@@ -214,6 +214,9 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
 // for points API 
 //  send employee id like a parameter
 Route::get('points/get_employee_points', [PointsController::class, 'get_employee_points']);
+// to update active value when customer_service start service new customer
+Route::put('/employees/update_customer_service_active', [EmployeesController::class, 'update_customer_service_active']);
+
 
 
 // **********************   for supervisior and manager role
