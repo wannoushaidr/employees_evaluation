@@ -490,17 +490,21 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
           AppEmployeesService acp = AppEmployeesService();
           List<EmployeeModel?>? employees =
               await acp.GetMyEmployeesEnformation(auth.user.id);
+              AppEmployeesService aas3 = AppEmployeesService();
+              Map<String, int>? employeeCount = await aas3
+                  .getCustomerServiceEmployeesCount(auth.user.id);
           print("employees");
           print(employees);
-
+          if (employeeCount != null) {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) {
-                return showEmployeesByManages(employees: employees);
+                return SupervisiorStatisticScreen(employeeCount: employeeCount,employees:employees);
               },
             ),
           );
+          }
         },
       ),
       ListTile(

@@ -16,6 +16,7 @@ class ManagerStatisticScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text('managers statistic point'),
@@ -25,7 +26,12 @@ class ManagerStatisticScreen extends StatelessWidget {
       ),
       body: GridView(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 2),
+          crossAxisCount: 2, // Number of columns
+          childAspectRatio:
+              (screenWidth / 2) / 150, // Adjust height dynamically
+          crossAxisSpacing: 20, // Space between columns
+          mainAxisSpacing: 20, // Space between rows
+        ),
         children: [
           Card(
             color: Colors.white,
@@ -36,9 +42,17 @@ class ManagerStatisticScreen extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Employee Count: ${employeeCount['employee_count'] ?? 0}',
-                style: TextStyle(fontSize: 18),
+              child: Column(
+                children: [
+                  Text(
+                    'Employee Count:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '${employeeCount['employee_count'] ?? 0}',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
           ),
@@ -51,9 +65,17 @@ class ManagerStatisticScreen extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Customer Service Count: ${employeeCount['customer_service_count'] ?? 0}',
-                style: TextStyle(fontSize: 18),
+              child: Column(
+                children: [
+                  Text(
+                    'Customer Service Count:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '${employeeCount['customer_service_count'] ?? 0}',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
           ),
@@ -66,9 +88,17 @@ class ManagerStatisticScreen extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Supervisor Count: ${employeeCount['supervisor_count'] ?? 0}',
-                style: TextStyle(fontSize: 18),
+              child: Column(
+                children: [
+                  Text(
+                    'Supervisor Count:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '${employeeCount['supervisor_count'] ?? 0}',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
           ),

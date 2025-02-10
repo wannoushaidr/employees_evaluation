@@ -552,6 +552,7 @@
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
 import 'package:clothes_store/models/point_model.dart';
+import 'package:clothes_store/screens/admin/show_all_points_screen.dart';
 import 'package:clothes_store/screens/customer_service/customer_service_points.dart';
 import 'package:clothes_store/screens/shared_screen/login_screen.dart';
 import 'package:clothes_store/screens/manager/activate_employee_screen.dart';
@@ -700,17 +701,34 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
         title: const Text('Points'),
         onTap: () async {
           print('points');
-          AppPointsService aas = AppPointsService();
-          List<PointModel?>? points = await aas.GetEmployeePoint(auth.user.id);
+        //   AppPointsService aas = AppPointsService();
+        //   List<PointModel?>? points = await aas.GetEmployeePoint(auth.user.id);
+
+        //   if (points != null) {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (context) {
+        //           return CustomerServicePoints(
+        //             points: points,
+        //           );
+        //         },
+        //       ),
+        //     );
+        //   }
+        // },
+
+        AppPointsService aas = AppPointsService();
+          List<PointModel?>? points = await aas.GetEmployeePointonly(auth.user.id);
+          
+          print("middle done");
 
           if (points != null) {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return CustomerServicePoints(
-                    points: points,
-                  );
+                  return CustomerServicePoints(points: points);
                 },
               ),
             );

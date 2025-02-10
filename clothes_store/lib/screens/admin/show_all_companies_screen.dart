@@ -132,123 +132,128 @@ class ShowAllCompaniesScreen extends StatelessWidget {
 
       body: Container(
         color: const Color.fromARGB(255, 219, 219, 219),
-        child: ListView(
-          scrollDirection: Axis.horizontal,
+        child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DataTable(
-                headingRowColor: MaterialStateProperty.all(
-                    const Color.fromARGB(255, 186, 184, 184)),
-                dataRowColor: MaterialStateProperty.all(
-                    const Color.fromARGB(255, 255, 255, 255)),
-                columns: const [
-                  DataColumn(
-                      label: Text(
-                    'ID',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Name',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Number',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  // DataColumn(label: Text('Branches')),
-                  DataColumn(
-                      label: Text(
-                    'Email',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Address',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Actions',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                ],
-                rows: companies!.map((company) {
-                  return DataRow(cells: [
-                    DataCell(Text(company!.id.toString())),
-                    DataCell(Text(company.name)),
-                    DataCell(Text(company.number.toString())),
-                    // DataCell(Text(company.number_of_branch.toString())),
-                    DataCell(Text(company.email)),
-                    DataCell(Text(company.address ?? 'NotDeleted')),
-                    DataCell(
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.ad_units),
-                            onPressed: () async {
-                              AppBranchesService abs = AppBranchesService();
-                              List<BranchModel?>? branches =
-                                  await abs.GetAllBranches();
-                              print(branches);
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return ShowAllBranchesScreen(
-                                  branches: branches,
-                                );
-                              }));
-                            },
+            Align(
+              alignment: Alignment.topCenter,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DataTable(
+                    headingRowColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 186, 184, 184)),
+                    dataRowColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 255, 255, 255)),
+                    columns: const [
+                      DataColumn(
+                          label: Text(
+                        'ID',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Name',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Number',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      // DataColumn(label: Text('Branches')),
+                      DataColumn(
+                          label: Text(
+                        'Email',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Address',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Actions',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                    ],
+                    rows: companies!.map((company) {
+                      return DataRow(cells: [
+                        DataCell(Text(company!.id.toString())),
+                        DataCell(Text(company.name)),
+                        DataCell(Text(company.number.toString())),
+                        // DataCell(Text(company.number_of_branch.toString())),
+                        DataCell(Text(company.email)),
+                        DataCell(Text(company.address ?? 'NotDeleted')),
+                        DataCell(
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.ad_units),
+                                onPressed: () async {
+                                  AppBranchesService abs = AppBranchesService();
+                                  List<BranchModel?>? branches =
+                                      await abs.GetAllBranches();
+                                  print(branches);
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return ShowAllBranchesScreen(
+                                      branches: branches,
+                                    );
+                                  }));
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return AddBranchScreen(
+                                      company_id: company.id.toString(),
+                                    );
+                                  }));
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return UpdateCompanyScreen(
+                                      company: company,
+                                    );
+                                  }));
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () async {
+                                  AppCompaniesService acp =
+                                      new AppCompaniesService();
+                                  bool? result = await acp.DeleteCompany(
+                                      id: company.id.toString());
+                                  if (result == true) {
+                                    print('success');
+                                    Navigator.pop(context);
+                                  } else {
+                                    print('error');
+                                  }
+                                  // Navigator.push(context,
+                                  //     MaterialPageRoute(builder: (context) {
+                                  //   return UpdateCompanyScreen(
+                                  //     company: company,
+                                  //   );
+                                  // }));
+                                },
+                              ),
+                            ],
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return AddBranchScreen(
-                                  company_id: company.id.toString(),
-                                );
-                              }));
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return UpdateCompanyScreen(
-                                  company: company,
-                                );
-                              }));
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              AppCompaniesService acp =
-                                  new AppCompaniesService();
-                              bool? result = await acp.DeleteCompany(
-                                  id: company.id.toString());
-                              if (result == true) {
-                                print('success');
-                                Navigator.pop(context);
-                              } else {
-                                print('error');
-                              }
-                              // Navigator.push(context,
-                              //     MaterialPageRoute(builder: (context) {
-                              //   return UpdateCompanyScreen(
-                              //     company: company,
-                              //   );
-                              // }));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]);
-                }).toList(),
+                        ),
+                      ]);
+                    }).toList(),
+                  ),
+                ),
               ),
             ),
           ],

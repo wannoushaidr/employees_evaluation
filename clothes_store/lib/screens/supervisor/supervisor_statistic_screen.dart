@@ -1,6 +1,7 @@
 import 'package:clothes_store/models/accessory_model.dart';
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
+import 'package:clothes_store/models/employee_model.dart';
 import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/admin/update_accessory_screen.dart';
 import 'package:clothes_store/screens/admin/update_branch_screen.dart';
@@ -11,7 +12,7 @@ import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 
 class SupervisiorStatisticScreen extends StatelessWidget {
-  const SupervisiorStatisticScreen({super.key, required this.employeeCount});
+  const SupervisiorStatisticScreen({super.key, required this.employeeCount, List<EmployeeModel?>? employees});
   final Map<String, int> employeeCount;
 
   @override

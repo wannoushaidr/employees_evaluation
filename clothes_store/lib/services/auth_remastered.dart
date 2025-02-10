@@ -9,9 +9,9 @@ class Auth extends ChangeNotifier {
   late String _token;
   late var _user = UserModel(
       name: "samer",
-      email: "no3umms@gmmail.com",
+      email: "wannous@.com",
       role: "customer_service",
-      id: 4,
+      id: 2,
       image: "");
 
   bool authenticated = false;

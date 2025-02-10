@@ -24,11 +24,12 @@ class statistics_screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
     int totalPoints =
         points.fold(0, (previous, current) => previous + (current ?? 0));
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Accessories Data Table'),
+        title: const Text('Statistics'),
         backgroundColor: const Color.fromARGB(255, 39, 95, 193),
         shadowColor: Colors.black,
         elevation: 2,
@@ -143,10 +144,15 @@ class statistics_screen extends StatelessWidget {
       //    ),
 
       body: Container(
-        margin: EdgeInsets.all(40),
+        margin: const EdgeInsets.all(20),
         child: GridView(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, childAspectRatio: 2),
+            crossAxisCount: 2, // Number of columns
+            childAspectRatio:
+                (screenWidth / 2) / 150, // Adjust height dynamically
+            crossAxisSpacing: 20, // Space between columns
+            mainAxisSpacing: 20, // Space between rows
+          ),
           children: [
             Card(
               color: Colors.white,
@@ -162,11 +168,9 @@ class statistics_screen extends StatelessWidget {
                       Text('Branches Count:',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
-                      Center(
-                        child: Text('$branchesCount',
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold)),
-                      ),
+                      Text('$branchesCount',
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold)),
                     ],
                   )),
             ),
@@ -179,9 +183,16 @@ class statistics_screen extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Points:${totalPoints.toString()}',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                child: Column(
+                  children: [
+                    Text('Points:',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('${totalPoints.toString()}',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
             ),
             Card(
@@ -193,10 +204,16 @@ class statistics_screen extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    'Employee Count: ${employeeCount['employee_count']}',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                child: Column(
+                  children: [
+                    Text('Employee Count:',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('${employeeCount['employee_count']}',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
             ),
             Card(
@@ -208,10 +225,16 @@ class statistics_screen extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    'Customer Service Count: ${employeeCount['customer_service_count']}',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                child: Column(
+                  children: [
+                    Text('Customer Service Count:',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('${employeeCount['customer_service_count']}',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
             ),
             Card(
@@ -223,9 +246,16 @@ class statistics_screen extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Manager Count: ${employeeCount['manager_count']}',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                child: Column(
+                  children: [
+                    Text('Manager Count:',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('${employeeCount['manager_count']}',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
             ),
             Card(
@@ -237,10 +267,16 @@ class statistics_screen extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    'Supervisor Count: ${employeeCount['supervisor_count']}',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                child: Column(
+                  children: [
+                    Text('Supervisor Count:',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('${employeeCount['supervisor_count']}',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
             ),
 

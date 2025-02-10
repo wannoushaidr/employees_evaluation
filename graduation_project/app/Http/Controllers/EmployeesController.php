@@ -891,7 +891,7 @@ public function getSupervisorsAndCustomerServiceEmployees(Request $request,$id) 
     try {
         // Initialize employee counts
         $employeeCount = 0;
-        $customerServiceCount = 0;
+        $customerServiceCount = 0;  
         $supervisorCount = 0;
 
         // Get the supervisors under the given manager

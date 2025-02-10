@@ -34,88 +34,94 @@ class ShowAllUsersScreen extends StatelessWidget {
           ? Center(child: CircularProgressIndicator())
           : Container(
               color: const Color.fromARGB(255, 219, 219, 219),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
+              child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DataTable(
-                      headingRowColor: MaterialStateProperty.all(
-                          const Color.fromARGB(255, 186, 184, 184)),
-                      dataRowColor: MaterialStateProperty.all(
-                          const Color.fromARGB(255, 255, 255, 255)),
-                      columns: const [
-                        DataColumn(
-                            label: Text(
-                          'ID',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Name',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        // DataColumn(label: Text('Number')),
-                        // DataColumn(label: Text('Gender')),
-                        DataColumn(
-                            label: Text(
-                          'role',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DataTable(
+                          headingRowColor: MaterialStateProperty.all(
+                              const Color.fromARGB(255, 186, 184, 184)),
+                          dataRowColor: MaterialStateProperty.all(
+                              const Color.fromARGB(255, 255, 255, 255)),
+                          columns: const [
+                            DataColumn(
+                                label: Text(
+                              'ID',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'Name',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            // DataColumn(label: Text('Number')),
+                            // DataColumn(label: Text('Gender')),
+                            DataColumn(
+                                label: Text(
+                              'role',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
 
-                        DataColumn(
-                            label: Text(
-                          'email',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Actions',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                      ],
-                      rows: users!.map((users) {
-                        return DataRow(cells: [
-                          DataCell(Text(users!.id.toString())),
-                          DataCell(Text(users.name)),
-                          // DataCell(Text(employee.number.toString())),
-                          // DataCell(Text(employee.gender)),
-                          DataCell(Text(users.role)),
-                          DataCell(Text(users.email)),
+                            DataColumn(
+                                label: Text(
+                              'email',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'Actions',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                          ],
+                          rows: users!.map((users) {
+                            return DataRow(cells: [
+                              DataCell(Text(users!.id.toString())),
+                              DataCell(Text(users.name)),
+                              // DataCell(Text(employee.number.toString())),
+                              // DataCell(Text(employee.gender)),
+                              DataCell(Text(users.role)),
+                              DataCell(Text(users.email)),
 
-                          DataCell(
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.edit),
-                                  onPressed: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      return UpdateAdminScreen(
-                                        admins: users,
-                                      );
-                                    }));
-                                  },
+                              DataCell(
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      onPressed: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return UpdateAdminScreen(
+                                            admins: users,
+                                          );
+                                        }));
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () async {
+                                        AppUsersService aes = AppUsersService();
+                                        bool? result = await aes.DeleteAdmin(
+                                            id: users.id.toString());
+                                        if (result == true) {
+                                          print('Success');
+                                          Navigator.pop(context);
+                                        } else {
+                                          print('Error');
+                                        }
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () async {
-                                    AppUsersService aes = AppUsersService();
-                                    bool? result = await aes.DeleteAdmin(
-                                        id: users.id.toString());
-                                    if (result == true) {
-                                      print('Success');
-                                      Navigator.pop(context);
-                                    } else {
-                                      print('Error');
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ]);
-                      }).toList(),
+                              ),
+                            ]);
+                          }).toList(),
+                        ),
+                      ),
                     ),
                   ),
                 ],

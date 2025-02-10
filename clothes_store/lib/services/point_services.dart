@@ -175,31 +175,77 @@ class AppPointsService {
 
 
 
+// Future<List<PointModel>?> GetEmployeePointonly(int id) async {  
+//   try {  
+//     String url = "http://127.0.0.1:8000/api/points/get_employee_points/$id";  
+//     final response = await http.get(Uri.parse(url));
+//     print("88888888888888888888888888");
+
+//       // Print the Status Code and Response Body for debugging
+//       print('Status Code: ${response.statusCode}');
+//       print('Response Body: ${response.body}');
+
+//       if (response.statusCode == 200) {
+//         // Split response into lines and skip the first two lines
+//         List<String> lines = response.body.split('\n');
+//         // Join the remaining lines back together to form the JSON body
+//         String jsonResponse = lines.skip(2).join('\n');
+
+//         // Debugging the processed JSON response
+//         print('Processed JSON Response: $jsonResponse');
+
+//         // Decode the remaining JSON response
+//         List<dynamic> jsonData = jsonDecode(jsonResponse);
+
+//         // Create list of PointModel objects from JSON data
+//         List<PointModel> points =
+//             jsonData.map((data) => PointModel.fromJson(data)).toList();
+//         return points;
+//       } else {
+//         print('Error: ${response.statusCode}'); // Log error status code
+//         throw Exception('Failed to load points: ${response.body}');
+//       }
+//     } catch (e) {
+//       print('Error: $e'); // Log any errors that occurred
+//       return null; // Return null if there's an error
+//     }
+//   }
+
 Future<List<PointModel>?> GetEmployeePointonly(int id) async {  
   try {  
-    String url = "http://127.0.0.1:8000/api/points/get_employee_points/$id";  
-    print("Fetching data from URL: $url");
-    http.Response response = await http.get(Uri.parse(url));  
-    print("sssssssssssss");
+    String url = "http://127.0.0.1:8000/api/points/get_employee_points?id=$id"; // Use correct endpoint  
+   
+      final response = await http.get(Uri.parse(url));
 
-    // Check for a successful response  
-    if (response.statusCode == 200) {  
-      // Parse the JSON response  
-      List<dynamic> jsonData = jsonDecode(response.body);  
-      print("sssssssssssss");
-      List<PointModel> points = jsonData.map((data) => PointModel.fromJson(data)).toList();  
-      print("sssssssssssss");
-      return points;  
-    } else {  
-      print("Error: Unable to fetch data. Status code: ${response.statusCode}");  
-      return null; // or throw an exception  
-    }  
-  } catch (e) {  
-    print("Caught exception: $e");  
-    return null; // or handle error as needed  
-  }  
-}
+      // Print the Status Code and Response Body for debugging
+      print('Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
 
+      if (response.statusCode == 200) {
+        // Split response into lines and skip the first two lines
+        List<String> lines = response.body.split('\n');
+        // Join the remaining lines back together to form the JSON body
+        String jsonResponse = lines.skip(2).join('\n');
+
+        // Debugging the processed JSON response
+        print('Processed JSON Response: $jsonResponse');
+
+        // Decode the remaining JSON response
+        List<dynamic> jsonData = jsonDecode(jsonResponse);
+
+        // Create list of PointModel objects from JSON data
+        List<PointModel> points =
+            jsonData.map((data) => PointModel.fromJson(data)).toList();
+        return points;
+      } else {
+        print('Error: ${response.statusCode}'); // Log error status code
+        throw Exception('Failed to load points: ${response.body}');
+      }
+    } catch (e) {
+      print('Error: $e'); // Log any errors that occurred
+      return null; // Return null if there's an error
+    }
+  }
 
 
 

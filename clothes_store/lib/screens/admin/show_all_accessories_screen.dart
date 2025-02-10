@@ -134,95 +134,100 @@ class ShowAllAccessoriesScreen extends StatelessWidget {
 
       body: Container(
         color: const Color.fromARGB(255, 219, 219, 219),
-        child: ListView(
-          scrollDirection: Axis.horizontal,
+        child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DataTable(
-                headingRowColor: MaterialStateProperty.all(
-                    const Color.fromARGB(255, 186, 184, 184)),
-                dataRowColor: MaterialStateProperty.all(
-                    const Color.fromARGB(255, 255, 255, 255)),
-                columns: const [
-                  DataColumn(
-                      label: Text(
-                    'ID',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Type',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'branch_id',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'created_at',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'updated_at',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Actions',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                ],
-                rows: accessories!.map((accessory) {
-                  return DataRow(cells: [
-                    DataCell(Text(accessory!.id.toString())),
-                    DataCell(Text(accessory.type)),
-                    DataCell(Text(accessory.branch_id.toString())),
-                    DataCell(Text(accessory.created_at)),
-                    DataCell(Text(accessory.updated_at)),
-                    DataCell(
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return UpdateAccessoryScreen(
-                                  accessory: accessory,
-                                );
-                              }));
-                            },
+            Align(
+              alignment: Alignment.topCenter,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DataTable(
+                    headingRowColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 186, 184, 184)),
+                    dataRowColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 255, 255, 255)),
+                    columns: const [
+                      DataColumn(
+                          label: Text(
+                        'ID',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Type',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'branch_id',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'created_at',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'updated_at',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Actions',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                    ],
+                    rows: accessories!.map((accessory) {
+                      return DataRow(cells: [
+                        DataCell(Text(accessory!.id.toString())),
+                        DataCell(Text(accessory.type)),
+                        DataCell(Text(accessory.branch_id.toString())),
+                        DataCell(Text(accessory.created_at)),
+                        DataCell(Text(accessory.updated_at)),
+                        DataCell(
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return UpdateAccessoryScreen(
+                                      accessory: accessory,
+                                    );
+                                  }));
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () async {
+                                  AppAccessoriesService aas =
+                                      new AppAccessoriesService();
+                                  bool? result = await aas.DeleteAccessory(
+                                      id: accessory.id.toString());
+                                  if (result == true) {
+                                    print('success');
+                                    Navigator.pop(context);
+                                  } else {
+                                    print('error');
+                                  }
+                                  // Navigator.push(context,
+                                  //     MaterialPageRoute(builder: (context) {
+                                  //   return UpdateCompanyScreen(
+                                  //     company: company,
+                                  //   );
+                                  // }));
+                                },
+                              ),
+                            ],
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              AppAccessoriesService aas =
-                                  new AppAccessoriesService();
-                              bool? result = await aas.DeleteAccessory(
-                                  id: accessory.id.toString());
-                              if (result == true) {
-                                print('success');
-                                Navigator.pop(context);
-                              } else {
-                                print('error');
-                              }
-                              // Navigator.push(context,
-                              //     MaterialPageRoute(builder: (context) {
-                              //   return UpdateCompanyScreen(
-                              //     company: company,
-                              //   );
-                              // }));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]);
-                }).toList(),
+                        ),
+                      ]);
+                    }).toList(),
+                  ),
+                ),
               ),
             ),
           ],

@@ -132,107 +132,113 @@ class ShowAllBranchesScreen extends StatelessWidget {
 
       body: Container(
         color: const Color.fromARGB(255, 219, 219, 219),
-        child: ListView(
-          scrollDirection: Axis.horizontal,
+        child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DataTable(
-                headingRowColor: MaterialStateProperty.all(
-                    const Color.fromARGB(255, 186, 184, 184)),
-                dataRowColor: MaterialStateProperty.all(
-                    const Color.fromARGB(255, 255, 255, 255)),
-                columns: const [
-                  DataColumn(
-                      label: Text(
-                    'ID',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Name',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'phone',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'address',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Email',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'Actions',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                ],
-                rows: branches!.map((branch) {
-                  return DataRow(cells: [
-                    DataCell(Text(branch!.id.toString())),
-                    DataCell(Text(branch.name)),
-                    // DataCell(Text(branch.phone)),
-                    DataCell(Text(branch.phone.toString())),
-                    DataCell(Text(branch.address)),
-                    DataCell(Text(branch.email)),
-                    DataCell(
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return AddAccessoryScreen(
-                                  branch_id: branch.id.toString(),
-                                );
-                              }));
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return UpdateBranchScreen(
-                                  branch: branch,
-                                );
-                              }));
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              AppBranchesService acp = new AppBranchesService();
+            Align(
+              alignment: Alignment.topCenter,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DataTable(
+                    headingRowColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 186, 184, 184)),
+                    dataRowColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 255, 255, 255)),
+                    columns: const [
+                      DataColumn(
+                          label: Text(
+                        'ID',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Name',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'phone',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'address',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Email',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Actions',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                    ],
+                    rows: branches!.map((branch) {
+                      return DataRow(cells: [
+                        DataCell(Text(branch!.id.toString())),
+                        DataCell(Text(branch.name)),
+                        // DataCell(Text(branch.phone)),
+                        DataCell(Text(branch.phone.toString())),
+                        DataCell(Text(branch.address)),
+                        DataCell(Text(branch.email)),
+                        DataCell(
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return AddAccessoryScreen(
+                                      branch_id: branch.id.toString(),
+                                    );
+                                  }));
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return UpdateBranchScreen(
+                                      branch: branch,
+                                    );
+                                  }));
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () async {
+                                  AppBranchesService acp =
+                                      new AppBranchesService();
 
-                              bool? result = await acp.DeleteBranch(
-                                  id: branch.id.toString());
-                              if (result == true) {
-                                print('success');
-                                Navigator.pop(context);
-                              } else {
-                                print('error');
-                              }
-                              // Navigator.push(context,
-                              //     MaterialPageRoute(builder: (context) {
-                              //   return UpdateCompanyScreen(
-                              //     company: company,
-                              //   );
-                              // }));
-                            },
+                                  bool? result = await acp.DeleteBranch(
+                                      id: branch.id.toString());
+                                  if (result == true) {
+                                    print('success');
+                                    Navigator.pop(context);
+                                  } else {
+                                    print('error');
+                                  }
+                                  // Navigator.push(context,
+                                  //     MaterialPageRoute(builder: (context) {
+                                  //   return UpdateCompanyScreen(
+                                  //     company: company,
+                                  //   );
+                                  // }));
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  ]);
-                }).toList(),
+                        ),
+                      ]);
+                    }).toList(),
+                  ),
+                ),
               ),
             ),
           ],
