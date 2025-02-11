@@ -33,7 +33,7 @@ dependencies:
   provider: ^6.1.2  # or any latest 6.x.x version  
   dio: ^5.0.0
   web_socket_channel: ^2.1.0
-  flutter_local_notifications: ^8.2.0
+  # flutter_local_notifications: ^8.2.0
   
 
 

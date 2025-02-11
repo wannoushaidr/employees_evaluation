@@ -324,7 +324,7 @@ class AppEmployeesService {
 
         // Extract counts and return as a map
         Map<String, int> counts = {
-          'employee_count': data['employee_count'],
+          'total_points': data['total_points'],
           'customer_service_count': data['customer_service_count'],
         };
         return counts;
@@ -438,4 +438,90 @@ class AppEmployeesService {
       return null;
     }
   }
+
+// Future<Map<String, int>?> getStatistic(int id) async {  
+//     try {  
+//         // Update the URL to your correct endpoint  
+//         String url = "http://127.0.0.1:8000/api/employee/get_statistic/$id"; // Use your local IP address  
+//         http.Response response = await http.get(Uri.parse(url));  
+
+//         // Log the status code  
+//         print("Response status code: ${response.statusCode}");  
+
+//         if (response.statusCode == 200) {  
+//             // Print the raw response for debugging  
+//             print("Response body: ${response.body}");  
+//             print("******");
+
+//             // Decode the JSON response  
+//             List<dynamic> responseData = jsonDecode(response.body);  
+//             print("8888888");
+//             if (responseData.isNotEmpty) {  
+//                 // Extract counts and return as a map  
+//                 Map<String, int> employees = {  
+//                     'employee_count': responseData[0]['employee_count'],  
+//                     'points_sum': responseData[0]['points_sum'],  
+//                     // Assuming evaluation is an integer, handle accordingly  
+//                     'evaluation': responseData[0]['evaluation'] == "good" ? 1 : 0 // Convert evaluation to an integer if needed  
+//                 };  
+//                 return employees;  
+//             } else {  
+//                 return null; // Handle empty response appropriately  
+//             }   
+//         } else {  
+//             // Log the error response body for further diagnostics  
+//             print("Error: ${response.statusCode}, Body: ${response.body}");  
+//             return null;  
+//         }  
+//     } catch (e) {  
+//         print("Exception: $e");  
+//         return null;  
+//     }  
+// }
+
+
+Future<Map<String, int>?> getStatistic(int id) async {  
+    try {  
+        String url = "http://127.0.0.1:8000/api/employee/get_statistic/$id"; // Your local IP address  
+        http.Response response = await http.get(Uri.parse(url));  
+
+        // Log the status code  
+        print("Response status code: ${response.statusCode}");  
+
+        if (response.statusCode == 200) {  
+            // Print the raw response for debugging  
+            print("Response body: ${response.body}");  
+
+            // Clean up the response by removing unwanted HTML or comments  
+            String cleanedResponse = response.body;  
+
+            // Regular expression to remove HTML comments  
+            cleanedResponse = cleanedResponse.replaceAll(RegExp(r'<!--.*?-->', dotAll: true), '').trim();  
+
+            // Now check if cleaned response is valid JSON  
+            print("Cleaned response: $cleanedResponse");  
+
+            if (cleanedResponse.isNotEmpty) {  
+                // Decode the JSON response  
+                Map<String, dynamic> responseData = jsonDecode(cleanedResponse);  
+
+                // Extract counts and return as a map  
+                Map<String, int> counts = {  
+                    'employee_count': responseData['employee_count'],  
+                    'points_sum': int.parse(responseData['points_sum']), // Convert points_sum to integer  
+                    'evaluation': (responseData['evaluation'] == "good") ? 1 : 0 // Convert evaluation to an integer  
+                };  
+
+                return counts;  
+            }  
+        } else {  
+            print("Error: ${response.statusCode}, Body: ${response.body}");  
+            return null; // Handle error appropriately  
+        }  
+    } catch (e) {  
+        print("Exception: $e");  
+        return null; // Handle exception appropriately  
+    }  
+}
+
 }

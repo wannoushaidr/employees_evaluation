@@ -2,6 +2,7 @@ import 'package:clothes_store/helper/snackbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/company_services.dart';
+import 'package:clothes_store/utils/web_utils.dart'; // Updated import
 
 class AddCompanyScreen extends StatefulWidget {
   @override
@@ -12,7 +13,6 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
   final _formKey = GlobalKey<FormState>();
   String name = '';
   String number = '';
-  // String numberOfBranches = '';
   String email = '';
   String address = '';
 
@@ -73,18 +73,6 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                         },
                       ),
                     ),
-                    // TextFormField(
-                    //   decoration: InputDecoration(labelText: 'Number of Branches'),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Please enter number of branches';
-                    //     }
-                    //     return null;
-                    //   },
-                    //   onChanged: (value) {
-                    //     numberOfBranches = value;
-                    //   },
-                    // ),
                     SizedBox(height: 20),
                     Container(
                       width: 500,
@@ -96,8 +84,7 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter email';
-                          } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                              .hasMatch(value)) {
+                          } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
                             return 'Please enter a valid email';
                           }
                           return null;
@@ -136,24 +123,22 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             // Process the data (e.g., send it to a server or save it locally)
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Processing Data')),
-                            );
+                            showAlert(context, 'Processing Data'); // Updated alert call
+
                             AppCompaniesService aps = AppCompaniesService();
                             bool? result = await aps.AddNewCompany(
                                 name: name,
                                 number: number,
-                                // number_of_branches: numberOfBranches,
                                 email: email,
                                 address: address);
                             if (result == true) {
                               print('success');
                               SnackbarShow.showSnackbar(
-                                  context, "added successfully  ");
+                                  context, "added successfully");
 
                               Navigator.pop(context);
                             } else {
-                              SnackbarShow.showSnackbar(context, " error ");
+                              SnackbarShow.showSnackbar(context, "error");
                               print('error');
                             }
                           }

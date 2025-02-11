@@ -10,8 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../services/company_services.dart';
-import 'dart:html'
-    as html; // Import the html library for web /********************** */
+
 import 'package:http/http.dart' as http;
 
 class UpdateAdminScreen extends StatefulWidget {

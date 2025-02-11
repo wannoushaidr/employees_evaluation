@@ -331,6 +331,10 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
 
   Widget _buildDrawer(Auth auth, BuildContext context) {
     return Drawer(
+      child:Container(
+        decoration: BoxDecoration(  
+       color: const Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+         ),  
       child: Consumer<Auth>(builder: (context, auth, child) {
         if (!auth.authenticated) {
           return ListView(
@@ -385,7 +389,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
           );
         }
       }),
-    );
+    ));
   }
 
   List<Widget> _buildDrawerItems(Auth auth, BuildContext context) {
@@ -399,6 +403,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
             MaterialPageRoute(builder: (context) => UserProfile()),
           );
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
           leading: const Icon(Icons.home),
@@ -420,7 +425,10 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
               );
             }
             // Example: Fetch another set of data or navigate to a different screen
-          }),
+          },
+          tileColor: Colors.blue[100], // Set the background color for the ListTile  
+          
+          ),
       ListTile(
         leading: Icon(Icons.interests),
         title: const Text('employees information'),
@@ -442,6 +450,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
           }
           // Example: Fetch another set of data or navigate to a different screen
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.notifications),
@@ -461,9 +470,11 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
             ),
           );
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
-        leading: Icon(Icons.interests),
+        // leading: Icon(Icons.interests),
+        leading: const Icon(Icons.fiber_smart_record_rounded),
         title: const Text('Points'),
         onTap: () async {
           print('points');
@@ -482,6 +493,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
             );
           }
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile
       ),
       ListTile(
         leading: const Icon(Icons.pie_chart),
@@ -506,6 +518,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
           );
           }
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.logout),
@@ -514,6 +527,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
           Provider.of<Auth>(context, listen: false).logout();
           Navigator.pushReplacementNamed(context, 'mainscreen');
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile
       ),
     ];
   }

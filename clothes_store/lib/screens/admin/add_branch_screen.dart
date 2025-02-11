@@ -3,6 +3,7 @@ import 'package:clothes_store/services/branch_services.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/company_services.dart';
+import 'package:clothes_store/utils/web_utils.dart'; // Updated import
 
 class AddBranchScreen extends StatefulWidget {
   const AddBranchScreen({super.key, required this.company_id});
@@ -106,8 +107,7 @@ class _AddBranchScreenState extends State<AddBranchScreen> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter email';
-                          } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                              .hasMatch(value)) {
+                          } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
                             return 'Please enter a valid email';
                           }
                           return null;
@@ -140,9 +140,9 @@ class _AddBranchScreenState extends State<AddBranchScreen> {
                             print('success');
                             Navigator.pop(context);
                             SnackbarShow.showSnackbar(
-                                context, "added sussesfully ");
+                                context, "added successfully");
                           } else {
-                            SnackbarShow.showSnackbar(context, " error");
+                            SnackbarShow.showSnackbar(context, "error");
                             print('error');
                           }
                         }

@@ -7,6 +7,7 @@ use App\Models\Companies;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Points;
 
 
 // use Illuminate\Support\Facades\Validator;
@@ -902,6 +903,7 @@ public function getSupervisorsAndCustomerServiceEmployees(Request $request,$id) 
         // Loop through each supervisor and count the employees by position
         foreach ($supervisors as $supervisor) {
             $supervisorCount++;
+            $employeeCount++;
             $supervisorEmployees = Employees::where('leader_id', $supervisor->id)->get();
             foreach ($supervisorEmployees as $employee) {
                 $employeeCount++;
@@ -927,38 +929,128 @@ public function getSupervisorsAndCustomerServiceEmployees(Request $request,$id) 
 }
 
 
-public function getCustomerServiceEmployeesCount(Request $request,$id) {
-    if($id){
-    try {
-        // Initialize employee counts
-        $employeeCount = 0;
-        $customerServiceCount = 0;
+// public function getCustomerServiceEmployeesCount(Request $request,$id) {
+//     if($id){
+//     try {
+//         // Initialize employee counts
+//         $employeeCount = 0;
+//         $customerServiceCount = 0;
 
 
-        // Loop through each supervisor and count the employees by position
+//         // Loop through each supervisor and count the employees by position
         
-            $supervisorEmployees = Employees::where('leader_id', $request->id)->get();
-            foreach ($supervisorEmployees as $employee) {
-                $employeeCount++;
-                if ($employee->position == 'customer_service') {
-                    $customerServiceCount++;
-                    $employeeCount++;
-                }
-            }
+//             $supervisorEmployees = Employees::where('leader_id', $request->id)->get();
+//             foreach ($supervisorEmployees as $employee) {
+//                 $employeeCount++;
+//                 if ($employee->position == 'customer_service') {
+//                     $customerServiceCount++;
+//                     $employeeCount++;
+//                 }
+//             }
 
-        return response()->json([
-            'employee_count' => $employeeCount,
-            'customer_service_count' => $customerServiceCount,
-        ]);
-    } catch (\Exception $e) {
-        // Log the error for debugging purposes
-        \Log::error('Error fetching employee count: ' . $e->getMessage());
+//         return response()->json([
+//             'employee_count' => $employeeCount,
+//             'customer_service_count' => $customerServiceCount,
+//         ]);
+//     } catch (\Exception $e) {
+//         // Log the error for debugging purposes
+//         \Log::error('Error fetching employee count: ' . $e->getMessage());
 
-        // Return a generic error response
-        return response()->json(['error' => 'An error occurred while fetching the employee count.'], 500);
-    }
+//         // Return a generic error response
+//         return response()->json(['error' => 'An error occurred while fetching the employee count.'], 500);
+//     }
+// }
+// }
+
+
+
+
+// public function getCustomerServiceEmployeesCount(Request $request,$id) {
+//     if($id){
+//     try {
+//         // Initialize employee counts
+//         $employeeCount = 0;
+//         $customerServiceCount = 0;
+
+
+//         // Loop through each supervisor and count the employees by position
+        
+//             $supervisorEmployees = Employees::where('leader_id', $request->id)->get();
+//             foreach ($supervisorEmployees as $employee) {
+//                 $employeeCount++;
+//                 if ($employee->position == 'customer_service') {
+//                     $customerServiceCount++;
+//                     $employeeCount++;
+//                 }
+//             }
+
+//         return response()->json([
+//             'employee_count' => $employeeCount,
+//             'customer_service_count' => $customerServiceCount,
+//         ]);
+//     } catch (\Exception $e) {
+//         // Log the error for debugging purposes
+//         \Log::error('Error fetching employee count: ' . $e->getMessage());
+
+//         // Return a generic error response
+//         return response()->json(['error' => 'An error occurred while fetching the employee count.'], 500);
+//     }
+// }
+// }
+
+
+public function getCustomerServiceEmployeesCount(Request $request, $id) {  
+    if ($id) {  
+        try {  
+            // Initialize employee counts and total points  
+            $employeeCount = 0;  
+            $customerServiceCount = 0;  
+            $totalPoints = 0;  
+
+            // Get supervisor's employees  
+            $supervisorEmployees = Employees::where('leader_id', $id)->get();  
+
+            foreach ($supervisorEmployees as $employee) {  
+                $employeeCount++; // Count every employee  
+
+                // Check if the employee is in customer service  
+                if ($employee->position == 'customer_service') {  
+                    $customerServiceCount++; // Increment customer service count  
+
+                    // Assuming the employee has a relationship to the Point model  
+                    // and each employee can have multiple points records  
+                    // Sum the points for customer service employees  
+                    $employeePoints = Points::where('employee_id', $employee->id) // Adjust the column to match your schema  
+                                           ->sum('points_count'); // Sum points_count from Points table  
+                    $totalPoints += $employeePoints; // Add to total points  
+                }  
+            }  
+
+            return response()->json([  
+                // 'employee_count' => $employeeCount,  
+                'customer_service_count' => $customerServiceCount,  
+                'total_points' => $totalPoints, // Include total points in the response  
+            ]);  
+        } catch (\Exception $e) {  
+            // Log the error for debugging purposes  
+            \Log::error('Error fetching employee count: ' . $e->getMessage());  
+
+            // Return a generic error response  
+            return response()->json(['error' => 'An error occurred while fetching the employee count.'], 500);  
+        }  
+    }  
 }
-}
+
+
+
+
+
+
+
+
+
+
+
 
 // to update cutomer_service active value  when strt service new cutmer
 public function update_customer_service_active(Request $request) {
@@ -997,14 +1089,72 @@ public function update_customer_service_active(Request $request) {
 }
 
 
+// // to get tstatistic for customer_service
+// public function get_statistic(Request $request) {
+//     try {
+//         // Sum the points for the given employee_id
+//         $pointsSum = Points::where('employee_id', $request->id)->sum('points_count');
+        
+//         return response()->json([
+            
+//             'employee_count' => 5,
+//             'points_sum' => $pointsSum,
+//             'evaluation'=>"good"
+//         ], 200);
+//     } catch (\Exception $e) {
+//         // Handle any errors that occur during the process
+//         return response()->json([
+//             'status' => 'error',
+//             'message' => 'An error occurred while calculating points',
+//             'error' => $e->getMessage()
+//         ], 500);
+//     }
+// }
 
+// public function get_statistic($id) {  
+//     try {  
+//         // Sum the points for the given employee_id  
+//         $pointsSum = Points::where('employee_id', $id)->sum('points_count');  
 
+//         // Build the response as an array  
+//         return response()->json([  
+        
+//                 'employee_count' => 5,  
+//                 'points_sum' => $pointsSum,  
+//                 'evaluation' => "good"  
+            
+//         ]);  
+//     } catch (\Exception $e) {  
+//         // Handle any errors that occur during the process  
+//         return response()->json([  
+//             'status' => 'error',  
+//             'message' => 'An error occurred while calculating points',  
+//             'error' => $e->getMessage()  
+//         ], 500);  
+//     }  
+// }
 
+// for servi e cutomer
+public function get_statistic($id) {  
+    try {  
+        // Sum the points for the given employee_id  
+        $pointsSum = Points::where('employee_id', $id)->sum('points_count');  
 
-
-
-
-
+        // Build the response as an array  
+        return response()->json([  
+            'employee_count' => 5,  // Static value for demonstration  
+            'points_sum' => $pointsSum,  
+            'evaluation' => "good"  
+        ]);  
+    } catch (\Exception $e) {  
+        // Handle any errors that occur during the process  
+        return response()->json([  
+            'status' => 'error',  
+            'message' => 'An error occurred while calculating points',  
+            'error' => $e->getMessage()  
+        ], 500);  
+    }  
+}  
 
 
 

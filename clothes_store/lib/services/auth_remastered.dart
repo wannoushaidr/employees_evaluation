@@ -9,12 +9,12 @@ class Auth extends ChangeNotifier {
   late String _token;
   late var _user = UserModel(
       name: "samer",
-      email: "wannous@.com",
-      role: "customer_service",
-      id: 2,
+      email: "manager@gmail.com",
+      role: "supervisor",
+      id: 7,
       image: "");
 
-  bool authenticated = false;
+  bool authenticated = true;
   UserModel get user => _user;
 
   Future<String?> login(

@@ -8,8 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../services/company_services.dart';
-import 'dart:html'
-    as html; // Import the html library for web ************************************
+import 'package:clothes_store/utils/web_utils.dart'; // Updated import
 import 'package:http/http.dart' as http;
 
 class AddEmployeeScreen extends StatefulWidget {
@@ -59,7 +58,6 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
-        // automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,
       ),
       body: Container(
         color: Colors.white,
@@ -296,9 +294,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             // Process the data (e.g., send it to a server or save it locally)
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Processing Data')),
-                            );
+                            showAlert(context, 'Processing Data'); // Updated alert call
+
                             // Assuming you have a service to handle employee data
                             AppEmployeesService aes = AppEmployeesService();
                             bool? result = await aes.AddNewEmployee(
@@ -313,17 +310,16 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                               image: image!,
                               SelectedFile: selectedFile,
                               active: active,
-                              //  user_id: '',
                             );
                             if (result == true) {
                               SnackbarShow.showSnackbar(
-                                  context, "added succesfully");
+                                  context, "added successfully");
 
                               print('Employee added successfully');
                               Navigator.pop(context);
                             } else {
                               SnackbarShow.showSnackbar(
-                                  context,aes.message);
+                                  context, aes.message);
 
                               print('Error adding employee');
                             }

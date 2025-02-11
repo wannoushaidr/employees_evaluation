@@ -571,6 +571,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildDrawer(Auth auth, BuildContext context) {
     return Drawer(
+      child:Container(
+        decoration: BoxDecoration(  
+       color: const Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+         ),  
       child: Consumer<Auth>(builder: (context, auth, child) {
         if (!auth.authenticated) {
           return ListView(
@@ -625,7 +629,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }
       }),
-    );
+    ));
   }
 
   List<Widget> _buildDrawerItems(Auth auth, BuildContext context) {
@@ -645,6 +649,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.people_alt),
@@ -670,6 +675,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.add_chart),
@@ -708,6 +714,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.other_houses),
@@ -735,9 +742,11 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
-        leading: const Icon(Icons.pages),
+        // leading: const Icon(Icons.pages),
+        leading: const Icon(Icons.fiber_smart_record_rounded),
         title: const Text('points'),
         onTap: () async {
           AppPointsService aas = AppPointsService();
@@ -760,32 +769,34 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
-      ListTile(
-        leading: const Icon(Icons.pages),
-        title: const Text('points'),
-        onTap: () async {
-          AppPointsService aas = AppPointsService();
-          List<PointModel?>? points = await aas.GetAllPoint();
+      // ListTile(
+      //   leading: const Icon(Icons.pages),
+      //   title: const Text('points'),
+      //   onTap: () async {
+      //     AppPointsService aas = AppPointsService();
+      //     List<PointModel?>? points = await aas.GetAllPoint();
 
-          if (points != null) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) {
-                return ShowAllPointsScreen(
-                  points: points,
-                );
-              }),
-            );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content:
-                      Text('Failed to load points. Please try again later.')),
-            );
-          }
-        },
-      ),
+      //     if (points != null) {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) {
+      //           return ShowAllPointsScreen(
+      //             points: points,
+      //           );
+      //         }),
+      //       );
+      //     } else {
+      //       ScaffoldMessenger.of(context).showSnackBar(
+      //         SnackBar(
+      //             content:
+      //                 Text('Failed to load points. Please try again later.')),
+      //       );
+      //     }
+      //   },
+      //   tileColor: Colors.blue[100], // Set the background color for the ListTile  
+      // ),
       ListTile(
         leading: const Icon(Icons.home),
         title: const Text('home'),
@@ -793,6 +804,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // Navigating to Home page
           Navigator.of(context).pushNamed('home');
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.people),
@@ -820,6 +832,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.logout),
@@ -828,6 +841,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Provider.of<Auth>(context, listen: false).logout();
           Navigator.pushReplacementNamed(context, 'LoginScreen');
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
     ];
   }

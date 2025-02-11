@@ -554,6 +554,7 @@ import 'package:clothes_store/models/employee_model.dart';
 import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/admin/show_all_points_screen.dart';
 import 'package:clothes_store/screens/customer_service/customer_service_points.dart';
+import 'package:clothes_store/screens/customer_service/customer_service_statistic_screen.dart';
 import 'package:clothes_store/screens/shared_screen/login_screen.dart';
 import 'package:clothes_store/screens/manager/activate_employee_screen.dart';
 import 'package:clothes_store/screens/manager/manager_statistics_screen.dart';
@@ -601,6 +602,7 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
           //       image: AssetImage('assets/images/clothes.jpg'), opacity: 0.3),
           // ),
           // child:
+          
           return Row(
             children: [
               if (isWideScreen) // Show drawer for wider screens
@@ -617,7 +619,13 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
 
   Widget _buildDrawer(Auth auth, BuildContext context) {
     return Drawer(
+      child:Container(
+        decoration: BoxDecoration(  
+       color: const Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+         ),  
+      
       child: Consumer<Auth>(builder: (context, auth, child) {
+        
         if (!auth.authenticated) {
           return ListView(
             children: [
@@ -658,7 +666,7 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
                           ],
                         ),
                         decoration: const BoxDecoration(
-                          color: Colors.blue,
+                          color: Color.fromARGB(255, 143, 147, 150),
                         ),
                       ),
                     ),
@@ -670,7 +678,7 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
           );
         }
       }),
-    );
+    ));
   }
 
   List<Widget> _buildDrawerItems(Auth auth, BuildContext context) {
@@ -684,6 +692,7 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
             MaterialPageRoute(builder: (context) => UserProfile()),
           );
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.home), // Add an icon for the main screen
@@ -695,9 +704,10 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
             MaterialPageRoute(builder: (context) => CutmoerServiceMainScreen()),
           );
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
-        leading: const Icon(Icons.point_of_sale), // Add an icon for points
+        leading: const Icon(Icons.fiber_smart_record_rounded), // Add an icon for points
         title: const Text('Points'),
         onTap: () async {
           print('points');
@@ -734,6 +744,7 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
             );
           }
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.notifications), // Notification icon
@@ -753,26 +764,30 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
             ),
           );
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.pie_chart), // Statistic icon
         title: const Text('Statistics'),
         onTap: () async {
           AppEmployeesService acp = AppEmployeesService();
-          List<EmployeeModel?>? employees =
-              await acp.GetMyEmployeesEnformation(auth.user.id);
+          Map<String, int>? employees =
+              await acp.getStatistic(auth.user.id);
           print("employees");
           print(employees);
-
+          
+        if (employees != null) {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) {
-                return showEmployeesByManages(employees: employees);
+                return CustomerServiceStatisticScreen(employees: employees);
               },
             ),
           );
+        }
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.logout),
@@ -781,6 +796,7 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
           Provider.of<Auth>(context, listen: false).logout();
           Navigator.pushReplacementNamed(context, 'LoginScreen');
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
     ];
   }

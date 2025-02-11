@@ -889,6 +889,11 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
 
   Widget _buildDrawer(Auth auth, BuildContext context) {
     return Drawer(
+      child:Container(
+        decoration: BoxDecoration(  
+       color: const Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+         ),  
+      
       child: Consumer<Auth>(builder: (context, auth, child) {
         if (!auth.authenticated) {
           return ListView(
@@ -931,7 +936,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
                           ],
                         ),
                         decoration: const BoxDecoration(
-                          color: Colors.blue,
+                          color: Color.fromARGB(255, 148, 158, 167),
                         ),
                       ),
                     ),
@@ -943,7 +948,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
           );
         }
       }),
-    );
+    ));
   }
 
   List<Widget> _buildDrawerItems(Auth auth, BuildContext context) {
@@ -957,6 +962,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
             MaterialPageRoute(builder: (context) => UserProfile()),
           );
         },
+        tileColor: const Color.fromARGB(255, 227, 10, 25), // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.home),
@@ -968,9 +974,11 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
             MaterialPageRoute(builder: (context) => ManagerMainScreen()),
           );
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
-        leading: Icon(Icons.interests),
+        // leading: Icon(Icons.interests),
+        leading: const Icon(Icons.fiber_smart_record_rounded),
         title: const Text('Points'),
         onTap: () async {
           print('points');
@@ -989,6 +997,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
             );
           }
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.notifications),
@@ -1008,6 +1017,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
             ),
           );
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.pie_chart),
@@ -1030,6 +1040,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
           );
           }
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.logout),
@@ -1038,6 +1049,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
           Provider.of<Auth>(context, listen: false).logout();
           Navigator.pushReplacementNamed(context, 'LoginScreen');
         },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
     ];
   }

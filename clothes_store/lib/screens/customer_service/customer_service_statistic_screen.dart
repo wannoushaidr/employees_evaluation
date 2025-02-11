@@ -1,6 +1,7 @@
 import 'package:clothes_store/models/accessory_model.dart';
 import 'package:clothes_store/models/branch_model.dart';
 import 'package:clothes_store/models/company_model.dart';
+import 'package:clothes_store/models/employee_model.dart';
 import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/admin/update_accessory_screen.dart';
 import 'package:clothes_store/screens/admin/update_branch_screen.dart';
@@ -10,13 +11,12 @@ import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 
-// class ManagerStatisticScreen extends StatelessWidget {
-//   const ManagerStatisticScreen({super.key, required this.employeeCount});
+// class customerServiveStatisticScreen extends StatelessWidget {
+//   const customerServiveStatisticScreen({super.key, required this.employeeCount, List<EmployeeModel?>? employees});
 //   final Map<String, int> employeeCount;
 
 //   @override
 //   Widget build(BuildContext context) {
-    
 //     var screenWidth = MediaQuery.of(context).size.width;
 //     return Scaffold(
 //       appBar: AppBar(
@@ -109,19 +109,12 @@ import 'package:flutter/material.dart';
 //   }
 // }
 
-
-
-
-
-
-
-
 import 'package:clothes_store/models/employee_model.dart';
 import 'package:flutter/material.dart';  
 
-class ManagerStatisticScreen extends StatelessWidget {  
-  const ManagerStatisticScreen({super.key,required this.employeeCount});  
- final Map<String, int> employeeCount;
+class CustomerServiceStatisticScreen extends StatelessWidget {  
+  const CustomerServiceStatisticScreen({super.key,required this.employees});  
+ final Map<String, int> employees;
   @override  
   Widget build(BuildContext context) {  
     var screenWidth = MediaQuery.of(context).size.width;  
@@ -171,7 +164,7 @@ class ManagerStatisticScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
                   Text(  
-                    '${employeeCount['employee_count'] ?? 0}',  
+                    '${employees['employee_count'] ?? 0}',  
                     style: TextStyle(fontSize: fontSize2, fontWeight: FontWeight.bold), // Dynamic font size  
                   ),  
                 ],  
@@ -191,11 +184,11 @@ class ManagerStatisticScreen extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
                   Text(  
-                    'customer_service count:',  
+                    'points sum:',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
                   Text(  
-                    '${employeeCount['customer_service_count'] ?? 0}',  
+                    '${employees['points_sum'] ?? 0}',  
                     style: TextStyle(fontSize: fontSize2, fontWeight: FontWeight.bold), // Dynamic font size  
                   ),  
                 ],  
@@ -215,11 +208,11 @@ class ManagerStatisticScreen extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
                   Text(  
-                    'supervisor count',  
+                    'evaluation',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
                   Text(  
-                    '${employeeCount['supervisor_count'] ?? 0}',  
+                    '${employees['evaluation'] ?? 0}',  
                     style: TextStyle(fontSize: fontSize2, fontWeight: FontWeight.bold), // Dynamic font size  
                   ),  
                 ],  

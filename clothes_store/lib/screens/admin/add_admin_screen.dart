@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../services/company_services.dart';
-import 'dart:html' as html; // Import the html library for web
+import 'package:clothes_store/utils/web_utils.dart'; // Updated import
 import 'package:http/http.dart' as http;
 
 class AddAdminScreen extends StatefulWidget {
@@ -40,13 +40,9 @@ class _AddAdminScreen extends State<AddAdminScreen> {
   }
 
   String name = '';
-  // String number = '';
-  // String gender = '';
   String role = '';
   String email = '';
   String password = '';
-  // Uint8List? image;
-  // String selectedFile = '';
 
   @override
   Widget build(BuildContext context) {
@@ -124,43 +120,6 @@ class _AddAdminScreen extends State<AddAdminScreen> {
                         },
                       ),
                     ),
-
-                    // SizedBox(height: 20),
-                    // TextFormField(
-                    //   decoration: InputDecoration(labelText: 'Number'),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Please enter number';
-                    //     }
-                    //     return null;
-                    //   },
-                    //   onChanged: (value) {
-                    //     number = value;
-                    //   },
-                    // ),
-
-                    // SizedBox(height: 20),
-                    // DropdownButtonFormField<String>(
-                    //   decoration: InputDecoration(labelText: 'Gender'),
-                    //   items: <String>['male', 'female'].map((String value) {
-                    //     return DropdownMenuItem<String>(
-                    //       value: value,
-                    //       child: Text(value),
-                    //     );
-                    //   }).toList(),
-                    //   onChanged: (String? newValue) {
-                    //     setState(() {
-                    //       gender = newValue!;
-                    //     });
-                    //   },
-                    //   validator: (value) {
-                    //     if (value == null) {
-                    //       return 'Please select a gender';
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
-
                     SizedBox(height: 20),
                     Container(
                       width: 500,
@@ -188,7 +147,6 @@ class _AddAdminScreen extends State<AddAdminScreen> {
                         },
                       ),
                     ),
-
                     SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -198,31 +156,22 @@ class _AddAdminScreen extends State<AddAdminScreen> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           // Process the data (e.g., send it to a server or save it locally)
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Processing Data')),
-                          );
-                          // Assuming you have a service to handle employee data
+                          showAlert(context, 'Processing Data'); // Updated alert call
+
                           AppUsersService aes = AppUsersService();
                           bool? result = await aes.SetNewAdmin(
                               name: name,
                               email: email,
-                              // number: number,
-                              // gender: gender,
                               role: role,
-                              password: password
-                              // image: image!,
-                              // SelectedFile: selectedFile,
-                              );
+                              password: password);
                           if (result == true) {
                             SnackbarShow.showSnackbar(
-                                context, " added succesfully");
-
+                                context, " added successfully");
                             print('Employee added successfully');
                             Navigator.pop(context);
                           } else {
                             SnackbarShow.showSnackbar(
                                 context, " there is error");
-
                             print('Error adding employee');
                           }
                         }

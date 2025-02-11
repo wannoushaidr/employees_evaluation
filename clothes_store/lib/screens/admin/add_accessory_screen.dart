@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../services/company_services.dart';
-import 'dart:html'
-    as html; // Import the html library for web ********************
+import 'package:clothes_store/utils/web_utils.dart'; // Updated import
 import 'package:http/http.dart' as http;
 
 class AddAccessoryScreen extends StatefulWidget {
@@ -119,7 +118,8 @@ class _AddAccessoryScreenState extends State<AddAccessoryScreen> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          SnackbarShow.showSnackbar(context, "تتم المعالجة");
+                          showAlert(context, 'Processing Data'); // Updated alert call
+
                           AppAccessoriesService aas = AppAccessoriesService();
                           bool? result = await aas.AddNewAccessory(
                               type: type,
@@ -130,10 +130,10 @@ class _AddAccessoryScreenState extends State<AddAccessoryScreen> {
                             print('success');
                             Navigator.pop(context);
                             SnackbarShow.showSnackbar(
-                                context, " added successfully");
+                                context, "added successfully");
                           } else {
                             SnackbarShow.showSnackbar(
-                                context, " there is error");
+                                context, "there is error");
                             print('error');
                           }
                         }

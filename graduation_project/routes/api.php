@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\PythonDataController;
 use App\Models\User;
+use App\Models\Points;
 use App\Http\Controllers\NotificationController;
 
 
@@ -216,6 +217,9 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
 Route::get('points/get_employee_points', [PointsController::class, 'get_employee_points']);
 // to update active value when customer_service start service new customer
 Route::put('/employees/update_customer_service_active', [EmployeesController::class, 'update_customer_service_active']);
+// to get customer_service statistic
+Route::get('/employee/get_statistic/{id}', [EmployeesController::class, 'get_statistic']);
+
 
 
 
