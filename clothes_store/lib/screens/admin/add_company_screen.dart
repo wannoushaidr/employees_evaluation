@@ -144,7 +144,7 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                           }
                         },
                         child: Text(
-                          'Submit',
+                          'Submit', 
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

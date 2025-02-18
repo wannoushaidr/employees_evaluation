@@ -107,10 +107,6 @@ class AppUsersService {
 
 
 
-
-
-
-
   Future<bool?> UpdateAdmin({
     required String id,  
    required String name,
@@ -161,4 +157,41 @@ class AppUsersService {
       print(e);
     }
   }
-}
+
+
+
+  Future<bool?> updatePassword({
+    required String email,
+    required String oldPassword,
+    required String newPassword,
+    required String newPasswordConfirmation,
+  }) async {
+    try {
+      String url = "http://127.0.0.1:8000/api/password/reset"; // Replace with your actual API endpoint
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.fields['email'] = email;
+      // request.fields['number'] = number;
+      // request.fields['gender'] = gender;
+      request.fields['old_password'] = oldPassword;
+      request.fields['new_password'] = newPassword;
+      request.fields['new_password_confirmation'] = newPasswordConfirmation;
+      print("sssssssssssssss1");
+      // http.Response response = await http.put(Uri.parse(url), body: {
+        
+      //   'email': email,
+      //   'old_password': oldPassword,
+      //   'new_password': newPassword,
+      //   'new_password_confirmation': newPasswordConfirmation,
+      var response = await request.send();
+      print(response.statusCode);
+      String responseBody = await response.stream.bytesToString();
+      print('Response Body: $responseBody');
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+    }
+}}
