@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Models\Points;
 use App\Http\Controllers\NotificationController;
 
+use App\Http\Controllers\Api\Auth\PasswordResetController ;
 
 /*
 |--------------------------------------------------------------------------
@@ -270,3 +271,10 @@ Route::get('/config-test', function () {
         'PUSHER_APP_CLUSTER' => env('PUSHER_APP_CLUSTER'),
     ];
 });
+
+
+
+Route::post('password/reset', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');  
+Route::post('password/reset/complete', [PasswordResetController::class, 'reset'])->name('password.reset');  
+
+Route::post('password/reset', [PasswordResetController::class, 'resetWithOldPassword'])->name('password.reset.old');  

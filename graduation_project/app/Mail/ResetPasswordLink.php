@@ -28,6 +28,9 @@ class ResetPasswordLink extends Mailable
      */  
     public function build()  
     {  
-        return $this->markdown('emails.reset_password_link');  
+        // return $this->markdown('emails.reset_password_link');  
+        return $this->subject('Reset Password Notification')  
+                    ->view('emails.reset_password') // Assuming this view exists  
+                    ->with(['token' => $this->token]);
     }  
 }

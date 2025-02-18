@@ -26,7 +26,8 @@ class LinkEmailRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'=>['required','email',Rule::exists(User::class,'email')],
+            // 'email'=>['required','email',Rule::exists(User::class,'email')],
+            'email' => 'required|email|exists:users,email',  
             //
         ];
     }

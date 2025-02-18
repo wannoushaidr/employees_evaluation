@@ -27,9 +27,10 @@ Route::post('login',App\Http\Controllers\Api\Auth\LoginController::class );
 Route::post('logout',App\Http\Controllers\Api\Auth\LogoutController::class );
 Route::post('register',App\Http\Controllers\Api\Auth\RegisterController::class );
 Route::post('password/email',[App\Http\Controllers\Api\Auth\PasswordResetController::class,'sendResetLinkEmail' ]);
-Route::post('password/reset',[App\Http\Controllers\Api\Auth\PasswordResetController::class,'reset'] )->name('password.reset');
+// Route::post('password/reset',[App\Http\Controllers\Api\Auth\PasswordResetController::class,'reset'] )->name('password.reset');
 
-
+// Route::post('password/reset', [App\Http\Controllers\PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');  
+// Route::post('password/reset/complete', [PasswordResetController::class, 'reset'])->name('password.reset');  
 
 
 
