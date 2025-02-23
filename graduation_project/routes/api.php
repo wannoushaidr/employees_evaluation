@@ -15,6 +15,7 @@ use App\Http\Controllers\PythonDataController;
 use App\Models\User;
 use App\Models\Points;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\NotificationFireBaseController;
 
 use App\Http\Controllers\Api\Auth\PasswordResetController ;
 
@@ -260,7 +261,7 @@ Route::post('/data_from_python', [PythonDataController::class, 'receiveData']);
 
 
 // for notification 
-Route::post('employees/send_notification', [NotificationController::class, 'send']);
+// Route::post('employees/send_notification', [NotificationController::class, 'send']);
 
 
 Route::get('/config-test', function () {
@@ -278,3 +279,7 @@ Route::post('password/reset', [PasswordResetController::class, 'sendResetLinkEma
 Route::post('password/reset/complete', [PasswordResetController::class, 'reset'])->name('password.reset');  
 
 Route::post('password/reset', [PasswordResetController::class, 'resetWithOldPassword'])->name('password.reset.old');  
+
+
+
+Route::post('employees/send_notification', [NotificationFireBaseController::class, 'sendPushNotification']);
