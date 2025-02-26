@@ -31,7 +31,7 @@ class ShowAllUsersScreen extends StatelessWidget {
         elevation: 2,
       ),
       body: users == null
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Container(
               color: const Color.fromARGB(255, 219, 219, 219),
               child: Column(
@@ -43,9 +43,9 @@ class ShowAllUsersScreen extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: DataTable(
-                          headingRowColor: MaterialStateProperty.all(
+                          headingRowColor: WidgetStateProperty.all(
                               const Color.fromARGB(255, 186, 184, 184)),
-                          dataRowColor: MaterialStateProperty.all(
+                          dataRowColor: WidgetStateProperty.all(
                               const Color.fromARGB(255, 255, 255, 255)),
                           columns: const [
                             DataColumn(

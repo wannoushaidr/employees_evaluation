@@ -286,6 +286,8 @@ import '../../services/auth_remastered.dart';
 import '../customer_service/customer_service_main_screen.dart'; // Import your Auth class
 
 class SupervisorMainScreen extends StatefulWidget {
+  const SupervisorMainScreen({super.key});
+
   @override
   State<SupervisorMainScreen> createState() => _SupervisorMainScreenState();
 }
@@ -297,7 +299,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('supervisor'),
+        title: const Text('supervisor'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -332,8 +334,8 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
   Widget _buildDrawer(Auth auth, BuildContext context) {
     return Drawer(
       child:Container(
-        decoration: BoxDecoration(  
-       color: const Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+        decoration: const BoxDecoration(  
+       color: Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
          ),  
       child: Consumer<Auth>(builder: (context, auth, child) {
         if (!auth.authenticated) {
@@ -358,6 +360,9 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
                   children: [
                     Expanded(
                       child: DrawerHeader(
+                        decoration: const BoxDecoration(
+                          color: Colors.blue,
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -375,9 +380,6 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
                             Text(auth.user.email,
                                 style: const TextStyle(color: Colors.black)),
                           ],
-                        ),
-                        decoration: const BoxDecoration(
-                          color: Colors.blue,
                         ),
                       ),
                     ),
@@ -430,7 +432,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
           
           ),
       ListTile(
-        leading: Icon(Icons.interests),
+        leading: const Icon(Icons.interests),
         title: const Text('employees information'),
         onTap: () async {
           AppEmployeesService acp = AppEmployeesService();
@@ -537,25 +539,25 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             'Name: ${auth.user.name}',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             'Email: ${auth.user.email}',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             'Role: ${auth.user.role}',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(200, 50),
+              minimumSize: const Size(200, 50),
               backgroundColor: Colors.blueAccent,
             ),
             onPressed: () async {
@@ -573,15 +575,15 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
                 );
               }
             },
-            child: Text(
+            child: const Text(
               'Show Employees by supervisior',
               style: TextStyle(color: Colors.white),
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(200, 50),
+              minimumSize: const Size(200, 50),
               backgroundColor: Colors.blueAccent,
             ),
             onPressed: () async {
@@ -603,7 +605,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
                 );
               }
             },
-            child: Text(
+            child: const Text(
               'statistic',
               style: TextStyle(color: Colors.white),
             ),

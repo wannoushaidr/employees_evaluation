@@ -161,6 +161,8 @@ import 'package:flutter/material.dart';
 import 'package:clothes_store/services/user_services.dart'; // Import the service
 
 class NewPage extends StatefulWidget {
+  const NewPage({super.key});
+
   @override
   _NewPageState createState() => _NewPageState();
 }
@@ -177,7 +179,7 @@ class _NewPageState extends State<NewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Password'),
+        title: const Text('Update Password'),
       ),
       body: Container(
         color: Colors.white,
@@ -190,10 +192,10 @@ class _NewPageState extends State<NewPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Email',
                           border: OutlineInputBorder(),
                         ),
@@ -210,11 +212,11 @@ class _NewPageState extends State<NewPage> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Old Password',
                           border: OutlineInputBorder(),
                         ),
@@ -232,11 +234,11 @@ class _NewPageState extends State<NewPage> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'New Password',
                           border: OutlineInputBorder(),
                         ),
@@ -254,11 +256,11 @@ class _NewPageState extends State<NewPage> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Confirm New Password',
                           border: OutlineInputBorder(),
                         ),
@@ -279,12 +281,12 @@ class _NewPageState extends State<NewPage> {
                         },
                       ),
                     ),
-                    SizedBox(height: 40),
-                    Container(
+                    const SizedBox(height: 40),
+                    SizedBox(
                       width: 500,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(500, 50),
+                          minimumSize: const Size(500, 50),
                           backgroundColor: Colors.blueAccent,
                         ),
                         onPressed: () async {
@@ -299,19 +301,19 @@ class _NewPageState extends State<NewPage> {
                             );
                             if (result == true) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Password updated successfully')),
+                                const SnackBar(content: Text('Password updated successfully')),
                               );
                               print('Password updated successfully');
                               Navigator.pop(context);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Failed to update password')),
+                                const SnackBar(content: Text('Failed to update password')),
                               );
                               print('Error updating password');
                             }
                           }
                         },
-                        child: Text(
+                        child: const Text(
                           'Update Password',
                           style: TextStyle(color: Colors.white),
                         ),

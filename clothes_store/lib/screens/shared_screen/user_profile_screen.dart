@@ -60,23 +60,26 @@ import 'package:clothes_store/services/auth.dart';
 import '../../services/auth_remastered.dart';
 
 class UserProfile extends StatelessWidget {
+  const UserProfile({super.key});
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context);
-
+ String image = auth.user.image;
     return Scaffold(
+      
       appBar: AppBar(
-        title: Text('User Profile'),
+        title: const Text('User Profile'),
         // backgroundColor: const Color.fromARGB(255, 255, 68, 115),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
       ),
       body: Container(
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 191, 194, 195),
+        decoration:  BoxDecoration(
+      //    color: Color.fromARGB(255, 191, 194, 195),
           image: DecorationImage(
-            image: AssetImage('assets/background.jpg'), // Add your background image here
+            image: AssetImage('assets/images/clothes-background.jpg'), // Add your background image here
             fit: BoxFit.cover,
           ),
         ),
@@ -84,31 +87,35 @@ class UserProfile extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              CircleAvatar(
-                backgroundImage: NetworkImage(auth.user.name),
-                radius: 50,
-              ),
-              SizedBox(height: 20, width:50),
+               CircleAvatar(
+                              backgroundImage: AssetImage(image),
+                             
+                              //NetworkImage(auth.user.image??''),
+                              //  backgroundColor: Colors.blue,
+                              radius: 100,
+                             // child: Image.network(userImage),
+                            ),
+              const SizedBox(height: 20, width:50),
               Text(
                 'Name: ${auth.user.name}',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20, width:50),
+              const SizedBox(height: 20, width:50),
               Text(
                 'Email: ${auth.user.email}',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20, width:50),
+              const SizedBox(height: 20, width:50),
               Text(
                 'Role: ${auth.user.role}',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20, width:50),
+              const SizedBox(height: 20, width:50),
               Text(
                 'id: ${auth.user.id}',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20, width:50),
+              const SizedBox(height: 20, width:50),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -116,7 +123,7 @@ class UserProfile extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => NewPage()),
                   );
                 },
-                child: Text('edit password'),
+                child: const Text('edit password'),
               ),
             ],
           ),

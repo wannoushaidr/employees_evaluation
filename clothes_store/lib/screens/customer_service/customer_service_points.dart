@@ -140,9 +140,9 @@ class CustomerServicePoints extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: DataTable(
-                headingRowColor: MaterialStateProperty.all(
+                headingRowColor: WidgetStateProperty.all(
                     const Color.fromARGB(255, 186, 184, 184)),
-                dataRowColor: MaterialStateProperty.all(
+                dataRowColor: WidgetStateProperty.all(
                     const Color.fromARGB(255, 255, 255, 255)),
                 columns: const [
                   DataColumn(
@@ -222,7 +222,7 @@ class CustomerServicePoints extends StatelessWidget {
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () async {
-                              AppPointsService acp = new AppPointsService();
+                              AppPointsService acp = AppPointsService();
                               bool? result = await acp.DeletePoint(
                                   id: point.id.toString());
                               if (result == true) {

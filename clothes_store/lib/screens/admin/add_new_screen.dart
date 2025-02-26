@@ -29,12 +29,14 @@ import 'show_all_companies_screen.dart';
 import 'update_company_screen.dart';
 
 class AddNewScreen extends StatelessWidget {
+  const AddNewScreen({super.key});
+
   @override
   
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('add new Screen'),
+        title: const Text('add new Screen'),
       ),
       drawer: Drawer(   
                           child:Consumer<Auth>(builder:(context,auth,child){
@@ -61,6 +63,9 @@ class AddNewScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: DrawerHeader(
+                          decoration: const BoxDecoration(
+                            color: Colors.blue,
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -75,9 +80,6 @@ class AddNewScreen extends StatelessWidget {
                               // const SizedBox(height: 10),
                               // Text(auth.user.role, style: const TextStyle(color: Colors.black)),
                             ],
-                          ),
-                          decoration: const BoxDecoration(
-                            color: Colors.blue,
                           ),
                         ),
                       ),
@@ -104,7 +106,7 @@ class AddNewScreen extends StatelessWidget {
                                               );
                                             // Example: Fetch another set of data or navigate to a different screen
                                           },
-                                          child: Text('profile'),
+                                          child: const Text('profile'),
                                         ),
                             ),
 
@@ -138,12 +140,12 @@ class AddNewScreen extends StatelessWidget {
                                                 );
                                               } else {
                                                 ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                                                  const SnackBar(content: Text('Failed to load employees. Please try again later.')),
                                                 );
                                               }
                                             // Example: Fetch another set of data or navigate to a different screen
                                           },
-                                          child: Text('statistic'),
+                                          child: const Text('statistic'),
                                         ),
                             ),
 
@@ -168,12 +170,12 @@ class AddNewScreen extends StatelessWidget {
                                                 );
                                               } else {
                                                 ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                                                  const SnackBar(content: Text('Failed to load employees. Please try again later.')),
                                                 );
                                               }
                        
                                           },
-                                          child: Text('employees'),
+                                          child: const Text('employees'),
                                         ),
                                      ),
 
@@ -202,12 +204,12 @@ class AddNewScreen extends StatelessWidget {
                                                 );
                                               } else {
                                                 ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                                                  const SnackBar(content: Text('Failed to load employees. Please try again later.')),
                                                 );
                                               }
                        
                                           },
-                                          child: Text('bracnhes'),
+                                          child: const Text('bracnhes'),
                                         ),
                              ),
 
@@ -229,12 +231,12 @@ class AddNewScreen extends StatelessWidget {
                                             );
                                           } else {
                                             ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                                              const SnackBar(content: Text('Failed to load employees. Please try again later.')),
                                             );
                                           }
                        
                                           },
-                                          child: Text('points'),
+                                          child: const Text('points'),
                                         ),
                              ),
 
@@ -245,7 +247,7 @@ class AddNewScreen extends StatelessWidget {
                                              Navigator.of(context).pushNamed('home');
                                   
                                           },
-                                          child: Text('home'),
+                                          child: const Text('home'),
                                         ),
                              ),
 
@@ -255,7 +257,7 @@ class AddNewScreen extends StatelessWidget {
                               title:const Text("logout"),
                               onTap: (){
                                 Provider.of<Auth>(context,listen: false)
-                                  ..logout();
+                                  .logout();
                                   Navigator.pushReplacementNamed(context, 'mainscreen');
                               },
                             ),
@@ -273,7 +275,7 @@ class AddNewScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             DropdownButton<String>(
-              hint: Text('Select'),
+              hint: const Text('Select'),
               items: <String>[
                 'Show All Companies',
                 'Add New Company',
@@ -314,7 +316,7 @@ class AddNewScreen extends StatelessWidget {
                       );
                       break;
                     case 'Show All Accessories':
-                      AppAccessoriesService aas = new AppAccessoriesService();
+                      AppAccessoriesService aas = AppAccessoriesService();
                       List<AccessoryModel?>? accessories =
                           await aas.GetAllAccessories();
                       Navigator.push(
@@ -344,7 +346,7 @@ class AddNewScreen extends StatelessWidget {
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                            const SnackBar(content: Text('Failed to load employees. Please try again later.')),
                           );
                         }
                         break;
@@ -376,7 +378,7 @@ class AddNewScreen extends StatelessWidget {
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                            const SnackBar(content: Text('Failed to load employees. Please try again later.')),
                           );
                         }
                         break;
@@ -406,7 +408,7 @@ class AddNewScreen extends StatelessWidget {
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed to load employees. Please try again later.')),
+                            const SnackBar(content: Text('Failed to load employees. Please try again later.')),
                           );
                         }
                         break;
@@ -415,7 +417,7 @@ class AddNewScreen extends StatelessWidget {
               },
             ),
              Container(  
-            margin: EdgeInsets.symmetric(horizontal: 20),  
+            margin: const EdgeInsets.symmetric(horizontal: 20),  
             child: MaterialButton(  
               color: const Color.fromARGB(255, 36, 56, 244),  
               textColor: Colors.white,  

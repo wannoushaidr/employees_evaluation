@@ -143,9 +143,9 @@ class ShowAllAccessoriesScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: DataTable(
-                    headingRowColor: MaterialStateProperty.all(
+                    headingRowColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 186, 184, 184)),
-                    dataRowColor: MaterialStateProperty.all(
+                    dataRowColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 255, 255, 255)),
                     columns: const [
                       DataColumn(
@@ -204,7 +204,7 @@ class ShowAllAccessoriesScreen extends StatelessWidget {
                                 icon: const Icon(Icons.delete),
                                 onPressed: () async {
                                   AppAccessoriesService aas =
-                                      new AppAccessoriesService();
+                                      AppAccessoriesService();
                                   bool? result = await aas.DeleteAccessory(
                                       id: accessory.id.toString());
                                   if (result == true) {

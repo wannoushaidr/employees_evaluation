@@ -19,7 +19,7 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Company'),
+        title: const Text('Update Company'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -35,10 +35,10 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Company Name',
                           border: OutlineInputBorder(),
                         ),
@@ -54,11 +54,11 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Contact Number',
                           border: OutlineInputBorder(),
                         ),
@@ -74,11 +74,11 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Email',
                           border: OutlineInputBorder(),
                         ),
@@ -97,11 +97,11 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Address',
                           border: OutlineInputBorder(),
                         ),
@@ -117,17 +117,17 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(500, 50),
+                        minimumSize: const Size(500, 50),
                         backgroundColor: Colors.blueAccent,
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           // Process the data (e.g., send it to a server or save it locally)
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Processing Data')),
+                            const SnackBar(content: Text('Processing Data')),
                           );
                           AppCompaniesService aps = AppCompaniesService();
                           bool? result = await aps.UpdateCompany(
@@ -147,7 +147,7 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
                           }
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         'Submit',
                         style: TextStyle(color: Colors.white),
                       ),

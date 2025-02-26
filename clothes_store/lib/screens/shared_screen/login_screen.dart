@@ -145,13 +145,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
 
   @override
@@ -185,6 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Provider.of<Auth>(context, listen: false).user.name = user.name;
          Provider.of<Auth>(context, listen: false).user.email = user.email;
           Provider.of<Auth>(context, listen: false).user.role = user.role;
+          Provider.of<Auth>(context, listen: false).user.image = user.image;
           Provider.of<Auth>(context, listen: false).authenticated = true;
            
       print(user);
@@ -262,13 +265,13 @@ print(Provider.of<Auth>(context, listen: false).authenticated);
                 mainAxisAlignment: MainAxisAlignment.center,
                
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                      width: 500,
                     child: TextFormField(
                       
                       controller: _emailController,
                       validator: (value) => value!.isEmpty ? "Please enter a valid email" : null,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         
                         labelText: 'Email',
                         hintText: 'Enter your email',
@@ -279,13 +282,13 @@ print(Provider.of<Auth>(context, listen: false).authenticated);
                       
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 10),
+                  SizedBox(
                      width: 500,
                     child: TextFormField(
                       controller: _passwordController,
                       validator: (value) => value!.isEmpty ? "Please enter a valid password" : null,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Password',
                         hintText: 'Enter your password',
                         border: OutlineInputBorder(),
@@ -293,17 +296,17 @@ print(Provider.of<Auth>(context, listen: false).authenticated);
                       obscureText: true,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextButton(
                     style: TextButton.styleFrom(
-                      minimumSize: Size(500, 50),
+                      minimumSize: const Size(500, 50),
                       backgroundColor: const Color.fromARGB(255, 123, 123, 123),
                     ),
+                    onPressed: _login,
                     child: Text(
                       'Login',
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: _login,
                     
                   ),
                 ],

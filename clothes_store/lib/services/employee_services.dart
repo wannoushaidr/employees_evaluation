@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 class AppEmployeesService {
 
- String message ="Error adding employee";
+List<String>? message;
  
   Future<List<EmployeeModel?>?> GetAllEmployees() async {
     try {
@@ -95,12 +95,27 @@ class AppEmployeesService {
       if (response.statusCode == 200) {
         return true;
       } else {
-        message=responseBody;
+        
+Map<String, dynamic> data = jsonDecode(responseBody);
+Map<String, dynamic> data2 = data['errors'];
+List<String> errors = [];
+
+data2.forEach((key, value) {  
+  if (value is List) {
+    // Iterate through each item in the list
+    for (var error in value) {
+      errors.add(error.toString());
+    }
+  }
+});
+
+message = errors;
         return false;
       }
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<bool?> UpdateEmployee(
@@ -148,12 +163,27 @@ class AppEmployeesService {
       print('Response Body: $responseBody');
       if (response.statusCode == 200) {
         return true;
-      } else {
+      } else { 
+Map<String, dynamic> data = jsonDecode(responseBody);
+Map<String, dynamic> data2 = data['errors'];
+List<String> errors = [];
+
+data2.forEach((key, value) {  
+  if (value is List) {
+    // Iterate through each item in the list
+    for (var error in value) {
+      errors.add(error.toString());
+    }
+  }
+});
+
+message = errors;
         return false;
       }
     } catch (e) {
       print(e);
     }
+    return null;
     //   var request = http.MultipartRequest('POST', Uri.parse(url));
 
     //   // Populate fields for the employee update request
@@ -219,6 +249,7 @@ class AppEmployeesService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<Map<String, int>?> getEmployeesCount() async {
@@ -521,7 +552,8 @@ Future<Map<String, int>?> getStatistic(int id) async {
     } catch (e) {  
         print("Exception: $e");  
         return null; // Handle exception appropriately  
-    }  
+    }
+    return null;  
 }
 
 }

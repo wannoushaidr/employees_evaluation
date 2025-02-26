@@ -50,7 +50,7 @@ class _UpdateAdminScreen extends State<UpdateAdminScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Admin'),
+        title: const Text('Update Admin'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -66,11 +66,11 @@ class _UpdateAdminScreen extends State<UpdateAdminScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Name',
                           border: OutlineInputBorder(),
                         ),
@@ -87,11 +87,11 @@ class _UpdateAdminScreen extends State<UpdateAdminScreen> {
                       ),
                     ),
 
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'email',
                           border: OutlineInputBorder(),
                         ),
@@ -146,11 +146,11 @@ class _UpdateAdminScreen extends State<UpdateAdminScreen> {
                     //   },
                     // ),
 
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'role',
                           border: OutlineInputBorder(),
                         ),
@@ -178,17 +178,17 @@ class _UpdateAdminScreen extends State<UpdateAdminScreen> {
                     //           : ''),
                     // ),
 
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(500, 50),
+                        minimumSize: const Size(500, 50),
                         backgroundColor: Colors.blueAccent,
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           // Process the data (e.g., send it to a server or save it locally)
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Processing Data')),
+                            const SnackBar(content: Text('Processing Data')),
                           );
                           print("after saving ");
                           // Assuming you have a service to handle employee data
@@ -205,7 +205,7 @@ class _UpdateAdminScreen extends State<UpdateAdminScreen> {
                           if (result == true) {
                             print('Employee Updated successfully');
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                   content:
                                       Text('Employee Updated successfully')),
                             );
@@ -214,13 +214,13 @@ class _UpdateAdminScreen extends State<UpdateAdminScreen> {
                           } else {
                             print('Error Updating employee');
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                   content: Text('Error Updating employee')),
                             );
                           }
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         'Submit',
                         style: TextStyle(color: Colors.white),
                       ),

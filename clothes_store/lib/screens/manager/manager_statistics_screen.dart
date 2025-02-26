@@ -166,7 +166,7 @@ class ManagerStatisticScreen extends StatelessWidget {
               child: Column(  
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
-                  Text(  
+                  const Text(  
                     'Employee Count:',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
@@ -190,7 +190,7 @@ class ManagerStatisticScreen extends StatelessWidget {
               child: Column(  
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
-                  Text(  
+                  const Text(  
                     'customer_service count:',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
@@ -214,7 +214,7 @@ class ManagerStatisticScreen extends StatelessWidget {
               child: Column(  
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
-                  Text(  
+                  const Text(  
                     'supervisor count',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  

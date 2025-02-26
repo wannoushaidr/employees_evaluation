@@ -47,7 +47,7 @@ class _AddAccessoryScreenState extends State<AddAccessoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Accessory'),
+        title: const Text('Create Accessory'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -63,10 +63,10 @@ class _AddAccessoryScreenState extends State<AddAccessoryScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 500,
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Accessory Category',
                           border: OutlineInputBorder(),
                         ),
@@ -90,11 +90,11 @@ class _AddAccessoryScreenState extends State<AddAccessoryScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Accessory image',
                           border: OutlineInputBorder(),
                         ),
@@ -110,10 +110,10 @@ class _AddAccessoryScreenState extends State<AddAccessoryScreen> {
                             text: selectedFile.split('/').last),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(500, 50),
+                        minimumSize: const Size(500, 50),
                         backgroundColor: Colors.blueAccent,
                       ),
                       onPressed: () async {
@@ -138,7 +138,7 @@ class _AddAccessoryScreenState extends State<AddAccessoryScreen> {
                           }
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         'Submit',
                         style: TextStyle(color: Colors.white),
                       ),

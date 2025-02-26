@@ -21,7 +21,7 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Branch'),
+        title: const Text('Update Branch'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -37,10 +37,10 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Branch Name',
                           border: OutlineInputBorder(),
                         ),
@@ -56,11 +56,11 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'phone',
                           border: OutlineInputBorder(),
                         ),
@@ -76,11 +76,11 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'address',
                           border: OutlineInputBorder(),
                         ),
@@ -96,11 +96,11 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Email',
                           border: OutlineInputBorder(),
                         ),
@@ -119,11 +119,11 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'company_id',
                           border: OutlineInputBorder(),
                         ),
@@ -139,17 +139,17 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(500, 50),
+                        minimumSize: const Size(500, 50),
                         backgroundColor: Colors.blueAccent,
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           // Process the data (e.g., send it to a server or save it locally)
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Processing Data')),
+                            const SnackBar(content: Text('Processing Data')),
                           );
                           AppBranchesService abs = AppBranchesService();
                           bool? result = await abs.UpdateBranch(
@@ -168,7 +168,7 @@ class _UpdateBranchScreenState extends State<UpdateBranchScreen> {
                           }
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         'Submit',
                         style: TextStyle(color: Colors.white),
                       ),

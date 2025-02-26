@@ -97,15 +97,30 @@ class AppUsersService {
       print('Response Body: $responseBody');
       if (response.statusCode == 200) {
         return true;
-      } else {
+      } else { 
+Map<String, dynamic> data = jsonDecode(responseBody);
+Map<String, dynamic> data2 = data['errors'];
+List<String> errors = [];
+
+data2.forEach((key, value) {  
+  if (value is List) {
+    // Iterate through each item in the list
+    for (var error in value) {
+      errors.add(error.toString());
+    }
+  }
+});
+
+message = errors;
         return false;
       }
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
-
+List<String>? message;
 
   Future<bool?> UpdateAdmin({
     required String id,  
@@ -129,11 +144,28 @@ class AppUsersService {
       if (response.statusCode == 200) {
         return true;
       } else {
+         List<String> lines = response.body.split('\n');
+String responseBody = lines.skip(2).join('\n');
+Map<String, dynamic> data = jsonDecode(responseBody);
+Map<String, dynamic> data2 = data['errors'];
+List<String> errors = [];
+
+data2.forEach((key, value) {  
+  if (value is List) {
+    // Iterate through each item in the list
+    for (var error in value) {
+      errors.add(error.toString());
+    }
+  }
+});
+
+message = errors;
         return false;
       }
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
 
@@ -156,6 +188,7 @@ class AppUsersService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
 
@@ -194,4 +227,5 @@ class AppUsersService {
     } catch (e) {
       print(e);
     }
+    return null;
 }}

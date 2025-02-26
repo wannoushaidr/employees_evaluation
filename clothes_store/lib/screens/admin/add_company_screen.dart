@@ -5,6 +5,8 @@ import '../../services/company_services.dart';
 import 'package:clothes_store/utils/web_utils.dart'; // Updated import
 
 class AddCompanyScreen extends StatefulWidget {
+  const AddCompanyScreen({super.key});
+
   @override
   _AddCompanyScreenState createState() => _AddCompanyScreenState();
 }
@@ -20,7 +22,7 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Company'),
+        title: const Text('Create Company'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -36,10 +38,10 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Company Name',
                           border: OutlineInputBorder(),
                         ),
@@ -54,14 +56,16 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Contact Number',
                           border: OutlineInputBorder(),
+                          
                         ),
+                        keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter contact number';
@@ -73,11 +77,11 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Email',
                           border: OutlineInputBorder(),
                         ),
@@ -94,11 +98,11 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Address',
                           border: OutlineInputBorder(),
                         ),
@@ -113,11 +117,11 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Container(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(500, 50),
+                          minimumSize: const Size(500, 50),
                           backgroundColor: Colors.blueAccent,
                         ),
                         onPressed: () async {
@@ -138,12 +142,12 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
 
                               Navigator.pop(context);
                             } else {
-                              SnackbarShow.showSnackbar(context, "error");
+                              SnackbarShow.showSnackbar(context, aps.message.toString());
                               print('error');
                             }
                           }
                         },
-                        child: Text(
+                        child: const Text(
                           'Submit', 
                           style: TextStyle(color: Colors.white),
                         ),

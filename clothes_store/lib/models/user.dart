@@ -5,7 +5,7 @@
     int id;
     String role; // Add the role field
     String? password;
-    String? image;
+    String image;
 
 
     UserModel({required this.name, required this.email , required this.role, required  this.id, this.password,required this.image});

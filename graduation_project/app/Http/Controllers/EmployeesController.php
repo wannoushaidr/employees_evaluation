@@ -414,8 +414,12 @@ public function update_employees(Request $request) {
         if ($request->hasFile('image')) {  
             $image = $request->file('image');  
             $fileName = time() . '_image.' . $image->getClientOriginalExtension();  
-            $image->move(public_path('uploads'), $fileName);  
-            $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path  
+            // $image->move(public_path('uploads'), $fileName);  
+            // $datatoupdate['image'] = 'uploads/' . $fileName; // Save relative path  
+            $image->move('C:/Users/LENOVO/AndroidStudioProjects/employees_evaluation/clothes_store/assets/images/', $fileName);
+       
+            $imagepath = 'assets/images/' . $fileName;
+            $datatoupdate['image'] = $imagepath;
         }  
 
 
@@ -516,8 +520,11 @@ public function set_new_employees(Request $request){
     if ($request->hasFile('image')) {
         $image = $request->file('image');
         $fileName = time() . '_image.' . $image->getClientOriginalExtension();
-        $image->move(public_path('uploads'), $fileName);
-        $datatoinsert['image'] = 'uploads/' . $fileName; // Save relative path
+        // $image->move(public_path('uploads'), $fileName);
+        // $datatoinsert['image'] = 'uploads/' . $fileName; // Save relative path
+        $image->move('C:/Users/LENOVO/AndroidStudioProjects/employees_evaluation/clothes_store/assets/images/', $fileName);
+            $imagepath = 'assets/images/' . $fileName;
+            $datatoinsert['image'] = $imagepath;
     }
 
     $is_exsist = Employees::where($datatoinsert)->get();

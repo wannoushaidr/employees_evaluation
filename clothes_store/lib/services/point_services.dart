@@ -26,6 +26,7 @@ class AppPointsService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   // Future<bool?> AddNewCompany(
@@ -103,6 +104,7 @@ class AppPointsService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   //  Future<List<PointModel?>?> GetEmployeePointonly(int id) async {

@@ -67,9 +67,9 @@ class RegisterController extends Controller
     {
         $image = $data->file('image');
         $fileName = time() . '_image.' . $image->getClientOriginalExtension();
-        $image->move(public_path('uploads'), $fileName);
-        $imagepath = 'C:/Users/LENOVO/AndroidStudioProjects/employees_evaluation/graduation_project/public/'.'uploads/' . $fileName;
-
+        $image->move('C:/Users/LENOVO/AndroidStudioProjects/employees_evaluation/clothes_store/assets/images/', $fileName);
+       
+        $imagepath = 'assets/images/' . $fileName;
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],

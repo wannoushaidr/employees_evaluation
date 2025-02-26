@@ -60,7 +60,7 @@ class ClothesStore extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomeScreen(),
+        home: LoginScreen(),
         routes: {
           // ************************************* admin route *****************************
           "home": (context) => HomeScreen(),
@@ -70,27 +70,27 @@ class ClothesStore extends StatelessWidget {
           // "customerServiceScreen": (context) => CustomerServiceScreen(), // Add your screen here
           "userProfile": (context) => UserProfile(), // Add your new route here
           "mainscreen": (context) => MainScreen(),
-          "addAccessory": (context) => AddAccessoryScreen(
+          "addAccessory": (context) => const AddAccessoryScreen(
                 branch_id: '',
               ),
           "addCompany": (context) => AddCompanyScreen(),
           "addEmployee": (context) => AddEmployeeScreen(),
-          "addBranch": (context) => AddBranchScreen(
+          "addBranch": (context) => const AddBranchScreen(
                 company_id: '',
               ),
-          "showAccessories": (context) => ShowAllAccessoriesScreen(
+          "showAccessories": (context) => const ShowAllAccessoriesScreen(
                 accessories: [],
               ),
-          "showBranches": (context) => ShowAllBranchesScreen(
+          "showBranches": (context) => const ShowAllBranchesScreen(
                 branches: [],
               ),
-          "showCompanies": (context) => ShowAllCompaniesScreen(
+          "showCompanies": (context) => const ShowAllCompaniesScreen(
                 companies: [],
               ),
-          "showEmployees": (context) => ShowAllEmployeesScreen(
+          "showEmployees": (context) => const ShowAllEmployeesScreen(
                 employees: [],
               ),
-          "showPoints": (context) => ShowAllPointsScreen(
+          "showPoints": (context) => const ShowAllPointsScreen(
                 points: [],
               ),
           // "updateEmployee":(context) => UpdateEmployeeScreen(employee: null,),
@@ -119,14 +119,14 @@ class ClothesStore extends StatelessWidget {
           // ******************************************   managers route *********************************
           "manager_mainScreen": (context) =>
               ManagerMainScreen(), // Add your screen here  managers_statistics
-          "managers_statistics": (context) => ManagerStatisticScreen(
+          "managers_statistics": (context) => const ManagerStatisticScreen(
                 employeeCount: {},
               ), // Add your screen here  managers_statistics
 
           // ******************************************   supervisor route *********************************
           "supervisor_mainScreen": (context) =>
               SupervisorMainScreen(), // Add your screen here  supervisor
-          "supervisors_statistics": (context) => SupervisiorStatisticScreen(
+          "supervisors_statistics": (context) => const SupervisiorStatisticScreen(
                 employeeCount: {},
               ), // Add your screen here  supervisor_statistics
 

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class NotificationScreen extends StatelessWidget {
   final List<Map<String, dynamic>> notifications;
 
-  NotificationScreen({required this.notifications});
+  const NotificationScreen({super.key, required this.notifications});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications'),
+        title: const Text('Notifications'),
       ),
       body: ListView.builder(
         itemCount: notifications.length,
@@ -36,7 +36,7 @@ class NotificationScreen extends StatelessWidget {
 class NotificationDetailScreen extends StatelessWidget {
   final Map<String, dynamic> notification;
 
-  NotificationDetailScreen({required this.notification});
+  const NotificationDetailScreen({super.key, required this.notification});
 
   @override
   Widget build(BuildContext context) {
@@ -45,17 +45,17 @@ class NotificationDetailScreen extends StatelessWidget {
         title: Text(notification['title']),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               notification['title'],
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(notification['body']),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 // Handle URL tap
@@ -66,7 +66,7 @@ class NotificationDetailScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: Text('Open URL'),
+              child: const Text('Open URL'),
             ),
           ],
         ),
@@ -78,13 +78,13 @@ class NotificationDetailScreen extends StatelessWidget {
 class WebViewScreen extends StatelessWidget {
   final String url;
 
-  WebViewScreen({required this.url});
+  const WebViewScreen({super.key, required this.url});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Web View'),
+        title: const Text('Web View'),
       ),
       body: Center(
         child: Text('WebView for $url'), // Replace with actual WebView implementation

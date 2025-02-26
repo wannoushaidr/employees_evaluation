@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AddCompanyScreen2 extends StatefulWidget {
+  const AddCompanyScreen2({super.key});
+
   @override
   _AddCompanyScreen2State createState() => _AddCompanyScreen2State();
 }
@@ -17,7 +19,7 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add New Company'),
+        title: const Text('Add New Company'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -27,7 +29,7 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
           children: [
             Row(
               children: [
-                Container(
+                SizedBox(
                   height: 60,
                   width: 60,
                   child: ClipRRect(
@@ -37,7 +39,7 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
                         fit: BoxFit.cover,
                       )),
                 ),
-                Expanded(
+                const Expanded(
                     child: ListTile(
                   title: Text("user name"),
                   subtitle: Text("email"),
@@ -45,9 +47,9 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
               ],
             ),
             ListTile(
-                leading: Icon(Icons.home),
+                leading: const Icon(Icons.home),
                 title: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: MaterialButton(
                     // color: Colors.red,
                     textColor: Colors.black,
@@ -63,9 +65,9 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
                   ),
                 )),
             ListTile(
-                leading: Icon(Icons.home),
+                leading: const Icon(Icons.home),
                 title: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: MaterialButton(
                     // color: Colors.red,
                     textColor: Colors.black,
@@ -81,9 +83,9 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
                   ),
                 )),
             ListTile(
-                leading: Icon(Icons.home),
+                leading: const Icon(Icons.home),
                 title: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: MaterialButton(
                     // color: Colors.red,
                     textColor: Colors.black,
@@ -99,9 +101,9 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
                   ),
                 )),
             ListTile(
-                leading: Icon(Icons.home),
+                leading: const Icon(Icons.home),
                 title: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: MaterialButton(
                     // color: Colors.red,
                     textColor: Colors.black,
@@ -117,9 +119,9 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
                   ),
                 )),
             ListTile(
-                leading: Icon(Icons.home),
+                leading: const Icon(Icons.home),
                 title: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: MaterialButton(
                     // color: Colors.red,
                     textColor: Colors.black,
@@ -147,7 +149,7 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
               children: <Widget>[
                 TextFormField(
                   controller: _stringField1Controller,
-                  decoration: InputDecoration(labelText: 'String Field 1'),
+                  decoration: const InputDecoration(labelText: 'String Field 1'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -157,7 +159,7 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
                 ),
                 TextFormField(
                   controller: _stringField2Controller,
-                  decoration: InputDecoration(labelText: 'String Field 2'),
+                  decoration: const InputDecoration(labelText: 'String Field 2'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -167,7 +169,7 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
                 ),
                 TextFormField(
                   controller: _stringField3Controller,
-                  decoration: InputDecoration(labelText: 'String Field 3'),
+                  decoration: const InputDecoration(labelText: 'String Field 3'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -177,7 +179,7 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
                 ),
                 TextFormField(
                   controller: _integerFieldController,
-                  decoration: InputDecoration(labelText: 'Integer Field'),
+                  decoration: const InputDecoration(labelText: 'Integer Field'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -191,7 +193,7 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
                 ),
                 TextFormField(
                   controller: _stringField4Controller,
-                  decoration: InputDecoration(labelText: 'String Field 4'),
+                  decoration: const InputDecoration(labelText: 'String Field 4'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -199,7 +201,7 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
@@ -217,7 +219,7 @@ class _AddCompanyScreen2State extends State<AddCompanyScreen2> {
                       _stringField4Controller.clear();
                     }
                   },
-                  child: Text('Submit'),
+                  child: const Text('Submit'),
                 ),
               ],
             ),

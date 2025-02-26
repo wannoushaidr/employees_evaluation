@@ -159,7 +159,7 @@ class CustomerServiceStatisticScreen extends StatelessWidget {
               child: Column(  
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
-                  Text(  
+                  const Text(  
                     'Employee Count:',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
@@ -183,7 +183,7 @@ class CustomerServiceStatisticScreen extends StatelessWidget {
               child: Column(  
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
-                  Text(  
+                  const Text(  
                     'points sum:',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
@@ -207,7 +207,7 @@ class CustomerServiceStatisticScreen extends StatelessWidget {
               child: Column(  
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
-                  Text(  
+                  const Text(  
                     'evaluation',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  

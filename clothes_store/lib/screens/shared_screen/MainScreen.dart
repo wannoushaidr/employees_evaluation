@@ -148,6 +148,8 @@ import 'package:flutter/material.dart';
 // Import other necessary packages
 
 class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
@@ -165,7 +167,7 @@ class _MainScreenState extends State<MainScreen> {
       body: Center(
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            minimumSize: Size(500, 50),
+            minimumSize: const Size(500, 50),
             backgroundColor: Colors.blueAccent,
           ),
           onPressed: () {
@@ -174,7 +176,7 @@ class _MainScreenState extends State<MainScreen> {
               MaterialPageRoute(builder: (context) => LoginScreen()),
             );
           },
-          child: Text(
+          child: const Text(
             'Login',
             style: TextStyle(color: Colors.white),
           ),

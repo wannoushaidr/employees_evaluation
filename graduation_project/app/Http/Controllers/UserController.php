@@ -62,9 +62,10 @@ class UserController extends Controller
             $dataToInsert['password'] = Hash::make($request->input('password')); // Hash the password  
             $image = $request->file('image');
             $fileName = time() . '_image.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads'), $fileName);
-            // $imagepath = 'C:/Users/LENOVO/AndroidStudioProjects/employees_evaluation/graduation_project/public/'.'uploads/' . $fileName;
-            $dataToInsert['image'] = 'uploads/' . $fileName;
+            $image->move('C:/Users/LENOVO/AndroidStudioProjects/employees_evaluation/clothes_store/assets/images/', $fileName);
+            $imagepath = 'assets/images/' . $fileName;
+
+            $dataToInsert['image'] = $imagepath;
             // Check if user already exists (by email)  
             $isExist = User::where('email', $dataToInsert['email'])->exists();  
         

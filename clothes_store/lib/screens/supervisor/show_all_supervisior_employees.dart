@@ -32,7 +32,7 @@ class showEmployeesBySupervisior extends StatelessWidget {
         elevation: 2,
       ),
       body: employees == null
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Container(
               color: const Color.fromARGB(255, 219, 219, 219),
               child: ListView(
@@ -41,9 +41,9 @@ class showEmployeesBySupervisior extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: DataTable(
-                      headingRowColor: MaterialStateProperty.all(
+                      headingRowColor: WidgetStateProperty.all(
                           const Color.fromARGB(255, 186, 184, 184)),
-                      dataRowColor: MaterialStateProperty.all(
+                      dataRowColor: WidgetStateProperty.all(
                           const Color.fromARGB(255, 255, 255, 255)),
                       columns: const [
                         DataColumn(
@@ -142,10 +142,7 @@ class showEmployeesBySupervisior extends StatelessWidget {
                                     print(employee.id);
                                     List<PointModel?>? points =
                                         await acp.GetEmployeePoint(employee.id);
-                                    if (points == null) {
-                                      points =
-                                          []; // Assign an empty list if null
-                                    }
+                                    points ??= [];
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
                                       return ShowAllPointsScreen(

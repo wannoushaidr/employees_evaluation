@@ -13,6 +13,8 @@ import 'package:clothes_store/utils/web_utils.dart'; // Updated import
 import 'package:http/http.dart' as http;
 
 class AddAdminScreen extends StatefulWidget {
+  const AddAdminScreen({super.key});
+
   @override
   _AddAdminScreen createState() => _AddAdminScreen();
 }
@@ -48,7 +50,7 @@ class _AddAdminScreen extends State<AddAdminScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add admin screen'),
+        title: const Text('Add admin screen'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -64,10 +66,10 @@ class _AddAdminScreen extends State<AddAdminScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Name',
                           border: OutlineInputBorder(),
                         ),
@@ -82,11 +84,11 @@ class _AddAdminScreen extends State<AddAdminScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'email',
                           border: OutlineInputBorder(),
                         ),
@@ -101,11 +103,11 @@ class _AddAdminScreen extends State<AddAdminScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'password',
                           border: OutlineInputBorder(),
                         ),
@@ -120,11 +122,11 @@ class _AddAdminScreen extends State<AddAdminScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'role',
                           border: OutlineInputBorder(),
                         ),
@@ -147,10 +149,10 @@ class _AddAdminScreen extends State<AddAdminScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(500, 50),
+                        minimumSize: const Size(500, 50),
                         backgroundColor: Colors.blueAccent,
                       ),
                       onPressed: () async {
@@ -176,7 +178,7 @@ class _AddAdminScreen extends State<AddAdminScreen> {
                           }
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         'Submit',
                         style: TextStyle(color: Colors.white),
                       ),

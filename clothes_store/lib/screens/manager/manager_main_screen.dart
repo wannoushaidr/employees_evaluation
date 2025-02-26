@@ -844,6 +844,8 @@ import '../../services/auth_remastered.dart';
 import '../customer_service/customer_service_main_screen.dart'; // Import your Auth class
 
 class ManagerMainScreen extends StatefulWidget {
+  const ManagerMainScreen({super.key});
+
   @override
   State<ManagerMainScreen> createState() => _ManagerMainScreenState();
 }
@@ -855,7 +857,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('manager'),
+        title: const Text('manager'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -890,8 +892,8 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
   Widget _buildDrawer(Auth auth, BuildContext context) {
     return Drawer(
       child:Container(
-        decoration: BoxDecoration(  
-       color: const Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+        decoration: const BoxDecoration(  
+       color: Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
          ),  
       
       child: Consumer<Auth>(builder: (context, auth, child) {
@@ -917,6 +919,9 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
                   children: [
                     Expanded(
                       child: DrawerHeader(
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 148, 158, 167),
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -934,9 +939,6 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
                             Text(auth.user.email,
                                 style: const TextStyle(color: Colors.black)),
                           ],
-                        ),
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 148, 158, 167),
                         ),
                       ),
                     ),
@@ -1059,25 +1061,25 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             'Name: ${auth.user.name}',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             'Email: ${auth.user.email}',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             'Role: ${auth.user.role}',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(200, 50),
+              minimumSize: const Size(200, 50),
               backgroundColor: Colors.blueAccent,
             ),
             onPressed: () async {
@@ -1095,15 +1097,15 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
                 );
               }
             },
-            child: Text(
+            child: const Text(
               'Show Employees by Managers',
               style: TextStyle(color: Colors.white),
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(200, 50),
+              minimumSize: const Size(200, 50),
               backgroundColor: Colors.blueAccent,
             ),
             onPressed: () async {
@@ -1125,7 +1127,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
                 );
               }
             },
-            child: Text(
+            child: const Text(
               'stattistic',
               style: TextStyle(color: Colors.white),
             ),

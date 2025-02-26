@@ -25,6 +25,7 @@ class AppBranchesService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<bool?> AddNewBranch(
@@ -51,6 +52,7 @@ class AppBranchesService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<bool?> UpdateBranch(
@@ -79,6 +81,7 @@ class AppBranchesService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
 
@@ -118,6 +121,7 @@ class AppBranchesService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
 

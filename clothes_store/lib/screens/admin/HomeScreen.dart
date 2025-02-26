@@ -490,6 +490,9 @@
 //   }
 // }
 
+import 'dart:io';
+
+import 'package:clothes_store/constants.dart';
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
 import 'package:clothes_store/models/point_model.dart';
@@ -526,6 +529,8 @@ import 'show_user_screen.dart';
 import 'statistics_screen.dart'; // Import your Auth class
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -534,14 +539,194 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context);
-
+ 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Screen'),
+        title: const Text('Home Screen'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
         automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,
+        actions: [
+            // Add the DropdownButton here
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: DropdownButton<String>(
+              hint: const Text('Select'),
+              items: <String>[
+                            
+                'Show All Companies',
+                           
+                
+                'Show All Accessories',
+                'Show All Employees',
+              
+                'Show All Points'
+              ].map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String? newValue) async {
+                if (newValue != null) {
+                  switch (newValue) {
+                    case 'Show All Companies':
+                       AppCompaniesService acp = AppCompaniesService();
+                    List<CompanyModel?>? companies =
+                        await acp.GetAllCompanies();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return ShowAllCompaniesScreen(
+                          companies: companies,
+                        );
+                      }),
+                    );
+                      break;
+                    case 'Show All Accessories':
+                       AppAccessoriesService aas = AppAccessoriesService();
+                    List<AccessoryModel?>? accessories =
+                        await aas.GetAllAccessories();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return ShowAllAccessoriesScreen(
+                          accessories: accessories,
+                        );
+                      }),
+                    );
+                      break;
+                    case 'Show All Employees':
+                        AppEmployeesService aas = AppEmployeesService();
+                      List<EmployeeModel?>? employees =
+                          await aas.GetAllEmployees();
+                            
+                      if (employees != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return ShowAllEmployeesScreen(
+                              employees: employees,
+                            );
+                          }),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text(
+                                  'Failed to load employees. Please try again later.')),
+                        );
+                      }
+                      break;
+                    case 'Show All Points':
+                       AppPointsService aas = AppPointsService();
+                    List<PointModel?>? points = await aas.GetAllPoint();
+              
+                    if (points != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return ShowAllPointsScreen(
+                            points: points,
+                          );
+                        }),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text(
+                                'Failed to load employees. Please try again later.')),
+                      );
+                    }
+                      break;
+                  }
+                }
+              },
+                            ),
+            ),
+                           Padding(
+                             padding: const EdgeInsets.only(right: 10.0),
+                             child: DropdownButton<String>(
+                                         hint: const Text('Select'),
+                                         items: <String>[
+                                           'Add New Company',
+                                           'Add New Employee',
+                                           'Add New Admin',
+                                           'statistics'
+                                         ].map((String value) {
+                                           return DropdownMenuItem<String>(
+                                             value: value,
+                                             child: Text(value),
+                                           );
+                                         }).toList(),
+                                         onChanged: (String? newValue) async {
+                                           if (newValue != null) {
+                                             switch (newValue) {
+                                               case 'Add New Company':
+                                                 Navigator.push(
+                                                 context,
+                                                 MaterialPageRoute(builder: (context) {
+                                                   return AddCompanyScreen();
+                                                 }),
+                                               );
+                                                 break;
+                                               case 'Add New Employee':
+                                                   Navigator.push(
+                                                 context,
+                                                 MaterialPageRoute(builder: (context) {
+                                                   return AddEmployeeScreen();
+                                                 }),
+                                               );
+                                                 break;
+                                               case 'Add New Admin':
+                                                  Navigator.push(
+                                                 context,
+                                                 MaterialPageRoute(builder: (context) {
+                                                   return AddAdminScreen();
+                                                 }),
+                                               );
+                                                 break;
+                                               case 'statistics':
+                                                 AppPointsService aas = AppPointsService();
+                                               List<PointModel?>? points = await aas.GetAllPoint();
+                                               AppBranchesService ass2 = AppBranchesService();
+                                               int? branchesCount = await ass2.getBranchesCount() ?? 0;
+                                               AppEmployeesService aas3 = AppEmployeesService();
+                                               Map<String, int>? employeeCount =
+                                                   await aas3.getEmployeesCount();
+                                               print(branchesCount);
+                                               print(employeeCount);
+                                         
+                                               if (points != null && employeeCount != null) {
+                                                 List<int> pointsCount = points
+                                                     .map((points) => points!.points_count)
+                                                     .toList();
+                                                 print(pointsCount);
+                                                 Navigator.push(
+                                                   context,
+                                                   MaterialPageRoute(builder: (context) {
+                                                     return statistics_screen(
+                                                       points: pointsCount,
+                                                       branchesCount: branchesCount,
+                                                       employeeCount: employeeCount,
+                                                     );
+                                                   }),
+                                                 );
+                                               } else {
+                                                 ScaffoldMessenger.of(context).showSnackBar(
+                                                   const SnackBar(
+                                                       content: Text(
+                                'Failed to load employees. Please try again later.')),
+                                                 );
+                                               }
+                                                 break;
+                                             }
+                                           }
+                                         },
+                                                       ),
+                           ),
+          ],
       ),
       drawer: _buildDrawer(auth, context),
       body: LayoutBuilder(
@@ -563,6 +748,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: _buildBody(auth, context),
               ),
             ],
+            
           );
         },
       ),
@@ -572,8 +758,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildDrawer(Auth auth, BuildContext context) {
     return Drawer(
       child:Container(
-        decoration: BoxDecoration(  
-       color: const Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+        decoration: const BoxDecoration(  
+       color: Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
          ),  
       child: Consumer<Auth>(builder: (context, auth, child) {
         if (!auth.authenticated) {
@@ -591,6 +777,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         } else {
+          
+          String image = auth.user.image;
+     //     print(auth.user.image);
+       //  String userImage = "$path$image";  
+       //  print(userImage);
+          print(image);
           return ListView(
             children: [
               IntrinsicHeight(
@@ -598,15 +790,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Expanded(
                       child: DrawerHeader(
+                        decoration: const BoxDecoration(
+                          color: Color.from(alpha: 1, red: 0.129, green: 0.588, blue: 0.953),
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CircleAvatar(
-                              backgroundImage: AssetImage(
-                                  'assets/images/clothes-background.jpg'),
+                              backgroundImage: AssetImage(image),
+                             
                               //NetworkImage(auth.user.image??''),
                               //  backgroundColor: Colors.blue,
                               radius: 35,
+                             // child: Image.network(userImage),
                             ),
                             const SizedBox(height: 10),
                             Text(auth.user.name,
@@ -615,9 +811,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(auth.user.email,
                                 style: const TextStyle(color: Colors.black)),
                           ],
-                        ),
-                        decoration: const BoxDecoration(
-                          color: Colors.blue,
                         ),
                       ),
                     ),
@@ -669,7 +862,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                   content: Text(
                       'Failed to load employees. Please try again later.')),
             );
@@ -708,7 +901,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                   content: Text(
                       'Failed to load statistics. Please try again later.')),
             );
@@ -736,7 +929,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                   content:
                       Text('Failed to load branches. Please try again later.')),
             );
@@ -763,7 +956,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                   content:
                       Text('Failed to load points. Please try again later.')),
             );
@@ -826,7 +1019,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                   content:
                       Text('Failed to load users. Please try again later.')),
             );
@@ -860,11 +1053,11 @@ class _HomeScreenState extends State<HomeScreen> {
               borderRadius: BorderRadius.circular(8), // Rounded corners
               color: Colors.white, // Background color
             ),
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
                 horizontal: 10), // Padding for the dropdown
 
             child: DropdownButton<String>(
-              hint: Text('Select'),
+              hint: const Text('Select'),
               items: <String>[
                 'Show All Companies',
                 'Add New Company',
@@ -906,7 +1099,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                       break;
                     case 'Show All Accessories':
-                      AppAccessoriesService aas = new AppAccessoriesService();
+                      AppAccessoriesService aas = AppAccessoriesService();
                       List<AccessoryModel?>? accessories =
                           await aas.GetAllAccessories();
                       Navigator.push(
@@ -935,7 +1128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                               content: Text(
                                   'Failed to load employees. Please try again later.')),
                         );
@@ -975,7 +1168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                               content: Text(
                                   'Failed to load employees. Please try again later.')),
                         );
@@ -1010,7 +1203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                               content: Text(
                                   'Failed to load employees. Please try again later.')),
                         );
@@ -1022,7 +1215,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 20),
             child: MaterialButton(
               color: Colors.red,
               textColor: Colors.white,

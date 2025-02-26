@@ -130,7 +130,7 @@ class SupervisiorStatisticScreen extends StatelessWidget {
               child: Column(  
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
-                  Text(  
+                  const Text(  
                     'total_points:',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
@@ -154,7 +154,7 @@ class SupervisiorStatisticScreen extends StatelessWidget {
               child: Column(  
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
-                  Text(  
+                  const Text(  
                     'customer_service_count:',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  

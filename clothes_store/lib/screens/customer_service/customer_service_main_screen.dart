@@ -572,6 +572,8 @@ import '../../services/auth_remastered.dart';
 import '../admin/statistics_screen.dart'; // Import your Auth class
 
 class CutmoerServiceMainScreen extends StatefulWidget {
+  const CutmoerServiceMainScreen({super.key});
+
   @override
   State<CutmoerServiceMainScreen> createState() =>
       _CutmoerServiceMainScreenState();
@@ -584,7 +586,7 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('customer service main screen'),
+        title: const Text('customer service main screen'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -620,8 +622,8 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
   Widget _buildDrawer(Auth auth, BuildContext context) {
     return Drawer(
       child:Container(
-        decoration: BoxDecoration(  
-       color: const Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+        decoration: const BoxDecoration(  
+       color: Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
          ),  
       
       child: Consumer<Auth>(builder: (context, auth, child) {
@@ -648,6 +650,9 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
                   children: [
                     Expanded(
                       child: DrawerHeader(
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 143, 147, 150),
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -664,9 +669,6 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
                             Text(auth.user.email,
                                 style: const TextStyle(color: Colors.black)),
                           ],
-                        ),
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 143, 147, 150),
                         ),
                       ),
                     ),
@@ -806,25 +808,25 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             'Name: ${auth.user.name}',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             'Email: ${auth.user.email}',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             'Role: ${auth.user.role}',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(200, 50),
+              minimumSize: const Size(200, 50),
               backgroundColor: Colors.blueAccent,
             ),
             onPressed: () async {
@@ -842,15 +844,15 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
                 );
               }
             },
-            child: Text(
+            child: const Text(
               'Show Employees by Managers',
               style: TextStyle(color: Colors.white),
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(200, 50),
+              minimumSize: const Size(200, 50),
               backgroundColor: Colors.blueAccent,
             ),
             onPressed: () async {
@@ -872,7 +874,7 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
                 );
               }
             },
-            child: Text(
+            child: const Text(
               'Second Button',
               style: TextStyle(color: Colors.white),
             ),

@@ -41,14 +41,14 @@ class _UpdateAccessoryScreenState extends State<UpdateAccessoryScreen> {
     }
   }
 
-  String? selectedFile = null;
+  String? selectedFile;
   Uint8List? image;
   String type = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Accessory'),
+        title: const Text('Update Accessory'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -63,10 +63,10 @@ class _UpdateAccessoryScreenState extends State<UpdateAccessoryScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 500,
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Accessory Category',
                           border: OutlineInputBorder(),
                         ),
@@ -93,11 +93,11 @@ class _UpdateAccessoryScreenState extends State<UpdateAccessoryScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Accessory image',
                           border: OutlineInputBorder(),
                         ),
@@ -110,16 +110,14 @@ class _UpdateAccessoryScreenState extends State<UpdateAccessoryScreen> {
                           return null;
                         },
                         controller: TextEditingController(
-                            text: selectedFile != null
-                                ? selectedFile!.split('/').last
-                                : null),
+                            text: selectedFile?.split('/').last),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Accessory branch_id',
                           border: OutlineInputBorder(),
                         ),
@@ -135,17 +133,17 @@ class _UpdateAccessoryScreenState extends State<UpdateAccessoryScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(500, 50),
+                        minimumSize: const Size(500, 50),
                         backgroundColor: Colors.blueAccent,
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           // Process the data (e.g., send it to a server or save it locally)
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Processing Data')),
+                            const SnackBar(content: Text('Processing Data')),
                           );
                           AppAccessoriesService aas = AppAccessoriesService();
                           bool? result = await aas.UpdateAccessory(
@@ -160,7 +158,7 @@ class _UpdateAccessoryScreenState extends State<UpdateAccessoryScreen> {
                             Navigator.pop(context);
                             Navigator.pop(context);
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                   content: Text(
                                       'Accessory been updated successfully')),
                             );
@@ -169,7 +167,7 @@ class _UpdateAccessoryScreenState extends State<UpdateAccessoryScreen> {
                           }
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         'Submit',
                         style: TextStyle(color: Colors.white),
                       ),

@@ -7,16 +7,16 @@ import '../models/user.dart';
 
 class Auth extends ChangeNotifier {
   late String _token;
-  late var _user = UserModel(
+  UserModel user = UserModel(
       name: "samer",
       email: "manager@gmail.com",
       role: "supervisor",
       id: 7,
       image: "");
 
-  bool authenticated = true;
-  UserModel get user => _user;
-
+  bool authenticated = false;
+  //UserModel get user => _user;
+// UserModel user;
   Future<String?> login(
       {required Map creds, required BuildContext context}) async {
     try {
@@ -32,6 +32,7 @@ class Auth extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<Map<String, dynamic>?> tryToken({required String token}) async {
@@ -49,6 +50,7 @@ class Auth extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   void logout() {

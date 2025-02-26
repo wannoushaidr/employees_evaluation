@@ -141,9 +141,9 @@ class ShowAllBranchesScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: DataTable(
-                    headingRowColor: MaterialStateProperty.all(
+                    headingRowColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 186, 184, 184)),
-                    dataRowColor: MaterialStateProperty.all(
+                    dataRowColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 255, 255, 255)),
                     columns: const [
                       DataColumn(
@@ -214,7 +214,7 @@ class ShowAllBranchesScreen extends StatelessWidget {
                                 icon: const Icon(Icons.delete),
                                 onPressed: () async {
                                   AppBranchesService acp =
-                                      new AppBranchesService();
+                                      AppBranchesService();
 
                                   bool? result = await acp.DeleteBranch(
                                       id: branch.id.toString());

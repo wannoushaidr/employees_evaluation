@@ -48,7 +48,7 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Employee'),
+        title: const Text('Update Employee'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -64,11 +64,11 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Name',
                           border: OutlineInputBorder(),
                         ),
@@ -84,12 +84,12 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
                         initialValue: widget.employee.email,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'email',
                           border: OutlineInputBorder(),
                         ),
@@ -105,11 +105,11 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Number',
                           border: OutlineInputBorder(),
                         ),
@@ -125,11 +125,11 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Description',
                           border: OutlineInputBorder(),
                         ),
@@ -145,11 +145,11 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Gender',
                           border: OutlineInputBorder(),
                         ),
@@ -173,11 +173,11 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'active',
                           border: OutlineInputBorder(),
                         ),
@@ -201,11 +201,11 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Position',
                           border: OutlineInputBorder(),
                         ),
@@ -233,11 +233,11 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Branch ID',
                           border: OutlineInputBorder(),
                         ),
@@ -253,7 +253,7 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     // Container(
                     //   width: 500,
                     //   child: TextFormField(
@@ -274,10 +274,10 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                     //   ),
                     // ),
                     // SizedBox(height: 20),
-                    Container(
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Leader ID (optional)',
                           border: OutlineInputBorder(),
                         ),
@@ -289,11 +289,11 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'image (optional)',
                           border: OutlineInputBorder(),
                         ),
@@ -305,17 +305,17 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                                 : ''),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(500, 50),
+                        minimumSize: const Size(500, 50),
                         backgroundColor: Colors.blueAccent,
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           // Process the data (e.g., send it to a server or save it locally)
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Processing Data')),
+                            const SnackBar(content: Text('Processing Data')),
                           );
                           print("after saving *****");
                           // Assuming you have a service to handle employee data
@@ -337,7 +337,7 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                           if (result == true) {
                             print('Employee Updated successfully');
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                   content:
                                       Text('Employee Updated successfully')),
                             );
@@ -346,13 +346,13 @@ class _UpdateEmployeeScreenState extends State<UpdateEmployeeScreen> {
                           } else {
                             print('Error Updating employee');
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                   content: Text('Error Updating employee')),
                             );
                           }
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         'Submit',
                         style: TextStyle(color: Colors.white),
                       ),

@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Models\Points;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NotificationFireBaseController;
+use App\Http\Controllers\EvaluationController;  
 
 use App\Http\Controllers\Api\Auth\PasswordResetController ;
 
@@ -199,6 +200,10 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
     Route::post('admin/users/set_new_admins', [UserController::class, 'set_new_admins']);
     Route::put('admin/users/update_admins', [UserController::class, 'update_admins']);
     Route::delete('admin/users/delete_admins', [UserController::class, 'delete_admins']);
+
+    // for evaluation employee by fuzzy system
+    Route::get('/admin/evaluate', [EvaluationController::class, 'evaluate']);  
+
     
 
     // send employee id like a parameter
@@ -283,3 +288,6 @@ Route::post('password/reset', [PasswordResetController::class, 'resetWithOldPass
 
 
 Route::post('employees/send_notification', [NotificationFireBaseController::class, 'sendPushNotification']);
+
+
+

@@ -141,9 +141,9 @@ class ShowAllCompaniesScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: DataTable(
-                    headingRowColor: MaterialStateProperty.all(
+                    headingRowColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 186, 184, 184)),
-                    dataRowColor: MaterialStateProperty.all(
+                    dataRowColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 255, 255, 255)),
                     columns: const [
                       DataColumn(
@@ -230,7 +230,7 @@ class ShowAllCompaniesScreen extends StatelessWidget {
                                 icon: const Icon(Icons.delete),
                                 onPressed: () async {
                                   AppCompaniesService acp =
-                                      new AppCompaniesService();
+                                      AppCompaniesService();
                                   bool? result = await acp.DeleteCompany(
                                       id: company.id.toString());
                                   if (result == true) {

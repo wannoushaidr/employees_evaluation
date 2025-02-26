@@ -26,6 +26,7 @@ class AppAccessoriesService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<bool?> AddNewAccessory({
@@ -56,12 +57,27 @@ class AppAccessoriesService {
       print(responseBody);
       if (response.statusCode == 200) {
         return true;
-      } else {
+      } else {   
+Map<String, dynamic> data = jsonDecode(responseBody);
+Map<String, dynamic> data2 = data['errors'];
+List<String> errors = [];
+
+data2.forEach((key, value) {  
+  if (value is List) {
+    // Iterate through each item in the list
+    for (var error in value) {
+      errors.add(error.toString());
+    }
+  }
+});
+
+message = errors;
         return false;
       }
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   // Future<bool?> UpdateAccessory({
@@ -110,7 +126,7 @@ class AppAccessoriesService {
   //     print(e);
   //   }
   // }
-
+List<String>? message;
   Future<bool?> UpdateAccessory({
     required String id,
     required String type,
@@ -141,12 +157,27 @@ class AppAccessoriesService {
       print(responseBody);
       if (response.statusCode == 200) {
         return true;
-      } else {
+      } else {  
+Map<String, dynamic> data = jsonDecode(responseBody);
+Map<String, dynamic> data2 = data['errors'];
+List<String> errors = [];
+
+data2.forEach((key, value) {  
+  if (value is List) {
+    // Iterate through each item in the list
+    for (var error in value) {
+      errors.add(error.toString());
+    }
+  }
+});
+
+message = errors;
         return false;
       }
     } catch (e) {
       print(e);
     }
+    return null;
 
     //   var request = http.MultipartRequest('POST', Uri.parse(url));
     //   request.fields['id'] = id;
@@ -198,5 +229,6 @@ class AppAccessoriesService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 }

@@ -12,6 +12,8 @@ import 'package:clothes_store/utils/web_utils.dart'; // Updated import
 import 'package:http/http.dart' as http;
 
 class AddEmployeeScreen extends StatefulWidget {
+  const AddEmployeeScreen({super.key});
+
   @override
   _AddEmployeeScreenState createState() => _AddEmployeeScreenState();
 }
@@ -54,7 +56,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Employee'),
+        title: const Text('Add Employee'),
         backgroundColor: Colors.blueAccent,
         shadowColor: Colors.black,
         elevation: 2,
@@ -71,10 +73,10 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.only(top: 8),
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Name',
                           border: OutlineInputBorder(),
                         ),
@@ -89,11 +91,11 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'email',
                           border: OutlineInputBorder(),
                         ),
@@ -108,11 +110,11 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Number',
                           border: OutlineInputBorder(),
                         ),
@@ -127,11 +129,11 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Description',
                           border: OutlineInputBorder(),
                         ),
@@ -146,11 +148,11 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Gender',
                           border: OutlineInputBorder(),
                         ),
@@ -173,11 +175,11 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'active',
                           border: OutlineInputBorder(),
                         ),
@@ -200,11 +202,11 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Position',
                           border: OutlineInputBorder(),
                         ),
@@ -231,11 +233,11 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Branch ID',
                           border: OutlineInputBorder(),
                         ),
@@ -250,11 +252,11 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Leader ID (optional)',
                           border: OutlineInputBorder(),
                         ),
@@ -263,11 +265,11 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
+                    const SizedBox(height: 20),
+                    SizedBox(
                       width: 500,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'image',
                           border: OutlineInputBorder(),
                         ),
@@ -283,12 +285,12 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                             text: selectedFile.split('/').last),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(500, 50),
+                          minimumSize: const Size(500, 50),
                           backgroundColor: Colors.blueAccent,
                         ),
                         onPressed: () async {
@@ -319,13 +321,13 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                               Navigator.pop(context);
                             } else {
                               SnackbarShow.showSnackbar(
-                                  context, aes.message);
+                                  context, aes.message.toString());
 
                               print('Error adding employee');
                             }
                           }
                         },
-                        child: Text(
+                        child: const Text(
                           'Submit',
                           style: TextStyle(color: Colors.white),
                         ),
