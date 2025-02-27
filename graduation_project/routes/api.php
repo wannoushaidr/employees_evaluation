@@ -288,6 +288,3 @@ Route::post('password/reset', [PasswordResetController::class, 'resetWithOldPass
 
 
 Route::post('employees/send_notification', [NotificationFireBaseController::class, 'sendPushNotification']);
-
-
-
