@@ -587,7 +587,9 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('customer service main screen'),
-        backgroundColor: Colors.blueAccent,
+        // backgroundColor: Colors.blueAccent,
+        backgroundColor: Color.fromARGB(255, 56,140,214),
+        
         shadowColor: Colors.black,
         elevation: 2,
         automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,
@@ -623,7 +625,8 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
     return Drawer(
       child:Container(
         decoration: const BoxDecoration(  
-       color: Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+      //  color: Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+      color: Color.fromARGB(255, 195, 198, 201), // Set your desired background color here
          ),  
       
       child: Consumer<Auth>(builder: (context, auth, child) {
@@ -643,6 +646,9 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
             ],
           );
         } else {
+
+          String image = auth.user.image;
+          print(image);
           return ListView(
             children: [
               IntrinsicHeight(
@@ -651,14 +657,16 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
                     Expanded(
                       child: DrawerHeader(
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 143, 147, 150),
+                          // color: Color.fromARGB(255, 143, 147, 150),
+                          color: Color.fromARGB(255, 58, 140, 214), // Set your desired background color here
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const CircleAvatar(
-                              backgroundImage: AssetImage(
-                                  'assets/images/clothes-background.jpg'),
+                             CircleAvatar(
+                              backgroundImage: AssetImage(image),
+                              // backgroundImage: AssetImage(
+                              //     'assets/images/clothes-background.jpg'),
                               //NetworkImage(auth.user.image??''),
                               //  backgroundColor: Colors.blue,
                               radius: 35,

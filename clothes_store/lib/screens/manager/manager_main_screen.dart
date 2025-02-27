@@ -858,7 +858,9 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('manager'),
-        backgroundColor: Colors.blueAccent,
+        // backgroundColor: Colors.blueAccent,
+        // backgroundColor :Color.fromARGB(255, 56,140,214),
+        backgroundColor :Color.fromARGB(255, 56,140,214),
         shadowColor: Colors.black,
         elevation: 2,
         automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,
@@ -893,7 +895,8 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
     return Drawer(
       child:Container(
         decoration: const BoxDecoration(  
-       color: Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+      //  color: Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+      color: Color.fromARGB(255, 195, 198, 201), // Set your desired background color here
          ),  
       
       child: Consumer<Auth>(builder: (context, auth, child) {
@@ -912,6 +915,8 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
             ],
           );
         } else {
+          String image = auth.user.image;
+          print(image);
           return ListView(
             children: [
               IntrinsicHeight(
@@ -920,14 +925,17 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
                     Expanded(
                       child: DrawerHeader(
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 148, 158, 167),
+                          // color: Color.fromARGB(255, 148, 158, 167),
+                          // color: Color.fromARGB(255, 58, 140, 214), // Set your desired background color here
+                          color: Color.fromARGB(255, 58, 140, 214), // Set your desired background color here
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CircleAvatar(
-                              backgroundImage: AssetImage(
-                                  'assets/images/clothes-background.jpg'),
+                              // backgroundImage: AssetImage(
+                              //     'assets/images/clothes-background.jpg'),
+                               backgroundImage: AssetImage(image),
                               //NetworkImage(auth.user.image??''),
                               //  backgroundColor: Colors.blue,
                               radius: 35,
@@ -1001,26 +1009,26 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
         },
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
-      ListTile(
-        leading: const Icon(Icons.notifications),
-        title: const Text('Notifications'),
-        onTap: () async {
-          AppEmployeesService acp = AppEmployeesService();
-          List<EmployeeModel?>? employees =
-              await acp.GetMyAtivateEmployee(auth.user.id);
-          print(employees);
+      // ListTile(
+      //   leading: const Icon(Icons.notifications),
+      //   title: const Text('Notifications'),
+      //   onTap: () async {
+      //     AppEmployeesService acp = AppEmployeesService();
+      //     List<EmployeeModel?>? employees =
+      //         await acp.GetMyAtivateEmployee(auth.user.id);
+      //     print(employees);
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return showActivateEmployees(employees: employees);
-              },
-            ),
-          );
-        },
-        tileColor: Colors.blue[100], // Set the background color for the ListTile  
-      ),
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) {
+      //           return showActivateEmployees(employees: employees);
+      //         },
+      //       ),
+      //     );
+      //   },
+      //   tileColor: Colors.blue[100], // Set the background color for the ListTile  
+      // ),
       ListTile(
         leading: const Icon(Icons.pie_chart),
         title: const Text('Statistics'),
@@ -1044,6 +1052,44 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
         },
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
+      // ListTile(
+      //   leading: const Icon(Icons.logout),
+      //   title: const Text("Logout"),
+      //   onTap: () {
+      //     Provider.of<Auth>(context, listen: false).logout();
+      //     Navigator.pushReplacementNamed(context, 'LoginScreen');
+      //   },
+      //   tileColor: Colors.blue[100], // Set the background color for the ListTile  
+      // ),
+
+      ListTile(
+        leading: const Icon(Icons.people_alt),
+        title: const Text('employees'),
+        onTap: () async {
+          AppEmployeesService acp = AppEmployeesService();
+              List<EmployeeModel?>? employees =
+                  await acp.GetMyEmployeesEnformation(auth.user.id);
+
+          if (employees != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return showEmployeesByManages(
+                  employees: employees,
+                );
+              }),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text(
+                      'Failed to load employees. Please try again later.')),
+            );
+          }
+        },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
+      ),
+
       ListTile(
         leading: const Icon(Icons.logout),
         title: const Text("Logout"),
@@ -1053,6 +1099,8 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
         },
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
+
+
     ];
   }
 
@@ -1077,61 +1125,61 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 5),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(200, 50),
-              backgroundColor: Colors.blueAccent,
-            ),
-            onPressed: () async {
-              AppEmployeesService acp = AppEmployeesService();
-              List<EmployeeModel?>? employees =
-                  await acp.GetMyEmployeesEnformation(auth.user.id);
-              if (employees != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return showEmployeesByManages(employees: employees);
-                    },
-                  ),
-                );
-              }
-            },
-            child: const Text(
-              'Show Employees by Managers',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          const SizedBox(height: 5),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(200, 50),
-              backgroundColor: Colors.blueAccent,
-            ),
-            onPressed: () async {
-              AppPointsService aas = AppPointsService();
-              AppEmployeesService aas3 = AppEmployeesService();
-              List<EmployeeModel?>? employeeCount = await aas3
-                  .GetMyEmployeesEnformation(auth.user.id);
+          // ElevatedButton(
+          //   style: ElevatedButton.styleFrom(
+          //     minimumSize: const Size(200, 50),
+          //     backgroundColor: Colors.blueAccent,
+          //   ),
+          //   onPressed: () async {
+          //     AppEmployeesService acp = AppEmployeesService();
+          //     List<EmployeeModel?>? employees =
+          //         await acp.GetMyEmployeesEnformation(auth.user.id);
+          //     if (employees != null) {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) {
+          //             return showEmployeesByManages(employees: employees);
+          //           },
+          //         ),
+          //       );
+          //     }
+          //   },
+          //   child: const Text(
+          //     'Show Employees by Managers',
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          // ),
+          // const SizedBox(height: 5),
+          // ElevatedButton(
+          //   style: ElevatedButton.styleFrom(
+          //     minimumSize: const Size(200, 50),
+          //     backgroundColor: Colors.blueAccent,
+          //   ),
+          //   onPressed: () async {
+          //     AppPointsService aas = AppPointsService();
+          //     AppEmployeesService aas3 = AppEmployeesService();
+          //     List<EmployeeModel?>? employeeCount = await aas3
+          //         .GetMyEmployeesEnformation(auth.user.id);
 
-              if (employeeCount != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return showEmployeesByManages(
-                        employees: employeeCount,
-                      );
-                    },
-                  ),
-                );
-              }
-            },
-            child: const Text(
-              'stattistic',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
+          //     if (employeeCount != null) {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) {
+          //             return showEmployeesByManages(
+          //               employees: employeeCount,
+          //             );
+          //           },
+          //         ),
+          //       );
+          //     }
+          //   },
+          //   child: const Text(
+          //     'stattistic',
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          // ),
         ],
       ),
     );

@@ -274,6 +274,7 @@ import 'package:clothes_store/screens/manager/manager_statistics_screen.dart';
 import 'package:clothes_store/screens/manager/show_all_managers_employees.dart';
 import 'package:clothes_store/screens/admin/show_all_companies_screen.dart';
 import 'package:clothes_store/screens/shared_screen/user_profile_screen.dart';
+import 'package:clothes_store/screens/supervisor/show_all_supervisior_employees.dart';
 import 'package:clothes_store/screens/supervisor/supervisor_statistic_screen.dart';
 import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/company_services.dart';
@@ -300,7 +301,8 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('supervisor'),
-        backgroundColor: Colors.blueAccent,
+        // backgroundColor: Colors.blueAccent,
+        backgroundColor :Color.fromARGB(255, 56,140,214),
         shadowColor: Colors.black,
         elevation: 2,
         automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,
@@ -335,7 +337,8 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
     return Drawer(
       child:Container(
         decoration: const BoxDecoration(  
-       color: Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+      //  color: Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+      color: Color.fromARGB(255, 195, 198, 201), // Set your desired background color here
          ),  
       child: Consumer<Auth>(builder: (context, auth, child) {
         if (!auth.authenticated) {
@@ -353,6 +356,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
             ],
           );
         } else {
+          String image = auth.user.image;
           return ListView(
             children: [
               IntrinsicHeight(
@@ -361,14 +365,16 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
                     Expanded(
                       child: DrawerHeader(
                         decoration: const BoxDecoration(
-                          color: Colors.blue,
+                          // color: Colors.blue,
+                          color: Color.fromARGB(255, 58, 140, 214), // Set your desired background color here
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CircleAvatar(
-                              backgroundImage: AssetImage(
-                                  'assets/images/clothes-background.jpg'),
+                              // backgroundImage: AssetImage(
+                              //     'assets/images/clothes-background.jpg'),
+                              backgroundImage: AssetImage(image),
                               //NetworkImage(auth.user.image??''),
                               //  backgroundColor: Colors.blue,
                               radius: 35,
@@ -435,17 +441,20 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
         leading: const Icon(Icons.interests),
         title: const Text('employees information'),
         onTap: () async {
-          AppEmployeesService acp = AppEmployeesService();
+           AppEmployeesService acp = AppEmployeesService();
           List<EmployeeModel?>? employees =
               await acp.GetMyEmployeesEnformation(auth.user.id);
+              AppEmployeesService aas3 = AppEmployeesService();
+              Map<String, int>? employeeCount = await aas3
+                  .getCustomerServiceEmployeesCount(auth.user.id);
           print(employees);
 
-          if (employees != null) {
+          if (employeeCount != null) {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return showEmployeesByManages(employees: employees);
+                 return showEmployeesBySupervisior(employees:employees);
                 },
               ),
             );
@@ -454,26 +463,26 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
         },
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
-      ListTile(
-        leading: const Icon(Icons.notifications),
-        title: const Text('Notifications'),
-        onTap: () async {
-          AppEmployeesService acp = AppEmployeesService();
-          List<EmployeeModel?>? employees =
-              await acp.GetMyAtivateEmployee(auth.user.id);
-          print(employees);
+      // ListTile(
+      //   leading: const Icon(Icons.notifications),
+      //   title: const Text('Notifications'),
+      //   onTap: () async {
+      //     AppEmployeesService acp = AppEmployeesService();
+      //     List<EmployeeModel?>? employees =
+      //         await acp.GetMyAtivateEmployee(auth.user.id);
+      //     print(employees);
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return showActivateEmployees(employees: employees);
-              },
-            ),
-          );
-        },
-        tileColor: Colors.blue[100], // Set the background color for the ListTile  
-      ),
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) {
+      //           return showActivateEmployees(employees: employees);
+      //         },
+      //       ),
+      //     );
+      //   },
+      //   tileColor: Colors.blue[100], // Set the background color for the ListTile  
+      // ),
       ListTile(
         // leading: Icon(Icons.interests),
         leading: const Icon(Icons.fiber_smart_record_rounded),
@@ -522,6 +531,37 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
         },
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
+
+      ListTile(
+        leading: const Icon(Icons.people_alt),
+        title: const Text('employees'),
+        onTap: () async {
+          AppPointsService aas = AppPointsService();
+              AppEmployeesService aas3 = AppEmployeesService();
+              Map<String, int>? employeeCount = await aas3
+                  .getCustomerServiceEmployeesCount(auth.user.id);
+
+
+          if (employeeCount != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return SupervisiorStatisticScreen(
+                        employeeCount: employeeCount,
+                );
+              }),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text(
+                      'Failed to load employees. Please try again later.')),
+            );
+          }
+        },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
+      ),
+      
       ListTile(
         leading: const Icon(Icons.logout),
         title: const Text("Logout"),

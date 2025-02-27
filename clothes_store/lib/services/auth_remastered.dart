@@ -9,12 +9,12 @@ class Auth extends ChangeNotifier {
   late String _token;
   UserModel user = UserModel(
       name: "samer",
-      email: "manager@gmail.com",
-      role: "supervisor",
+      email: "supervisor@gmail.com",
+      role: "admin",
       id: 7,
-      image: "");
+      image: "assets/images/1740687459_image.jpg");
 
-  bool authenticated = false;
+  bool authenticated = true;
   //UserModel get user => _user;
 // UserModel user;
   Future<String?> login(

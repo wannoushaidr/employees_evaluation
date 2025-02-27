@@ -543,7 +543,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Screen'),
-        backgroundColor: Colors.blueAccent,
+        // backgroundColor: const Color.fromARGB(255, 80, 139, 241),
+        backgroundColor :Color.fromARGB(255, 56, 140, 214), // Set your desired background color here   // Set your desired background color here  
         shadowColor: Colors.black,
         elevation: 2,
         automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,
@@ -759,7 +760,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Drawer(
       child:Container(
         decoration: const BoxDecoration(  
-       color: Color.fromARGB(255, 127, 181, 212), // Set your desired background color here  
+       color: Color.fromARGB(255, 195, 198, 201), // Set your desired background color here  
          ),  
       child: Consumer<Auth>(builder: (context, auth, child) {
         if (!auth.authenticated) {
@@ -791,7 +792,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       child: DrawerHeader(
                         decoration: const BoxDecoration(
-                          color: Color.from(alpha: 1, red: 0.129, green: 0.588, blue: 0.953),
+                          // color: Color.fromARGB(255, 11, 60, 100),
+                         color: Color.fromARGB(255, 58, 140, 214), // Set your desired background color here  
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -842,7 +844,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         },
-        tileColor: Colors.blue[100], // Set the background color for the ListTile  
+        tileColor: const Color.fromARGB(255, 97, 107, 114), // Set the background color for the ListTile  
       ),
       ListTile(
         leading: const Icon(Icons.people_alt),
@@ -1040,18 +1042,29 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildBody(Auth auth, BuildContext context) {
-    return Center(
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      body: Center(
+      
       child: Column(
+        
+        
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
+        
         children: [
+          
           Container(
+            
             decoration: BoxDecoration(
+              
+              
+              
               border: Border.all(
                   color: const Color.fromARGB(255, 0, 0, 0),
                   width: 1), // Border color and width
               borderRadius: BorderRadius.circular(8), // Rounded corners
-              color: Colors.white, // Background color
+              // color: const Color.fromARGB(255, 196, 111, 111), // Background color
             ),
             padding: const EdgeInsets.symmetric(
                 horizontal: 10), // Padding for the dropdown
@@ -1228,6 +1241,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
