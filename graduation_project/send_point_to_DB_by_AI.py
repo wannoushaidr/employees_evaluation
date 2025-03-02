@@ -133,9 +133,10 @@ import json
 def test_set_points():  
     url = 'http://127.0.0.1:8000/api/admin/points/set_new_points'  
     data = {  
-        'points_count': 100,  
-        'description': 'Added points for excellent service.',
-        'employee_id': 5  
+        'points_count': 5,  
+        'description': 'GO',
+        'employee_id': 5,
+        'customer_id':3,
     }  
 
     try:  
