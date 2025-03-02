@@ -495,6 +495,7 @@ import 'dart:io';
 import 'package:clothes_store/constants.dart';
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
+import 'package:clothes_store/models/evaluation_model.dart';
 import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/customer_service/customer_service_points.dart';
 import 'package:clothes_store/screens/shared_screen/login_screen.dart';
@@ -506,6 +507,7 @@ import 'package:clothes_store/screens/shared_screen/user_profile_screen.dart';
 import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/company_services.dart';
 import 'package:clothes_store/services/employee_services.dart';
+import 'package:clothes_store/services/evaluation_service.dart';
 import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -872,6 +874,36 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
+
+      ListTile(
+        leading: const Icon(Icons.people_alt),
+        title: const Text('evaluate'),
+        onTap: () async {
+          AppEvaluationService aas = AppEvaluationService();
+          List<EvaluationModel?>? evaluated = await aas.Evaluate_employee();
+          print("evaluated done");
+          print(evaluated);
+
+          // if (employees != null) {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) {
+          //       return ShowAllEmployeesScreen(
+          //         employees: employees,
+          //       );
+          //     }),
+          //   );
+          // } else {
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     const SnackBar(
+          //         content: Text(
+          //             'Failed to load employees. Please try again later.')),
+          //   );
+          // }
+        },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
+      ),
+
       ListTile(
         leading: const Icon(Icons.add_chart),
         title: const Text('statistic'),
@@ -1198,6 +1230,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           await aas3.getEmployeesCount();
                       print(branchesCount);
                       print(employeeCount);
+                      
+
 
                       if (points != null && employeeCount != null) {
                         List<int> pointsCount = points

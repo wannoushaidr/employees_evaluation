@@ -49,6 +49,7 @@ class PointsController extends Controller
         $datatoinsert['points_count'] = $request->points_count;
         $datatoinsert['description'] = $request->description;
         $datatoinsert['employee_id'] = $request->employee_id;
+        $datatoinsert['customer_id'] = $request->customer_id;
 
         // Create a new Branches record
         Points::create($datatoinsert);
@@ -125,9 +126,6 @@ class PointsController extends Controller
 
 
 
-
-
-
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -136,7 +134,16 @@ class PointsController extends Controller
 
 
 public function get_all_points(Request $request){
-    $data = Points::select('*')->orderby("id", "ASC")->paginate(4);
+    // $data = Points::All();
+    // return response()->json($data);
+    $data = Points::select('*')->orderby("id", "ASC")->paginate(100);
+    return response()->json($data);
+}
+
+public function get_all_points_for_evaluation(Request $request){
+    $data = Points::All();
+    // return response()->json($data);
+    // $data = Points::select('*')->orderby("id", "ASC")->paginate(100);
     return response()->json($data);
 }
 
@@ -252,6 +259,7 @@ public function set_new_points(Request $request){
     $datatoinsert['points_count'] = $request->points_count;
     $datatoinsert['description'] = $request->description;
     $datatoinsert['employee_id'] = $request->employee_id;
+    $datatoinsert['customer_id'] = $request->customer_id;
     $datatoinsert['created_at'] = date("Y-m-d H:i:s");
     $points = Points::create($datatoinsert);
     if ($points) { 

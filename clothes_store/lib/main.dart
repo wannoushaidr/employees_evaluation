@@ -60,7 +60,7 @@ class ClothesStore extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SupervisorMainScreen(),
+        home: LoginScreen(),
         routes: {
           // ************************************* admin route *****************************
           "home": (context) => HomeScreen(),

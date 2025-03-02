@@ -18,6 +18,7 @@ class CreatePointsTable extends Migration
             $table->integer('points_count')->notNull();
             $table->text('description')->nullable();
             $table->foreignId('employee_id')->notNull()->constrained('employees')->onDelete('no action'); // Self-referential foreign key
+            $table->integer('customer_id')->nullable()->onDelete('set null');
             $table->timestamps();
 
         });

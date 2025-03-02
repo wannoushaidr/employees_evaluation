@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\NotificatiForCustmoerService;
 use App\Models\User;
+use App\Models\Employees;
+
 
 class User extends Authenticatable
 {
@@ -50,12 +52,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatarAttribute(){
-        // return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email)));
-        // return "https://www.gravatar.com/avatar/" . hash( "sha256", strtolower( trim( $this->email ) ) );
-        return "https://www.gravatar.com/avatar/" . hash( "sha256", strtolower( trim( $this->email ) ) );
+    // public function getAvatarAttribute(){
+
+    //     // return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email)));
+    //     // return "https://www.gravatar.com/avatar/" . hash( "sha256", strtolower( trim( $this->email ) ) );
+    //     // return "https://www.gravatar.com/avatar/" . hash( "sha256", strtolower( trim( "ss" ) ) );
+    //     return 1;
         
-    }
+    // }
+
+    public function employee()  
+{  
+    return $this->hasOne(Employees::class, 'user_id', 'id');  
+}  
+
+public function getAvatarAttribute()  
+{  
+    // Check if the user has an associated employee  
+    if ($this->employee) {  
+        return $this->employee->id; // Return the employee's ID  
+    }  
+
+    return null; // or return a default value if no employee is found  
+}  
 
     
 }

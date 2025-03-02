@@ -14,7 +14,7 @@ class Auth extends ChangeNotifier {
       id: 7,
       image: "assets/images/1740687459_image.jpg");
 
-  bool authenticated = true;
+  bool authenticated = false;
   //UserModel get user => _user;
 // UserModel user;
   Future<String?> login(

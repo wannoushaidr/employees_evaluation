@@ -16,6 +16,8 @@ class CreateEvaluationsTable extends Migration
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
             $table->text('evaluation')->nullable();
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade'); // Add employee_id  
+            
             $table->timestamps();
         });
     }
