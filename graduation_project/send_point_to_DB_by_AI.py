@@ -130,13 +130,13 @@
 import requests  
 import json  
 
-def test_set_points():  
+def set_points_to_employee(points_count,description,employee_id,customer_id):  
     url = 'http://127.0.0.1:8000/api/admin/points/set_new_points'  
     data = {  
-        'points_count': 5,  
-        'description': 'GO',
-        'employee_id': 5,
-        'customer_id':3,
+        'points_count': points_count,  
+        'description': description,
+        'employee_id': employee_id,
+        'customer_id':customer_id,
     }  
 
     try:  
@@ -180,4 +180,9 @@ def test_set_points():
         print(f"An error occurred: {e}")  
 
 # Call the function to test  
-test_set_points()
+points_count=50  
+description='GO'
+employee_id=3
+customer_id=30
+
+set_points_to_employee(points_count,description,employee_id,customer_id)

@@ -31,4 +31,126 @@
      }
      return null;
    }
+
+
+   Future<List<EvaluationModel?>?> GetDailyEvaluation() async {
+    print("ss");
+    try {
+      String url =
+          "http://127.0.0.1:8000/api/admin/get_daily_evaluation";
+          print("ssdd");
+      http.Response response = await http.get(Uri.parse(url));
+      print("ss");
+
+      if (response.statusCode == 200) {
+        // Split response body into lines and skip the first two lines
+        List<String> lines = response.body.split('\n');
+        String responseBody = lines.skip(2).join('\n');
+        print("ss");
+
+        // Decode the adjusted response body
+        List<dynamic> jsonData = jsonDecode(responseBody);
+        print("ss");
+        List<EvaluationModel> employees = jsonData.map((data) {
+          print("ss");
+          return EvaluationModel.fromJson(data);
+        }).toList();
+
+        return employees;
+      } else {
+        print("Error: ${response.statusCode}");
+        print(response.body); // Print the response body for debugging
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+
+
+
+  
+   Future<List<EvaluationModel?>?> GetWeeklyEvaluation() async {
+    print("ss");
+    try {
+      String url =
+          "http://127.0.0.1:8000/api/admin/get_weekly_evaluation";
+          print("ssdd");
+      http.Response response = await http.get(Uri.parse(url));
+      print("ss");
+
+      if (response.statusCode == 200) {
+        // Split response body into lines and skip the first two lines
+        List<String> lines = response.body.split('\n');
+        String responseBody = lines.skip(2).join('\n');
+        print("ss");
+
+        // Decode the adjusted response body
+        List<dynamic> jsonData = jsonDecode(responseBody);
+        print("ss");
+        List<EvaluationModel> employees = jsonData.map((data) {
+          print("ss");
+          return EvaluationModel.fromJson(data);
+        }).toList();
+
+        return employees;
+      } else {
+        print("Error: ${response.statusCode}");
+        print(response.body); // Print the response body for debugging
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+
+
+
+
+   Future<List<EvaluationModel?>?> GetmonthlyEvaluation() async {
+    print("ss");
+    try {
+      String url =
+          "http://127.0.0.1:8000/api/admin/get_monthly_evaluation";
+          print("ssdd");
+      http.Response response = await http.get(Uri.parse(url));
+      print("ss");
+
+      if (response.statusCode == 200) {
+        // Split response body into lines and skip the first two lines
+        List<String> lines = response.body.split('\n');
+        String responseBody = lines.skip(2).join('\n');
+        print("ss");
+
+        // Decode the adjusted response body
+        List<dynamic> jsonData = jsonDecode(responseBody);
+        print("ss");
+        List<EvaluationModel> employees = jsonData.map((data) {
+          print("ss");
+          return EvaluationModel.fromJson(data);
+        }).toList();
+
+        return employees;
+      } else {
+        print("Error: ${response.statusCode}");
+        print(response.body); // Print the response body for debugging
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+
+
+
+
+
+
+
  }

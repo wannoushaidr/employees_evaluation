@@ -201,10 +201,15 @@ Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $reques
     Route::put('admin/users/update_admins', [UserController::class, 'update_admins']);
     Route::delete('admin/users/delete_admins', [UserController::class, 'delete_admins']);
 
-    // for evaluation employee by fuzzy system  daily_evaluate
+    // for evaluation API
     Route::get('/admin/week_evaluate', [EvaluationController::class, 'week_evaluate']); 
     Route::get('/admin/daily_evaluate', [EvaluationController::class, 'daily_evaluate']); 
-    Route::get('/admin/monthly_evaluate', [EvaluationController::class, 'monthly_evaluate']);  
+    Route::get('/admin/monthly_evaluate', [EvaluationController::class, 'monthly_evaluate']);
+    Route::get('/admin/get_daily_evaluation', [EvaluationController::class, 'get_daily_evaluation']);
+    Route::get('/admin/get_weekly_evaluation', [EvaluationController::class, 'get_weekly_evaluation']);
+    Route::get('/admin/get_monthly_evaluation', [EvaluationController::class, 'get_monthly_evaluation']);
+    
+
 
     
 

@@ -498,6 +498,7 @@ import 'package:clothes_store/models/employee_model.dart';
 import 'package:clothes_store/models/evaluation_model.dart';
 import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/customer_service/customer_service_points.dart';
+import 'package:clothes_store/screens/shared_screen/evaluation/evaluation_screen.dart';
 import 'package:clothes_store/screens/shared_screen/login_screen.dart';
 import 'package:clothes_store/screens/manager/activate_employee_screen.dart';
 import 'package:clothes_store/screens/manager/manager_statistics_screen.dart';
@@ -543,194 +544,535 @@ class _HomeScreenState extends State<HomeScreen> {
     final auth = Provider.of<Auth>(context);
  
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Screen'),
-        // backgroundColor: const Color.fromARGB(255, 80, 139, 241),
-        backgroundColor :Color.fromARGB(255, 56, 140, 214), // Set your desired background color here   // Set your desired background color here  
-        shadowColor: Colors.black,
-        elevation: 2,
-        automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,
-        actions: [
-            // Add the DropdownButton here
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: DropdownButton<String>(
-              hint: const Text('Select'),
-              items: <String>[
+      // appBar: AppBar(
+      //   title: const Text('Home Screen'),
+      //   // backgroundColor: const Color.fromARGB(255, 80, 139, 241),
+      //   backgroundColor :Color.fromARGB(255, 56, 140, 214), // Set your desired background color here   // Set your desired background color here  
+      //   shadowColor: Colors.black,
+      //   elevation: 2,
+      //   automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,
+      //   actions: [
+      //       // Add the DropdownButton here
+      //       Padding(
+      //         padding: const EdgeInsets.only(right: 10),
+      //         child: DropdownButton<String>(
+      //         hint: const Text('show'),
+      //         items: <String>[
                             
-                'Show All Companies',
+      //           'Companies',
                            
                 
-                'Show All Accessories',
-                'Show All Employees',
+      //           'Accessories',
+      //           'Employees',
               
-                'Show All Points'
-              ].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) async {
-                if (newValue != null) {
-                  switch (newValue) {
-                    case 'Show All Companies':
-                       AppCompaniesService acp = AppCompaniesService();
-                    List<CompanyModel?>? companies =
-                        await acp.GetAllCompanies();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return ShowAllCompaniesScreen(
-                          companies: companies,
-                        );
-                      }),
-                    );
-                      break;
-                    case 'Show All Accessories':
-                       AppAccessoriesService aas = AppAccessoriesService();
-                    List<AccessoryModel?>? accessories =
-                        await aas.GetAllAccessories();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return ShowAllAccessoriesScreen(
-                          accessories: accessories,
-                        );
-                      }),
-                    );
-                      break;
-                    case 'Show All Employees':
-                        AppEmployeesService aas = AppEmployeesService();
-                      List<EmployeeModel?>? employees =
-                          await aas.GetAllEmployees();
+      //           'Points'
+      //         ].map((String value) {
+      //           return DropdownMenuItem<String>(
+      //             value: value,
+      //             child: Text(value),
+      //           );
+      //         }).toList(),
+      //         onChanged: (String? newValue) async {
+      //           if (newValue != null) {
+      //             switch (newValue) {
+      //               case 'Show All Companies':
+      //                  AppCompaniesService acp = AppCompaniesService();
+      //               List<CompanyModel?>? companies =
+      //                   await acp.GetAllCompanies();
+      //               Navigator.push(
+      //                 context,
+      //                 MaterialPageRoute(builder: (context) {
+      //                   return ShowAllCompaniesScreen(
+      //                     companies: companies,
+      //                   );
+      //                 }),
+      //               );
+      //                 break;
+      //               case 'Show All Accessories':
+      //                  AppAccessoriesService aas = AppAccessoriesService();
+      //               List<AccessoryModel?>? accessories =
+      //                   await aas.GetAllAccessories();
+      //               Navigator.push(
+      //                 context,
+      //                 MaterialPageRoute(builder: (context) {
+      //                   return ShowAllAccessoriesScreen(
+      //                     accessories: accessories,
+      //                   );
+      //                 }),
+      //               );
+      //                 break;
+      //               case 'Show All Employees':
+      //                   AppEmployeesService aas = AppEmployeesService();
+      //                 List<EmployeeModel?>? employees =
+      //                     await aas.GetAllEmployees();
                             
-                      if (employees != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return ShowAllEmployeesScreen(
-                              employees: employees,
-                            );
-                          }),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text(
-                                  'Failed to load employees. Please try again later.')),
-                        );
-                      }
-                      break;
-                    case 'Show All Points':
-                       AppPointsService aas = AppPointsService();
-                    List<PointModel?>? points = await aas.GetAllPoint();
+      //                 if (employees != null) {
+      //                   Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(builder: (context) {
+      //                       return ShowAllEmployeesScreen(
+      //                         employees: employees,
+      //                       );
+      //                     }),
+      //                   );
+      //                 } else {
+      //                   ScaffoldMessenger.of(context).showSnackBar(
+      //                     const SnackBar(
+      //                         content: Text(
+      //                             'Failed to load employees. Please try again later.')),
+      //                   );
+      //                 }
+      //                 break;
+      //               case 'Show All Points':
+      //                  AppPointsService aas = AppPointsService();
+      //               List<PointModel?>? points = await aas.GetAllPoint();
               
-                    if (points != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return ShowAllPointsScreen(
-                            points: points,
-                          );
-                        }),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text(
-                                'Failed to load employees. Please try again later.')),
-                      );
-                    }
-                      break;
-                  }
-                }
-              },
-                            ),
-            ),
-                           Padding(
-                             padding: const EdgeInsets.only(right: 10.0),
-                             child: DropdownButton<String>(
-                                         hint: const Text('Select'),
-                                         items: <String>[
-                                           'Add New Company',
-                                           'Add New Employee',
-                                           'Add New Admin',
-                                           'statistics'
-                                         ].map((String value) {
-                                           return DropdownMenuItem<String>(
-                                             value: value,
-                                             child: Text(value),
-                                           );
-                                         }).toList(),
-                                         onChanged: (String? newValue) async {
-                                           if (newValue != null) {
-                                             switch (newValue) {
-                                               case 'Add New Company':
-                                                 Navigator.push(
-                                                 context,
-                                                 MaterialPageRoute(builder: (context) {
-                                                   return AddCompanyScreen();
-                                                 }),
-                                               );
-                                                 break;
-                                               case 'Add New Employee':
-                                                   Navigator.push(
-                                                 context,
-                                                 MaterialPageRoute(builder: (context) {
-                                                   return AddEmployeeScreen();
-                                                 }),
-                                               );
-                                                 break;
-                                               case 'Add New Admin':
-                                                  Navigator.push(
-                                                 context,
-                                                 MaterialPageRoute(builder: (context) {
-                                                   return AddAdminScreen();
-                                                 }),
-                                               );
-                                                 break;
-                                               case 'statistics':
-                                                 AppPointsService aas = AppPointsService();
-                                               List<PointModel?>? points = await aas.GetAllPoint();
-                                               AppBranchesService ass2 = AppBranchesService();
-                                               int? branchesCount = await ass2.getBranchesCount() ?? 0;
-                                               AppEmployeesService aas3 = AppEmployeesService();
-                                               Map<String, int>? employeeCount =
-                                                   await aas3.getEmployeesCount();
-                                               print(branchesCount);
-                                               print(employeeCount);
+      //               if (points != null) {
+      //                 Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(builder: (context) {
+      //                     return ShowAllPointsScreen(
+      //                       points: points,
+      //                     );
+      //                   }),
+      //                 );
+      //               } else {
+      //                 ScaffoldMessenger.of(context).showSnackBar(
+      //                   const SnackBar(
+      //                       content: Text(
+      //                           'Failed to load employees. Please try again later.')),
+      //                 );
+      //               }
+      //                 break;
+      //             }
+      //           }
+      //         },
+      //                       ),
+      //       ),
+      //                      Padding(
+      //                        padding: const EdgeInsets.only(right: 10.0),
+      //                        child: DropdownButton<String>(
+      //                                    hint: const Text('add new'),
+      //                                    items: <String>[
+      //                                      'Company',
+      //                                      'Employee',
+      //                                      'Admin',
+      //                                      'statistics'
+      //                                    ].map((String value) {
+      //                                      return DropdownMenuItem<String>(
+      //                                        value: value,
+      //                                        child: Text(value),
+      //                                      );
+      //                                    }).toList(),
+      //                                    onChanged: (String? newValue) async {
+      //                                      if (newValue != null) {
+      //                                        switch (newValue) {
+      //                                          case 'Add New Company':
+      //                                            Navigator.push(
+      //                                            context,
+      //                                            MaterialPageRoute(builder: (context) {
+      //                                              return AddCompanyScreen();
+      //                                            }),
+      //                                          );
+      //                                            break;
+      //                                          case 'Add New Employee':
+      //                                              Navigator.push(
+      //                                            context,
+      //                                            MaterialPageRoute(builder: (context) {
+      //                                              return AddEmployeeScreen();
+      //                                            }),
+      //                                          );
+      //                                            break;
+      //                                          case 'Add New Admin':
+      //                                             Navigator.push(
+      //                                            context,
+      //                                            MaterialPageRoute(builder: (context) {
+      //                                              return AddAdminScreen();
+      //                                            }),
+      //                                          );
+      //                                            break;
+      //                                          case 'statistics':
+      //                                            AppPointsService aas = AppPointsService();
+      //                                          List<PointModel?>? points = await aas.GetAllPoint();
+      //                                          AppBranchesService ass2 = AppBranchesService();
+      //                                          int? branchesCount = await ass2.getBranchesCount() ?? 0;
+      //                                          AppEmployeesService aas3 = AppEmployeesService();
+      //                                          Map<String, int>? employeeCount =
+      //                                              await aas3.getEmployeesCount();
+      //                                          print(branchesCount);
+      //                                          print(employeeCount);
                                          
-                                               if (points != null && employeeCount != null) {
-                                                 List<int> pointsCount = points
-                                                     .map((points) => points!.points_count)
-                                                     .toList();
-                                                 print(pointsCount);
-                                                 Navigator.push(
-                                                   context,
-                                                   MaterialPageRoute(builder: (context) {
-                                                     return statistics_screen(
-                                                       points: pointsCount,
-                                                       branchesCount: branchesCount,
-                                                       employeeCount: employeeCount,
-                                                     );
-                                                   }),
-                                                 );
-                                               } else {
-                                                 ScaffoldMessenger.of(context).showSnackBar(
-                                                   const SnackBar(
-                                                       content: Text(
-                                'Failed to load employees. Please try again later.')),
-                                                 );
-                                               }
-                                                 break;
-                                             }
-                                           }
-                                         },
-                                                       ),
-                           ),
-          ],
+      //                                          if (points != null && employeeCount != null) {
+      //                                            List<int> pointsCount = points
+      //                                                .map((points) => points!.points_count)
+      //                                                .toList();
+      //                                            print(pointsCount);
+      //                                            Navigator.push(
+      //                                              context,
+      //                                              MaterialPageRoute(builder: (context) {
+      //                                                return statistics_screen(
+      //                                                  points: pointsCount,
+      //                                                  branchesCount: branchesCount,
+      //                                                  employeeCount: employeeCount,
+      //                                                );
+      //                                              }),
+      //                                            );
+      //                                          } else {
+      //                                            ScaffoldMessenger.of(context).showSnackBar(
+      //                                              const SnackBar(
+      //                                                  content: Text(
+      //                           'Failed to load employees. Please try again later.')),
+      //                                            );
+      //                                          }
+      //                                            break;
+      //                                        }
+      //                                      }
+      //                                    },
+      //                                                  ),
+      //                      ),
+
+      //                      Padding(
+      //                        padding: const EdgeInsets.only(right: 10.0),
+      //                        child: DropdownButton<String>(
+      //                                    hint: const Text('evaluation'),
+      //                                    items: <String>[
+      //                                      'daily',
+      //                                      'weekly',
+      //                                      'monthly',
+      //                                    ].map((String value) {
+      //                                      return DropdownMenuItem<String>(
+      //                                        value: value,
+      //                                        child: Text(value),
+      //                                      );
+      //                                    }).toList(),
+      //                                    onChanged: (String? newValue) async {
+      //                                      if (newValue != null) {
+      //                                        switch (newValue) {
+      //                                          case 'daily':
+      //                                            AppEvaluationService aas = AppEvaluationService();
+      //                                          List<EvaluationModel?>? evaluation = await aas.GetDailyEvaluation();
+                                                                                       
+      //                                          if (evaluation != null || evaluation != null) {
+                                                
+      //                                            Navigator.push(
+      //                                              context,
+      //                                              MaterialPageRoute(builder: (context) {
+      //                                                return ShowEvaluationScreen(
+      //                                                  evaluations: evaluation,
+                                                       
+      //                                                );
+      //                                              }),
+      //                                            );
+      //                                          } 
+      //                                          else {
+      //                                            ScaffoldMessenger.of(context).showSnackBar(
+      //                                              const SnackBar(
+      //                                                  content: Text(
+      //                           'Failed to load employees. Please try again later.')),
+      //                                            );
+      //                                          }
+      //                                            break;
+
+
+      //                                          case 'weekly':
+      //                                            AppEvaluationService aas = AppEvaluationService();
+      //                                          List<EvaluationModel?>? evaluation = await aas.GetWeeklyEvaluation();
+                                                                                       
+      //                                          if (evaluation != null || evaluation != null) {
+      //                                           //  List<int> pointsCount = points
+      //                                           //      .map((points) => points!.points_count)
+      //                                           //      .toList();
+      //                                           //  print(pointsCount);
+      //                                            Navigator.push(
+      //                                              context,
+      //                                              MaterialPageRoute(builder: (context) {
+      //                                                return ShowEvaluationScreen(
+      //                                                  evaluations: evaluation,
+                                                       
+      //                                                );
+      //                                              }),
+      //                                            );
+      //                                          } 
+      //                                          else {
+      //                                            ScaffoldMessenger.of(context).showSnackBar(
+      //                                              const SnackBar(
+      //                                                  content: Text(
+      //                           'Failed to load employees. Please try again later.')),
+      //                                            );
+      //                                          }
+      //                                            break;
+
+      //                                          case 'monthly':
+      //                                            AppEvaluationService aas = AppEvaluationService();
+      //                                          List<EvaluationModel?>? evaluation = await aas.GetmonthlyEvaluation();
+                                                                                       
+      //                                          if (evaluation != null || evaluation != null) {
+      //                                           //  List<int> pointsCount = points
+      //                                           //      .map((points) => points!.points_count)
+      //                                           //      .toList();
+      //                                           //  print(pointsCount);
+      //                                            Navigator.push(
+      //                                              context,
+      //                                              MaterialPageRoute(builder: (context) {
+      //                                                return ShowEvaluationScreen(
+      //                                                  evaluations: evaluation,
+                                                       
+      //                                                );
+      //                                              }),
+      //                                            );
+      //                                          } 
+      //                                          else {
+      //                                            ScaffoldMessenger.of(context).showSnackBar(
+      //                                              const SnackBar(
+      //                                                  content: Text(
+      //                             'Failed to load employees. Please try again later.')),
+      //                                            );
+      //                                          }
+      //                                            break;
+
+                                               
+      //                                        }
+      //                                      }
+      //                                    },
+      //                                                  ),
+      //                      ),
+      //     ],
+      // ),
+
+
+      appBar: AppBar(  
+        backgroundColor: Color.fromARGB(255, 56, 140, 214), // Desired background color  
+        shadowColor: Colors.black,  
+        elevation: 2,  
+        automaticallyImplyLeading: MediaQuery.of(context).size.width <= 600,  
+        title: Row(  
+          mainAxisAlignment: MainAxisAlignment.start, // Align to the start (left)  
+          children: [  
+            const Text(  
+              'Home Screen',  
+              textAlign: TextAlign.left, // Align text to the left  
+            ),  
+            const SizedBox(width: 10), // Add some space after title  
+            // This is where you can add your lines  
+            // Container(  
+            //   height: 1,  // Height of the line  
+            //   width: MediaQuery.of(context).size.width * 0.45, // Line width, adjust as necessary  
+            //   color: Colors.white, // Line color  
+            // ),  
+          ],  
+        ),  
+        actions: [  
+          // Your Dropdown for "Show"  
+          Padding(  
+            padding: const EdgeInsets.only(right: 10.0),  
+            child: DropdownButton<String>(  
+              hint: const Text('Show'),  
+              items: <String>[  
+                'Show All Companies',  
+                'Show All Accessories',  
+                'Show All Employees',  
+                'Show All Points'  
+              ].map((String value) {  
+                return DropdownMenuItem<String>(  
+                  value: value,  
+                  child: Text(value),  
+                );  
+              }).toList(),  
+              onChanged: (String? newValue) async {  
+                if (newValue != null) {  
+                  // Action handling for dropdown  
+                  switch (newValue) {  
+                    case 'Show All Companies':  
+                      AppCompaniesService acp = AppCompaniesService();  
+                      List<CompanyModel?>? companies = await acp.GetAllCompanies();  
+                      Navigator.push(  
+                        context,  
+                        MaterialPageRoute(  
+                          builder: (context) {  
+                            return ShowAllCompaniesScreen(  
+                              companies: companies,  
+                            );  
+                          },  
+                        ),  
+                      );  
+                      break;  
+                    case 'Show All Accessories':  
+                      AppAccessoriesService aas = AppAccessoriesService();  
+                      List<AccessoryModel?>? accessories = await aas.GetAllAccessories();  
+                      Navigator.push(  
+                        context,  
+                        MaterialPageRoute(  
+                          builder: (context) {  
+                            return ShowAllAccessoriesScreen(accessories: accessories);  
+                          },  
+                        ),  
+                      );  
+                      break;  
+                    case 'Show All Employees':  
+                      AppEmployeesService aasEmployees = AppEmployeesService();  
+                      List<EmployeeModel?>? employees = await aasEmployees.GetAllEmployees();  
+                      if (employees != null) {  
+                        Navigator.push(  
+                          context,  
+                          MaterialPageRoute(  
+                            builder: (context) {  
+                              return ShowAllEmployeesScreen(employees: employees);  
+                            },  
+                          ),  
+                        );  
+                      } else {  
+                        ScaffoldMessenger.of(context).showSnackBar(  
+                          const SnackBar(content: Text('Failed to load employees. Please try again later.')),  
+                        );  
+                      }  
+                      break;  
+                    case 'Show All Points':  
+                      AppPointsService aasPoints = AppPointsService();  
+                      List<PointModel?>? points = await aasPoints.GetAllPoint();  
+                      if (points != null) {  
+                        Navigator.push(  
+                          context,  
+                          MaterialPageRoute(  
+                            builder: (context) {  
+                              return ShowAllPointsScreen(points: points);  
+                            },  
+                          ),  
+                        );  
+                      } else {  
+                        ScaffoldMessenger.of(context).showSnackBar(  
+                          const SnackBar(content: Text('Failed to load points. Please try again later.')),  
+                        );  
+                      }  
+                      break;  
+                  }  
+                }  
+              },  
+            ),  
+          ),  
+          // Dropdown for "Add New"  
+          Padding(  
+            padding: const EdgeInsets.only(right: 10.0),  
+            child: DropdownButton<String>(  
+              hint: const Text('Add New'),  
+              items: <String>[  
+                'Add New Company',  
+                'Add New Employee',  
+                'Add New Admin',  
+                'Statistics'  
+              ].map((String value) {  
+                return DropdownMenuItem<String>(  
+                  value: value,  
+                  child: Text(value),  
+                );  
+              }).toList(),  
+              onChanged: (String? newValue) async {  
+                if (newValue != null) {  
+                  switch (newValue) {  
+                    case 'Add New Company':  
+                      Navigator.push(  
+                        context,  
+                        MaterialPageRoute(builder: (context) {  
+                          return AddCompanyScreen();  
+                        }),  
+                      );  
+                      break;  
+                    case 'Add New Employee':  
+                      Navigator.push(  
+                        context,  
+                        MaterialPageRoute(builder: (context) {  
+                          return AddEmployeeScreen();  
+                        }),  
+                      );  
+                      break;  
+                    case 'Add New Admin':  
+                      Navigator.push(  
+                        context,  
+                        MaterialPageRoute(builder: (context) {  
+                          return AddAdminScreen();  
+                        }),  
+                      );  
+                      break;  
+                    // case 'Statistics':  
+                    //   AppPointsService aas = AppPointsService();  
+                    //   List<PointModel?>? points = await aas.GetAllPoint();  
+                    //   AppBranchesService ass2 = AppBranchesService();  
+                    //   int? branchesCount = await ass2.getBranchesCount() ?? 0;  
+                    //   AppEmployeesService aas3 = AppEmployeesService();  
+                    //   Map<String, int>? employeeCount = await aas3.getEmployeesCount();  
+                    //   if (points != null && employeeCount != null) {  
+                    //     List<int> pointsCount = points.map((point) => point!.points_count).toList();  
+                    //     Navigator.push(  
+                    //       context,  
+                    //       MaterialPageRoute(builder: (context) {  
+                    //         return StatisticsScreen(  
+                    //           points: pointsCount,  
+                    //           branchesCount: branchesCount,  
+                    //           employeeCount: employeeCount,  
+                    //         );  
+                    //       }),  
+                    //     );  
+                    //   } else {  
+                    //     ScaffoldMessenger.of(context).showSnackBar(  
+                    //       const SnackBar(content: Text('Failed to load statistics. Please try again later.')),  
+                    //     );  
+                    //   }  
+                    //   break;  
+                  }  
+                }  
+              },  
+            ),  
+          ),  
+          // Dropdown for evaluations  
+          Padding(  
+            padding: const EdgeInsets.only(right: 10.0),  
+            child: DropdownButton<String>(  
+              hint: const Text('Evaluation'),  
+              items: <String>[  
+                'Daily',  
+                'Weekly',  
+                'Monthly',  
+              ].map((String value) {  
+                return DropdownMenuItem<String>(  
+                  value: value,  
+                  child: Text(value),  
+                );  
+              }).toList(),  
+              onChanged: (String? newValue) async {  
+                if (newValue != null) {  
+                  AppEvaluationService aas = AppEvaluationService();  
+                  List<EvaluationModel?>? evaluation;  
+
+                  switch (newValue) {  
+                    case 'Daily':  
+                      evaluation = await aas.GetDailyEvaluation();  
+                      break;  
+                    case 'Weekly':  
+                      evaluation = await aas.GetWeeklyEvaluation();  
+                      break;  
+                    case 'Monthly':  
+                      evaluation = await aas.GetmonthlyEvaluation();  
+                      break;  
+                  }  
+                  if (evaluation != null) {  
+                    Navigator.push(  
+                      context,  
+                      MaterialPageRoute(builder: (context) {  
+                        return ShowEvaluationScreen(evaluations: evaluation);  
+                      }),  
+                    );  
+                  } else {  
+                    ScaffoldMessenger.of(context).showSnackBar(  
+                      const SnackBar(content: Text('Failed to load evaluations. Please try again later.')),  
+                    );  
+                  }  
+                }  
+              },  
+            ),  
+          ),  
+        ],  
       ),
+
+
       drawer: _buildDrawer(auth, context),
       body: LayoutBuilder(
         builder: (context, constraints) {

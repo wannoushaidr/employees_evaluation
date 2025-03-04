@@ -353,18 +353,18 @@ for entry in payload:
     # SM.input['cashier'] =  float(input_data.get('cashier', 0)  )
     # SM.input['discover'] = float(input_data.get('discover', 0)  )
 
-    # # Assign input values for the simulation using the employee's data  
-    # SM.input['Go'] = safe_float(input_data.get('Go', 0))  
-    # SM.input['fitting_room'] = safe_float(input_data.get('fitting_room', 0))  
-    # SM.input['cashier'] = safe_float(input_data.get('cashier', 0))  
-    # SM.input['discover'] = safe_float(input_data.get('discover', 0))  
+    # Assign input values for the simulation using the employee's data  
+    SM.input['Go'] = safe_float(input_data.get('Go', 0))  
+    SM.input['fitting_room'] = safe_float(input_data.get('fitting_room', 0))  
+    SM.input['cashier'] = safe_float(input_data.get('cashier', 0))  
+    SM.input['discover'] = safe_float(input_data.get('discover', 0))  
     # print(f"Inputs assigned: Go={SM.input['Go']}, fitting_room={SM.input['fitting_room']}, cashier={SM.input['cashier']}, discover={SM.input['discover']}")  # Debug output for assigned inputs  
 
-    # from Admin
-    SM.input['Go'] = 5# max 5
-    SM.input['fitting_room'] = 4.0# max 8
-    SM.input['cashier'] = 4 # max 4
-    SM.input['discover'] = 3 # max 3
+    # # from Admin
+    # SM.input['Go'] = 5.0# max 5
+    # SM.input['fitting_room'] = 4.0# max 8
+    # SM.input['cashier'] = 4.0 # max 4
+    # SM.input['discover'] = 3.0 # max 3
 
     SM.compute()
     # print(SM.output['Evaluation'])
@@ -377,8 +377,9 @@ for entry in payload:
     # Store the result  
     results.append({  
         'employee_id': employee_id,  
-        'evaluation': SM.output['Evaluation']  
+        'evaluation': round(SM.output['Evaluation'],4)
     })  
+# print(SM.output['Evaluation'])
 
 # Print the results as a JSON string to return to the Laravel application  
 print(json.dumps({'results': results}))  

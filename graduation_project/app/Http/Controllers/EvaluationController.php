@@ -95,10 +95,43 @@ class EvaluationController extends Controller
 // }
 
 
+public function get_daily_evaluation()  
+{  
+    // Retrieve all evaluations  
+    // $evaluations = Evaluation::all(); // You can also use paginate or filter as needed  
+    $evaluations = Evaluation::where('type', 'daily')->get();  
+
+
+    // Return evaluations as JSON  
+    return response()->json($evaluations);  
+}  
+
+public function get_weekly_evaluation()  
+{  
+    // Retrieve all evaluations  
+    // $evaluations = Evaluation::all(); // You can also use paginate or filter as needed  
+    $evaluations = Evaluation::where('type', 'weekly')->get();
+
+    // Return evaluations as JSON  
+    return response()->json($evaluations);  
+}  
+
+public function get_monthly_evaluation()  
+{  
+    // Retrieve all evaluations  
+    // $evaluations = Evaluation::all(); // You can also use paginate or filter as needed  
+    $evaluations = Evaluation::where('type', 'monthly')->get();
+
+    // Return evaluations as JSON  
+    return response()->json($evaluations);  
+}  
+
+
 public function week_evaluate(Request $request)  
 {  
     // Fetch points data for the last 7 days  
     $points = Points::where('created_at', '>=', now()->subDays(7))->get();  
+    // return $points;
 
     // Prepare an array to hold the average points per description for each employee  
     $averagePoints = [];  
@@ -171,30 +204,43 @@ $tempFilePath = stream_get_meta_data($tempFile)['uri'];
 
 // Run Python script  
 $pythonScript = base_path('build_fuzzy.py');  
-$command = escapeshellcmd("python \"{$pythonScript}\"") . " " . escapeshellarg($tempFilePath);  
+// $command = escapeshellcmd("python \"{$pythonScript}\"") . " " . escapeshellarg($tempFilePath); 
+$command = escapeshellcmd("python \"{$pythonScript}\" " . escapeshellarg($tempFilePath) . " 2>/dev/null");  
+
+ 
 
 $output = [];  
 $returnCode = 0;  
-exec($command . " 2>&1", $output, $returnCode); // Capture both output and errors  
+// exec($command . " 2>&1", $output, $returnCode); // Capture both output and errors  
+exec($command , $output, $returnCode); // Capture both output and errors  
+
 
 Log::info('Python Script Output:', ['output' => implode("\n", $output)]);  
 
+// Attempt to decode the JSON output  
+$jsonOutput = trim(implode("\n", $output));  // Remove any leading/trailing whitespace
+if (strpos($jsonOutput, '<!--') !== false) {  
+    $jsonOutput = substr($jsonOutput, strpos($jsonOutput, '{')); // Get everything from the first '{' onward  
+}  
+// return jsonOutput;
 
 // Handle the successful execution of the script  
 if ($returnCode === 0) {  
-    // Process output as before  
-    // Log the raw output from the Python script  
-    // Log::info('Raw Python output: ', ['output' => $output]);
-
-    // Join the output into a single string  
-    // $joinedOutput = implode("\n", $output); // Join output lines  
+    // Try to decode the final output  
+    $jsonOutput = trim(implode("\n", $output)); 
+    
     try {  
         
         $result = json_decode(implode("\n", $output), true);  
         if (json_last_error() !== JSON_ERROR_NONE) {  
             throw new \Exception('JSON decode error: ' . json_last_error_msg());  
         }  
-        
+
+        // $result = json_decode($jsonOutput, true);  
+        // if (json_last_error() !== JSON_ERROR_NONE) {  
+        //     throw new \Exception('JSON decode error: ' . json_last_error_msg());  
+        // }
+            
 
         // Save evaluations to the database  
         if (isset($result['results'])) {  
@@ -202,7 +248,9 @@ if ($returnCode === 0) {
                 // Create a new evaluation record  
                 Evaluation::create([  
                     'employee_id' => $evaluationData['employee_id'],  
-                    'evaluation' => $evaluationData['evaluation'],  
+                    'evaluation' => $evaluationData['evaluation'], 
+                    'type' => 'weekly', 
+                   
                 ]);  
             }  
         }  
@@ -211,7 +259,7 @@ if ($returnCode === 0) {
         }  
 
         return response()->json([  
-            'status' => 'success',  
+            'status' => 'successsss',  
             'results' => $result['results'],  
         ], 200);  
 
@@ -220,6 +268,7 @@ if ($returnCode === 0) {
         return response()->json([  
             'status' => 'error',  
             'message' => 'Failed to parse Python output',  
+            // 'output' => implode("\n", $output),
             'output' => implode("\n", $output),  
         ], 500);  
     }  

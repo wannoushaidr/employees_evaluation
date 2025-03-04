@@ -1,8 +1,8 @@
- class EvaluationModel {
+class EvaluationModel {
    int id;
    int employee_id;
   
-   String evaluation;
+   double? evaluation;
    String? created_at;
    String? updated_at;
    String? deleted_at;

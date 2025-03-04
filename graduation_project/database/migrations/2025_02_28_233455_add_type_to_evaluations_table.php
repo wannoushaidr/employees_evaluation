@@ -15,7 +15,7 @@ class AddTypeToEvaluationsTable extends Migration
     {
         Schema::table('evaluations', function (Blueprint $table) {
             //
-            $table->string('type',500);
+            $table->float('type',255);
         });
     }
 
