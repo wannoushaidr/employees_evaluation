@@ -53,7 +53,8 @@ class _AddAccessoryScreenState extends State<AddAccessoryScreen> {
         elevation: 2,
       ),
       body: Container(
-        color: Colors.white,
+        color: const Color.fromARGB(255, 198, 196, 196),
+        
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),

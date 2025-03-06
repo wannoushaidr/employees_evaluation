@@ -19,11 +19,154 @@ class showEmployeesBySupervisior extends StatelessWidget {
   const showEmployeesBySupervisior({super.key, required this.employees});
   final List<EmployeeModel?>? employees;
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   print("employees are ss :");
+  //   print(employees);
+
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: const Text('Employees Data Table'),
+  //       backgroundColor: const Color.fromARGB(255, 39, 95, 193),
+  //       shadowColor: Colors.black,
+  //       elevation: 2,
+  //     ),
+  //     body: employees == null
+  //         ? const Center(child: CircularProgressIndicator())
+  //         : Container(
+  //             color: const Color.fromARGB(255, 219, 219, 219),
+  //             child: ListView(
+  //               scrollDirection: Axis.horizontal,
+  //               children: [
+  //                 Padding(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   child: DataTable(
+  //                     headingRowColor: WidgetStateProperty.all(
+  //                         const Color.fromARGB(255, 186, 184, 184)),
+  //                     dataRowColor: WidgetStateProperty.all(
+  //                         const Color.fromARGB(255, 255, 255, 255)),
+  //                     columns: const [
+  //                       DataColumn(
+  //                           label: Text(
+  //                         'ID',
+  //                         style: TextStyle(fontWeight: FontWeight.bold),
+  //                       )),
+  //                       DataColumn(
+  //                           label: Text(
+  //                         'Name',
+  //                         style: TextStyle(fontWeight: FontWeight.bold),
+  //                       )),
+  //                       DataColumn(
+  //                           label: Text(
+  //                         'Description',
+  //                         style: TextStyle(fontWeight: FontWeight.bold),
+  //                       )),
+  //                       DataColumn(
+  //                           label: Text(
+  //                         'Number',
+  //                         style: TextStyle(fontWeight: FontWeight.bold),
+  //                       )),
+  //                       DataColumn(
+  //                           label: Text(
+  //                         'Gender',
+  //                         style: TextStyle(fontWeight: FontWeight.bold),
+  //                       )),
+  //                       DataColumn(
+  //                           label: Text(
+  //                         'Position',
+  //                         style: TextStyle(fontWeight: FontWeight.bold),
+  //                       )),
+  //                       DataColumn(
+  //                           label: Text(
+  //                         'Active',
+  //                         style: TextStyle(fontWeight: FontWeight.bold),
+  //                       )),
+  //                       DataColumn(
+  //                           label: Text(
+  //                         'Branch ID',
+  //                         style: TextStyle(fontWeight: FontWeight.bold),
+  //                       )),
+  //                       DataColumn(
+  //                           label: Text(
+  //                         'Leader ID',
+  //                         style: TextStyle(fontWeight: FontWeight.bold),
+  //                       )),
+  //                       DataColumn(
+  //                           label: Text(
+  //                         'more info ',
+  //                         style: TextStyle(fontWeight: FontWeight.bold),
+  //                       )),
+  //                       // DataColumn(label: Text('Actions')),
+  //                     ],
+  //                     rows: employees!.map((employee) {
+  //                       return DataRow(cells: [
+  //                         DataCell(Text(employee!.id.toString())),
+  //                         DataCell(Text(employee.name)),
+  //                         DataCell(Text(employee.description)),
+  //                         DataCell(Text(employee.number.toString())),
+  //                         DataCell(Text(employee.gender)),
+  //                         DataCell(Text(employee.position)),
+  //                         DataCell(Text(employee.active)),
+  //                         DataCell(Text(employee.branch_id.toString())),
+  //                         DataCell(Text(employee.leader_id != null
+  //                             ? employee.leader_id.toString()
+  //                             : '')),
+  //                         // DataCell(Text("points")),
+
+  //                         // DataCell(
+  //                         //   Row(
+  //                         //     children: [
+  //                         //       IconButton(
+  //                         //         icon: const Icon(Icons.details_outlined),
+  //                         //         onPressed: () {
+  //                         //           Navigator.push(context,
+  //                         //               MaterialPageRoute(builder: (context) {
+  //                         //             return UpdateEmployeeScreen(
+  //                         //               employee: employee,
+  //                         //             );
+  //                         //           }));
+  //                         //         },
+  //                         //       ),
+
+  //                         //     ],
+  //                         //   ),
+  //                         // ),
+
+  //                         DataCell(
+  //                           Row(
+  //                             children: [
+  //                               IconButton(
+  //                                 icon: const Icon(Icons.details_outlined),
+  //                                 onPressed: () async {
+  //                                   AppPointsService acp = AppPointsService();
+  //                                   print(employee.id);
+  //                                   List<PointModel?>? points =
+  //                                       await acp.GetEmployeePoint(employee.id);
+  //                                   points ??= [];
+  //                                   Navigator.push(context,
+  //                                       MaterialPageRoute(builder: (context) {
+  //                                     return ShowAllPointsScreen(
+  //                                         points: points);
+  //                                   }));
+  //                                 },
+  //                               ),
+  //                             ],
+  //                           ),
+  //                         ),
+  //                       ]);
+  //                     }).toList(),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //   );
+  // }
+
+
+  
   @override
   Widget build(BuildContext context) {
-    print("employees are ss :");
-    print(employees);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Employees Data Table'),
@@ -31,112 +174,143 @@ class showEmployeesBySupervisior extends StatelessWidget {
         shadowColor: Colors.black,
         elevation: 2,
       ),
+
+    
       body: employees == null
           ? const Center(child: CircularProgressIndicator())
           : Container(
-              color: const Color.fromARGB(255, 219, 219, 219),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
+              // color: const Color.fromARGB(255, 219, 219, 219),
+              color: const Color.fromARGB(255, 198, 196, 196),
+              child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DataTable(
-                      headingRowColor: WidgetStateProperty.all(
-                          const Color.fromARGB(255, 186, 184, 184)),
-                      dataRowColor: WidgetStateProperty.all(
-                          const Color.fromARGB(255, 255, 255, 255)),
-                      columns: const [
-                        DataColumn(
-                            label: Text(
-                          'ID',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Name',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Description',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Number',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Gender',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Position',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Active',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Branch ID',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Leader ID',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'more info ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                        // DataColumn(label: Text('Actions')),
-                      ],
-                      rows: employees!.map((employee) {
-                        return DataRow(cells: [
-                          DataCell(Text(employee!.id.toString())),
-                          DataCell(Text(employee.name)),
-                          DataCell(Text(employee.description)),
-                          DataCell(Text(employee.number.toString())),
-                          DataCell(Text(employee.gender)),
-                          DataCell(Text(employee.position)),
-                          DataCell(Text(employee.active)),
-                          DataCell(Text(employee.branch_id.toString())),
-                          DataCell(Text(employee.leader_id != null
-                              ? employee.leader_id.toString()
-                              : '')),
-                          // DataCell(Text("points")),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DataTable(
+                          headingRowColor: WidgetStateProperty.all(
+                              const Color.fromARGB(255, 186, 184, 184)),
+                          dataRowColor: WidgetStateProperty.all(
+                              // const Color.fromARGB(255, 255, 255, 255)),
+                              const Color.fromARGB(255, 177, 174, 174)),
+                          columns: const [
+                            DataColumn(
+                                label: Text(
+                              'ID',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'Name',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            // DataColumn(
+                            //     label: Text(
+                            //   'Description',
+                            //   style: TextStyle(fontWeight: FontWeight.bold),
+                            // )),
+                            // DataColumn(
+                            //     label: Text(
+                            //   'Number',
+                            //   style: TextStyle(fontWeight: FontWeight.bold),
+                            // )),
+                            DataColumn(
+                                label: Text(
+                              'Gender',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'Position',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'Active',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'Branch ID',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'Leader ID',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'email',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'user id',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'Actions',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                          ],
+                          rows: employees!.map((employee) {
+                            return DataRow(cells: [
+                              DataCell(Text(employee!.id.toString())),
+                              DataCell(Text(employee.name)),
+                              // DataCell(Text(employee.description)),
+                              // DataCell(Text(employee.number.toString())),
+                              DataCell(Text(employee.gender)),
+                              DataCell(Text(employee.position)),
+                              DataCell(Text(employee.active)),
+                              DataCell(Text(employee.branch_id.toString())),
+                              DataCell(Text(employee.leader_id != null
+                                  ? employee.leader_id.toString()
+                                  : '')),
+                              DataCell(Text(employee.email)),
+                              DataCell(Text(employee.user_id.toString())),
+                              // DataCell(
+                              //   Row(
+                              //     children: [
+                              //       IconButton(
+                              //         icon: const Icon(Icons.edit,color: Color.fromARGB(255, 107, 138, 215)),
+                              //         onPressed: () {
+                              //           Navigator.push(context,
+                              //               MaterialPageRoute(
+                              //                   builder: (context) {
+                              //             return UpdateEmployeeScreen(
+                              //               employee: employee,
+                              //             );
+                              //           }));
+                              //         },
+                              //       ),
+                              //       IconButton(
+                              //         icon: const Icon(Icons.delete,color: Color.fromARGB(255, 181, 57, 53)),
+                              //         onPressed: () async {
+                              //           AppEmployeesService aes =
+                              //               AppEmployeesService();
+                              //           bool? result = await aes.DeleteEmployee(
+                              //               id: employee.id.toString());
+                              //           if (result == true) {
+                              //             print('Success');
+                              //             Navigator.pop(context);
+                              //           } else {
+                              //             print('Error');
+                              //           }
+                              //         },
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
 
-                          // DataCell(
-                          //   Row(
-                          //     children: [
-                          //       IconButton(
-                          //         icon: const Icon(Icons.details_outlined),
-                          //         onPressed: () {
-                          //           Navigator.push(context,
-                          //               MaterialPageRoute(builder: (context) {
-                          //             return UpdateEmployeeScreen(
-                          //               employee: employee,
-                          //             );
-                          //           }));
-                          //         },
-                          //       ),
-
-                          //     ],
-                          //   ),
-                          // ),
-
-                          DataCell(
+                               DataCell(
                             Row(
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.details_outlined),
+                                  icon: const Icon(Icons.details_outlined,color: Color.fromARGB(255, 107, 138, 215)),
                                   onPressed: () async {
                                     AppPointsService acp = AppPointsService();
                                     print(employee.id);
@@ -153,8 +327,12 @@ class showEmployeesBySupervisior extends StatelessWidget {
                               ],
                             ),
                           ),
-                        ]);
-                      }).toList(),
+
+
+                            ]);
+                          }).toList(),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -162,4 +340,10 @@ class showEmployeesBySupervisior extends StatelessWidget {
             ),
     );
   }
+
+
+
+
+
+
 }

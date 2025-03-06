@@ -26,7 +26,8 @@ class ShowEvaluationScreen extends StatelessWidget {
       
 
       body: Container(
-        color: const Color.fromARGB(255, 219, 219, 219),
+        // color: const Color.fromARGB(255, 219, 219, 219),
+        color: const Color.fromARGB(255, 198, 196, 196),
         child: Column(
           children: [
             Align(
@@ -39,7 +40,8 @@ class ShowEvaluationScreen extends StatelessWidget {
                     headingRowColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 186, 184, 184)),
                     dataRowColor: WidgetStateProperty.all(
-                        const Color.fromARGB(255, 255, 255, 255)),
+                        // const Color.fromARGB(255, 255, 255, 255)),
+                         const Color.fromARGB(255, 177, 174, 174)),
                     columns: const [
                       DataColumn(
                           label: Text(
@@ -58,6 +60,11 @@ class ShowEvaluationScreen extends StatelessWidget {
                       )),
                       DataColumn(
                           label: Text(
+                        'type',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataColumn(
+                          label: Text(
                         'created_at',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       )),
@@ -71,8 +78,9 @@ class ShowEvaluationScreen extends StatelessWidget {
                       return DataRow(cells: <DataCell>[
                         DataCell(Text(evaluation!.id.toString())),
                         DataCell(Text(evaluation!.employee_id.toString())),
-                        DataCell(Text(evaluation.evaluation.toString())),
-                        DataCell(Text(evaluation.created_at.toString())),
+                        DataCell(Text(evaluation.evaluation!.toString())),
+                        DataCell(Text(evaluation.type.toString())),
+                        DataCell(Text(evaluation.created_at!.toString())),
                         // DataCell(Text(evaluation.updated_at.toString())),
                         // DataCell(Text(point.description)),
                         

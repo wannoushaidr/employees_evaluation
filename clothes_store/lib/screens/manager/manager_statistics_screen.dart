@@ -147,6 +147,7 @@ class ManagerStatisticScreen extends StatelessWidget {
         elevation: 2,  
       ),  
       body: GridView(  
+        
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(  
           crossAxisCount: screenWidth < 600 ? 1 : 2, // Number of columns  
           childAspectRatio: (screenWidth / 2) / 150, // Adjust height dynamically  
@@ -155,7 +156,8 @@ class ManagerStatisticScreen extends StatelessWidget {
         ),  
         children: [  
           Card(  
-            color: Colors.white,  
+            // color: Colors.white,  
+            color: const Color.fromARGB(255, 192, 184, 184),
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
@@ -179,7 +181,8 @@ class ManagerStatisticScreen extends StatelessWidget {
             ),  
           ),  
           Card(  
-            color: Colors.white,  
+            // color: Colors.white,  
+            color: const Color.fromARGB(255, 192, 184, 184),
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
@@ -203,7 +206,8 @@ class ManagerStatisticScreen extends StatelessWidget {
             ),  
           ),  
           Card(  
-            color: Colors.white,  
+            // color: Colors.white,  
+            color: const Color.fromARGB(255, 192, 184, 184),
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  

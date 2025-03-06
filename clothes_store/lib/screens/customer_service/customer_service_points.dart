@@ -133,7 +133,8 @@ class CustomerServicePoints extends StatelessWidget {
       //    ),
 
       body: Container(
-        color: const Color.fromARGB(255, 219, 219, 219),
+        // color: const Color.fromARGB(255, 219, 219, 219),
+        color: const Color.fromARGB(255, 198, 196, 196),
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [
@@ -143,7 +144,8 @@ class CustomerServicePoints extends StatelessWidget {
                 headingRowColor: WidgetStateProperty.all(
                     const Color.fromARGB(255, 186, 184, 184)),
                 dataRowColor: WidgetStateProperty.all(
-                    const Color.fromARGB(255, 255, 255, 255)),
+                    // const Color.fromARGB(255, 255, 255, 255)),
+                    const Color.fromARGB(255, 177, 174, 174)),
                 columns: const [
                   DataColumn(
                       label: Text(
@@ -165,11 +167,11 @@ class CustomerServicePoints extends StatelessWidget {
                     'employee_id',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )),
-                  DataColumn(
-                      label: Text(
-                    'Actions',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
+                  // DataColumn(
+                  //     label: Text(
+                  //   'Actions',
+                  //   style: TextStyle(fontWeight: FontWeight.bold),
+                  // )),
                 ],
                 rows: points!.map((point) {
                   return DataRow(cells: <DataCell>[
@@ -178,70 +180,35 @@ class CustomerServicePoints extends StatelessWidget {
                     DataCell(Text(point.description)),
                     // DataCell(Text(point.description)),
                     DataCell(Text(point.employee_id.toString())),
-                    DataCell(
-                      Row(
-                        children: [
-                          // IconButton(
-                          //   icon: const Icon(Icons.ad_units),
-                          //   onPressed: () async {
-                          //     AppBranchesService abs = AppBranchesService();
-                          //     List<BranchModel?>? branches =
-                          //         await abs.GetAllBranches();
-                          //     print(branches);
-                          //     Navigator.push(context,
-                          //         MaterialPageRoute(builder: (context) {
-                          //       return ShowAllBranchesScreen(
-                          //         branches: branches,
-                          //       );
-                          //     }));
-                          //   },
-                          // ),
-                          // IconButton(
-                          //   icon: const Icon(Icons.add),
-                          //   onPressed: () {
-                          //     Navigator.push(context,
-                          //         MaterialPageRoute(builder: (context) {
-                          //       return AddBranchScreen(
-                          //         company_id: company.id.toString(),
-                          //       );
-                          //     }));
-                          //   },
-                          // ),
-                          // IconButton(
-                          //   icon: const Icon(Icons.edit),
-                          //   onPressed: () {
-                          //     Navigator.push(context,
-                          //         MaterialPageRoute(builder: (context) {
-                          //       return UpdateCompanyScreen(
-                          //         company: company,
-                          //       );
-                          //     }));
-                          //   },
-                          // ),
+                    // DataCell(
+                    //   Row(
+                    //     children: [
+                         
+                    //       IconButton(
+                    //         icon: const Icon(Icons.delete),
+                    //         onPressed: () async {
+                    //           AppPointsService acp = AppPointsService();
+                    //           bool? result = await acp.DeletePoint(
+                    //               id: point.id.toString());
+                    //           if (result == true) {
+                    //             print('success');
+                    //             Navigator.pop(context);
+                    //           } else {
+                    //             print('error');
+                    //           }
+                    //           // Navigator.push(context,
+                    //           //     MaterialPageRoute(builder: (context) {
+                    //           //   return UpdateCompanyScreen(
+                    //           //     company: company,
+                    //           //   );
+                    //           // }));
+                    //         },
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
 
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              AppPointsService acp = AppPointsService();
-                              bool? result = await acp.DeletePoint(
-                                  id: point.id.toString());
-                              if (result == true) {
-                                print('success');
-                                Navigator.pop(context);
-                              } else {
-                                print('error');
-                              }
-                              // Navigator.push(context,
-                              //     MaterialPageRoute(builder: (context) {
-                              //   return UpdateCompanyScreen(
-                              //     company: company,
-                              //   );
-                              // }));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+
                   ]);
                 }).toList(),
               ),

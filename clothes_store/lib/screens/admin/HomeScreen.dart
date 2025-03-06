@@ -841,6 +841,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
       appBar: AppBar(  
+        // backgroundColor: Color.fromARGB(255, 56, 140, 214), // Desired background color  
         backgroundColor: Color.fromARGB(255, 56, 140, 214), // Desired background color  
         shadowColor: Colors.black,  
         elevation: 2,  
@@ -1174,7 +1175,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _buildDrawerItems(Auth auth, BuildContext context) {
     return [
       ListTile(
-        leading: const Icon(Icons.person_3),
+        leading: const Icon(Icons.person_3,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text('profile'),
         onTap: () {
           print('profile');
@@ -1191,7 +1192,7 @@ class _HomeScreenState extends State<HomeScreen> {
         tileColor: const Color.fromARGB(255, 97, 107, 114), // Set the background color for the ListTile  
       ),
       ListTile(
-        leading: const Icon(Icons.people_alt),
+        leading: const Icon(Icons.people_alt,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text('employees'),
         onTap: () async {
           AppEmployeesService aas = AppEmployeesService();
@@ -1218,7 +1219,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       ListTile(
-        leading: const Icon(Icons.people_alt),
+        leading: const Icon(Icons.score,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text('evaluate'),
         onTap: () async {
           AppEvaluationService aas = AppEvaluationService();
@@ -1247,7 +1248,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       ListTile(
-        leading: const Icon(Icons.add_chart),
+        leading: const Icon(Icons.add_chart,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text('statistic'),
         onTap: () async {
           print('statistic');
@@ -1286,7 +1287,7 @@ class _HomeScreenState extends State<HomeScreen> {
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
-        leading: const Icon(Icons.other_houses),
+        leading: const Icon(Icons.other_houses,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text('branches'),
         onTap: () async {
           AppBranchesService aas = AppBranchesService();
@@ -1315,7 +1316,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       ListTile(
         // leading: const Icon(Icons.pages),
-        leading: const Icon(Icons.fiber_smart_record_rounded),
+        leading: const Icon(Icons.fiber_smart_record_rounded,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text('points'),
         onTap: () async {
           AppPointsService aas = AppPointsService();
@@ -1367,7 +1368,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //   tileColor: Colors.blue[100], // Set the background color for the ListTile  
       // ),
       ListTile(
-        leading: const Icon(Icons.home),
+        leading: const Icon(Icons.home,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text('home'),
         onTap: () {
           // Navigating to Home page
@@ -1376,7 +1377,7 @@ class _HomeScreenState extends State<HomeScreen> {
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
-        leading: const Icon(Icons.people),
+        leading: const Icon(Icons.people,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text('users'),
         onTap: () async {
           AppUsersService aas = AppUsersService();
@@ -1404,7 +1405,7 @@ class _HomeScreenState extends State<HomeScreen> {
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
       ListTile(
-        leading: const Icon(Icons.logout),
+        leading: const Icon(Icons.logout,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text("logout"),
         onTap: () {
           Provider.of<Auth>(context, listen: false).logout();
@@ -1417,206 +1418,211 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildBody(Auth auth, BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 236, 233, 233),
       body: Center(
+
+        child:Text("real time camera")
+
+
       
-      child: Column(
+      // child: Column(
         
         
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   crossAxisAlignment: CrossAxisAlignment.center,
         
-        children: [
+      //   children: [
           
-          Container(
+      //     Container(
             
-            decoration: BoxDecoration(
+      //       decoration: BoxDecoration(
               
               
               
-              border: Border.all(
-                  color: const Color.fromARGB(255, 0, 0, 0),
-                  width: 1), // Border color and width
-              borderRadius: BorderRadius.circular(8), // Rounded corners
-              // color: const Color.fromARGB(255, 196, 111, 111), // Background color
-            ),
-            padding: const EdgeInsets.symmetric(
-                horizontal: 10), // Padding for the dropdown
+      //         border: Border.all(
+      //             color: const Color.fromARGB(255, 0, 0, 0),
+      //             width: 1), // Border color and width
+      //         borderRadius: BorderRadius.circular(8), // Rounded corners
+      //         // color: const Color.fromARGB(255, 196, 111, 111), // Background color
+      //       ),
+      //       padding: const EdgeInsets.symmetric(
+      //           horizontal: 10), // Padding for the dropdown
 
-            child: DropdownButton<String>(
-              hint: const Text('Select'),
-              items: <String>[
-                'Show All Companies',
-                'Add New Company',
-                'Show All Accessories',
-                // 'Add New Accessory',
-                'Show All Employees',
-                'Add New Employee',
-                'Add New Admin',
-                'Show All Points',
-                'statistics'
-              ].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) async {
-                if (newValue != null) {
-                  switch (newValue) {
-                    case 'Show All Companies':
-                      AppCompaniesService acp = AppCompaniesService();
-                      List<CompanyModel?>? companies =
-                          await acp.GetAllCompanies();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return ShowAllCompaniesScreen(
-                            companies: companies,
-                          );
-                        }),
-                      );
-                      break;
-                    case 'Add New Company':
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return AddCompanyScreen();
-                        }),
-                      );
-                      break;
-                    case 'Show All Accessories':
-                      AppAccessoriesService aas = AppAccessoriesService();
-                      List<AccessoryModel?>? accessories =
-                          await aas.GetAllAccessories();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return ShowAllAccessoriesScreen(
-                            accessories: accessories,
-                          );
-                        }),
-                      );
-                      break;
+      //       child: DropdownButton<String>(
+      //         hint: const Text('Select'),
+      //         items: <String>[
+      //           'Show All Companies',
+      //           'Add New Company',
+      //           'Show All Accessories',
+      //           // 'Add New Accessory',
+      //           'Show All Employees',
+      //           'Add New Employee',
+      //           'Add New Admin',
+      //           'Show All Points',
+      //           'statistics'
+      //         ].map((String value) {
+      //           return DropdownMenuItem<String>(
+      //             value: value,
+      //             child: Text(value),
+      //           );
+      //         }).toList(),
+      //         onChanged: (String? newValue) async {
+      //           if (newValue != null) {
+      //             switch (newValue) {
+      //               case 'Show All Companies':
+      //                 AppCompaniesService acp = AppCompaniesService();
+      //                 List<CompanyModel?>? companies =
+      //                     await acp.GetAllCompanies();
+      //                 Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(builder: (context) {
+      //                     return ShowAllCompaniesScreen(
+      //                       companies: companies,
+      //                     );
+      //                   }),
+      //                 );
+      //                 break;
+      //               case 'Add New Company':
+      //                 Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(builder: (context) {
+      //                     return AddCompanyScreen();
+      //                   }),
+      //                 );
+      //                 break;
+      //               case 'Show All Accessories':
+      //                 AppAccessoriesService aas = AppAccessoriesService();
+      //                 List<AccessoryModel?>? accessories =
+      //                     await aas.GetAllAccessories();
+      //                 Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(builder: (context) {
+      //                     return ShowAllAccessoriesScreen(
+      //                       accessories: accessories,
+      //                     );
+      //                   }),
+      //                 );
+      //                 break;
 
-                    case 'Show All Employees':
-                      AppEmployeesService aas = AppEmployeesService();
-                      List<EmployeeModel?>? employees =
-                          await aas.GetAllEmployees();
+      //               case 'Show All Employees':
+      //                 AppEmployeesService aas = AppEmployeesService();
+      //                 List<EmployeeModel?>? employees =
+      //                     await aas.GetAllEmployees();
 
-                      if (employees != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return ShowAllEmployeesScreen(
-                              employees: employees,
-                            );
-                          }),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text(
-                                  'Failed to load employees. Please try again later.')),
-                        );
-                      }
-                      break;
+      //                 if (employees != null) {
+      //                   Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(builder: (context) {
+      //                       return ShowAllEmployeesScreen(
+      //                         employees: employees,
+      //                       );
+      //                     }),
+      //                   );
+      //                 } else {
+      //                   ScaffoldMessenger.of(context).showSnackBar(
+      //                     const SnackBar(
+      //                         content: Text(
+      //                             'Failed to load employees. Please try again later.')),
+      //                   );
+      //                 }
+      //                 break;
 
-                    case 'Add New Employee':
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return AddEmployeeScreen();
-                        }),
-                      );
-                      break;
+      //               case 'Add New Employee':
+      //                 Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(builder: (context) {
+      //                     return AddEmployeeScreen();
+      //                   }),
+      //                 );
+      //                 break;
 
-                    case 'Add New Admin':
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return AddAdminScreen();
-                        }),
-                      );
-                      break;
+      //               case 'Add New Admin':
+      //                 Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(builder: (context) {
+      //                     return AddAdminScreen();
+      //                   }),
+      //                 );
+      //                 break;
 
-                    case 'Show All Points':
-                      AppPointsService aas = AppPointsService();
-                      List<PointModel?>? points = await aas.GetAllPoint();
+      //               case 'Show All Points':
+      //                 AppPointsService aas = AppPointsService();
+      //                 List<PointModel?>? points = await aas.GetAllPoint();
 
-                      if (points != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return ShowAllPointsScreen(
-                              points: points,
-                            );
-                          }),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text(
-                                  'Failed to load employees. Please try again later.')),
-                        );
-                      }
-                      break;
+      //                 if (points != null) {
+      //                   Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(builder: (context) {
+      //                       return ShowAllPointsScreen(
+      //                         points: points,
+      //                       );
+      //                     }),
+      //                   );
+      //                 } else {
+      //                   ScaffoldMessenger.of(context).showSnackBar(
+      //                     const SnackBar(
+      //                         content: Text(
+      //                             'Failed to load employees. Please try again later.')),
+      //                   );
+      //                 }
+      //                 break;
 
-                    case 'statistics':
-                      AppPointsService aas = AppPointsService();
-                      List<PointModel?>? points = await aas.GetAllPoint();
-                      AppBranchesService ass2 = AppBranchesService();
-                      int? branchesCount = await ass2.getBranchesCount() ?? 0;
-                      AppEmployeesService aas3 = AppEmployeesService();
-                      Map<String, int>? employeeCount =
-                          await aas3.getEmployeesCount();
-                      print(branchesCount);
-                      print(employeeCount);
+      //               case 'statistics':
+      //                 AppPointsService aas = AppPointsService();
+      //                 List<PointModel?>? points = await aas.GetAllPoint();
+      //                 AppBranchesService ass2 = AppBranchesService();
+      //                 int? branchesCount = await ass2.getBranchesCount() ?? 0;
+      //                 AppEmployeesService aas3 = AppEmployeesService();
+      //                 Map<String, int>? employeeCount =
+      //                     await aas3.getEmployeesCount();
+      //                 print(branchesCount);
+      //                 print(employeeCount);
                       
 
 
-                      if (points != null && employeeCount != null) {
-                        List<int> pointsCount = points
-                            .map((points) => points!.points_count)
-                            .toList();
-                        print(pointsCount);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return statistics_screen(
-                              points: pointsCount,
-                              branchesCount: branchesCount,
-                              employeeCount: employeeCount,
-                            );
-                          }),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text(
-                                  'Failed to load employees. Please try again later.')),
-                        );
-                      }
-                      break;
-                  }
-                }
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: MaterialButton(
-              color: Colors.red,
-              textColor: Colors.white,
-              onPressed: () {
-                // Navigating to About Us page
-                Navigator.of(context).pushNamed('mainscreen');
-              },
-              child: const Text("Go to About Us by pushReplacementNamed"),
-            ),
-          ),
-        ],
-      ),
-    ));
+      //                 if (points != null && employeeCount != null) {
+      //                   List<int> pointsCount = points
+      //                       .map((points) => points!.points_count)
+      //                       .toList();
+      //                   print(pointsCount);
+      //                   Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(builder: (context) {
+      //                       return statistics_screen(
+      //                         points: pointsCount,
+      //                         branchesCount: branchesCount,
+      //                         employeeCount: employeeCount,
+      //                       );
+      //                     }),
+      //                   );
+      //                 } else {
+      //                   ScaffoldMessenger.of(context).showSnackBar(
+      //                     const SnackBar(
+      //                         content: Text(
+      //                             'Failed to load employees. Please try again later.')),
+      //                   );
+      //                 }
+      //                 break;
+      //             }
+      //           }
+      //         },
+      //       ),
+      //     ),
+      //     Container(
+      //       margin: const EdgeInsets.symmetric(horizontal: 20),
+      //       child: MaterialButton(
+      //         color: Colors.red,
+      //         textColor: Colors.white,
+      //         onPressed: () {
+      //           // Navigating to About Us page
+      //           Navigator.of(context).pushNamed('mainscreen');
+      //         },
+      //         child: const Text("Go to About Us by pushReplacementNamed"),
+      //       ),
+      //     ),
+      //   ],
+      // ),
+    )
+    );
   }
 }

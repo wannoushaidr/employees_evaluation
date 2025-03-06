@@ -233,6 +233,8 @@ Route::get('points/get_employee_points', [PointsController::class, 'get_employee
 Route::put('/employees/update_customer_service_active', [EmployeesController::class, 'update_customer_service_active']);
 // to get customer_service statistic
 Route::get('/employee/get_statistic/{id}', [EmployeesController::class, 'get_statistic']);
+// to get my evaluation 
+Route::get('/employee/get_my_evaluation/{id}', [EvaluationController::class, 'get_my_evaluation']);
 
 
 

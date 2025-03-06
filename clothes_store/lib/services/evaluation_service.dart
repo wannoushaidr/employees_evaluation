@@ -124,11 +124,51 @@
         // Split response body into lines and skip the first two lines
         List<String> lines = response.body.split('\n');
         String responseBody = lines.skip(2).join('\n');
-        print("ss");
+        print("sssssssss");
 
         // Decode the adjusted response body
         List<dynamic> jsonData = jsonDecode(responseBody);
         print("ss");
+        List<EvaluationModel> employees = jsonData.map((data) {
+          print("sssssssssss");
+          return EvaluationModel.fromJson(data);
+        }).toList();
+
+        return employees;
+      } else {
+        print("Error: ${response.statusCode}");
+        print(response.body); // Print the response body for debugging
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+
+
+
+  
+  // for customer service 
+   Future<List<EvaluationModel?>?> GetMyEvaluation(int id) async {
+    print("ss");
+    try {
+      String url =
+          "http://127.0.0.1:8000/api/employee/get_my_evaluation/$id";
+          print("ssdd");
+      http.Response response = await http.get(Uri.parse(url));
+      print(response);
+
+      if (response.statusCode == 200) {
+        // Split response body into lines and skip the first two lines
+        List<String> lines = response.body.split('\n');
+        String responseBody = lines.skip(2).join('\n');
+        print(responseBody);
+
+        // Decode the adjusted response body
+        List<dynamic> jsonData = jsonDecode(responseBody);
+        print(responseBody);
         List<EvaluationModel> employees = jsonData.map((data) {
           print("ss");
           return EvaluationModel.fromJson(data);

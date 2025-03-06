@@ -554,6 +554,42 @@ return response()->json([
 }
 
 
+// for customer service 
+
+// public function get_my_evaluation(Request $request)  
+// {  
+//     // Retrieve all evaluations  
+//     $evaluations = Evaluation::all(); // You can also use paginate or filter as needed  
+//     // $evaluations = Evaluation::where('type', 'daily')->get();  
+
+
+//     // Return evaluations as JSON  
+//     return response()->json($evaluations);  
+// }  
+
+
+public function get_my_evaluation(Request $request,) {  
+    try {  
+        // Sum the points for the given employee_id  
+        // $pointsSum = Evaluation::where('employee_id', $request->id)
+        $evaluations = Evaluation::where('employee_id', $request->id)->get();
+        
+
+        // Return evaluations as JSON  
+        // return response()->json($evaluations);  
+        // Build the response as an array  
+        return response()->json(
+            $evaluations  );  
+    } catch (\Exception $e) {  
+        // Handle any errors that occur during the process  
+        return response()->json([  
+            'status' => 'error',  
+            'message' => 'An error occurred while calculating points',  
+            'error' => $e->getMessage()  
+        ], 500);  
+    }  
+}  
+
 
 
 }  

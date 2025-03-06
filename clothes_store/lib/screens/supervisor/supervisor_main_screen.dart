@@ -403,7 +403,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
   List<Widget> _buildDrawerItems(Auth auth, BuildContext context) {
     return [
       ListTile(
-        leading: const Icon(Icons.person),
+        leading: const Icon(Icons.person,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text('Profile'),
         onTap: () {
           Navigator.push(
@@ -413,33 +413,34 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
         },
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
-      ListTile(
-          leading: const Icon(Icons.home),
-          title: const Text('employees activae'),
-          onTap: () async {
-            AppEmployeesService acp = AppEmployeesService();
-            List<EmployeeModel?>? employees =
-                await acp.GetMyAtivateEmployee(auth.user.id);
-            print(employees);
+      // ListTile(
+      //     leading: const Icon(Icons.home),
+      //     title: const Text('employees activae'),
+      //     onTap: () async {
+      //       AppEmployeesService acp = AppEmployeesService();
+      //       List<EmployeeModel?>? employees =
+      //           await acp.GetMyAtivateEmployee(auth.user.id);
+      //       print(employees);
 
-            if (employees != null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return showActivateEmployees(employees: employees);
-                  },
-                ),
-              );
-            }
-            // Example: Fetch another set of data or navigate to a different screen
-          },
-          tileColor: Colors.blue[100], // Set the background color for the ListTile  
+      //       if (employees != null) {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) {
+      //               return showActivateEmployees(employees: employees);
+      //             },
+      //           ),
+      //         );
+      //       }
+      //       // Example: Fetch another set of data or navigate to a different screen
+      //     },
+      //     tileColor: Colors.blue[100], // Set the background color for the ListTile  
           
-          ),
+      //     ),
+
       ListTile(
-        leading: const Icon(Icons.interests),
-        title: const Text('employees information'),
+        leading: const Icon(Icons.people_alt,color: Color.fromARGB(255, 107, 138, 215),),
+        title: const Text('employees '),
         onTap: () async {
            AppEmployeesService acp = AppEmployeesService();
           List<EmployeeModel?>? employees =
@@ -485,7 +486,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
       // ),
       ListTile(
         // leading: Icon(Icons.interests),
-        leading: const Icon(Icons.fiber_smart_record_rounded),
+        leading: const Icon(Icons.fiber_smart_record_rounded,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text('Points'),
         onTap: () async {
           print('points');
@@ -507,7 +508,7 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
         tileColor: Colors.blue[100], // Set the background color for the ListTile
       ),
       ListTile(
-        leading: const Icon(Icons.pie_chart),
+        leading: const Icon(Icons.pie_chart,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text('Statistics'),
         onTap: () async {
           AppEmployeesService acp = AppEmployeesService();
@@ -532,38 +533,38 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
 
-      ListTile(
-        leading: const Icon(Icons.people_alt),
-        title: const Text('employees'),
-        onTap: () async {
-          AppPointsService aas = AppPointsService();
-              AppEmployeesService aas3 = AppEmployeesService();
-              Map<String, int>? employeeCount = await aas3
-                  .getCustomerServiceEmployeesCount(auth.user.id);
+      // ListTile(
+      //   leading: const Icon(Icons.people_alt),
+      //   title: const Text('employees'),
+      //   onTap: () async {
+      //     AppPointsService aas = AppPointsService();
+      //         AppEmployeesService aas3 = AppEmployeesService();
+      //         Map<String, int>? employeeCount = await aas3
+      //             .getCustomerServiceEmployeesCount(auth.user.id);
 
 
-          if (employeeCount != null) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) {
-                return SupervisiorStatisticScreen(
-                        employeeCount: employeeCount,
-                );
-              }),
-            );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                  content: Text(
-                      'Failed to load employees. Please try again later.')),
-            );
-          }
-        },
-        tileColor: Colors.blue[100], // Set the background color for the ListTile  
-      ),
+      //     if (employeeCount != null) {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) {
+      //           return SupervisiorStatisticScreen(
+      //                   employeeCount: employeeCount,
+      //           );
+      //         }),
+      //       );
+      //     } else {
+      //       ScaffoldMessenger.of(context).showSnackBar(
+      //         const SnackBar(
+      //             content: Text(
+      //                 'Failed to load employees. Please try again later.')),
+      //       );
+      //     }
+      //   },
+      //   tileColor: Colors.blue[100], // Set the background color for the ListTile  
+      // ),
       
       ListTile(
-        leading: const Icon(Icons.logout),
+        leading: const Icon(Icons.logout,color: Color.fromARGB(255, 107, 138, 215),),
         title: const Text("Logout"),
         onTap: () {
           Provider.of<Auth>(context, listen: false).logout();
@@ -576,82 +577,87 @@ class _SupervisorMainScreenState extends State<SupervisorMainScreen> {
 
   Widget _buildBody(Auth auth, BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const SizedBox(height: 10),
-          Text(
-            'Name: ${auth.user.name}',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            'Email: ${auth.user.email}',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            'Role: ${auth.user.role}',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 5),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(200, 50),
-              backgroundColor: Colors.blueAccent,
-            ),
-            onPressed: () async {
-              AppEmployeesService acp = AppEmployeesService();
-              List<EmployeeModel?>? employees =
-                  await acp.GetMyEmployeesEnformation(auth.user.id);
-              if (employees != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return showEmployeesByManages(employees: employees);
-                    },
-                  ),
-                );
-              }
-            },
-            child: const Text(
-              'Show Employees by supervisior',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          const SizedBox(height: 5),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(200, 50),
-              backgroundColor: Colors.blueAccent,
-            ),
-            onPressed: () async {
-              AppPointsService aas = AppPointsService();
-              AppEmployeesService aas3 = AppEmployeesService();
-              Map<String, int>? employeeCount = await aas3
-                  .getCustomerServiceEmployeesCount(auth.user.id);
+      // child: Column(
+        child:
+          Text("camera real tilme")
+        
+        
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: <Widget>[
+      //     const SizedBox(height: 10),
+      //     Text(
+      //       'Name: ${auth.user.name}',
+      //       style: const TextStyle(fontWeight: FontWeight.bold),
+      //     ),
+      //     const SizedBox(height: 5),
+      //     Text(
+      //       'Email: ${auth.user.email}',
+      //       style: const TextStyle(fontWeight: FontWeight.bold),
+      //     ),
+      //     const SizedBox(height: 5),
+      //     Text(
+      //       'Role: ${auth.user.role}',
+      //       style: const TextStyle(fontWeight: FontWeight.bold),
+      //     ),
+      //     const SizedBox(height: 5),
+      //     ElevatedButton(
+      //       style: ElevatedButton.styleFrom(
+      //         minimumSize: const Size(200, 50),
+      //         backgroundColor: Colors.blueAccent,
+      //       ),
+      //       onPressed: () async {
+      //         AppEmployeesService acp = AppEmployeesService();
+      //         List<EmployeeModel?>? employees =
+      //             await acp.GetMyEmployeesEnformation(auth.user.id);
+      //         if (employees != null) {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) {
+      //                 return showEmployeesByManages(employees: employees);
+      //               },
+      //             ),
+      //           );
+      //         }
+      //       },
+      //       child: const Text(
+      //         'Show Employees by supervisior',
+      //         style: TextStyle(color: Colors.white),
+      //       ),
+      //     ),
+      //     const SizedBox(height: 5),
+      //     ElevatedButton(
+      //       style: ElevatedButton.styleFrom(
+      //         minimumSize: const Size(200, 50),
+      //         backgroundColor: Colors.blueAccent,
+      //       ),
+      //       onPressed: () async {
+      //         AppPointsService aas = AppPointsService();
+      //         AppEmployeesService aas3 = AppEmployeesService();
+      //         Map<String, int>? employeeCount = await aas3
+      //             .getCustomerServiceEmployeesCount(auth.user.id);
 
-              if (employeeCount != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SupervisiorStatisticScreen(
-                        employeeCount: employeeCount,
-                      );
-                    },
-                  ),
-                );
-              }
-            },
-            child: const Text(
-              'statistic',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+      //         if (employeeCount != null) {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) {
+      //                 return SupervisiorStatisticScreen(
+      //                   employeeCount: employeeCount,
+      //                 );
+      //               },
+      //             ),
+      //           );
+      //         }
+      //       },
+      //       child: const Text(
+      //         'statistic',
+      //         style: TextStyle(color: Colors.white),
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      
     );
   }
 }

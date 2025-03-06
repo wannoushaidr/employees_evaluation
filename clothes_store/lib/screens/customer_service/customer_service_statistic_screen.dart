@@ -11,103 +11,6 @@ import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 
-// class customerServiveStatisticScreen extends StatelessWidget {
-//   const customerServiveStatisticScreen({super.key, required this.employeeCount, List<EmployeeModel?>? employees});
-//   final Map<String, int> employeeCount;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     var screenWidth = MediaQuery.of(context).size.width;
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('managers statistic point'),
-//         backgroundColor: Colors.blueAccent,
-//         shadowColor: Colors.black,
-//         elevation: 2,
-//       ),
-//       body: GridView(
-//         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//           crossAxisCount: 2, // Number of columns
-//           childAspectRatio:
-//               (screenWidth / 2) / 150, // Adjust height dynamically
-//           crossAxisSpacing: 20, // Space between columns
-//           mainAxisSpacing: 20, // Space between rows
-//         ),
-//         children: [
-//           Card(
-//             color: Colors.white,
-//             elevation: 5,
-//             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-//             shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(18),
-//             ),
-//             child: Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Column(
-//                 children: [
-//                   Text(
-//                     'Employee Count:',
-//                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//                   ),
-//                   Text(
-//                     '${employeeCount['employee_count'] ?? 0}',
-//                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//           Card(
-//             color: Colors.white,
-//             elevation: 5,
-//             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-//             shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(18),
-//             ),
-//             child: Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Column(
-//                 children: [
-//                   Text(
-//                     'Customer Service Count:',
-//                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//                   ),
-//                   Text(
-//                     '${employeeCount['customer_service_count'] ?? 0}',
-//                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//           Card(
-//             color: Colors.white,
-//             elevation: 5,
-//             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-//             shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(18),
-//             ),
-//             child: Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Column(
-//                 children: [
-//                   Text(
-//                     'Supervisor Count:',
-//                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//                   ),
-//                   Text(
-//                     '${employeeCount['supervisor_count'] ?? 0}',
-//                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 import 'package:clothes_store/models/employee_model.dart';
 import 'package:flutter/material.dart';  
@@ -134,7 +37,7 @@ class CustomerServiceStatisticScreen extends StatelessWidget {
 
     return Scaffold(  
       appBar: AppBar(  
-        title: const Text('Managers Statistic Point'),  
+        title: const Text('customer service Statistic Point'),  
         backgroundColor: Colors.blueAccent,  
         shadowColor: Colors.black,  
         elevation: 2,  
@@ -148,7 +51,9 @@ class CustomerServiceStatisticScreen extends StatelessWidget {
         ),  
         children: [  
           Card(  
-            color: Colors.white,  
+            // color: Colors.white,  
+            // color: const Color.fromARGB(255, 192, 184, 184),
+            color: const Color.fromARGB(255, 198, 196, 196),
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
@@ -172,7 +77,8 @@ class CustomerServiceStatisticScreen extends StatelessWidget {
             ),  
           ),  
           Card(  
-            color: Colors.white,  
+            // color: Colors.white,  
+            color: const Color.fromARGB(255, 192, 184, 184),
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
@@ -196,7 +102,8 @@ class CustomerServiceStatisticScreen extends StatelessWidget {
             ),  
           ),  
           Card(  
-            color: Colors.white,  
+            // color: Colors.white,  
+            color: const Color.fromARGB(255, 192, 184, 184),
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  

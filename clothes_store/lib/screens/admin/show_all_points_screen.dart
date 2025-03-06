@@ -27,7 +27,8 @@ class ShowAllPointsScreen extends StatelessWidget {
       
 
       body: Container(
-        color: const Color.fromARGB(255, 219, 219, 219),
+        // color: const Color.fromARGB(255, 219, 219, 219),
+        color: const Color.fromARGB(255, 198, 196, 196),
         child: Column(
           children: [
             Align(
@@ -40,7 +41,8 @@ class ShowAllPointsScreen extends StatelessWidget {
                     headingRowColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 186, 184, 184)),
                     dataRowColor: WidgetStateProperty.all(
-                        const Color.fromARGB(255, 255, 255, 255)),
+                        // const Color.fromARGB(255, 255, 255, 255)),
+                        const Color.fromARGB(255, 177, 174, 174)),
                     columns: const [
                       DataColumn(
                           label: Text(
@@ -117,7 +119,7 @@ class ShowAllPointsScreen extends StatelessWidget {
                               // ),
 
                               IconButton(
-                                icon: const Icon(Icons.delete),
+                                icon: const Icon(Icons.delete,color: Color.fromARGB(255, 181, 57, 53)),
                                 onPressed: () async {
                                   AppPointsService acp = AppPointsService();
                                   bool? result = await acp.DeletePoint(

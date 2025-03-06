@@ -55,7 +55,7 @@ class statistics_screen extends StatelessWidget {
 
     return Scaffold(  
       appBar: AppBar(  
-        title: const Text('Managers Statistic Point'),  
+        title: const Text(' Statistic Point'),  
         backgroundColor: Colors.blueAccent,  
         shadowColor: Colors.black,  
         elevation: 2,  
@@ -69,7 +69,7 @@ class statistics_screen extends StatelessWidget {
         ),  
         children: [  
           Card(  
-            color: Colors.white,  
+            color: const Color.fromARGB(255, 192, 184, 184),  
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
@@ -81,7 +81,7 @@ class statistics_screen extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
                   const Text(  
-                    'branchesCount:',  
+                    'branches Count:',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
                   Text(  
@@ -93,7 +93,7 @@ class statistics_screen extends StatelessWidget {
             ),  
           ),  
           Card(  
-            color: Colors.white,  
+            color: const Color.fromARGB(255, 192, 184, 184),  
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
@@ -105,7 +105,7 @@ class statistics_screen extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
                   const Text(  
-                    'totla point ',  
+                    'total point ',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
                   Text(  
@@ -117,7 +117,7 @@ class statistics_screen extends StatelessWidget {
             ),  
           ), 
            Card(  
-            color: Colors.white,  
+            color: const Color.fromARGB(255, 192, 184, 184),  
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
@@ -129,7 +129,7 @@ class statistics_screen extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
                   const Text(  
-                    'employeeCount ',  
+                    'employees Count ',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
                   Text(  
@@ -141,7 +141,7 @@ class statistics_screen extends StatelessWidget {
             ),  
           ), 
            Card(  
-            color: Colors.white,  
+            color: const Color.fromARGB(255, 192, 184, 184),  
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
@@ -153,7 +153,7 @@ class statistics_screen extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
                   const Text(  
-                    'customer_service_count ',  
+                    'customers service count ',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
                   Text(  
@@ -165,7 +165,7 @@ class statistics_screen extends StatelessWidget {
             ),  
           ),  
           Card(  
-            color: Colors.white,  
+            color: const Color.fromARGB(255, 192, 184, 184), 
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
@@ -177,7 +177,7 @@ class statistics_screen extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
                   const Text(  
-                    'manager_count',  
+                    'managers count',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
                   Text(  
@@ -189,7 +189,7 @@ class statistics_screen extends StatelessWidget {
             ),  
           ), 
           Card(  
-            color: Colors.white,  
+            color: const Color.fromARGB(255, 192, 184, 184),   
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
@@ -201,7 +201,7 @@ class statistics_screen extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center, // Center content vertically  
                 children: [  
                   const Text(  
-                    'supervisor_count',  
+                    'supervisors count',  
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),  
                   ),  
                   Text(  

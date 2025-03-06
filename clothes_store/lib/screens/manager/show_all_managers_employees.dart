@@ -35,7 +35,9 @@ class showEmployeesByManages extends StatelessWidget {
       body: employees == null
           ? const Center(child: CircularProgressIndicator())
           : Container(
-              color: const Color.fromARGB(255, 219, 219, 219),
+              // color: const Color.fromARGB(255, 219, 219, 219),
+              color: const Color.fromARGB(255, 198, 196, 196),
+              
               child: Column(children: [
                 Align(
                   alignment: Alignment.topCenter,
@@ -47,7 +49,8 @@ class showEmployeesByManages extends StatelessWidget {
                         headingRowColor: WidgetStateProperty.all(
                             const Color.fromARGB(255, 186, 184, 184)),
                         dataRowColor: WidgetStateProperty.all(
-                            const Color.fromARGB(255, 255, 255, 255)),
+                            // const Color.fromARGB(255, 255, 255, 255)),
+                            const Color.fromARGB(255, 177, 174, 174)),
                         columns: const [
                           DataColumn(
                               label: Text(
@@ -145,7 +148,7 @@ class showEmployeesByManages extends StatelessWidget {
                               Row(
                                 children: [
                                   IconButton(
-                                    icon: const Icon(Icons.details_outlined),
+                                    icon: const Icon(Icons.details_outlined,color: Color.fromARGB(255, 107, 138, 215)),
                                     onPressed: () async {
                                       AppPointsService acp = AppPointsService();
                                       print(employee.id);

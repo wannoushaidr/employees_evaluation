@@ -131,7 +131,8 @@ class ShowAllCompaniesScreen extends StatelessWidget {
       //    ),
 
       body: Container(
-        color: const Color.fromARGB(255, 219, 219, 219),
+        // color: const Color.fromARGB(255, 219, 219, 219),
+        color: const Color.fromARGB(255, 198, 196, 196),
         child: Column(
           children: [
             Align(
@@ -142,9 +143,10 @@ class ShowAllCompaniesScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: DataTable(
                     headingRowColor: WidgetStateProperty.all(
-                        const Color.fromARGB(255, 186, 184, 184)),
+                        const Color.fromARGB(255, 203, 202, 202)),
                     dataRowColor: WidgetStateProperty.all(
-                        const Color.fromARGB(255, 255, 255, 255)),
+                        // const Color.fromARGB(255, 255, 255, 255)),
+                        const Color.fromARGB(255, 177, 174, 174)),
                     columns: const [
                       DataColumn(
                           label: Text(
@@ -190,7 +192,7 @@ class ShowAllCompaniesScreen extends StatelessWidget {
                           Row(
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.ad_units),
+                                icon: const Icon(Icons.ad_units,color: Color.fromARGB(255, 40, 40, 41)),
                                 onPressed: () async {
                                   AppBranchesService abs = AppBranchesService();
                                   List<BranchModel?>? branches =
@@ -216,7 +218,7 @@ class ShowAllCompaniesScreen extends StatelessWidget {
                                 },
                               ),
                               IconButton(
-                                icon: const Icon(Icons.edit),
+                                icon: const Icon(Icons.edit,color: Color.fromARGB(255, 107, 138, 215)),
                                 onPressed: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {

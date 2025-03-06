@@ -4,6 +4,7 @@ class EvaluationModel {
   
    double? evaluation;
    String? created_at;
+   String? type;
    String? updated_at;
    String? deleted_at;
 
@@ -11,6 +12,7 @@ class EvaluationModel {
        {required this.id,
        required this.employee_id,
        required this.evaluation,
+       required this.type,
        required this.created_at,
        required this.updated_at,
        required this.deleted_at});
@@ -20,6 +22,7 @@ class EvaluationModel {
          id: data['id']?? 0,
          employee_id: data['employee_id']?? 0,
          evaluation: data['evaluation']?? 0,
+         type: data['type']?? '',
          created_at: data['created_at'] ?? '',
          updated_at: data['updated_at'] ?? '',
          deleted_at: data['deleted_at'] ?? '');

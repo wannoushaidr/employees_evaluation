@@ -8,11 +8,11 @@ import '../models/user.dart';
 class Auth extends ChangeNotifier {
   late String _token;
   UserModel user = UserModel(
-      name: "admin",
-      email: "admin@gmail.com",
-      role: "admin",
-      id: 7,
-      image: "assets/images/1740687459_image.jpg");
+      name: "supervisor",
+      email: "supervisor@gmail.com",
+      role: "supervisor",
+      id: 2,
+      image: "assets/images/1741013785_image.jpg");
 
   bool authenticated = true;
   //UserModel get user => _user;

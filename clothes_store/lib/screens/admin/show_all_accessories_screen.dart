@@ -133,7 +133,9 @@ class ShowAllAccessoriesScreen extends StatelessWidget {
       //    ),
 
       body: Container(
-        color: const Color.fromARGB(255, 219, 219, 219),
+        // color: const Color.fromARGB(255, 219, 219, 219),
+        color: const Color.fromARGB(255, 198, 196, 196),
+        
         child: Column(
           children: [
             Align(
@@ -146,7 +148,7 @@ class ShowAllAccessoriesScreen extends StatelessWidget {
                     headingRowColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 186, 184, 184)),
                     dataRowColor: WidgetStateProperty.all(
-                        const Color.fromARGB(255, 255, 255, 255)),
+                        const Color.fromARGB(255, 121, 118, 118)),
                     columns: const [
                       DataColumn(
                           label: Text(
@@ -190,7 +192,7 @@ class ShowAllAccessoriesScreen extends StatelessWidget {
                           Row(
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.edit),
+                                icon: const Icon(Icons.edit,color: Color.fromARGB(255, 107, 138, 215)),
                                 onPressed: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
@@ -201,7 +203,7 @@ class ShowAllAccessoriesScreen extends StatelessWidget {
                                 },
                               ),
                               IconButton(
-                                icon: const Icon(Icons.delete),
+                                icon: const Icon(Icons.delete,color: Color.fromARGB(255, 181, 57, 53)),
                                 onPressed: () async {
                                   AppAccessoriesService aas =
                                       AppAccessoriesService();

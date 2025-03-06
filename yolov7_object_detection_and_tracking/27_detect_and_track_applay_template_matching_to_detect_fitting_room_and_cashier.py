@@ -700,11 +700,27 @@ def detect(save_img=False):
 
 #for template macthing 
 
+    pass_to_template=False
+    pass_to_template2=False
+
+    # #to sav etemplate matching 
+    # # for dressing room 
+    # centers_Template1=[]
+    # # for exit door
+    # centers_Template2=[]
+
+    
     #to sav etemplate matching 
     # for dressing room 
     centers_Template1=[]
     # for exit door
     centers_Template2=[]
+
+    template1_dimensions=None
+    template2_dimensions=None
+
+    detected_template=False
+    detected_template2=False
 
 
     # Load template image for matching  
@@ -887,14 +903,14 @@ def detect(save_img=False):
             print("8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888")
 #**************************************************************************************
 #to pass for tempalte one time in each image note for each object etected 
-            pass_to_template=False
-            pass_to_template2=False
+            # pass_to_template=False
+            # pass_to_template2=False
 
             
             
-            #to redetect tempalte from each tempalte 
-            centers_Template1=[]
-            centers_Template2=[]
+            # #to redetect tempalte from each tempalte 
+            # centers_Template1=[]
+            # centers_Template2=[]
 
             
 #**************************************************************************************
@@ -1077,7 +1093,30 @@ def detect(save_img=False):
                                 # Draw bounding box on the target image in green  
                                 # target_with_box = im0.copy()  
                                 cv2.polylines(im0, [np.int32(target_corners)], isClosed=True, color=(0, 255, 0), thickness=3)  
+
+                                # Calculate the center of the matched rectangle  
+                                center_x = int((target_corners[0][0][0] + target_corners[2][0][0]) / 2)  
+                                center_y = int((target_corners[0][0][1] + target_corners[2][0][1]) / 2)  
+                                centers_Template1.append((center_x, center_y))    
+                                template1_dimensions = (w, h)  # Save width and height
+                                print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                                 pass_to_template=True 
+                                detected_template = True 
+
+                                # pass_to_template=True 
+
+                        # Draw bounding box for the first template if it has been detected  
+                        if detected_template  and template1_dimensions is not None:  
+                            # Use the saved dimensions and center to draw the bounding box  
+                            h, w = template1_dimensions  
+                            # Assuming you have the last detected center  
+                            if centers_Template1:  
+                                center_x, center_y = centers_Template1[-1]  
+                                top_left = (int(center_x - w // 2), int(center_y - h // 2))  
+                                bottom_right = (int(center_x + w // 2), int(center_y + h // 2))  
+                                cv2.rectangle(im0, top_left, bottom_right, (0, 255, 0), 3)  
+
+                                
                                                                 
                                     
                                     
@@ -1144,8 +1183,40 @@ def detect(save_img=False):
 
                                 # Draw bounding box on the target image in green  
                                 # target_with_box = im0.copy()  
-                                cv2.polylines(im0, [np.int32(target_corners)], isClosed=True, color=(0, 255, 0), thickness=3)  
-                                pass_to_template=True 
+                                cv2.polylines(im0, [np.int32(target_corners)], isClosed=True, color=(0, 255, 0), thickness=3) 
+
+                                # Calculate the center of the matched rectangle  
+                                center_x = int((target_corners[0][0][0] + target_corners[2][0][0]) / 2)  
+                                center_y = int((target_corners[0][0][1] + target_corners[2][0][1]) / 2)  
+                                centers_Template2.append((center_x, center_y))  
+                                template2_dimensions = (w, h)  # Save width and height
+                                print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
+                                pass_to_template2=True 
+                                detected_template2=True
+
+                                # pass_to_template=True 
+
+                        # Draw bounding box for the second template if it has been detected  
+                        if detected_template2 and template2_dimensions is not None:  
+                            # Use the saved dimensions and center to draw the bounding box  
+                            h, w = template2_dimensions  
+                            if centers_Template2:  
+                                center_x, center_y = centers_Template2[-1]  
+                                top_left = (int(center_x - w // 2), int(center_y - h // 2))  
+                                bottom_right = (int(center_x + w // 2), int(center_y + h // 2))  
+                                cv2.rectangle(im0, top_left, bottom_right, (0, 255, 0), 3)  
+
+
+                        print("11111111111111111111111111111111")
+                        print(pass_to_template)
+                        print(pass_to_template2)
+                        print(centers_Template1)
+                        print(centers_Template2)
+                        print("222222222222222222222222222222222222222222222222")
+                                     
+
+                                
                                                 
 
 #**********************************************************************

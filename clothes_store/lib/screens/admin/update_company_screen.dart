@@ -25,7 +25,8 @@ class _UpdateCompanyScreenState extends State<UpdateCompanyScreen> {
         elevation: 2,
       ),
       body: Container(
-        color: Colors.white,
+        // color: Colors.white,
+        color: const Color.fromARGB(255, 198, 196, 196),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),

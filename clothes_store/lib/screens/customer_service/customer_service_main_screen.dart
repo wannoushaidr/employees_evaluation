@@ -551,10 +551,12 @@
 // }
 import 'package:clothes_store/models/company_model.dart';
 import 'package:clothes_store/models/employee_model.dart';
+import 'package:clothes_store/models/evaluation_model.dart';
 import 'package:clothes_store/models/point_model.dart';
 import 'package:clothes_store/screens/admin/show_all_points_screen.dart';
 import 'package:clothes_store/screens/customer_service/customer_service_points.dart';
 import 'package:clothes_store/screens/customer_service/customer_service_statistic_screen.dart';
+import 'package:clothes_store/screens/shared_screen/evaluation/evaluation_screen.dart';
 import 'package:clothes_store/screens/shared_screen/login_screen.dart';
 import 'package:clothes_store/screens/manager/activate_employee_screen.dart';
 import 'package:clothes_store/screens/manager/manager_statistics_screen.dart';
@@ -564,6 +566,7 @@ import 'package:clothes_store/screens/shared_screen/user_profile_screen.dart';
 import 'package:clothes_store/services/branch_services.dart';
 import 'package:clothes_store/services/company_services.dart';
 import 'package:clothes_store/services/employee_services.dart';
+import 'package:clothes_store/services/evaluation_service.dart';
 import 'package:clothes_store/services/point_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -704,18 +707,18 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
         },
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
-      ListTile(
-        leading: const Icon(Icons.home), // Add an icon for the main screen
-        title: const Text('Main Screen'),
-        onTap: () async {
-          print('MainScreen');
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CutmoerServiceMainScreen()),
-          );
-        },
-        tileColor: Colors.blue[100], // Set the background color for the ListTile  
-      ),
+      // ListTile(
+      //   leading: const Icon(Icons.home), // Add an icon for the main screen
+      //   title: const Text('Main Screen'),
+      //   onTap: () async {
+      //     print('MainScreen');
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => CutmoerServiceMainScreen()),
+      //     );
+      //   },
+      //   tileColor: Colors.blue[100], // Set the background color for the ListTile  
+      // ),
       ListTile(
         leading: const Icon(Icons.fiber_smart_record_rounded), // Add an icon for points
         title: const Text('Points'),
@@ -799,6 +802,31 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
         },
         tileColor: Colors.blue[100], // Set the background color for the ListTile  
       ),
+
+      ListTile(
+        leading: const Icon(Icons.pie_chart), // Statistic icon
+        title: const Text('evaluation'),
+        onTap: () async {
+          AppEvaluationService acp = AppEvaluationService();
+          List<EvaluationModel?>? evaluation =
+              await acp.GetMyEvaluation(auth.user.id);
+          print("employeesss");
+          print(evaluation);
+          
+        if (evaluation != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return ShowEvaluationScreen(evaluations: evaluation);
+              },
+            ),
+          );
+        }
+        },
+        tileColor: Colors.blue[100], // Set the background color for the ListTile  
+      ),
+
       ListTile(
         leading: const Icon(Icons.logout),
         title: const Text("Logout"),
@@ -832,61 +860,61 @@ class _CutmoerServiceMainScreenState extends State<CutmoerServiceMainScreen> {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 5),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(200, 50),
-              backgroundColor: Colors.blueAccent,
-            ),
-            onPressed: () async {
-              AppEmployeesService acp = AppEmployeesService();
-              List<EmployeeModel?>? employees =
-                  await acp.GetMyEmployeesEnformation(auth.user.id);
-              if (employees != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return showEmployeesByManages(employees: employees);
-                    },
-                  ),
-                );
-              }
-            },
-            child: const Text(
-              'Show Employees by Managers',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          const SizedBox(height: 5),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(200, 50),
-              backgroundColor: Colors.blueAccent,
-            ),
-            onPressed: () async {
-              AppPointsService aas = AppPointsService();
-              AppEmployeesService aas3 = AppEmployeesService();
-              Map<String, int>? employeeCount = await aas3
-                  .getSupervisorsAndCustomerServiceEmployees(auth.user.id);
+          // ElevatedButton(
+          //   style: ElevatedButton.styleFrom(
+          //     minimumSize: const Size(200, 50),
+          //     backgroundColor: Colors.blueAccent,
+          //   ),
+          //   onPressed: () async {
+          //     AppEmployeesService acp = AppEmployeesService();
+          //     List<EmployeeModel?>? employees =
+          //         await acp.GetMyEmployeesEnformation(auth.user.id);
+          //     if (employees != null) {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) {
+          //             return showEmployeesByManages(employees: employees);
+          //           },
+          //         ),
+          //       );
+          //     }
+          //   },)
+          //   child: const Text(
+          //     'Show Employees by Managers',
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          // ),
+          // const SizedBox(height: 5),
+          // ElevatedButton(
+          //   style: ElevatedButton.styleFrom(
+          //     minimumSize: const Size(200, 50),
+          //     backgroundColor: Colors.blueAccent,
+          //   ),
+            // onPressed: () async {
+            //   AppPointsService aas = AppPointsService();
+            //   AppEmployeesService aas3 = AppEmployeesService();
+            //   Map<String, int>? employeeCount = await aas3
+            //       .getSupervisorsAndCustomerServiceEmployees(auth.user.id);
 
-              if (employeeCount != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return ManagerStatisticScreen(
-                        employeeCount: employeeCount,
-                      );
-                    },
-                  ),
-                );
-              }
-            },
-            child: const Text(
-              'Second Button',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
+            //   if (employeeCount != null) {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) {
+            //           return ManagerStatisticScreen(
+            //             employeeCount: employeeCount,
+            //           );
+            //         },
+            //       ),
+            //     );
+            //   }
+            // },
+            // child: const Text(
+            //   'Second Button',
+            //   style: TextStyle(color: Colors.white),
+            // ),
+          // ),
         ],
       ),
     );

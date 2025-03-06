@@ -3,6 +3,9 @@
 
 
 
+
+ 
+
 import argparse
 import time
 from pathlib import Path
@@ -19,10 +22,25 @@ from utils.general import check_img_size, check_requirements, \
                 increment_path
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
+from PIL import Image  
+import dlib # type: ignore
+from sort import *
+
+# to get employee (service cutomer ) from database
+import requests  
+import json  
+from bs4 import BeautifulSoup  
+
+
+# Initialize face detector and other necessary models  
+face_detector = dlib.get_frontal_face_detector()  # Initialize face detector  
+shape_predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")  # Load shape predictor  
+face_encoder = dlib.face_recognition_model_v1("dlib_face_recognition_resnet_model_v1.dat")  # Load face recognition model  
+
 
 from sort import *
  
-import dlib # type: ignore
+# import dlib # type: ignore
 
 
 """Function to Draw Bounding boxes"""
@@ -155,6 +173,7 @@ def draw_boxes(img, bbox, identities=None, categories=None, confidences=None, co
     return img, centers
 
 
+
 def calculate_distance(point1, point2):  
     #return np.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2)  
     # Calculate the distance in pixels  
@@ -167,6 +186,7 @@ def calculate_distance(point1, point2):
     meter_distance = pixel_distance * pixel_to_meter_ratio  
     
     return meter_distance  
+
 
 
 def calculate_histogram(image):  
@@ -183,6 +203,7 @@ def calculate_histogram(image):
     return hist
 
 
+
 def calculate_histogram_gray_img(image):  
     # If the image is in grayscale, no conversion is needed.  
     # Calculate the histogram for the single channel (grayscale)  
@@ -192,6 +213,7 @@ def calculate_histogram_gray_img(image):
     hist = cv2.normalize(hist, hist).flatten()  
 
     return hist
+
 
 # Define the cosine similarity function  
 def cosine_similarity(hist1, hist2):  
@@ -248,54 +270,7 @@ def draw_id(image, object_id, x, y):
     cv2.putText(image, text, (text_x, text_y), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1)  
 
 
-
-
-
-
-# def read_images_from_folders(base_folder):  
-#     images = []  # List to store images and their names  
-#     for folder_name in os.listdir(base_folder):  
-#         folder_path = os.path.join(base_folder, folder_name)  
-#         if os.path.isdir(folder_path):  
-#             for file_name in os.listdir(folder_path):  
-#                 file_path = os.path.join(folder_path, file_name)  
-#                 if file_name.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):  
-#                     try:  
-#                         img = Image.open(file_path)  
-#                         images.append((folder_name, file_name, img, file_path))  # Append folder name, file name, image, and path  
-#                         print(f"Loaded image: {file_path}")  
-#                     except Exception as e:  
-#                         print(f"Could not load image {file_path}: {e}")  
-#     return images  
-
-# def detect_faces_and_save_descriptors(images, face_descriptors):  
-#     for folder_name, file_name, img, file_path in images:  
-#         # Load the image using OpenCV for face detection  
-#         image_cv = cv2.imread(file_path)  
-        
-#         # Detect faces  
-#         faces = face_detector(image_cv)  
-
-#         # Initialize a list for descriptors for this folder if not already present  
-#         if folder_name not in face_descriptors:  
-#             face_descriptors[folder_name] = []  # Create a list to store descriptors for this folder  
-
-#         for face in faces:  
-#             # Get the landmarks and compute the face descriptor  
-#             shape = shape_predictor(image_cv, face)  
-#             face_descriptor = face_encoder.compute_face_descriptor(image_cv, shape)  
-#             face_descriptor_np = np.array(face_descriptor)  
-
-#             # Append the face descriptor to the corresponding folder list  
-#             face_descriptors[folder_name].append(face_descriptor_np)  
-#             print(f"Saved descriptor for {folder_name} from {file_name}")  
-
-
-# Initialize face detector and other necessary models  
-face_detector = dlib.get_frontal_face_detector()  # Initialize face detector  
-shape_predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")  # Load shape predictor  
-face_encoder = dlib.face_recognition_model_v1("dlib_face_recognition_resnet_model_v1.dat")  # Load face recognition model  
-from PIL import Image  
+# to load employees images  and save them in this list "images"
 
 def read_images_from_folders(base_folder):  
     images = []  # List to store images and their names  
@@ -313,6 +288,8 @@ def read_images_from_folders(base_folder):
                         print(f"Could not load image {file_path}: {e}")  
     return images  
 
+
+# to load employees images from "images" and save them in this dictinary "face_descriptors"
 def detect_faces_and_save_descriptors(images, face_descriptors):  
     for folder_name, file_name, img, file_path in images:  
         # Load the image using OpenCV for face detection  
@@ -346,7 +323,163 @@ def detect_faces_and_save_descriptors(images, face_descriptors):
 
 
 
+def retrieve_employees():  
+    """Retrieve employee data from the API."""  
+    base_url = 'http://127.0.0.1:8000/api/admin/employees/get_all_employees'  
+    
+    try:  
+        # Perform a GET request to fetch employee data  
+        retrieve_response = requests.get(base_url)  
+        retrieve_response.raise_for_status()  # Ensure the request was successful  
+        
+        # Clean and parse the JSON response  
+        retrieve_clean_response = BeautifulSoup(retrieve_response.text, "html.parser").get_text()  
+        retrieve_response_data = json.loads(retrieve_clean_response)  
 
+        print("Data retrieved successfully!")  
+
+        # Filter for customer service employees and only keep specific fields  
+        customer_service_employees = [  
+            {  
+                'id': employee['id'],  
+                'name': employee['name'],  
+                'active': employee['active'],  
+            }  
+            for employee in retrieve_response_data  
+            if employee.get("position") == "customer_service"  
+        ]  
+
+        print("Customer Service Employees:", customer_service_employees)  
+        return customer_service_employees  
+
+    except requests.exceptions.HTTPError as http_err:  
+        print(f"HTTP error occurred: {http_err}")  
+    except requests.exceptions.RequestException as req_err:  
+        print(f"Error occurred: {req_err}")  
+        if retrieve_response is not None:  
+            print(retrieve_response.text)  # Print the raw response for debugging  
+
+
+
+# connect between images and there eservice_customer
+def connect_images_to_employees(base_folder):  
+    images = read_images_from_folders(base_folder)  
+    employees = retrieve_employees()  
+
+    # Create a mapping of employee ID to employee's information  
+    employee_mapping = {str(employee['id']): employee for employee in employees}  # Ensure ID is a string  
+    print("employee_mapping")  
+    print(employee_mapping)  
+    
+    # Dictionary to keep track of employee info mapped to folder names  
+    connected_employees = {}  
+
+    # Match images to employee data  
+    for folder_name, file_name, img, file_path in images:  
+        # Split folder name to get employee ID  
+        parts = folder_name.split('_')  
+        if len(parts) > 0:  
+            emp_id = parts[0]  # Take the first part as the employee ID  
+            # Check if the ID exists in our employee mapping  
+            if emp_id in employee_mapping:  
+                employee_info = employee_mapping[emp_id]  
+                
+                # Use full folder name as the key  
+                folder_key = folder_name  # or you can define it more explicitly  
+                
+                # Store employee info using folder name as key  
+                connected_employees[folder_key] = {  
+                    'id': employee_info['id'],  
+                    'name': employee_info['name'],  
+                    'active': employee_info['active'],  
+                }  
+                print(f"Connected Folder: {folder_key} with Employee: {employee_info['name']} (ID: {emp_id})")  
+            else:  
+                print(f"Employee ID {emp_id} not found in employee data.")  
+
+    # Return the dictionary with folder names as keys and employee info  
+    return connected_employees  
+
+
+
+
+# to update customer service stats (active or not active , false or true)
+def update_customer_service_status(employees,id,active):
+    """Update the active status for customer service employees."""
+    customer_service_employees = [
+        employee for employee in employees 
+        if employee.get("position") == "customer_service"
+    ]
+
+    print("Customer Service Employees:", customer_service_employees)
+
+    # for employee in customer_service_employees:
+    update_data = {
+            'id': id,
+            'active': active
+         }
+        
+        # Send PUT request to update employee status
+    update_response = requests.put(update_url, json=update_data)
+        
+        # Check if update was successful
+    if update_response.status_code == 200:
+            print(f"Successfully updated employee {id}")
+    else:
+            print(f"Failed to update employee {id}")
+            print("Response:", update_response.text)
+
+
+
+# send point to database 
+def set_points_to_employee(points_count,description,employee_id,customer_id):  
+    url = 'http://127.0.0.1:8000/api/admin/points/set_new_points'  
+    data = {  
+        'points_count': points_count,  
+        'description': description,
+        'employee_id': employee_id,
+        'customer_id':customer_id,
+    }  
+
+    try:  
+        response = requests.post(url, json=data)  
+        print(f"Response Code: {response.status_code}")  
+
+        # Print raw response body for debugging purposes  
+        print("Response Body:", response.text)  # Show the raw content of the response  
+        
+        # Strip leading whitespace and any unwanted characters  
+        response_text = response.text.strip()  
+
+        # Remove any leading HTML comments; this can be done by splitting  
+        # the response by new lines and finding the first meaningful JSON.  
+        if response_text.startswith("<!--"):  
+            # Split into lines and find the first JSON line  
+            response_lines = response_text.splitlines()  
+            response_json_text = ""  
+            # Look for the line that starts like a JSON object  
+            for line in response_lines:  
+                # Strip whitespace  
+                line = line.strip()  
+                if line.startswith("{"):  # Found the JSON line  
+                    response_json_text = line  
+                    break  
+            else:  # In case the valid JSON line isn't found  
+                print("No valid JSON found in response.")  
+                return False  
+        else:  
+            response_json_text = response_text  # Treat it as valid JSON if it does not start with <!--  
+
+        # Now, try to parse the cleaned JSON text  
+        try:  
+            response_data = json.loads(response_json_text)  # Using json.loads on the cleaned response  
+            print("Success:", response_data)  
+            return True  
+        except json.JSONDecodeError as json_err:  
+            print(f"JSON decode error: {json_err}")  
+
+    except requests.exceptions.RequestException as e:  
+        print(f"An error occurred: {e}")  
 
 
 
@@ -371,12 +504,46 @@ def detect(save_img=False):
     stride = int(model.stride.max())  # model stride
     imgsz = check_img_size(imgsz, s=stride)  # check img_size
 
+
+    #########################################################
+    ##########################################################
+    # Load the second model (new code)
+    # Flags to track if objects have been detected
+    fitting_room_detected = False
+    cashier_detected = False
+
+    # Variables to store bounding box dimensions and centers
+    fitting_room_boxes = []  # List to store all fitting room bounding boxes
+    cashier_boxes = []  # List to store all cashier bounding boxes
+
+
+    weights2 = 'runs/best.pt'  # Path to the second model's weights
+    model2 = attempt_load(weights2, map_location=device)  # Load the second model
+    stride2 = int(model2.stride.max())  # Model stride for the second model
+    imgsz2 = check_img_size(imgsz, s=stride2)  # Check img_size for the second model
+    # Define class names for the second model
+    names2 = ['fitting_room', 'cashier']
+
+    ##########################################################
+    ##########################################################
+
     if trace:
         model = TracedModel(model, device, opt.img_size)
 
     if half:
         model.half()  # to FP16
 
+    ##########################################################
+    ##########################################################
+    # If tracing is enabled, trace the second model
+    if trace:
+        model2 = TracedModel(model2, device, opt.img_size)
+
+    # If using half precision, convert the second model to FP16
+    if half:
+        model2.half()
+    ##########################################################
+    ##########################################################
     # Second-stage classifier
     classify = False
     if classify:
@@ -404,7 +571,7 @@ def detect(save_img=False):
     old_img_w = old_img_h = imgsz
     old_img_b = 1
     
-#**************************************************
+#****************************************************
     face_detector = dlib.get_frontal_face_detector()  
     shape_predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")  
     face_encoder = dlib.face_recognition_model_v1('dlib_face_recognition_resnet_model_v1.dat')  # and this model  
@@ -413,12 +580,36 @@ def detect(save_img=False):
         
     base_folder = 'C:/Users/LENOVO/AndroidStudioProjects/faces_images'  
 
+    # to read images from folder
     images = read_images_from_folders(base_folder)  # Read images 
     face_descriptors = detect_faces_and_save_descriptors(images, face_descriptors)  # Detect faces and save descriptors  
 
     print("9999999999999999999999   ace_descriptors.keys() 9999999999999")
 
     print(face_descriptors.keys())  
+
+#*****************************************************
+
+#*****************************************************
+    # to get employee from database
+    employees = retrieve_employees()
+
+    print("9999999999999999999999   employees are : 9999999999999")
+    print(employees)
+#*****************************************************
+
+#*****************************************************
+    # to connect between images and there employees fro customer_service
+    connected_employees={}
+    connected_employees = connect_images_to_employees(base_folder)
+    print("connected_employees")
+    print(connected_employees)
+
+#*****************************************************
+
+#*****************************************************
+
+
 
 
 
@@ -508,6 +699,9 @@ def detect(save_img=False):
 #**************************************************
 
 #for template macthing 
+    pass_to_template=False
+    pass_to_template2=False
+
 
     #to sav etemplate matching 
     # for dressing room 
@@ -515,9 +709,15 @@ def detect(save_img=False):
     # for exit door
     centers_Template2=[]
 
+    template1_dimensions=None
+    template2_dimensions=None
+
+    detected_template=False
+    detected_template2=False
+
 
     # Load template image for matching  
-    template_path1 = '../../videos_for_test/accessories_store_2/room_1.JPG'
+    template_path1 = 'runs/fitting.jpg'
 
     if not os.path.exists(template_path1):  
         print(f"File not found: {template_path1}")  
@@ -530,7 +730,7 @@ def detect(save_img=False):
         #print("template_width = ",template_width)
         
     
-    template_path2 = '../../videos_for_test/accessories_store_2/cacher_3.JPG'      
+    template_path2 = 'runs/cashier.jpg'      
     if not os.path.exists(template_path2):  
         print(f"File not found: {template_path2}")  
     else:  
@@ -605,7 +805,7 @@ def detect(save_img=False):
                 frame_counter += 1  
             
             # Only process very 30th frame for video  
-            if dataset.mode == 'video' and frame_counter % 40 != 0:  
+            if dataset.mode == 'video' and frame_counter % 5 != 0:  
                 continue  # Skip to the next iteration for video  
 
 
@@ -630,11 +830,59 @@ def detect(save_img=False):
                 old_img_w = img.shape[3]
                 for i in range(3):
                     model(img, augment=opt.augment)[0]
+                    model2(img, augment=opt.augment)[0]  # Warmup for the second model
     
             # Inference
             t1 = time_synchronized()
             pred = model(img, augment=opt.augment)[0]
             t2 = time_synchronized()
+
+            #############################################################
+            ############################################################
+            # Inference with the second model (for fitting room and cashier)
+            if not (fitting_room_detected and cashier_detected):  # Only detect if objects are not already detected
+                pred2 = model2(img, augment=opt.augment)[0]
+                pred2 = non_max_suppression(pred2, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms)
+
+                    # Process detections from the second model
+                for det in pred2:
+                    if len(det):
+                        # Rescale boxes from img_size to im0 size
+                        det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
+
+                        # Convert detection to numpy if needed
+                        if isinstance(det, torch.Tensor):
+                            det_np = det.cpu().numpy()
+                        else:
+                            det_np = det
+
+                        # Extract categories and bounding boxes
+                        for *xyxy, conf, cls in det_np:
+                            label = names2[int(cls)]  # Use the second model's class names
+                            if label == 'fitting_room' and not fitting_room_detected:
+                                # Save fitting room bounding box and center
+                                x1, y1, x2, y2 = xyxy
+                                center_x = (x1 + x2) / 2
+                                center_y = (y1 + y2) / 2
+                                fitting_room_boxes.append((x1, y1, x2, y2, center_x, center_y))
+                                fitting_room_detected = True  # Stop further detection for fitting room
+
+                            elif label == 'cashier' and not cashier_detected:
+                                # Save cashier bounding box and center
+                                x1, y1, x2, y2 = xyxy
+                                center_x = (x1 + x2) / 2
+                                center_y = (y1 + y2) / 2
+                                cashier_boxes.append((x1, y1, x2, y2, center_x, center_y))
+                                cashier_detected = True  # Stop further detection for cashier
+
+            # Skip detection if objects are already detected
+            if fitting_room_detected and cashier_detected:
+               continue  # Skip to the next frame
+
+
+
+            ###############################################################
+            ##############################################################
     
             # Apply NMS
             pred = non_max_suppression(pred, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms)
@@ -648,18 +896,37 @@ def detect(save_img=False):
             print("8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888")
 #**************************************************************************************
 #to pass for tempalte one time in each image note for each object etected 
-            pass_to_template=True
-            pass_to_template2=True
+            # pass_to_template=False
+            # pass_to_template2=False
 
             
             
-            #to redetect tempalte from each tempalte 
-            centers_Template1=[]
-            centers_Template2=[]
+            # #to redetect tempalte from each tempalte 
+            # centers_Template1=[]
+            # centers_Template2=[]
 
             
 #**************************************************************************************
-   
+
+            #######################################################
+            #######################################################
+            # Draw bounding boxes and centers for fitting rooms
+            for box in fitting_room_boxes:
+                x1, y1, x2, y2, center_x, center_y = box
+                cv2.rectangle(im0, (int(x1), int(y1)), (int(x2), int(y2)), (255, 255, 255), 2)  # Draw bounding box
+                cv2.circle(im0, (int(center_x), int(center_y)), 5, (0, 255, 0), -1)  # Draw center
+
+            # Draw bounding boxes and centers for cashiers
+            for box in cashier_boxes:
+                x1, y1, x2, y2, center_x, center_y = box
+                cv2.rectangle(im0, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 255), 2)  # Draw bounding box
+                cv2.circle(im0, (int(center_x), int(center_y)), 5, (0, 0, 255), -1)  # Draw center
+
+            #######################################################
+            #######################################################
+
+
+            ########
             # Process detections
             for i, det in enumerate(pred):  # detections per image
                 if webcam:  # batch_size >= 1
@@ -676,8 +943,6 @@ def detect(save_img=False):
 #to check number of faces for if there faces  assign to employee
                 face_detected_check=None  
 #**********************************************************************************************************
-
-
                 
                 if len(det):  
                     print(type(det))  # Check the type of `det`  
@@ -715,97 +980,15 @@ def detect(save_img=False):
                     # Now you can safely access indices  
                     categories = det_np[:, 4].astype(int)  # Assuming the 5th column is for categories  
 
+                    # Draw bounding boxes and labels
+                    for *xyxy, conf, cls in det_np:
+                        label = f'{names[int(cls)]} {conf:.2f}'
+                        plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=2)
+
 # #***********************************************************************************************************
 # #surf algorithm 
                 
-# #************************************************************************************************************************************
-#                     #######
-#                     # Process each detected object (face)  
-#                     for obj in det_np:  # Loop through detected objects  
-#                         x1, y1, x2, y2, conf, detclass = obj  
-                        
-#                         # Extract the region of interest (ROI) for SURF  
-#                         object_image = im0[int(y1):int(y2), int(x1):int(x2)]  
-
-#                         # Calculate SURF descriptors  
-#                         if object_image is None:
-#                             print("Error: Image not loaded!")
-#                             # Handle the error case
-#                         else:
-#                             object_gray = cv2.cvtColor(object_image, cv2.COLOR_BGR2GRAY)  
-                         
-#                         #object_gray = cv2.cvtColor(object_image, cv2.COLOR_BGR2GRAY)  
-#                         keypoints, descriptors = surf.detectAndCompute(object_gray, None)  
-
-#                         # Handle SURF descriptors  
-#                         if descriptors is not None:  
-#                             found = False  
-#                             best_match_key = None  
-#                             best_match_distance = float('inf')  
-#                             normalized_distance=None
-
-#                             # Compare to existing SURF descriptors  
-#                             for obj_id, stored_descriptors in object_surf_descriptors.items():  
-#                                 #print("Descriptors shape:", descriptors.shape)  
-#                                 #print("Stored Descriptors shape:", stored_descriptors.shape)
-# #*****************************************************
-#                                 # Use BFMatcher (Brute Force Matcher)  
-#                                 bf = cv2.BFMatcher(cv2.NORM_L2, crossCheck=True)  
-#                                 matches = bf.match(descriptors, stored_descriptors)  
-#                                 # Sort matches based on distance (optional)  
-#                                 #matches = sorted(matches, key=lambda x: x.distance)  
-                                
-#                                 # Now you can compute distances for the matched pairs  
-#                                 matched_distances = [match.distance for match in matches]  
-                                
-                                
-#                                 # Calculate average or another metric as needed  
-#                                 average_distance = np.mean(matched_distances)  
-#                                 distance=average_distance
-#                                 #print("Average Distance:", average_distance)  
-# #*******************************************************
-
-# #*************************************************************************************************
-# #normalize distance
-#                                 # Determine min and max distances  
-#                                 min_distance = min(matched_distances)  
-#                                 max_distance = max(matched_distances)  
-
-#                                 # Normalize the average distance  
-#                                 if max_distance > min_distance:  # Avoid division by zero  
-#                                     normalized_distance = (average_distance - min_distance) / (max_distance - min_distance)  
-#                                 else:  
-#                                     normalized_distance = 0  # Handle appropriately if all distances are the same  
-
-
-# #**************************************************************************************************
-#                                 #distance = cv2.norm(descriptors, stored_descriptors, cv2.NORM_L2)  
-#                                 print(" normalized_distance:", normalized_distance)  
-#                                 if normalized_distance < best_match_distance:  
-#                                     best_match_distance = normalized_distance  
-#                                     best_match_key = obj_id  
-
-#                             threshold = 0.6  # Set suitable threshold for matching  
-#                             if best_match_distance < threshold:  
-#                                 found = True  
-#                                 template_detected_check = best_match_key  # Existing object found  
-#                                 print(f"template with ID {best_match_key} matched.")  
-
-#                             if not found:  
-#                                 # If it’s a new object, assign a new ID and save descriptors  
-#                                 object_surf_descriptors[surf_next_id] = descriptors  
-#                                 print(f"New template detected and assigned ID {surf_next_id}.")  
-#                                 template_detected_check = surf_next_id  
-#                                 surf_next_id += 1  
-#                         len_of_template=len(object_surf_descriptors)
-#                         # You may want to draw bounding boxes and IDs  
-#                         cv2.rectangle(im0, (int(x1), int(y1)), (int(x2), int(y2)), (255, 255, 0), 2)  
-#                         cv2.putText(im0, f"ID_template: {template_detected_check}", (int(x1)+40, int(y1) + 40),  
-#                                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)  
-#                         cv2.putText(im0, f"number_template: {len_of_template}", (int(x1)+25, int(y1) + 25),  
-#                                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)  
-
-# #*********************************************************************
+#********************************************
 
                     
 #************************************************************************************************************************************
@@ -836,173 +1019,195 @@ def detect(save_img=False):
 
 # #***************************************************************************************
 # # Extract object bounding box and calc histogram 
-# #next_object_id = 0  # Counter for generating unique object IDs
 
-#                     ####
-#                     ## Loop through detected objects (excluding faces)  
-#                     for i, (x1, y1, x2, y2, conf, detclass) in enumerate(det_np):  
-#                         ## Extract the object region from the image  
-#                         object_image = im0[int(y1):int(y2), int(x1):int(x2)]
-                        
-#                         #object_image = cv2.cvtColor(object_image, cv2.COLOR_BGR2GRAY)  
-#                         ## Calculate the histogram for the detected object  
-#                         object_hist = calculate_histogram(object_image)  
-                        
-
-                    
-#                         ## Initialize variables for finding the most similar histogram  
-#                         most_similar_key = None  
-#                         min_distance = -1  # Start with an infinitely large distance  
-#                         is_similar = False  
-#                         tem_to_draw_id = None  
-                    
-#                         ## Check for most similar histogram 
-#                         if len(object_histograms)>0:
-#                             for key, existing_hist in object_histograms.items():  
-#                                 ## Use the cosine similarity function instead of Chi-Squared distance  
-#                                 dist = cosine_similarity(existing_hist, object_hist)  
-#                                 print(f"Distance histogram with key {key} is : ", dist)  
-#                                 #print("Existing histogram is:", existing_hist)  
-                        
-#                                 # Keep track of the most similar histogram (smallest distance)  
-#                                 if dist > min_distance:  
-#                                     min_distance = dist  
-#                                     most_similar_key = key  
-#                                     tem_to_draw_id = key  
-                        
-#                         ## Define a threshold for comparison  
-#                         threshold = 0.25  # Adjust based on your application needs  
-                    
-#                         # After finding the most similar histogram, apply the threshold check  
-#                         if min_distance > threshold:  # If the most similar histogram is within the threshold  
-#                             is_similar = True  
-#                             print(f"Object with key {most_similar_key} found with similar histogram. Distance: {min_distance}")  
-                    
-#                         ## If no similar histogram was found above the threshold, add a new entry  
-#                         if not is_similar:  
-#                             object_histograms[object_counter] = object_hist  # Store new histogram with the current counter  
-#                             print(f"Added new histogram for object with key {object_counter}.")  
-#                             tem_to_draw_id = object_counter  
-#                             object_counter += 1  # Increment the counter for the next new object  
-                    
-#                         ## Draw the histogram below the bounding box  
-#                         xt = f"his_id: {tem_to_draw_id}" 
-#                         cv2.putText(im0, f"his_id: {tem_to_draw_id}", (int(x1-10), int(y1 + 30)), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1)  
-
-#                         ##im0=draw_id(im0, tem_to_draw_id, x1, y1)  # Pass the ID and coordinates  
-#                         tem_to_draw_id = None  
-                  
 # #*******************************************************************************************
 
 #************************************************************************************************************************************
                         #########
                         #template matching
-                        if pass_to_template==True:
-                            im_gray = cv2.cvtColor(im0, cv2.COLOR_BGR2GRAY)  
-                            print(f"Image shape: {im_gray.shape}, Template shape: {template_gray.shape}")
+                        if pass_to_template==False:
 
-                            # Resize template if necessary
-                            if template_gray.shape[0] > im_gray.shape[0] or template_gray.shape[1] > im_gray.shape[1]:
-                                scale_factor = min(im_gray.shape[0] / template_gray.shape[0], im_gray.shape[1] / template_gray.shape[1])
-                                new_size = (int(template_gray.shape[1] * scale_factor), int(template_gray.shape[0] * scale_factor))
-                                template_gray = cv2.resize(template_gray, new_size)
+                            # Load the template image and resize it to 200x200 pixels  
+                            template = cv2.imread('runs/fitting.jpg')  # Replace with your template image filename  
+                            resized_template = cv2.resize(template, (200, 200))  # Resize to 200x200 pixels  
 
-                            res = cv2.matchTemplate(im_gray, template_gray,  cv2.TM_CCOEFF_NORMED)  
-                            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)  
-    
-                            # Print the maximum value  
-                            #print(f"Max Value: {max_val}")  
-                            #print(f"Max Location: {max_loc}")  
-                            #print("Main image loaded:", im0 is not None)  
-                            #print("Template image loaded:", template_gray is not None)
-                            #print("res is ",res)
-                            threshold = 0.40  # Set a threshold for the template matching  
-                            loc = np.where(res >= threshold)  
-                            #print("Locations of matches:", loc)                      
-                            #print("Template shape:", template_gray.shape)
-                            #print("template_height = ",template_height)
-                            #print("template_width = ",template_width)
-    
+                            # # Load the target image  
+                            # target = cv2.imread(im0,1)  # Replace with your target image filename  
+
+                            # Initialize SIFT detector  
+                            sift = cv2.SIFT_create()  
+
+                            # Convert the images to grayscale for SIFT processing  
+                            template_gray = cv2.cvtColor(resized_template, cv2.COLOR_BGR2GRAY)  
+
+                            # Detect keypoints and compute descriptors  
+                            keypoints_template, descriptors_template = sift.detectAndCompute(template_gray, None)  
+                            keypoints_target, descriptors_target = sift.detectAndCompute(im0, None)  
+
+                            # Create the matcher  
+                            index_params = dict(algorithm=1, trees=5)  
+                            search_params = dict(checks=50)  
+                            flann = cv2.FlannBasedMatcher(index_params, search_params)  
+
+                            # Match descriptors  
+                            matches = flann.knnMatch(descriptors_template, descriptors_target, k=2)  
+
+                            # Filter good matches using Lowe's ratio test  
+                            good_matches = []  
+                            for m, n in matches:  
+                                if m.distance < 0.7 * n.distance:  
+                                    good_matches.append(m)
+
+                            
+
+                            # Find homography and draw bounding box if there are enough good matches  
+                            if len(good_matches) >= 4:  
+                                # Extract location of good matches  
+                                template_pts = np.zeros((len(good_matches), 2), dtype=np.float32)  
+                                target_pts = np.zeros((len(good_matches), 2), dtype=np.float32)  
+
+                                for i, match in enumerate(good_matches):  
+                                    template_pts[i, :] = keypoints_template[match.queryIdx].pt  
+                                    target_pts[i, :] = keypoints_target[match.trainIdx].pt  
+
+                                # Find homography  
+                                H, mask = cv2.findHomography(template_pts, target_pts, cv2.RANSAC)  
+
+                                # Use homography to draw bounding box  
+                                h, w = resized_template.shape[:2]  # Get height and width of the resized template  
+                                template_corners = np.array([[0, 0], [0, h - 1], [w - 1, h - 1], [w - 1, 0]], dtype=np.float32)  
                                 
-                            print("**************** middle of template 1 is done ****************")
-    
-                            ## Draw rectangles around matched regions  
-                            for pt in zip(*loc[::-1]):  # Switch columns and rows  
-                                    #cv2.rectangle(im0, pt, (pt[0] + template_width, pt[1] + template_height), (0, 255, 0), 2) 
-                                     
-                                    ## Calculate the center of the matched rectangle  
-                                    center_x = pt[0] + template_width // 2  
-                                    #center_x = pt[0] + template_width 
-                                    center_y = pt[1] + template_height // 2  
-                                    #center_y = pt[1] + template_height  
+                                # Reshape to (-1, 1, 2)  
+                                template_corners = template_corners.reshape(-1, 1, 2)  
 
-                                    centers_Template1.append((center_x, center_y))  
-                                    print("**************** template 1 is done ****************")
-                                    ##print("center_x is ", center_x)
-                                    ##print("center_y is ", center_y)
-    
-                                
-                                    ## Draw the center point on the frame  
-                                    cv2.circle(im0, (center_x, center_y), 5, (255, 0, 0), 1)  # Draw a small circle at the center 
-                                    # cv2.rectangle(im0, pt, (pt[0] + template_width, pt[1] + template_height), (0, 0, 255), 1) 
-                                    pass_to_template=False
-                                    
+                                # Transform corners  
+                                target_corners = cv2.perspectiveTransform(template_corners, H)  
+
+                                # Draw bounding box on the target image in green  
+                                # target_with_box = im0.copy()  
+                                cv2.polylines(im0, [np.int32(target_corners)], isClosed=True, color=(0, 255, 0), thickness=3)
+                                # Calculate the center of the matched rectangle  
+                                center_x = int((target_corners[0][0][0] + target_corners[2][0][0]) / 2)  
+                                center_y = int((target_corners[0][0][1] + target_corners[2][0][1]) / 2)  
+                                centers_Template1.append((center_x, center_y))    
+                                template1_dimensions = (w, h)  # Save width and height
+                                print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                                pass_to_template=True 
+                                detected_template = True 
+                        
+
+
+                        # Draw bounding box for the first template if it has been detected  
+                        if detected_template  and template1_dimensions is not None:  
+                            # Use the saved dimensions and center to draw the bounding box  
+                            h, w = template1_dimensions  
+                            # Assuming you have the last detected center  
+                            if centers_Template1:  
+                                center_x, center_y = centers_Template1[-1]  
+                                top_left = (int(center_x - w // 2), int(center_y - h // 2))  
+                                bottom_right = (int(center_x + w // 2), int(center_y + h // 2))  
+                                cv2.rectangle(im0, top_left, bottom_right, (0, 255, 0), 3)  
+                                print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+
+                                                         
                                     
                                     
                         #######
+                        # #template matching
                         #template matching
-                        if pass_to_template2==True:
-                            im_gray2 = cv2.cvtColor(im0, cv2.COLOR_BGR2GRAY)  
-                             # Resize template if necessary
-                            if template_gray2.shape[0] > im_gray.shape[0] or template_gray2.shape[1] > im_gray.shape[1]:
-                                scale_factor = min(im_gray.shape[0] / template_gray2.shape[0], im_gray.shape[1] / template_gray2.shape[1])
-                                new_size = (int(template_gray2.shape[1] * scale_factor), int(template_gray2.shape[0] * scale_factor))
-                                template_gray2 = cv2.resize(template_gray2, new_size)
+                        if pass_to_template2==False:
 
-                            res2 = cv2.matchTemplate(im_gray2, template_gray2,  cv2.TM_CCOEFF_NORMED)  
-                            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res2)  
-    
-                            # Print the maximum value  
-                            #print(f"Max Value: {max_val}")  
-                            #print(f"Max Location: {max_loc}")  
-                            #print("Main image loaded:", im0 is not None)  
-                            #print("Template image loaded:", template_gray is not None)
-                            #print("res is ",res)
-                            threshold = 0.20  # Set a threshold for the template matching  
-                            loc2 = np.where(res2 >= threshold)  
-                            #print("Locations of matches:", loc)                      
-                            #print("Template shape:", template_gray.shape)
-                            #print("template_height = ",template_height)
-                            #print("template_width = ",template_width)
-    
-                                
-                            print("**************** middle of template 2 is done ****************")
-    
-                            ## Draw rectangles around matched regions  
-                            for pt2 in zip(*loc2[::-1]):  # Switch columns and rows  
-                                    #cv2.rectangle(im0, pt, (pt[0] + template_width, pt[1] + template_height), (0, 255, 0), 2) 
-                                     
-                                    ## Calculate the center of the matched rectangle  
-                                    center_x2 = pt2[0] + template_width // 2  
-                                    #center_x2 = pt2[0] + template_width 
-                                    center_y2 = pt2[1] + template_height // 2  
-                                    #center_y2 = pt2[1] + template_height  
+                            # Load the template image and resize it to 200x200 pixels  
+                            template = cv2.imread('runs/cashier.jpg')  # Replace with your template image filename  
+                            resized_template = cv2.resize(template, (200, 200))  # Resize to 200x200 pixels  
 
-                                    centers_Template2.append((center_x2, center_y2))  
-                                    print("**************** template 2 is done ****************")
-                                    ##print("center_x is ", center_x)
-                                    ##print("center_y is ", center_y)
-    
+                            # # Load the target image  
+                            # target = cv2.imread(im0,1)  # Replace with your target image filename  
+
+                            # Initialize SIFT detector  
+                            sift = cv2.SIFT_create()  
+
+                            # Convert the images to grayscale for SIFT processing  
+                            template_gray = cv2.cvtColor(resized_template, cv2.COLOR_BGR2GRAY)  
+
+                            # Detect keypoints and compute descriptors  
+                            keypoints_template, descriptors_template = sift.detectAndCompute(template_gray, None)  
+                            keypoints_target, descriptors_target = sift.detectAndCompute(im0, None)  
+
+                            # Create the matcher  
+                            index_params = dict(algorithm=1, trees=5)  
+                            search_params = dict(checks=50)  
+                            flann = cv2.FlannBasedMatcher(index_params, search_params)  
+
+                            # Match descriptors  
+                            matches = flann.knnMatch(descriptors_template, descriptors_target, k=2)  
+
+                            # Filter good matches using Lowe's ratio test  
+                            good_matches = []  
+                            for m, n in matches:  
+                                if m.distance < 0.7 * n.distance:  
+                                    good_matches.append(m)
+
+                            
+
+                            # Find homography and draw bounding box if there are enough good matches  
+                            if len(good_matches) >= 4:  
+                                # Extract location of good matches  
+                                template_pts = np.zeros((len(good_matches), 2), dtype=np.float32)  
+                                target_pts = np.zeros((len(good_matches), 2), dtype=np.float32)  
+
+                                for i, match in enumerate(good_matches):  
+                                    template_pts[i, :] = keypoints_template[match.queryIdx].pt  
+                                    target_pts[i, :] = keypoints_target[match.trainIdx].pt  
+
+                                # Find homography  
+                                H, mask = cv2.findHomography(template_pts, target_pts, cv2.RANSAC)  
+
+                                # Use homography to draw bounding box  
+                                h, w = resized_template.shape[:2]  # Get height and width of the resized template  
+                                template_corners = np.array([[0, 0], [0, h - 1], [w - 1, h - 1], [w - 1, 0]], dtype=np.float32)  
                                 
-                                    ## Draw the center point on the frame  
-                                    cv2.circle(im0, (center_x2, center_y2), 5, (255, 255, 0), 1)  # Draw a small circle at the center 
-                                    # cv2.rectangle(im0, pt, (pt[0] + template_width, pt[1] + template_height), (0, 0, 255), 1) 
-                                    pass_to_template2=False
-                                    
-                                    
+                                # Reshape to (-1, 1, 2)  
+                                template_corners = template_corners.reshape(-1, 1, 2)  
+
+                                # Transform corners  
+                                target_corners = cv2.perspectiveTransform(template_corners, H)  
+
+                                # Draw bounding box on the target image in green  
+                                # target_with_box = im0.copy()  
+                                cv2.polylines(im0, [np.int32(target_corners)], isClosed=True, color=(0, 255, 0), thickness=3) 
+
+                                # Calculate the center of the matched rectangle  
+                                center_x = int((target_corners[0][0][0] + target_corners[2][0][0]) / 2)  
+                                center_y = int((target_corners[0][0][1] + target_corners[2][0][1]) / 2)  
+                                centers_Template2.append((center_x, center_y))  
+                                template2_dimensions = (w, h)  # Save width and height
+                                print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
+                                pass_to_template2=True 
+                                detected_template2=True
+                        
+                        # Draw bounding box for the second template if it has been detected  
+                        if detected_template2 and template2_dimensions is not None:  
+                            # Use the saved dimensions and center to draw the bounding box  
+                            h, w = template2_dimensions  
+                            if centers_Template2:  
+                                center_x, center_y = centers_Template2[-1]  
+                                top_left = (int(center_x - w // 2), int(center_y - h // 2))  
+                                bottom_right = (int(center_x + w // 2), int(center_y + h // 2))  
+                                cv2.rectangle(im0, top_left, bottom_right, (0, 255, 0), 3)  
+                                print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+
+                                                
 
 #**********************************************************************
-                       
+                        print("11111111111111111111111111111111")
+                        print(pass_to_template)
+                        print(pass_to_template2)
+                        print(centers_Template1)
+                        print(centers_Template2)
+                        print("222222222222222222222222222222222222222222222222")
+
                         
                         
                 
@@ -1011,7 +1216,7 @@ def detect(save_img=False):
                     #bbox_xyxy = det_np[:, :4]  # Get bounding box coordinates  
                     #identities = det_np[:, 5]  # Get identities if it's located here  
                     
-                    faces = face_detector(im0,1)  # Detect faces  
+                    # faces = face_detector(im0,1)  # Detect faces  
 
 
                     # Prepare for face detection and tracking time spent  
@@ -1037,58 +1242,25 @@ def detect(save_img=False):
                                     time_spent[identity]['start_time'] = current_time  # Reset start time for the next frame  
                                     
 #***********************************************************************************************************
-# to save faces employee for detect if it employee or customer
-                            if number_of_employee==0:
-                                    # # Face detection logic  
-                                    # detect_faces_and_save_descriptors(images, face_descriptors)  # Detect faces and save descriptors  
 
-                                    # image1 = cv2.imread('new_videos_for_test/om_4.jpg',cv2.IMREAD_COLOR)
-                                    # image2 = cv2.imread('new_videos_for_test/fouad.JPG',cv2.IMREAD_COLOR)
-                                        
-                                    # faces1 = face_detector(image1)  # Detect faces  
-                                    # faces2 = face_detector(image2)  # Detect faces  
-                                    # # face_id_for_employee=0
-                                    # for face in faces1:                                     
-                                    #     # Extract the shape of the face to compute the descriptor  
-                                    #     #print("test")
-                                    #     shape = shape_predictor(image1, face)  
-                                    #     face_descriptor_1 = face_encoder.compute_face_descriptor(image1, shape)  
-                                    #     face_descriptor_np_1 = np.array(face_descriptor_1)  
-                                    #     # face_id_for_employee=face_next_id
-                                    #     face_descriptors['haidar']=face_descriptor_np_1
-                                    #     # face_next_id += 1  
-                                    #     # number_of_employee=1
-
-
-                                    # # for face in faces2:                                     
-                                    # for face in faces2:                                     
-
-                                    #     shape = shape_predictor(image2, face)  
-                                    #     face_descriptor_1 = face_encoder.compute_face_descriptor(image2, shape)  
-                                    #     face_descriptor_np_1 = np.array(face_descriptor_1)  
-                                    #     face_id_for_employee=face_next_id
-                                    #     face_descriptors['fouad']=face_descriptor_np_1                                            
-                                    #     # face_next_id += 1  
-
-                                    number_of_employee=1
 
 #******************************************************************************************************************
-                            #tosave name of object detection
+                            #to save name of object detection
                             #object_name={}
                             # Face detection logic  
                             print("/////////  **********          face_descriptors is *********** //////////// :")
-                            print(face_descriptors)
+                            # print(face_descriptors)
                             faces = face_detector(im0,1)  # Detect faces  
                             face_detected_check=faces
 
                             for i in face_time_spent.keys():
                                 if isinstance(i, int):  
                                     if face_time_spent[i]['state']==0:
-                                        if face_time_spent[i]['duration']>5:
+                                        if face_time_spent[i]['duration']>1:
                                             face_time_spent[i]['state']=1
                                             # face_time_spent[i] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}','state':0}  
                                         else:
-                                            print("duration is small than 5")
+                                            print("duration is small than 1")
                                             print("duration = ",face_time_spent[i]['duration'])
                                             print("isinstance = ",face_time_spent[i]['state'])
 
@@ -1216,15 +1388,9 @@ def detect(save_img=False):
 
 
 
-
-
-
-
-
-
                                 # Start or resume the timer for the matched face  
                                 if face_id not in face_time_spent:  
-                                    face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}','state':0,'counter':0,'points':0}  
+                                    face_time_spent[face_id] = {'start_time': current_time, 'duration': 0, 'active': True,'customer_id':f'customer_id:{face_id}','state':0,'counter':0,'points':0,'couple_number':0}  
                                     face_next_id += 1  
 
                                 else:  
@@ -1337,7 +1503,7 @@ def detect(save_img=False):
                                 point2 = centers[keys[j]]   
                     
                                 # Draw line between the points  
-                                cv2.line(im0, point1, point2, (255, 0, 0), thickness=2)  
+                                # cv2.line(im0, point1, point2, (255, 0, 0), thickness=2)  
                     
                                 # Calculate distance between center points  
                                 distance = calculate_distance(point1, point2)  
@@ -1377,16 +1543,23 @@ def detect(save_img=False):
                                for j in customers_id:
                                        print("face_time_spent id are ",face_time_spent.keys())
 
-                                       if j in face_time_spent and face_time_spent[j]['state'] == 0 and face_time_spent[j]['duration'] >= 5:  
+                                       if j in face_time_spent and face_time_spent[j]['state'] == 0 and face_time_spent[j]['duration'] >= 1:  
                                             number_of_cople=number_of_cople + 1
                                             employee_with_his_customer[number_of_cople]=[face_time_spent[i],face_time_spent[j],current_time]
                                             face_time_spent[i]['state']=1
                                             face_time_spent[j]['state']=1
+                                            face_time_spent[j]['couple_number']=number_of_cople
                                             face_time_spent[i]['counter']=face_time_spent[i]['counter']+1
-                                            face_time_spent[i]['counter']=face_time_spent[i]['points']+1
+                                            face_time_spent[i]['couple_number']=number_of_cople
+                                            face_time_spent[i]['counter']=face_time_spent[i]['points']+1 
 
                                             not_available_employee_and_cusomer.add(i)
                                             not_available_employee_and_cusomer.add(j)
+
+                                            # send point to employee
+                                            employee_id=connected_employees[i]['id']
+                                            set_points_to_employee(3,'discover',employee_id,j)
+                                            set_points_to_employee(5,'GO',employee_id,j)
                                             print("connect key with cutomer")
                                             break
 
@@ -1427,26 +1600,39 @@ def detect(save_img=False):
                                     face_id_temp=object_name[k]
                                     if isinstance(face_id_temp, int):
                                         cutomer_point=centers[k]
-                                        if len(centers_Template1)>0:
-                                                template_1_point=centers_Template1[0]
-                                                distance_1_for_temp = calculate_distance(cutomer_point, template_1_point)  
-                                                if distance_1_for_temp >0 and distance_1_for_temp < 1.2:
-                                                    face_time_spent[i]['points']+=1
-                                                    print(f'employee{i} incresse one point by template 1')
-                                                    print(f'total of template is {face_time_spent[i]["points"]}')
+                                        if(face_time_spent[k]['state']==1):
+                                            if len(centers_Template1)>0:
+                                                    template_1_point=centers_Template1[0]
+                                                    distance_1_for_temp = calculate_distance(cutomer_point, template_1_point)  
+                                                    if distance_1_for_temp >0 and distance_1_for_temp < 1.2:
+                                                        # face_time_spent[i]['points']+=1
+                                                        # print(f'employee{i} incresse one point by template 1')
+                                                        # print(f'total of template is {face_time_spent[i]["points"]}')
+                                                        # send point to employee
+                                                        couple_num=face_time_spent[j]['couple_number']
+                                                        employee_id=employee_with_his_customer[couple_num]
+                                                        employee_id=employee_id[0]
+                                                        set_points_to_employee(8,'fitting_room',employee_id,k)
+                                                        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                                                        print("send point for fitting_room")
+                                                        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                                                        # set_points_to_employee(5,'GO',employee_id,j)
+                                                        print("connect key with cutomer")
+                                                        break
 
 
 
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("connect between template 1 and customer")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("connect between template 1 and customer")
+                                                    print()
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
 
 
                                                
@@ -1455,158 +1641,41 @@ def detect(save_img=False):
                                     face_id_temp=object_name[k]
                                     if isinstance(face_id_temp, int):
                                         cutomer_point=centers[k]
-                                        if len(centers_Template2)>0:
-                                                template_2_point=centers_Template2[0]
-                                                distance_2_for_temp = calculate_distance(cutomer_point, template_2_point)  
-                                                if distance_2_for_temp >0 and distance_2_for_temp < 1.2:
-                                                    face_time_spent[i]['points']+=1
-                                                    print(f'employee{i} incresse one point by template 2')
-                                                    print(f'total of template is {face_time_spent[i]["points"]}')
+                                        if(face_time_spent[k]['state']==1):
+                                            if len(centers_Template2)>0:
+                                                    template_2_point=centers_Template2[0]
+                                                    distance_2_for_temp = calculate_distance(cutomer_point, template_2_point)  
+                                                    if distance_2_for_temp >0 and distance_2_for_temp < 1.2:
+                                                        face_time_spent[i]['points']+=1
+                                                        # print(f'employee{i} incresse one point by template 2')
+                                                        # print(f'total of template is {face_time_spent[i]["points"]}')
+
+                                                         # send point to employee
+                                                        couple_num=face_time_spent[j]['couple_number']
+                                                        employee_id=employee_with_his_customer[couple_num]
+                                                        employee_id=employee_id[0]
+                                                        set_points_to_employee(4,'cashier',employee_id,k)
+                                                        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                                                        print("send point for cashier")
+                                                        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
 
 
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("connect between template 2 and customer")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                                               
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("connect between template 2 and customer")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                                                
 
 
                                        
-
-                    
-                                
-                            
-
-
-
-            
-
-# # ***************************************************************************************
-
-# #put employee for customer                           
-    
-#                         if face_detected_check is not None:   
-#                             #saved_cople
-#                             keys = list(centers.keys())  # Convert keys to a list  
-
-#                             object_id_and_his_face_keyes=list(object_id_and_his_face.keys())
-#                             keys_i_id=None
-#                             keys_j_id=None
-#                             # object_id_and_his_face.keys() = faces id for object detected 
-#                             #centers = list(centers)  # Convert the set to a list if you need indexing  
-#                             #not_avalable_ident_for_face_id=list(not_avalable_ident_for_face_id)
-#                             # not_avalable_ident_for_face_id = identity for object detected
-#                             temp_not_avalable_ident_for_face_id_list=list(not_avalable_ident_for_face_id)
-#                             temp_centers=list(centers)
-#                             distance_1_for_temp=-1
-#                             distance_2_for_temp=-1
-                            
-#                             # to remove none exists identity that exists in temp_not_avalable_ident_for_face_id_list and note exists in center.keys()
-#                             for key in temp_not_avalable_ident_for_face_id_list:
-#                                 if key not in keys:
-#                                     temp_not_avalable_ident_for_face_id_list.remove(key)
-
-                            
-                                
-                            
-                            
-#                             for k in range(len(temp_not_avalable_ident_for_face_id_list)):
-#                                     for z in range(k+1,len(temp_not_avalable_ident_for_face_id_list)):
-#                                         # point1 = centers[temp_not_avalable_ident_for_face_id_list[k]]  
-#                                         # point2 = centers[temp_not_avalable_ident_for_face_id_list[z]] 
-#                                         #to compare with tempalte 
-#                                         if len(centers_Template1)>0:
-#                                             point3=centers_Template1[0]
-#                                             distance = calculate_distance(point1, point2)
-#                                             distance_1_for_temp = calculate_distance(point1, point3)  
-#                                             distance_2_for_temp = calculate_distance(point3, point2)  
-#                                             ##print("distance_1_for_temp = ",distance_1_for_temp)
-#                                             ## print("distance_2_for_temp = ",distance_2_for_temp)
-                                           
-                                            
-#                                         distance = calculate_distance(point1, point2)  
-#                                         if(distance_1_for_temp<1.4 and distance_1_for_temp>=0   or distance_2_for_temp<1.4 and distance_2_for_temp>=0) and  (object_name[temp_not_avalable_ident_for_face_id_list[k]]   in not_available_people and  object_name[temp_not_avalable_ident_for_face_id_list[z]]  in not_available_people) :
-#                                             for i in saved_cople:
-#                                                 if saved_cople[i][0]==object_name[temp_not_avalable_ident_for_face_id_list[k]] or saved_cople[i][1]==object_name[temp_not_avalable_ident_for_face_id_list[k]]  :
-                                                    
-#                                                     temp_saved_cople_1=saved_cople[i][0]
-#                                                     temp_saved_cople_2=saved_cople[i][1]
-#                                                     not_available_people.remove(temp_saved_cople_1)  
-#                                                     not_available_people.remove(temp_saved_cople_2)  
-#                                                     del saved_cople[i]  # Removes key   
-#                                                     cople_count-=1
-#                                                     print('this face id was removed from ',temp_saved_cople_1)
-#                                                     print('this face id was removed from ',temp_saved_cople_2)                                                    
-#                                                     #print(f"Point1: {point1}, Point2: {point2}") 
-#                                                     print('cople_count = ',cople_count)
-#                                                     print('not_available_people',not_available_people)                                                   
-
-#                                                     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ cople was removed$$$$$$$$$$")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-
-#                                                     break
-                                                    
-#                                                 elif saved_cople[i][0]==object_name[temp_not_avalable_ident_for_face_id_list[z]] or saved_cople[i][1]==object_name[temp_not_avalable_ident_for_face_id_list[z]]:
-#                                                     temp_saved_cople_1=saved_cople[i][0]
-#                                                     temp_saved_cople_2=saved_cople[i][1]
-#                                                     not_available_people.remove(temp_saved_cople_1)  
-#                                                     not_available_people.remove(temp_saved_cople_2)  
-#                                                     del saved_cople[i]  # Removes key   
-#                                                     cople_count-=1
-#                                                     print('this face id was removed from ',temp_saved_cople_1)
-#                                                     print('this face id was removed from ',temp_saved_cople_2)                                                    
-#                                                     #print(f"Point1: {point1}, Point2: {point2}") 
-#                                                     print('cople_count = ',cople_count)
-#                                                     print('not_available_people',not_available_people)                                                   
-
-#                                                     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ cople was removed$$$$$$$$$$")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-#                                                     print("///////////////////////////////////////////////////////////////////////////////////")
-
-#                                                     break
-                                                    
-                                                    
-                                            
-#                                         elif(distance<1.4 and  (object_name[temp_not_avalable_ident_for_face_id_list[k]]  not in not_available_people and  object_name[temp_not_avalable_ident_for_face_id_list[z]] not in not_available_people) ):
-#                                             print("ss")
-#                                             not_available_people.append(object_name[temp_not_avalable_ident_for_face_id_list[k]])
-#                                             not_available_people.append(object_name[temp_not_avalable_ident_for_face_id_list[z]])
-                                                                                            
-#                                             #object_id_and_his_face[face_id]=[identities[idx],face_time_spent[face_id]['customer_id']]
-
-#                                             #saved_cople[cople_id]={keys_i_id:face_time_spent[keys[i]]['start_time'],keys_j_id:face_time_spent[keys[j]]['start_time']}
-#                                             saved_cople[cople_id]=[object_name[temp_not_avalable_ident_for_face_id_list[k]],object_name[temp_not_avalable_ident_for_face_id_list[z]],current_time]
-#                                             print('saved_cople',saved_cople.keys())                                        
-#                                             cople_id+=1
-#                                             cople_count+=1
-#                                             print('cople_number = ',cople_count)
-                                            
+                                          
                                        
      
 #**************************************************************************************************************************************                                
@@ -1668,7 +1737,7 @@ if __name__ == '__main__':
     parser.add_argument('--weights', nargs='+', type=str, default='yolov7.pt', help='model.pt path(s)')
     parser.add_argument('--source', type=str, default='0', help='source')  # file/folder, 0 for webcam
     parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
-    parser.add_argument('--conf-thres', type=float, default=0.50, help='object confidence threshold')
+    parser.add_argument('--conf-thres', type=float, default=0.30, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.50, help='IOU threshold for NMS')
     parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--view-img', action='store_true', help='display results')

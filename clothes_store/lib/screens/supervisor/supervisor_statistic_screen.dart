@@ -105,7 +105,7 @@ class SupervisiorStatisticScreen extends StatelessWidget {
 
     return Scaffold(  
       appBar: AppBar(  
-        title: const Text('Managers Statistic Point'),  
+        title: const Text(' Statistic Point'),  
         backgroundColor: Colors.blueAccent,  
         shadowColor: Colors.black,  
         elevation: 2,  
@@ -119,7 +119,8 @@ class SupervisiorStatisticScreen extends StatelessWidget {
         ),  
         children: [  
           Card(  
-            color: Colors.white,  
+            // color: Colors.white,  
+            color: const Color.fromARGB(255, 198, 196, 196),
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
@@ -143,7 +144,8 @@ class SupervisiorStatisticScreen extends StatelessWidget {
             ),  
           ),  
           Card(  
-            color: Colors.white,  
+            // color: Colors.white,  
+            color: const Color.fromARGB(255, 198, 196, 196),
             elevation: 5,  
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),  
             shape: RoundedRectangleBorder(  
