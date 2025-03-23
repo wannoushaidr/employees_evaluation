@@ -1070,6 +1070,55 @@ class _HomeScreenState extends State<HomeScreen> {
               },  
             ),  
           ),  
+
+          // Dropdown for evaluations  
+          Padding(  
+            padding: const EdgeInsets.only(right: 10.0),  
+            child: DropdownButton<String>(  
+              hint: const Text('Evaluate'),  
+              items: <String>[  
+                'Daily Evaluate',  
+                'Weekly Evaluate',  
+                'Monthly Evaluate',  
+              ].map((String value) {  
+                return DropdownMenuItem<String>(  
+                  value: value,  
+                  child: Text(value),  
+                );  
+              }).toList(),  
+              onChanged: (String? newValue) async {  
+                if (newValue != null) {  
+                  AppEvaluationService aas = AppEvaluationService();  
+                  List<EvaluationModel?>? evaluation;  
+
+                  switch (newValue) {  
+                    case 'Daily Evaluate':  
+                      evaluation = await aas.Evaluate_employee_daily();  
+                      break;  
+                    case 'Weekly Evaluate':  
+                      evaluation = await aas.Evaluate_employee();  
+                      break;  
+                    case 'Monthly Evaluate':  
+                      evaluation = await aas.Evaluate_employee_monthly();  
+                      break;  
+                  }  
+                  if (evaluation != null) {  
+                    Navigator.push(  
+                      context,  
+                      MaterialPageRoute(builder: (context) {  
+                        return ShowEvaluationScreen(evaluations: evaluation);  
+                      }),  
+                    );  
+                  } else {  
+                    ScaffoldMessenger.of(context).showSnackBar(  
+                      const SnackBar(content: Text('Failed to load evaluations. Please try again later.')),  
+                    );  
+                  }  
+                }  
+              },  
+            ),  
+          ),  
+
         ],  
       ),
 

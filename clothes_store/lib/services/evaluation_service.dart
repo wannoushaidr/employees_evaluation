@@ -10,7 +10,7 @@
  class AppEvaluationService {
    Future<List<EvaluationModel?>?> Evaluate_employee() async {
      try {
-       String url = "http://127.0.0.1:8000/api/admin/evaluate";
+       String url = "http://127.0.0.1:8000/api/admin/week_evaluate";
        http.Response response = await http.get(Uri.parse(url));
        //  print(response.body);
        List<String> lines = response.body.split('\n');
@@ -31,6 +31,58 @@
      }
      return null;
    }
+
+
+   Future<List<EvaluationModel?>?> Evaluate_employee_monthly() async {
+     try {
+       String url = "http://127.0.0.1:8000/api/admin/monthly_evaluate";
+       http.Response response = await http.get(Uri.parse(url));
+       //  print(response.body);
+       List<String> lines = response.body.split('\n');
+       String responseBody = lines.skip(2).join('\n');
+       print(responseBody);
+       Map<String, dynamic> data = jsonDecode(responseBody);
+
+    List<dynamic> jsonData = data['data'];
+       List<EvaluationModel> points = [];
+       for (var data in jsonData) {
+         EvaluationModel evaluation = EvaluationModel.fromJson(data);
+         points.add(evaluation);
+       }
+
+       return points;
+     } catch (e) {
+       print(e);
+     }
+     return null;
+   }
+
+
+   Future<List<EvaluationModel?>?> Evaluate_employee_daily() async {
+     try {
+       String url = "http://127.0.0.1:8000/api/admin/daily_evaluate";
+       http.Response response = await http.get(Uri.parse(url));
+       //  print(response.body);
+       List<String> lines = response.body.split('\n');
+       String responseBody = lines.skip(2).join('\n');
+       print(responseBody);
+       Map<String, dynamic> data = jsonDecode(responseBody);
+
+    List<dynamic> jsonData = data['data'];
+       List<EvaluationModel> points = [];
+       for (var data in jsonData) {
+         EvaluationModel evaluation = EvaluationModel.fromJson(data);
+         points.add(evaluation);
+       }
+
+       return points;
+     } catch (e) {
+       print(e);
+     }
+     return null;
+   }
+
+
 
 
    Future<List<EvaluationModel?>?> GetDailyEvaluation() async {
